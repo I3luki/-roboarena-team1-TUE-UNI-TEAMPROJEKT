@@ -6,9 +6,11 @@ date: 2026-04-29
 1.
 Isuue 1
 Eine grundlegende Struktur wurde angelegt mit einem Fenster, Game-loop und Bildschrim-Updates
+<img width="866" height="766" alt="Screenshot 2026-04-29 132510" src="https://github.com/user-attachments/assets/df940d1a-cdeb-48f3-9014-81e143f9b9f6" />
 
 Issue 2
 Die Key-Press wurden angelegt, sowie die gegensätzlichen Bewegungen definiert, damit die Schlange sich nur um eine 90 Grade Rotation bewegen kann.
+
 
 2.
 Simon Schmauch:
