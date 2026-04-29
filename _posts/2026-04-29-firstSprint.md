@@ -15,10 +15,12 @@ Gleichzeitig wird das letzte Element der Schlange entfernt, sodass sie bei 3 Tei
 <img width="400" height="420" alt="SnakeMovement" src="https://github.com/user-attachments/assets/cb038061-af7c-49b0-84eb-8c15cc3b0fb5" />
 
 
-3. Joshua Supper
+3. Joshua Supper:
+   
 Die Schlange verschwindet nun nicht mehr wenn sie den Bildschirm verlässt sondern kommt auf der
-anderen Seite wieder raus. 
+anderen Seite wieder raus.
+
 ![img.png](img.png)
 
-4.
+5.
 
