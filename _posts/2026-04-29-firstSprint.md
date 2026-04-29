@@ -7,6 +7,8 @@ date: 2026-04-29
    
 Issue 1
 Eine grundlegende Struktur wurde angelegt mit einem Fenster, Game-loop und Bildschrim-Updates
+
+
 <img width="400" height="400" alt="Screenshot 2026-04-29 132510" src="https://github.com/user-attachments/assets/df940d1a-cdeb-48f3-9014-81e143f9b9f6" />
 
 Issue 2
