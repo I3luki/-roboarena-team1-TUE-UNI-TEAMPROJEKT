@@ -32,9 +32,10 @@ Wenn die Schlange in einer Iteration des Spiels ein Apfel isst, wird das letzte 
 3. Joshua Supper:
    
 Die Schlange verschwindet nun nicht mehr wenn sie den Bildschirm verlässt sondern kommt auf der
-anderen Seite wieder raus.
+anderen Seite wieder raus. Dadurch bleibt die Schlange auch immer im Sichtbereich des Spielers.
 
-![img.png](img.png)
+<img width="400" height="420" alt="Bildschirmaufnahme 2026-04-29 um 14 18 58" src="https://github.com/user-attachments/assets/638bbc81-7fc5-43ce-9ed9-f4f0a92db352" />
+
 
 
 
