@@ -52,6 +52,18 @@ def main():
         elif direction == "RIGHT":
             head_x += SNAKE_BLOCK_SIZE
 
+        # Bildschirmwechsel
+
+        if head_x >= WINDOW_WIDTH:
+            head_x = 0
+        elif head_x < 0:
+            head_x = WINDOW_WIDTH - SNAKE_BLOCK_SIZE
+        if head_y >= WINDOW_HEIGHT:
+            head_y = 0
+        elif head_y < 0:
+            head_y = WINDOW_HEIGHT - SNAKE_BLOCK_SIZE
+
+
         # Neuen Kopf hinzufügen
         new_head = [head_x, head_y]
         snake.insert(0, new_head)
