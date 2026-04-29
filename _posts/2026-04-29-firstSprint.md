@@ -29,5 +29,17 @@ anderen Seite wieder raus.
 
 ![img.png](img.png)
 
-5.
+
+
+4.
+   Dennis Andler: 
+
+Bisher haben wir nur eine Schlange die sich bewegen lässt. Leider ist diese bisher auf strenger Diät. Um das zu fixen wurde ein Apfel(oder eher ein leckeres rotes Rechteck) eingefuegt.
+
+Dieser Apfel kann von der Schlange gegessen werden indem der Schlangenkopf den Apfel berührt. Wird der Apfel gegessen so wird er an einer zufälligen Stelle des Bildschirms neu generiert. 
+
+Damit der Apfel auch immer schön in der Mitte des Kopfes liegt, wird der Apfel immer in der Mitte möglicher Position des Schlangenviereckes generiert. (nur optisch, eigentlich liegt er genau auf der Ecke vom Schlangendreieck)
+
+<img width="400" height="420" alt="SnakeWithApple" src="https://github.com/user-attachments/assets/2fc1df55-a740-4092-933b-37878e178eca" />
+
 
