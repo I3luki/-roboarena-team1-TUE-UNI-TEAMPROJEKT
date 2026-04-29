@@ -9,6 +9,7 @@ Eine grundlegende Struktur wurde angelegt mit einem Fenster, Game-loop und Bilds
 
 Issue 2
 Die Key-Press wurden angelegt, sowie die gegensätzlichen Bewegungen definiert, damit die Schlange sich nur um eine 90 Grade Rotation bewegen kann.
+
 2.
 Simon Schmauch:
 
