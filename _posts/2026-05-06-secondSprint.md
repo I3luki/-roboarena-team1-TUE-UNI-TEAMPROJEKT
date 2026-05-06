@@ -15,8 +15,8 @@ Danach wurde eine Arena aus verschiedenen 50x50 Blöcken gebaut.
 
 
 
-3. Noah Utech:  
+2. Noah Utech:  
 
-4. Joshua Supper:  
+3. Joshua Supper:  
 
-5. Dennis Andler:  
+4. Dennis Andler:  
