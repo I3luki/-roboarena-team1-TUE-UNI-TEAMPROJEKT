@@ -1,4 +1,5 @@
 import pygame
+import math
 
 class Robot:
     def __init__(self, screen, x, y):
@@ -34,3 +35,25 @@ class Robot:
             (self.x + 25, self.y + 15),
             8
         )
+        # Linie zur Maus,
+        # Zieht eine Linie von Roboter zur Maus(Erstmal auskommentiert nur zum testen Aktivieren.
+        '''
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+        pygame.draw.line(
+            self.screen, 
+            (255, 0, 0),
+            (self.x + 25, self.y + 25),
+            (mouse_x, mouse_y), 2)
+        '''
+    def get_direction_to_mouse(self):
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+        #Berechnet Abstand von Mauszeiger zu sich selbst
+        dx = mouse_x -  self.x
+        dy = mouse_y -  self.y
+
+        distance = math.hypot(dx, dy)
+        #Return Abstand
+        if distance !=0:
+            return dx / distance, dy / distance
+
+        return 0,0
