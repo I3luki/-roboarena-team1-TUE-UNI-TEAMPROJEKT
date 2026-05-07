@@ -20,6 +20,10 @@ arena = Arena(screen)
 robot = Robot(screen, 475, 475)
 orb_list = [Orb(screen,200,200), Orb(screen,600,400)]
 
+# randomize orb positions
+for orb in orb_list:
+    orb.randomize_position()
+
 
 # "Checkt ob zwei Boxen sich überschneiden"
 #   Nimmt zwei aabb in der Form [(x,y),(x,y)]
@@ -63,7 +67,7 @@ while True:
     # "visualisiert ausgewählte hintergrundberechnungen und andere testbedingte werte"
     if(TEST_MODE):
         for orb in orb_list:
-            orb.draw_aabb()
+            orb.draw_aabb() 
         robot.draw_aabb()
 
     pygame.display.update()
