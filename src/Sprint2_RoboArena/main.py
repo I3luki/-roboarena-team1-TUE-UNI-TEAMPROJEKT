@@ -18,7 +18,7 @@ clock = pygame.time.Clock()
 # Create arena object
 arena = Arena(screen)
 robot = Robot(screen, 475, 475)
-orb_list = [Orb(screen,200,200), Orb(screen,600,400)]
+orb_list = [Orb(screen,0,0), Orb(screen,0,0)]
 
 # randomize orb positions
 for orb in orb_list:
