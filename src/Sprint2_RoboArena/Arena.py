@@ -3,8 +3,6 @@ import pygame
 class Arena:
     def __init__(self, screen):
         self.screen = screen
-        self.width = 1000        
-        self.height = 1000
 
         # Surfaces erstellen
         self.background_surf = pygame.Surface(screen.get_size())
