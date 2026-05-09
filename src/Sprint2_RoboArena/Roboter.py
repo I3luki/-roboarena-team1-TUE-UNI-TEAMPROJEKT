@@ -41,6 +41,8 @@ class Robot:
             8
         )
 
+
+    # "Zeichnet AAB-Kollisionbox"
     def draw_aabb(self):
         color = (255,0,0)
         min_x, min_y = self.aabb[0]
