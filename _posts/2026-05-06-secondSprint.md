@@ -62,7 +62,7 @@ Um Exp zum leveln zu bekommen sollen Orbs eingefügt werden. Diese sollen erstma
 Das größte Problem hier ist die Kollision einzuführen. Hierfür benutzen wir die berühmten Axis-Aligned-Bounding-Boxes. Diese haben einen sehr schnellen Kollisionstest und können in Zukunft für feingranularere Objekte einfach übereinander gestacked werden. Bisher ist die AABB nur für den Roboter und die Orbs definiert. 
 
 Mit den AABBs und einem einfachen Kollisioncheck der für jeden Frame ausgeführt wird, lassen sich die Orbs nun einfach durch eine neue Klasse einfügen. Die Orbpositionen lassen sich mit einer eingebauten Methode zufällig innerhalb des Screens setzen.
-(Achtung: Bisher werden die Orbs zufälig innherhalb des Screens mit der Methode generiert, dies ist jedoch nicht immer sinnvoll, da Screengröße und Arenagröße nicht gleich sein müssen. Es gibt jedoch noch keine Konstanten im Arenaobjekt, an das die Orbs sich orientieren können. Auch sind in der Arena noch keine Wandlogik eingebaut, so dass das spawnen des Orbs auf einer Wand bisher möglich ist.) 
+(Achtung: Bisher werden die Orbs zufälig innherhalb des Screens mit der Methode generiert, dies ist jedoch nicht immer sinnvoll, da Screengröße und Arenagröße nicht gleich sein müssen. Auch ist in der Arena noch keine Wandlogik eingebaut, so dass das spawnen des Orbs auf einer Wand bisher möglich ist.) 
 
 Für die Zukunft könnte man für bessere Performance überlegen ob sich ein anderes Modell als "Kollisionscheck mit jedem Objektpaar auzurechnen" lohnen könnte, da dies für viele Objekte schlecht skaliert (Vielleicht Ray Tracing?). 
 
