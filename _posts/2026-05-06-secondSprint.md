@@ -11,10 +11,11 @@ Danach wurde eine Arena aus verschiedenen 50x50 Blöcken gebaut.
 - Roter Block: Gegnerspawnfeld
 - Grüner Block: Heilungsfeld
 - Gelber Block: Powerupfeld
-<img width="749" height="767" alt="arena (1) (1)" src="https://github.com/user-attachments/assets/65c0f97c-9b07-41d2-bb46-aee7efc3eea8" />
+<img width="500" height="512" alt="arena (1) (2)" src="https://github.com/user-attachments/assets/87624e69-65a6-4424-9c54-0ff5736b58d5" />
 <br>
 Spielidee:
-<img width="1163" height="841" alt="589690260-a195a0f5-f39d-4433-b062-2045772dd2b5 (1)" src="https://github.com/user-attachments/assets/a8c2035a-6b9e-4b40-a837-9a41ff907235" />
+<img width="776" height="561" alt="589690260-a195a0f5-f39d-4433-b062-2045772dd2b5 (2)" src="https://github.com/user-attachments/assets/abd731b4-1109-4986-b090-47d001651d2b" />
+
 <br>
 Basisspiel Ideen:
 <br>
