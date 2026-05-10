@@ -56,6 +56,7 @@ Es soll auch Felder geben, die sowohl dem Charakter, als auch Gegner Schaden hin
 3. Joshua Supper:  
 
 4. Dennis Andler:
+   
 Um Exp zum leveln zu bekommen sollen Orbs eingefügt werden. Diese sollen erstmal nur beim Spielstart spawnen und wenn der Roboter sie berührt verschwinden.
 
 Das größte Problem hier ist die Kollision einzuführen. Hierfür benutzen wir die berühmten Axis-Aligned-Bounding-Boxes. Diese haben einen sehr schnellen Kollisionstest und können in Zukunft für feingranularere Objekte einfach übereinander gestacked werden. Bisher ist die AABB nur für den Roboter und die Orbs definiert. 
