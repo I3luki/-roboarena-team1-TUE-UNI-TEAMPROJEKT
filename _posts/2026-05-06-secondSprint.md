@@ -55,4 +55,19 @@ Es soll auch Felder geben, die sowohl dem Charakter, als auch Gegner Schaden hin
 
 3. Joshua Supper:  
 
-4. Dennis Andler:  
+4. Dennis Andler:
+Um Exp zum leveln zu bekommen sollen Orbs eingefügt werden. Diese sollen erstmal nur beim Spielstart spawnen und wenn der Roboter sie berührt verschwinden.
+
+Das größte Problem hier ist die Kollision einzuführen. Hierfür benutzen wir die berühmten Axis-Aligned-Bounding-Boxes. Diese haben einen sehr schnellen Kollisionstest und können in Zukunft für feingranularere Objekte einfach übereinander gestacked werden. Bisher ist die AABB nur für den Roboter und die Orbs definiert. 
+
+Mit den AABBs und einem einfachen Kollisioncheck der für jeden Frame ausgeführt wird, lassen sich die Orbs nun einfach durch eine neue Klasse einfügen. Die Orbpositionen lassen sich mit einer eingebauten Methode zufällig innerhalb des Screens setzen.
+(Achtung: Bisher werden die Orbs zufälig innherhalb des Screens mit der Methode generiert, dies ist jedoch nicht immer sinnvoll, da Screengröße und Arenagröße nicht gleich sein müssen. Es gibt jedoch noch keine Konstanten im Arenaobjekt, an das die Orbs sich orientieren können. Auch sind in der Arena noch keine Wandlogik eingebaut, so dass das spawnen des Orbs auf einer Wand bisher möglich ist.) 
+
+Für die Zukunft könnte man für bessere Performance überlegen ob sich ein anderes Modell als "Kollisionscheck mit jedem Objektpaar auzurechnen" lohnen könnte, da dies für viele Objekte schlecht skaliert (Vielleicht Ray Tracing?). 
+
+<img width="420" height="420" alt="newfeature_orbs" src="https://github.com/user-attachments/assets/e5783426-1ed7-4309-9f36-8d4be6678c48" />
+
+Ein Testmodus wurde eingefügt der mit einer Flag in der main Datei an und ausgeschaltet werden kann. Der Testmodus dient unserem Entwicklerteam zur Visualisierung von sonst versteckten Berechnungen. Ein gutes Beispiel sind die AABB, die sonst dem Spieler nicht gezeigt werden. Das ganze soll dann beim debuggen helfen. 
+
+<img width="353" height="379" alt="screen_feature_testmodus" src="https://github.com/user-attachments/assets/78ee1e65-bfa2-4292-9eb2-e931810728a7" />
+
