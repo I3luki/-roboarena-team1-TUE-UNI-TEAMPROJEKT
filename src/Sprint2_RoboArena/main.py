@@ -4,7 +4,7 @@ from Arena import Arena  # ← importieren
 from Roboter import Robot
 from Orb import Orb
 
-TEST_MODE = True     # TESTMODE: wenn true, dann ist testmodus an
+TEST_MODE = True    # TESTMODE: wenn true, dann ist testmodus an
 
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 1000
@@ -50,6 +50,7 @@ while True:
 
     keys = pygame.key.get_pressed()
     robot.move(keys)
+    robot.update_rotation()
 
     # Checke für Kollision
     for orb in orb_list[:]:
@@ -69,6 +70,7 @@ while True:
         for orb in orb_list:
             orb.draw_aabb() 
         robot.draw_aabb()
+        robot.draw_line_to_mouse()
 
     pygame.display.update()
     clock.tick(60)
