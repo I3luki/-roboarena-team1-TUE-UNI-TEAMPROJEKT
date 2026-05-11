@@ -54,13 +54,17 @@ Es soll auch Felder geben, die sowohl dem Charakter, als auch Gegner Schaden hin
 
 2. Noah Utech:  
 
-3. Joshua Supper:  
-Damit der Spieler aktiv sieht wohin der Roboter schaut soll sich dieser mitdrehen, damit später
-die Richtung aktive Angriffe oder Dashes etc. verstanden werden. Dafür wurde zusätlich in der Testumgebung von Dennis Andler eine Linie eingefügt vom Roboter zur Maus.
+3. Joshua Supper:
 
-Wenn man nun die Maus in eine andere Richtung bewegt dreht sich der Roboter mit, und der Kopf schaut immer in Richtung der Maus.
-Durch die Visuallisierung mit der Linie können später auch einfacher Kollesionscheecks durchgeführt werden.
+Damit der Spieler jederzeit erkennen kann, in welche Richtung der Roboter blickt, wurde eine Rotationsfunktion implementiert. Der Roboter dreht sich nun dynamisch in Richtung der Maus. Dadurch werden spätere Spielmechaniken wie Angriffe, Schüsse oder Dashes für den Spieler intuitiver verständlich.
+
+Zusätzlich wurde in der Testumgebung von Dennis Andler eine Visualisierungslinie zwischen Roboter und Maus eingebaut. Diese erleichtert das Debugging und hilft dabei, Richtungen sowie spätere Kollisions- oder Trefferberechnungen besser nachvollziehen zu können.
+
 <img width="400" height="420" alt="Video sprint2" src="https://github.com/user-attachments/assets/a9cc5baa-bf82-4fd8-b940-4b392932ec7d" />
+
+
+
+
 
 4. Dennis Andler:
    
