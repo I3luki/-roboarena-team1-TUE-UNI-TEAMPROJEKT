@@ -97,12 +97,10 @@ class Robot:
 
         return 0,0
     def update_rotation(self):
-        mouse_x, mouse_y = pygame.mouse.get_pos()
+        direction_x, direction_y = self.get_direction_to_mouse()
 
-        dx = mouse_x - (self.x + self.width / 2)
-        dy = mouse_y - (self.y + self.height / 2)
-
-        target_angle = math.degrees(math.atan2(-dy, dx))
+        target_angle = math.degrees(math.atan2(-direction_y, direction_x)
+        )
 
         # Smooth Rotation
         angle_difference = (target_angle - self.angle + 180) % 360 - 180
