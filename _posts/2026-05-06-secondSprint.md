@@ -53,6 +53,11 @@ Es soll auch Felder geben, die sowohl dem Charakter, als auch Gegner Schaden hin
 
 
 2. Noah Utech:  
+Der Roboter wurde gezeichnet als Viereck mit einem runden Kopf.
+
+<img width="300" height="300" alt="Screenshot 2026-05-12 221824" src="https://github.com/user-attachments/assets/1fa9eb6e-a1ee-47e7-969f-e31c2b7cc00b" />
+
+Außerdem wurden Bewegungen über wasd und den Pfeiltasten eingfügt
 
 3. Joshua Supper:
 
