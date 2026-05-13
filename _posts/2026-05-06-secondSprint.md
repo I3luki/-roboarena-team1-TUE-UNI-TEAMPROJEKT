@@ -82,7 +82,7 @@ Das größte Problem hier ist die Kollision einzuführen. Hierfür benutzen wir 
 Mit den AABBs und einem einfachen Kollisioncheck der für jeden Frame ausgeführt wird, lassen sich die Orbs nun einfach durch eine neue Klasse einfügen. Die Orbpositionen lassen sich mit einer eingebauten Methode zufällig innerhalb des Screens setzen.
 (Achtung: Bisher werden die Orbs zufälig innherhalb des Screens mit der Methode generiert, dies ist jedoch nicht immer sinnvoll, da Screengröße und Arenagröße nicht gleich sein müssen. Auch ist in der Arena noch keine Wandlogik eingebaut, so dass das spawnen des Orbs auf einer Wand bisher möglich ist.) 
 
-Für die Zukunft könnte man für bessere Performance überlegen ob sich ein anderes Modell als "Kollisionscheck mit jedem Objektpaar auzurechnen" lohnen könnte, da dies für viele Objekte schlecht skaliert (Vielleicht Ray Tracing?). 
+Für die Zukunft könnte man für bessere Performance überlegen ob sich ein anderes Modell als "Kollisionscheck mit jedem Objektpaar auzurechnen" lohnen könnte, da dies für viele Objekte schlecht skaliert (Buzzwords: Quadtree, Spatial Hashmap). 
 
 <img width="420" height="420" alt="newfeature_orbs" src="https://github.com/user-attachments/assets/e5783426-1ed7-4309-9f36-8d4be6678c48" />
 
