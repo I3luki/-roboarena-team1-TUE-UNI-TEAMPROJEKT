@@ -57,7 +57,8 @@ Der Roboter wurde gezeichnet als Viereck mit einem runden Kopf.
 
 <img width="300" height="300" alt="Screenshot 2026-05-12 221824" src="https://github.com/user-attachments/assets/1fa9eb6e-a1ee-47e7-969f-e31c2b7cc00b" />
 
-Außerdem wurden Bewegungen über wasd und den Pfeiltasten eingfügt
+Außerdem wurden Bewegungen über wasd und den Pfeiltasten eingefügt.
+Probleme: Wir müssen überlegen wie wir unseren Roboter mit der Kollision im Endefekt machen, wenn wir den Roboter komplizierter zeichnen. Überlgeungen sind ob wir eine etwas größeres Viereck um den Roboter zeichnen.
 
 3. Joshua Supper:
 
