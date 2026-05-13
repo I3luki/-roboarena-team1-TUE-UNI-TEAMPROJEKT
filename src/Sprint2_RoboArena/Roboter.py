@@ -10,6 +10,8 @@ class Robot:
         self.height = 50
         self.speed = 2
         self.aabb = [(self.x, self.y), (self.x + self.width, self.y + self.height)]
+        self.angle = 0
+
 
     # updatet die axis aligned bounding box
     def update_aabb(self):
@@ -27,21 +29,35 @@ class Robot:
         self.update_aabb()
 
     def draw(self):
+
+    # Eigene Fläche
+        robot_surface = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
+
         # Körper
         pygame.draw.rect(
-            self.screen,
-            (120, 120, 120),
-            (self.x, self.y, self.width, self.height)
-        )
+            robot_surface,
+        (120, 120, 120),
+        (0, 0, self.width, self.height)
+    )
 
-        # Kopf / Sensor
+        # Kopf
         pygame.draw.circle(
-            self.screen,
-            (0, 255, 0),
-            (self.x + 25, self.y + 15),
-            8
+            robot_surface,
+        (0, 255, 0),
+        (35, 25),
+        8
         )
 
+        # Rotieren
+        rotated_surface = pygame.transform.rotate(robot_surface, self.angle)
+
+        # Mittelpunkt setzen
+        rect = rotated_surface.get_rect(
+            center=(self.x + self.width / 2, self.y + self.height / 2)
+        )
+
+
+        self.screen.blit(rotated_surface, rect.topleft)
 
     # "Zeichnet AAB-Kollisionbox"
     def draw_aabb(self):
@@ -60,15 +76,14 @@ class Robot:
 
     
         # Linie zur Maus,
-        # Zieht eine Linie von Roboter zur Maus(Erstmal auskommentiert nur zum testen Aktivieren.)
-        '''
+    def draw_line_to_mouse(self):
         mouse_x, mouse_y = pygame.mouse.get_pos()
         pygame.draw.line(
             self.screen, 
             (255, 0, 0),
             (self.x + (self.width/2), self.y + (self.height/2)),
             (mouse_x, mouse_y), 2)
-        '''
+
     def get_direction_to_mouse(self):
         mouse_x, mouse_y = pygame.mouse.get_pos()
         #Berechnet Abstand von Mauszeiger zu sich selbst
@@ -81,3 +96,13 @@ class Robot:
             return dx / distance, dy / distance
 
         return 0,0
+    def update_rotation(self):
+        direction_x, direction_y = self.get_direction_to_mouse()
+
+        target_angle = math.degrees(math.atan2(-direction_y, direction_x)
+        )
+
+        # Smooth Rotation
+        angle_difference = (target_angle - self.angle + 180) % 360 - 180
+
+        self.angle += angle_difference * 0.1
