@@ -88,6 +88,8 @@ while True:
             orb.draw_aabb() 
         robot.draw_aabb()
         robot.draw_line_to_mouse()
+        for enemy in enemy_list:
+            enemy.draw_line_enemy(robot)
 
     pygame.display.update()
     clock.tick(60)
