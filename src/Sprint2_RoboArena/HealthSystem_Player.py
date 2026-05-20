@@ -1,6 +1,6 @@
 import pygame
 
-class HealthSystem:
+class HealthSystem_Player:
     def __init__(self, screen, max_health=100, bar_x=10, bar_y=10, bar_width=400, bar_height=30):
         self.max_health = max_health
         self.current_health = max_health

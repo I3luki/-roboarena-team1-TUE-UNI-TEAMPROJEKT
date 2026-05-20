@@ -1,6 +1,6 @@
 import pygame
 
-class StaminaSystem:
+class StaminaSystem_Player:
     def __init__(self, screen, max_stamina=100, bar_x=10, bar_y=40, bar_width=400, bar_height=30):
         self.max_stamina = max_stamina
         self.current_stamina = max_stamina

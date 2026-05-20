@@ -3,8 +3,8 @@ from sys import exit
 from Arena import Arena  # ← importieren
 from Roboter import Robot
 from Orb import Orb
-from HealthSystem import HealthSystem
-from StaminaSystem import StaminaSystem
+from HealthSystem_Player import HealthSystem_Player
+from StaminaSystem_Player import StaminaSystem_Player
 
 TEST_MODE = True    # TESTMODE: wenn true, dann ist testmodus an
 
@@ -44,10 +44,10 @@ def check_collision(box1, box2):
     )
 
 # Lebens-System:
-health = HealthSystem(screen, max_health=100, bar_x=10, bar_y=10, bar_width=400, bar_height=25)
+health = HealthSystem_Player(screen, max_health=100, bar_x=10, bar_y=10, bar_width=400, bar_height=25)
 
 # Stamina-System:
-stamina = StaminaSystem(screen, max_stamina=100, bar_x=10, bar_y=40, bar_width=400, bar_height=25)
+stamina = StaminaSystem_Player(screen, max_stamina=100, bar_x=10, bar_y=40, bar_width=400, bar_height=25)
 
 
 while True:
