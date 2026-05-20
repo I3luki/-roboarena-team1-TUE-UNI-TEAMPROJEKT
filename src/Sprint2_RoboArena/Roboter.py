@@ -1,6 +1,7 @@
 import pygame
 import math
 
+
 class Robot:
     def __init__(self, screen, x, y):
         self.screen = screen
@@ -11,6 +12,8 @@ class Robot:
         self.speed = 2
         self.aabb = [(self.x, self.y), (self.x + self.width, self.y + self.height)]
         self.angle = 0
+
+
 
 
     # updatet die axis aligned bounding box

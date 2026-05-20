@@ -5,8 +5,8 @@ from Roboter import Robot
 from Orb import Orb
 from HealthSystem_Player import HealthSystem_Player
 from StaminaSystem_Player import StaminaSystem_Player
-
-TEST_MODE = True    # TESTMODE: wenn true, dann ist testmodus an
+from Enemy import Enemy
+TEST_MODE = False    # TESTMODE: wenn true, dann ist testmodus an
 
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 1000
@@ -21,10 +21,14 @@ clock = pygame.time.Clock()
 arena = Arena(screen)
 robot = Robot(screen, 475, 475)
 orb_list = [Orb(screen,0,0), Orb(screen,0,0)]
+enemy_list = [Enemy(screen,0,0), Enemy(screen,0,0)]
 
 # randomize orb positions
 for orb in orb_list:
     orb.randomize_position()
+for enemy in enemy_list:
+    enemy.randomize_position()
+
 
 
 # "Checkt ob zwei Boxen sich überschneiden"
@@ -70,8 +74,12 @@ while True:
     robot.draw()
     for orb in orb_list:
         orb.draw()
+    for enemy in enemy_list:
+        enemy.draw()
+        enemy.check_damage_player(robot,health)
     health.draw()
     stamina.draw()
+
 
     # Testmodus
     # "visualisiert ausgewählte hintergrundberechnungen und andere testbedingte werte"
@@ -80,6 +88,8 @@ while True:
             orb.draw_aabb() 
         robot.draw_aabb()
         robot.draw_line_to_mouse()
+        for enemy in enemy_list:
+            enemy.draw_line_enemy(robot)
 
     pygame.display.update()
     clock.tick(60)
