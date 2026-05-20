@@ -3,6 +3,7 @@ from sys import exit
 from Arena import Arena  # ← importieren
 from Roboter import Robot
 from Orb import Orb
+from HealthSystem import HealthSystem
 
 TEST_MODE = True    # TESTMODE: wenn true, dann ist testmodus an
 
@@ -41,6 +42,9 @@ def check_collision(box1, box2):
         max1_y > min2_y
     )
 
+# Lebenssystem:
+health = HealthSystem(screen, max_health=100, bar_x=10, bar_y=10, bar_width=400, bar_height=30)
+
 
 while True:
     for event in pygame.event.get():
@@ -57,12 +61,12 @@ while True:
         if check_collision(robot.aabb, orb.aabb):
             orb_list.remove(orb)
 
-    # Zeichne arena, roboter und orbs
+    # Zeichne Objekte auf den Screen
     arena.draw()
     robot.draw()
     for orb in orb_list:
         orb.draw()
-
+    health.draw()
 
     # Testmodus
     # "visualisiert ausgewählte hintergrundberechnungen und andere testbedingte werte"
