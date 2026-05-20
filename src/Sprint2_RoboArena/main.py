@@ -4,6 +4,7 @@ from Arena import Arena  # ← importieren
 from Roboter import Robot
 from Orb import Orb
 from HealthSystem import HealthSystem
+from StaminaSystem import StaminaSystem
 
 TEST_MODE = True    # TESTMODE: wenn true, dann ist testmodus an
 
@@ -42,8 +43,11 @@ def check_collision(box1, box2):
         max1_y > min2_y
     )
 
-# Lebenssystem:
-health = HealthSystem(screen, max_health=100, bar_x=10, bar_y=10, bar_width=400, bar_height=30)
+# Lebens-System:
+health = HealthSystem(screen, max_health=100, bar_x=10, bar_y=10, bar_width=400, bar_height=25)
+
+# Stamina-System:
+stamina = StaminaSystem(screen, max_stamina=100, bar_x=10, bar_y=40, bar_width=400, bar_height=25)
 
 
 while True:
@@ -67,6 +71,7 @@ while True:
     for orb in orb_list:
         orb.draw()
     health.draw()
+    stamina.draw()
 
     # Testmodus
     # "visualisiert ausgewählte hintergrundberechnungen und andere testbedingte werte"
