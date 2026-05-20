@@ -6,6 +6,7 @@ from Orb import Orb
 from HealthSystem_Player import HealthSystem_Player
 from StaminaSystem_Player import StaminaSystem_Player
 from Enemy import Enemy
+from Level import Level
 TEST_MODE = False    # TESTMODE: wenn true, dann ist testmodus an
 
 SCREEN_WIDTH = 1000
@@ -53,6 +54,8 @@ health = HealthSystem_Player(screen, max_health=100, bar_x=10, bar_y=10, bar_wid
 # Stamina-System:
 stamina = StaminaSystem_Player(screen, max_stamina=100, bar_x=10, bar_y=40, bar_width=400, bar_height=25)
 
+# Level-system
+level = Level(screen)
 
 while True:
     for event in pygame.event.get():
@@ -67,7 +70,8 @@ while True:
     # Checke für Kollision
     for orb in orb_list[:]:
         if check_collision(robot.aabb, orb.aabb):
-            orb_list.remove(orb)
+            level.collect_orb()
+            orb.randomize_position()
 
     # Zeichne Objekte auf den Screen
     arena.draw()
@@ -79,6 +83,7 @@ while True:
         enemy.check_damage_player(robot,health)
     health.draw()
     stamina.draw()
+    level.draw()
 
 
     # Testmodus
