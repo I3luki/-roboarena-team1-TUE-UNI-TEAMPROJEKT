@@ -5,7 +5,6 @@ from Roboter import Robot
 from Orb import Orb
 from HealthSystem_Player import HealthSystem_Player
 from StaminaSystem_Player import StaminaSystem_Player
-from HealthSystem_Enemy import HealthSystem_Enemy
 from Enemy import Enemy
 TEST_MODE = True    # TESTMODE: wenn true, dann ist testmodus an
 
