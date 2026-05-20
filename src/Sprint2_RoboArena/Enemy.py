@@ -36,10 +36,10 @@ class Enemy:
     def randomize_position(self):
         # frage Screengröße ab, dann erzeuge zufälliges x und y
         screen_width, screen_height = self.screen.get_size()
-        x = random.randint(0, screen_width/2)
-        y = random.randint(0, screen_height/2)
+        x = random.randint(0, screen_width)
+        y = random.randint(0, screen_height)
 
-        # update Orb-Koordinaten
+        # update Enemy-Koordinaten
         self.x = x
         self.y = y
 
