@@ -5,6 +5,7 @@ from Collision import AABB
 class Orb:
 
     def __init__(self, arena, x, y):
+        self.arena  = arena
         self.screen = arena.screen
         self.camera = arena.camera
         self.x = x
@@ -52,17 +53,10 @@ class Orb:
 
     # zeichnet die AABB (für visuelle Tests)
     def draw_aabb(self):
-        color = (100,100,100)
-        x_min = self.aabb.x
-        y_min = self.aabb.y
-        x_max = self.aabb.x_max
-        y_max = self.aabb.y_max
-        width  = x_max - x_min
-        height = y_max - y_min
+        # berechne screen Koordinaten mit Kreis Offset
+        x_min_screen, y_min_screen = self.camera.global_to_screen(self)  
+        x_min_screen -= self.radius
+        y_min_screen -= self.radius
 
-        pygame.draw.rect(
-            self.screen,
-            color,
-            (x_min, y_min, width, height),
-            width=1   # Zeichne nur die Kontur
-        )
+        # Zeichne
+        self.aabb.draw_at(self.arena, x_min_screen, y_min_screen)

@@ -5,7 +5,7 @@ from Collision import AABB
 
 class Robot:
     def __init__(self, arena, x, y):
-        self.arena = arena
+        self.arena  = arena
         self.camera = arena.camera
         self.screen = arena.screen
         self.x = x
@@ -77,20 +77,12 @@ class Robot:
 
     # "Zeichnet AAB-Kollisionbox"
     def draw_aabb(self):
-        color = (255,0,0)
-        x_min = self.aabb.x
-        y_min = self.aabb.y
-        x_max = self.aabb.x_max
-        y_max = self.aabb.y_max
-        width  = x_max - x_min
-        height = y_max - y_min
+        # berechne screen Koordinaten mit Kreis Offset
+        x_min_screen, y_min_screen = self.camera.global_to_screen(self)  
 
-        pygame.draw.rect(
-            self.screen,
-            color,
-            (x_min, y_min, width, height),
-            width=1   # Zeichne nur die Kontur
-        )
+        self.aabb.draw_at(self.arena, x_min_screen, y_min_screen)
+
+        
 
     
     # Linie zur Maus,

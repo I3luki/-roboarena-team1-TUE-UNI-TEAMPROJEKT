@@ -82,6 +82,7 @@ while True:
         robot.draw_aabb()
         robot.draw_line_to_mouse()
         for enemy in enemy_list:
+            enemy.draw_aabb()
             enemy.draw_line_enemy(robot)
 
     pygame.display.update()

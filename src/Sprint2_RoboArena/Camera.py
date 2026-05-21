@@ -21,6 +21,9 @@ class Camera:
 
         return x,y
     
+    # konvertiert globale Koordinaten zu Koordinaten auf dem Screen
+    #   in:         object must have object.x and object.y
+    #   return:     float,float
     def global_to_screen(self, object):
         # hole screengröße und offset zur Kamera
         screen_width, screen_height = self.screen.get_size()
