@@ -1,7 +1,6 @@
 import pygame
 from Arena_Objects import Wall,Speedtile,Healthtile,Surprisetile
 from Camera import Camera
-from collections import namedtuple
 
 class Arena:
 

@@ -2,7 +2,6 @@ import pygame
 import random
 import math
 from Collision import AABB
-from Camera import Camera
 
 
 
