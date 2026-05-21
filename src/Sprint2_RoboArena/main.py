@@ -20,9 +20,9 @@ clock = pygame.time.Clock()
 
 # Create arena object
 arena = Arena(screen)
-robot = Robot(screen, 475, 475)
-orb_list = [Orb(screen,0,0), Orb(screen,0,0)]
-enemy_list = [Enemy(screen,0,0), Enemy(screen,0,0)]
+robot = Robot(arena, 475, 475)
+orb_list = [Orb(arena,0,0), Orb(arena,0,0)]
+enemy_list = [Enemy(arena,0,0), Enemy(arena,0,0)]
 
 # randomize orb positions
 for orb in orb_list:
@@ -74,7 +74,8 @@ while True:
             orb.randomize_position()
 
     # Zeichne Objekte auf den Screen
-    arena.draw()
+    screen.fill((0, 0, 0))  # clear previous frame
+    arena.draw(robot)
     robot.draw()
     for orb in orb_list:
         orb.draw()
@@ -84,6 +85,7 @@ while True:
     health.draw()
     stamina.draw()
     level.draw()
+    pygame.display.flip() #update screen
 
 
     # Testmodus

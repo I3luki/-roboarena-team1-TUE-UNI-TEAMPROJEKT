@@ -4,8 +4,9 @@ import random
 class Orb:
 
 
-    def __init__(self, screen, x, y):
-        self.screen = screen
+    def __init__(self, arena, x, y):
+        self.screen = arena.screen
+        self.camera = arena.camera
         self.x = x
         self.y = y
         self.radius = 10
@@ -36,11 +37,11 @@ class Orb:
     # zeichnet den Orb
     def draw(self):
         color = (255,64,64)
-
+        screen_x, screen_y = self.camera.global_to_screen(self)
         pygame.draw.circle(
             self.screen,
             color,
-            (self.x,self.y),
+            (screen_x,screen_y),
             self.radius
         )
 

@@ -3,8 +3,10 @@ import math
 
 
 class Robot:
-    def __init__(self, screen, x, y):
-        self.screen = screen
+    def __init__(self, arena, x, y):
+        self.arena = arena
+        self.camera = arena.camera
+        self.screen = arena.screen
         self.x = x
         self.y = y
         self.width = 50
@@ -22,7 +24,7 @@ class Robot:
 
     def move(self, keys):
         if keys[pygame.K_w] or keys[pygame.K_UP]:
-                self.y -= self.speed
+            self.y -= self.speed
         if keys[pygame.K_s] or keys[pygame.K_DOWN]:
             self.y += self.speed
         if keys[pygame.K_a] or keys[pygame.K_LEFT]:
@@ -31,24 +33,30 @@ class Robot:
             self.x += self.speed
         self.update_aabb()
 
+
+
+
     def draw(self):
 
-    # Eigene Fläche
+        # lokale Koordinaten
+        x_screen, y_screen = self.camera.global_to_screen(self)
+
+        # Eigene Fläche
         robot_surface = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
 
         # Körper
         pygame.draw.rect(
             robot_surface,
-        (120, 120, 120),
-        (0, 0, self.width, self.height)
-    )
+            (120, 120, 120),
+            (0, 0, self.width, self.height)
+        )
 
         # Kopf
         pygame.draw.circle(
             robot_surface,
-        (0, 255, 0),
-        (35, 25),
-        8
+            (0, 255, 0),
+            (35, 25),
+            8
         )
 
         # Rotieren
@@ -56,10 +64,10 @@ class Robot:
 
         # Mittelpunkt setzen
         rect = rotated_surface.get_rect(
-            center=(self.x + self.width / 2, self.y + self.height / 2)
+            center=(x_screen + self.width/2, y_screen + self.height/2)
         )
 
-
+        # zeichen in screen
         self.screen.blit(rotated_surface, rect.topleft)
 
     # "Zeichnet AAB-Kollisionbox"
@@ -78,7 +86,7 @@ class Robot:
         )
 
     
-        # Linie zur Maus,
+    # Linie zur Maus,
     def draw_line_to_mouse(self):
         mouse_x, mouse_y = pygame.mouse.get_pos()
         pygame.draw.line(
@@ -89,9 +97,10 @@ class Robot:
 
     def get_direction_to_mouse(self):
         mouse_x, mouse_y = pygame.mouse.get_pos()
+        screen_x, screen_y = self.camera.global_to_screen(self)
         #Berechnet Abstand von Mauszeiger zu sich selbst
-        dx = mouse_x -  self.x
-        dy = mouse_y -  self.y
+        dx = mouse_x -  screen_x
+        dy = mouse_y -  screen_y
 
         distance = math.hypot(dx, dy)
         #Return Abstand
@@ -99,6 +108,7 @@ class Robot:
             return dx / distance, dy / distance
 
         return 0,0
+    
     def update_rotation(self):
         direction_x, direction_y = self.get_direction_to_mouse()
 

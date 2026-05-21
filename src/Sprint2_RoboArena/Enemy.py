@@ -6,8 +6,9 @@ import math
 
 
 class Enemy:
-    def __init__(self, screen, x ,y):
-        self.screen = screen
+    def __init__(self, arena, x ,y):
+        self.screen = arena.screen
+        self.camera = arena.camera
         self.x = x
         self.y = y
         self.radius = 20
@@ -49,10 +50,12 @@ class Enemy:
     def draw(self):
         color = (0,128,0)
 
+        x_screen, y_screen = self.camera.global_to_screen(self)
+
         pygame.draw.circle(
             self.screen,
             color,
-            (self.x,self.y),
+            (x_screen,y_screen),
             self.radius
         )
         pygame.draw.circle(self.screen,(0,0,0),(self.x,self.y),100,2)
