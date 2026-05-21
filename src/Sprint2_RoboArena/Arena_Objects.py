@@ -1,7 +1,6 @@
 import pygame
 
-class Wall:
-     
+class Wall: 
     COLOR = (0,0,255)
      
     def __init__(self, arena, x, y, width, height):
@@ -12,19 +11,18 @@ class Wall:
           self.width = width
           self.height = height
 
+          self.surface = pygame.Surface((width, height))
+          self.surface.fill(self.COLOR)
+
 
     def draw(self):
         x_screen, y_screen = self.camera.global_to_screen(self)
-        pygame.draw.rect(
-                    self.screen,
-                    self.COLOR,
-                    (x_screen, y_screen, self.width, self.height)
-                )
+        self.surface.blit(self.screen,
+                          (x_screen, y_screen))
         
 
 class Speedtile:
-
-    COLOR  = (25,100,25)
+    COLOR  = (255, 255, 0) #yellow
     width  = 20
     height = 20
      
@@ -34,18 +32,18 @@ class Speedtile:
         self.x = x
         self.y = y
 
+        self.surface = pygame.Surface((self.width, self.height))
+        self.surface.fill(self.COLOR)
+
     def draw(self):
         x_screen, y_screen = self.camera.global_to_screen(self)
-        pygame.draw.rect(
-                    self.screen,
-                    self.COLOR,
-                    (x_screen, y_screen, self.width, self.height)
-                )
+        self.surface.blit(self.screen,
+                          (x_screen, y_screen))
     
      
 
 class Healthtile:
-    COLOR  = (25,200,25)
+    COLOR  = (255, 105, 180) # pink
     width  = 20
     height = 20
      
@@ -55,17 +53,17 @@ class Healthtile:
         self.x = x
         self.y = y
 
+        self.surface = pygame.Surface((self.width, self.height))
+        self.surface.fill(self.COLOR)
+
     def draw(self):
         x_screen, y_screen = self.camera.global_to_screen(self)
-        pygame.draw.rect(
-                    self.screen,
-                    self.COLOR,
-                    (x_screen, y_screen, self.width, self.height)
-                )
+        self.surface.blit(self.screen,
+                          (x_screen, y_screen))
      
 
 class Surprisetile:
-    COLOR  = (25,100,100)
+    COLOR  = (128, 0, 128) # purple
     width  = 20
     height = 20
      
@@ -74,11 +72,12 @@ class Surprisetile:
         self.camera = arena.camera
         self.x = x
         self.y = y
+        
+        self.surface = pygame.Surface((self.width, self.height))
+        self.surface.fill(self.COLOR)
+
 
     def draw(self):
         x_screen, y_screen = self.camera.global_to_screen(self)
-        pygame.draw.rect(
-                    self.screen,
-                    self.COLOR,
-                    (x_screen, y_screen, self.width, self.height)
-                )
+        self.surface.blit(self.screen,
+                          (x_screen, y_screen))
