@@ -7,7 +7,7 @@ from HealthSystem_Player import HealthSystem_Player
 from StaminaSystem_Player import StaminaSystem_Player
 from Enemy import Enemy
 from Level import Level
-TEST_MODE = False    # TESTMODE: wenn true, dann ist testmodus an
+TEST_MODE = True    # TESTMODE: wenn true, dann ist testmodus an
 
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 1000
@@ -84,6 +84,7 @@ while True:
         for enemy in enemy_list:
             enemy.draw_aabb()
             enemy.draw_line_enemy(robot)
+        arena.draw_aabb()
 
     pygame.display.update()
     clock.tick(60)

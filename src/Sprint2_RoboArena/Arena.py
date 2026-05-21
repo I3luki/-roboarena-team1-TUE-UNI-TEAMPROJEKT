@@ -64,7 +64,7 @@ class Arena:
             if(self.is_rect_onscreen(tile)):
                 tile.draw()
 
-
+    # Zeichne alle Arena-Objekte und Hintergründe
     def draw(self, robot):
 
         # Zeichne Hintergrund
@@ -74,5 +74,15 @@ class Arena:
         self.draw_walls()
         self.draw_tiles()
 
+    # Zeichne AABBs
+    def draw_aabb(self):
+
+        for tile in self.tiles:
+            if(self.is_rect_onscreen(tile)):
+                tile.draw_aabb()
+
+        for wall in self.walls:
+            if(self.is_rect_onscreen(wall)):
+                wall.draw_aabb()
 
     
