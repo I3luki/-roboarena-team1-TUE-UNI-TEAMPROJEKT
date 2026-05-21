@@ -22,7 +22,9 @@ class Arena:
         #   a wall is (x, y, WIDTH, HEIGHT)
         self.walls = [
             Wall(self, 1000, 1000, 200, 20),
-            Wall(self, 1000, 1000, 20, 200)
+            Wall(self, 1000, 1000, 20, 200),
+            Wall(self, 1000, 1000, 200, 20),
+            Wall(self, 1200, 800, 20, 200)
         ]
 
         # list of all tiles
@@ -30,10 +32,10 @@ class Arena:
         self.tiles = [
             Speedtile(self, 1500, 1500),
 
-            Healthtile(self, 100,100), 
+            Healthtile(self, 1200,1200), 
             Healthtile(self, 500,500),
 
-            Surprisetile(self, 300, 250), 
+            Surprisetile(self, 1200, 1500), 
             Surprisetile(self, 1750,250)
         ]
 

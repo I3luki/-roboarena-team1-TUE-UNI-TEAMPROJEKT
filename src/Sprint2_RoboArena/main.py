@@ -7,7 +7,7 @@ from HealthSystem_Player import HealthSystem_Player
 from StaminaSystem_Player import StaminaSystem_Player
 from Enemy import Enemy
 from Level import Level
-TEST_MODE = True    # TESTMODE: wenn true, dann ist testmodus an
+TEST_MODE = False    # TESTMODE: wenn true, dann ist testmodus an
 
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 1000
@@ -20,7 +20,7 @@ clock = pygame.time.Clock()
 
 # Create arena object
 arena = Arena(screen)
-robot = Robot(arena, 475, 475)
+robot = Robot(arena, arena.WIDTH/2, arena.HEIGHT/2)   # spawne in der Mitte der Arena
 orb_list = [Orb(arena,0,0), Orb(arena,0,0)]
 enemy_list = [Enemy(arena,0,0), Enemy(arena,0,0)]
 

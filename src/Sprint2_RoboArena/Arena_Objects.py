@@ -17,7 +17,7 @@ class Wall:
 
     def draw(self):
         x_screen, y_screen = self.camera.global_to_screen(self)
-        self.surface.blit(self.screen,
+        self.screen.blit(self.surface,
                           (x_screen, y_screen))
         
 
@@ -37,7 +37,7 @@ class Speedtile:
 
     def draw(self):
         x_screen, y_screen = self.camera.global_to_screen(self)
-        self.surface.blit(self.screen,
+        self.screen.blit(self.surface,
                           (x_screen, y_screen))
     
      
@@ -58,7 +58,7 @@ class Healthtile:
 
     def draw(self):
         x_screen, y_screen = self.camera.global_to_screen(self)
-        self.surface.blit(self.screen,
+        self.screen.blit(self.surface,
                           (x_screen, y_screen))
      
 
@@ -79,5 +79,5 @@ class Surprisetile:
 
     def draw(self):
         x_screen, y_screen = self.camera.global_to_screen(self)
-        self.surface.blit(self.screen,
+        self.screen.blit(self.surface,
                           (x_screen, y_screen))
