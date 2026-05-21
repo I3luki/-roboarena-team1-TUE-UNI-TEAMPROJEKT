@@ -1,7 +1,8 @@
 import pygame
 import random
 import math
-
+from Collision import AABB
+from Camera import Camera
 
 
 
@@ -12,8 +13,10 @@ class Enemy:
         self.x = x
         self.y = y
         self.radius = 20
-        self.aabb = [(self.x - self.radius, self.y - self.radius),
-                     (self.x + self.radius, self.y + self.radius)]
+        self.aabb = AABB(self.x - self.radius,
+                         self.y - self.radius,
+                         self.x + self.radius, 
+                         self.y + self.radius)
         self.damage_radius = 100
         self.damage = 0.1
     #Spieler bekommt schaden wenn er im gewissen radius zum Turret ist.
@@ -28,10 +31,14 @@ class Enemy:
           health.take_damage(self.damage)
 
     def draw_line_enemy(self,robot):
+        x_screen_enemy, y_screen_enemy = self.camera.global_to_screen(self)
+        x_screen_robot, y_screen_robot = self.camera.global_to_screen(self)
         pygame.draw.line(self.screen,
                   (25, 33, 33),
-                  (self.x , self.y),
-                  (robot.x,robot.y), 1)
+                  (x_screen_enemy, y_screen_enemy),
+                  (x_screen_robot, y_screen_robot), 
+                  1)
+        
     # setzt Koordinaten auf zufällige Nummer innerhalb des screens
     # und updatet aabb
     def randomize_position(self):

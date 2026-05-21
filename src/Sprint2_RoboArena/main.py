@@ -7,7 +7,7 @@ from HealthSystem_Player import HealthSystem_Player
 from StaminaSystem_Player import StaminaSystem_Player
 from Enemy import Enemy
 from Level import Level
-TEST_MODE = False    # TESTMODE: wenn true, dann ist testmodus an
+TEST_MODE = True    # TESTMODE: wenn true, dann ist testmodus an
 
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 1000
@@ -32,21 +32,7 @@ for enemy in enemy_list:
 
 
 
-# "Checkt ob zwei Boxen sich überschneiden"
-#   Nimmt zwei aabb in der Form [(x,y),(x,y)]
-#   Gibt true aus wenn sich aabbs schneiden
-def check_collision(box1, box2):
-    min1_x, min1_y   = box1[0] 
-    max1_x, max1_y = box1[1]
-    min2_x, min2_y   = box2[0] 
-    max2_x, max2_y = box2[1] 
 
-    return (
-        min1_x < max2_x and
-        max1_x > min2_x and
-        min1_y < max2_y and
-        max1_y > min2_y
-    )
 
 # Lebens-System:
 health = HealthSystem_Player(screen, max_health=100, bar_x=10, bar_y=10, bar_width=400, bar_height=25)
@@ -67,9 +53,9 @@ while True:
     robot.move(keys)
     robot.update_rotation()
 
-    # Checke für Kollision
+    # Checke für Kollision von Roboter und Orb
     for orb in orb_list[:]:
-        if check_collision(robot.aabb, orb.aabb):
+        if robot.aabb.check_collision(orb.aabb):
             level.collect_orb()
             orb.randomize_position()
 

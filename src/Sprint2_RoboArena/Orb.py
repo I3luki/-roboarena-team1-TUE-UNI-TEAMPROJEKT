@@ -1,8 +1,8 @@
 import pygame
 import random
+from Collision import AABB
 
 class Orb:
-
 
     def __init__(self, arena, x, y):
         self.screen = arena.screen
@@ -10,14 +10,18 @@ class Orb:
         self.x = x
         self.y = y
         self.radius = 10
-        self.aabb = [(self.x - self.radius, self.y - self.radius), 
-                     (self.x + self.radius, self.y + self.radius)]
+        self.aabb = AABB(self.x - self.radius, 
+                         self.y - self.radius, 
+                         self.x + self.radius,
+                         self.y + self.radius)
         
         
     # aktualisiert aabb Koordinaten anhand akuteller Koordinaten des Orbs
     def update_aabb(self): 
-        self.aabb = [(self.x - self.radius, self.y - self.radius), 
-                     (self.x + self.radius, self.y + self.radius)]
+        self.aabb.update(self.x - self.radius, 
+                         self.y - self.radius, 
+                         self.x + self.radius,
+                         self.y + self.radius)
         
         
     # setzt Koordinaten auf zufällige Nummer innerhalb des screens
@@ -49,14 +53,16 @@ class Orb:
     # zeichnet die AABB (für visuelle Tests)
     def draw_aabb(self):
         color = (100,100,100)
-        x_upperleft, y_upperleft   = self.aabb[0]
-        x_lowerright, y_lowerright = self.aabb[1]
-        width  = x_lowerright - x_upperleft
-        height = y_lowerright - y_upperleft
+        x_min = self.aabb.x
+        y_min = self.aabb.y
+        x_max = self.aabb.x_max
+        y_max = self.aabb.y_max
+        width  = x_max - x_min
+        height = y_max - y_min
 
         pygame.draw.rect(
             self.screen,
             color,
-            (x_upperleft, y_upperleft, width, height),
+            (x_min, y_min, width, height),
             width=1   # Zeichne nur die Kontur
         )
