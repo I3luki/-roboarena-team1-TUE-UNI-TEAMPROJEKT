@@ -2,7 +2,7 @@ import pygame
 import random
 import math
 from Collision import AABB
-
+from HealthSystem_Enemy import HealthSystem_Enemy
 
 
 class Enemy:
@@ -19,6 +19,7 @@ class Enemy:
                          self.y + self.radius)
         self.damage_radius = 100
         self.damage = 0.1
+        self.health_system = HealthSystem_Enemy()
     #Spieler bekommt schaden wenn er im gewissen radius zum Turret ist.
 
     def check_damage_player(self, robot, health):
@@ -81,6 +82,8 @@ class Enemy:
                            (x_screen,y_screen),
                            100,
                            2)
+
+        self.health_system.draw(self.screen, x_screen, y_screen)
 
 
     def draw_aabb(self):
