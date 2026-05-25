@@ -1,4 +1,3 @@
-import pygame
 from Enemy import Enemy
 
 # Updated Liste von Gegnern, die am Leben sind
