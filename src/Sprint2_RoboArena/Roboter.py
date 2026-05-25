@@ -1,28 +1,36 @@
 import pygame
 import math
+from Collision import AABB
 
 
 class Robot:
-    def __init__(self, screen, x, y):
-        self.screen = screen
+    def __init__(self, arena, x, y):
+        self.arena  = arena
+        self.camera = arena.camera
+        self.screen = arena.screen
         self.x = x
         self.y = y
         self.width = 50
         self.height = 50
         self.speed = 2
-        self.aabb = [(self.x, self.y), (self.x + self.width, self.y + self.height)]
+        self.aabb = AABB(self.x,
+                         self.y,
+                         self.x + self.width,
+                         self.y + self.height)
         self.angle = 0
-
 
 
 
     # updatet die axis aligned bounding box
     def update_aabb(self):
-         self.aabb = [(self.x, self.y), (self.x + self.width, self.y + self.height)]
+         self.aabb.update(self.x, 
+                          self.y,
+                          self.x + self.width,
+                          self.y + self.height)
 
     def move(self, keys):
         if keys[pygame.K_w] or keys[pygame.K_UP]:
-                self.y -= self.speed
+            self.y -= self.speed
         if keys[pygame.K_s] or keys[pygame.K_DOWN]:
             self.y += self.speed
         if keys[pygame.K_a] or keys[pygame.K_LEFT]:
@@ -31,24 +39,29 @@ class Robot:
             self.x += self.speed
         self.update_aabb()
 
+
+
     def draw(self):
 
-    # Eigene Fläche
+        # lokale Koordinaten
+        x_screen, y_screen = self.camera.global_to_screen(self)
+
+        # Eigene Fläche
         robot_surface = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
 
         # Körper
         pygame.draw.rect(
             robot_surface,
-        (120, 120, 120),
-        (0, 0, self.width, self.height)
-    )
+            (120, 120, 120),
+            (0, 0, self.width, self.height)
+        )
 
         # Kopf
         pygame.draw.circle(
             robot_surface,
-        (0, 255, 0),
-        (35, 25),
-        8
+            (0, 255, 0),
+            (35, 25),
+            8
         )
 
         # Rotieren
@@ -56,42 +69,40 @@ class Robot:
 
         # Mittelpunkt setzen
         rect = rotated_surface.get_rect(
-            center=(self.x + self.width / 2, self.y + self.height / 2)
+            center=(x_screen + self.width/2, y_screen + self.height/2)
         )
 
-
+        # zeichen in screen
         self.screen.blit(rotated_surface, rect.topleft)
 
     # "Zeichnet AAB-Kollisionbox"
     def draw_aabb(self):
-        color = (255,0,0)
-        min_x, min_y = self.aabb[0]
-        max_x, max_y = self.aabb[1]
-        width = max_x - min_x
-        height = max_y - min_y
+        # berechne screen Koordinaten mit Kreis Offset
+        x_min_screen, y_min_screen = self.camera.global_to_screen(self)  
 
-        pygame.draw.rect(
-            self.screen,
-            color,
-            (min_x, min_y, width, height),
-            width=1   # zeichen nur Kontur
-        )
+        self.aabb.draw_at(self.arena, x_min_screen, y_min_screen)
+
+        
 
     
-        # Linie zur Maus,
+    # Linie zur Maus,
     def draw_line_to_mouse(self):
         mouse_x, mouse_y = pygame.mouse.get_pos()
+        x_screen, y_screen = self.camera.global_to_screen(self)
         pygame.draw.line(
             self.screen, 
             (255, 0, 0),
-            (self.x + (self.width/2), self.y + (self.height/2)),
+            (x_screen + (self.width/2), y_screen + (self.height/2)),
             (mouse_x, mouse_y), 2)
+        
 
+    # holt den Vektor zur Maus
     def get_direction_to_mouse(self):
         mouse_x, mouse_y = pygame.mouse.get_pos()
+        screen_x, screen_y = self.camera.global_to_screen(self)
         #Berechnet Abstand von Mauszeiger zu sich selbst
-        dx = mouse_x -  self.x
-        dy = mouse_y -  self.y
+        dx = mouse_x -  screen_x
+        dy = mouse_y -  screen_y
 
         distance = math.hypot(dx, dy)
         #Return Abstand
@@ -99,6 +110,8 @@ class Robot:
             return dx / distance, dy / distance
 
         return 0,0
+    
+    # updatet den Rotationswinkel
     def update_rotation(self):
         direction_x, direction_y = self.get_direction_to_mouse()
 

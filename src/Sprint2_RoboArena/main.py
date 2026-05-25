@@ -20,9 +20,9 @@ clock = pygame.time.Clock()
 
 # Create arena object
 arena = Arena(screen)
-robot = Robot(screen, 475, 475)
-orb_list = [Orb(screen,0,0), Orb(screen,0,0)]
-enemy_list = [Enemy(screen,0,0), Enemy(screen,0,0)]
+robot = Robot(arena, arena.WIDTH/2, arena.HEIGHT/2)   # spawne in der Mitte der Arena
+orb_list = [Orb(arena,0,0), Orb(arena,0,0)]
+enemy_list = [Enemy(arena,0,0), Enemy(arena,0,0)]
 
 # randomize orb positions
 for orb in orb_list:
@@ -32,21 +32,7 @@ for enemy in enemy_list:
 
 
 
-# "Checkt ob zwei Boxen sich überschneiden"
-#   Nimmt zwei aabb in der Form [(x,y),(x,y)]
-#   Gibt true aus wenn sich aabbs schneiden
-def check_collision(box1, box2):
-    min1_x, min1_y   = box1[0] 
-    max1_x, max1_y = box1[1]
-    min2_x, min2_y   = box2[0] 
-    max2_x, max2_y = box2[1] 
 
-    return (
-        min1_x < max2_x and
-        max1_x > min2_x and
-        min1_y < max2_y and
-        max1_y > min2_y
-    )
 
 # Lebens-System:
 health = HealthSystem_Player(screen, max_health=100, bar_x=10, bar_y=10, bar_width=400, bar_height=25)
@@ -67,14 +53,15 @@ while True:
     robot.move(keys)
     robot.update_rotation()
 
-    # Checke für Kollision
+    # Checke für Kollision von Roboter und Orb
     for orb in orb_list[:]:
-        if check_collision(robot.aabb, orb.aabb):
+        if robot.aabb.check_collision(orb.aabb):
             level.collect_orb()
             orb.randomize_position()
 
     # Zeichne Objekte auf den Screen
-    arena.draw()
+    screen.fill((0, 0, 0))  # clear previous frame
+    arena.draw(robot)
     robot.draw()
     for orb in orb_list:
         orb.draw()
@@ -84,6 +71,7 @@ while True:
     health.draw()
     stamina.draw()
     level.draw()
+    pygame.display.flip() #update screen
 
 
     # Testmodus
@@ -94,7 +82,9 @@ while True:
         robot.draw_aabb()
         robot.draw_line_to_mouse()
         for enemy in enemy_list:
+            enemy.draw_aabb()
             enemy.draw_line_enemy(robot)
+        arena.draw_aabb()
 
     pygame.display.update()
     clock.tick(60)

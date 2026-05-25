@@ -1,18 +1,22 @@
 import pygame
 import random
 import math
-
+from Collision import AABB
 
 
 
 class Enemy:
-    def __init__(self, screen, x ,y):
-        self.screen = screen
+    def __init__(self, arena, x ,y):
+        self.arena  = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
         self.x = x
         self.y = y
         self.radius = 20
-        self.aabb = [(self.x - self.radius, self.y - self.radius),
-                     (self.x + self.radius, self.y + self.radius)]
+        self.aabb = AABB(self.x - self.radius,
+                         self.y - self.radius,
+                         self.x + self.radius, 
+                         self.y + self.radius)
         self.damage_radius = 100
         self.damage = 0.1
     #Spieler bekommt schaden wenn er im gewissen radius zum Turret ist.
@@ -27,10 +31,21 @@ class Enemy:
           health.take_damage(self.damage)
 
     def draw_line_enemy(self,robot):
+        # konvertiere zu screen-Koordinaten
+        x_screen_enemy, y_screen_enemy = self.camera.global_to_screen(self)
+        x_screen_robot, y_screen_robot = self.camera.global_to_screen(robot)
+
+        # Setze Roboter-Screen-Koordinaten zu Mitte von Roboter
+        x_screen_robot += robot.width/2
+        y_screen_robot += robot.height/2
+
+        # Zeichne
         pygame.draw.line(self.screen,
-                  (25, 33, 33),
-                  (self.x , self.y),
-                  (robot.x,robot.y), 1)
+                        (25, 33, 33),
+                        (x_screen_enemy, y_screen_enemy),
+                        (x_screen_robot, y_screen_robot), 
+                        1)
+        
     # setzt Koordinaten auf zufällige Nummer innerhalb des screens
     # und updatet aabb
     def randomize_position(self):
@@ -47,15 +62,35 @@ class Enemy:
 
     # zeichnet den Gegener
     def draw(self):
-        color = (0,128,0)
+        color_inner = (0,128,0)
+        color_outer = (0,0,0)
 
+        x_screen, y_screen = self.camera.global_to_screen(self)
+
+        # Zeichne inneren Kreis
         pygame.draw.circle(
             self.screen,
-            color,
-            (self.x,self.y),
+            color_inner,
+            (x_screen,y_screen),
             self.radius
         )
-        pygame.draw.circle(self.screen,(0,0,0),(self.x,self.y),100,2)
+
+        # Zeichne äußeren Kreis
+        pygame.draw.circle(self.screen,
+                           color_outer,
+                           (x_screen,y_screen),
+                           100,
+                           2)
+
+
+    def draw_aabb(self):
+        # berechne screen Koordinaten mit Kreis Offset
+        x_min_screen, y_min_screen = self.camera.global_to_screen(self)  
+        x_min_screen -= self.radius
+        y_min_screen -= self.radius
+
+        # Zeichne
+        self.aabb.draw_at(self.arena, x_min_screen, y_min_screen)
 
 
 
