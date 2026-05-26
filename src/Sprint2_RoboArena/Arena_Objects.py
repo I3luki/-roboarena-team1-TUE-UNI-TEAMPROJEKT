@@ -2,6 +2,22 @@ import pygame
 from Collision import AABB
 from Status_Effects import Speed_Buff, Healthgen_Buff
 
+
+# RICHTLINIEN für Klassen:
+#
+#                           Variablen:  arena
+#                                       screen
+#                                       camera
+#                                       x
+#                                       y
+#                                       aabb
+#                           Methoden:   draw()
+#                                       draw_aabb()
+#                                       apply_to(robot)            <- GILT NUR FÜR EFFEKT_TILES
+
+
+
+
 # zeichnet die gegebene Instanz
 def draw(rect):
         rect.aabb.update(rect.x, rect.y,
@@ -94,6 +110,7 @@ class Healthtile:
         self.surface = pygame.Surface((self.width, self.height))
         self.surface.fill(self.COLOR)
 
+    # adds the effect to the robot
     def apply_to(self, robot):
          status_effect = Healthgen_Buff()
          robot.add_status_effect(status_effect)
@@ -121,6 +138,7 @@ class Surprisetile:
         
         self.surface = pygame.Surface((self.width, self.height))
         self.surface.fill(self.COLOR)
+
 
     def apply_to(self, robot):
          pass #TODO: implement an effect
@@ -153,6 +171,9 @@ class CactusTile:
         self.surface = pygame.Surface((self.width, self.height))
         self.surface.fill(self.COLOR)
 
+    def apply_to(self, robot):
+         pass #TODO: implement an effect
+
     def draw(self):
         draw(self)
 
@@ -182,6 +203,9 @@ class SkullTile:
         self.surface = pygame.Surface((self.width, self.height))
         self.surface.fill(self.COLOR)
 
+    def apply_to(self, robot):
+         pass #TODO: implement an effect
+
     def draw(self):
         draw(self)
 
@@ -210,6 +234,9 @@ class BoneTile:
 
         self.surface = pygame.Surface((self.width, self.height))
         self.surface.fill(self.COLOR)
+
+    def apply_to(self, robot):
+         pass #TODO: implement an effect
 
     def draw(self):
         draw(self)
@@ -282,6 +309,9 @@ class LightningTile:
 
         if current_time - self.spawn_time >= self.LIFETIME:
             self.spawn_random()
+
+    def apply_to(self, robot):
+         pass #TODO: implement an effect
 
     def draw(self):
         x_screen, y_screen = self.camera.global_to_screen(self)
@@ -392,6 +422,9 @@ class Tornado:
             if current_time - self.last_damage_time >= self.DAMAGE_COOLDOWN:
                 health.take_damage(self.DAMAGE)
                 self.last_damage_time = current_time
+
+    def apply_to(self, robot):
+         pass #TODO: implement an effect
 
     def draw(self):
         x_screen, y_screen = self.camera.global_to_screen(self)
