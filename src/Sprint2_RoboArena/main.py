@@ -9,8 +9,8 @@ from EnemyManager import EnemyManager
 from Level import Level
 TEST_MODE = False    # TESTMODE: wenn true, dann ist testmodus an
 
-SCREEN_WIDTH = 1000
-SCREEN_HEIGHT = 1000
+SCREEN_WIDTH = 2000
+SCREEN_HEIGHT = 2000
 
 
 pygame.init()
@@ -54,6 +54,8 @@ while True:
     keys = pygame.key.get_pressed()
     robot.move(keys)
     robot.update_rotation()
+    arena.update_lightning_tiles(robot, health)
+    arena.update_tornado(robot, health)
 
     # Checke für Kollision von Roboter und Orb
     for orb in orb_list[:]:

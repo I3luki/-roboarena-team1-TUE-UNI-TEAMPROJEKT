@@ -117,3 +117,272 @@ class Surprisetile:
 
     def draw_aabb(self):
          draw_aabb(self) # globale Methode
+
+class CactusTile:
+    COLOR = (0, 150, 0) #grün
+    width = 40
+    height = 40
+
+    def __init__(self, arena, x, y):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+
+        self.x = x
+        self.y = y
+
+        self.aabb = AABB(
+            x, y,
+            x + self.width,
+            y + self.height
+        )
+
+        self.surface = pygame.Surface((self.width, self.height))
+        self.surface.fill(self.COLOR)
+
+    def draw(self):
+        draw(self)
+
+    def draw_aabb(self):
+        draw_aabb(self)
+
+
+class SkullTile:
+    COLOR = (70, 70, 70) # Dunkel grau
+    width = 30
+    height = 30
+
+    def __init__(self, arena, x, y):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+
+        self.x = x
+        self.y = y
+
+        self.aabb = AABB(
+            x, y,
+            x + self.width,
+            y + self.height
+        )
+
+        self.surface = pygame.Surface((self.width, self.height))
+        self.surface.fill(self.COLOR)
+
+    def draw(self):
+        draw(self)
+
+    def draw_aabb(self):
+        draw_aabb(self)
+
+
+class BoneTile:
+    COLOR = (245, 245, 220) #weiß
+    width = 35
+    height = 15
+
+    def __init__(self, arena, x, y):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+
+        self.x = x
+        self.y = y
+
+        self.aabb = AABB(
+            x, y,
+            x + self.width,
+            y + self.height
+        )
+
+        self.surface = pygame.Surface((self.width, self.height))
+        self.surface.fill(self.COLOR)
+
+    def draw(self):
+        draw(self)
+
+    def draw_aabb(self):
+        draw_aabb(self)
+
+class LightningTile:
+    COLOR = (250, 250, 250)   # hellblau
+    width = 80
+    height = 80
+
+    LIFETIME = 2000         # bleibt 2 Sekunden
+    DAMAGE = 5              # Schaden pro Treffer
+    DAMAGE_COOLDOWN = 500   # Schaden nur alle 0.5 Sekunden
+
+    def __init__(self, arena):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+
+        self.last_damage_time = 0
+        self.spawn_random()
+
+    def spawn_random(self):
+        import random
+
+        # Blitz-Arena besteht aus 2 Rechtecken:
+        # 1. oben rechts
+        # 2. rechts neben der Healzone
+
+        spawn_areas = [
+            (1500, 0, 1500, 1050),      # oben rechts
+            (1950, 1050, 1050, 450),    # rechts neben Healzone
+        ]
+
+        area = random.choice(spawn_areas)
+
+        area_x, area_y, area_width, area_height = area
+
+        self.x = random.randint(area_x, area_x + area_width - self.width)
+        self.y = random.randint(area_y, area_y + area_height - self.height)
+
+        self.spawn_time = pygame.time.get_ticks()
+
+        self.aabb = AABB(
+            self.x,
+            self.y,
+            self.x + self.width,
+            self.y + self.height
+        )
+
+        self.surface = pygame.Surface((self.width, self.height))
+        self.surface.fill(self.COLOR)
+
+    def update(self, robot, health):
+        current_time = pygame.time.get_ticks()
+
+        self.aabb.update(
+            self.x,
+            self.y,
+            self.x + self.width,
+            self.y + self.height
+        )
+
+        if self.aabb.check_collision(robot.aabb):
+            if current_time - self.last_damage_time >= self.DAMAGE_COOLDOWN:
+                health.take_damage(self.DAMAGE)
+                self.last_damage_time = current_time
+
+        if current_time - self.spawn_time >= self.LIFETIME:
+            self.spawn_random()
+
+    def draw(self):
+        x_screen, y_screen = self.camera.global_to_screen(self)
+        self.screen.blit(self.surface, (x_screen, y_screen))
+
+    def draw_aabb(self):
+        draw_aabb(self)
+
+class Tornado:
+    COLOR = (80, 80, 80)
+
+    width = 70
+    height = 70
+
+    SPEED_X = 4
+    SPEED_Y = 3
+
+    DAMAGE = 8
+    DAMAGE_COOLDOWN = 600
+
+    def __init__(self, arena):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+
+        # Startposition in der Blitz-Zone
+        self.x = 2000
+        self.y = 400
+
+        self.dx = self.SPEED_X
+        self.dy = self.SPEED_Y
+
+        self.last_damage_time = 0
+
+        self.aabb = AABB(
+            self.x,
+            self.y,
+            self.x + self.width,
+            self.y + self.height
+        )
+
+        self.surface = pygame.Surface((self.width, self.height))
+        self.surface.fill(self.COLOR)
+
+    def update(self, robot, health):
+        current_time = pygame.time.get_ticks()
+
+        old_x = self.x
+        old_y = self.y
+
+        self.x += self.dx
+        self.y += self.dy
+
+        # Blitz-Arena-Grenzen
+        min_x = 1500
+        max_x = 3000 - self.width
+        min_y = 0
+        max_y = 1500 - self.height
+
+        # Healzone
+        heal_x = 1050
+        heal_y = 1050
+        heal_w = 900
+        heal_h = 900
+
+        # Rand-Abprall
+        if self.x <= min_x or self.x >= max_x:
+            self.dx *= -1
+            self.x = old_x
+
+        if self.y <= min_y or self.y >= max_y:
+            self.dy *= -1
+            self.y = old_y
+
+        # Aktuelle AABB updaten
+        self.aabb.update(
+            self.x,
+            self.y,
+            self.x + self.width,
+            self.y + self.height
+        )
+
+        # Healzone-AABB temporär bauen
+        heal_aabb = AABB(
+            heal_x,
+            heal_y,
+            heal_x + heal_w,
+            heal_y + heal_h
+        )
+
+        # Wenn Tornado Healzone berührt: zurücksetzen und Richtung ändern
+        if self.aabb.check_collision(heal_aabb):
+            self.x = old_x
+            self.y = old_y
+
+            self.dx *= -1
+            self.dy *= -1
+
+            self.aabb.update(
+                self.x,
+                self.y,
+                self.x + self.width,
+                self.y + self.height
+            )
+
+        # Schaden
+        if self.aabb.check_collision(robot.aabb):
+            if current_time - self.last_damage_time >= self.DAMAGE_COOLDOWN:
+                health.take_damage(self.DAMAGE)
+                self.last_damage_time = current_time
+
+    def draw(self):
+        x_screen, y_screen = self.camera.global_to_screen(self)
+        self.screen.blit(self.surface, (x_screen, y_screen))
+
+    def draw_aabb(self):
+        draw_aabb(self)
