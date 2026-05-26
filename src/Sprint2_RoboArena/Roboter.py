@@ -28,16 +28,41 @@ class Robot:
                           self.x + self.width,
                           self.y + self.height)
 
+    # überprüft ob Überschneidung mit einer Wand
+    def collides_with_wall(self):
+        for wall in self.arena.walls:
+            if(self.aabb.check_collision(wall.aabb)):
+                return True
+        False   # Falls durchläuft, dann kollidiert nicht mit einer Wand
+
+
     def move(self, keys):
+
         if keys[pygame.K_w] or keys[pygame.K_UP]:
             self.y -= self.speed
+            self.update_aabb()
+            if(self.collides_with_wall()):
+                self.y += self.speed
+                self.update_aabb()
         if keys[pygame.K_s] or keys[pygame.K_DOWN]:
             self.y += self.speed
+            self.update_aabb()
+            if(self.collides_with_wall()):
+                self.y -= self.speed
+                self.update_aabb()
         if keys[pygame.K_a] or keys[pygame.K_LEFT]:
             self.x -= self.speed
+            self.update_aabb()
+            if(self.collides_with_wall()):
+                self.x += self.speed
+                self.update_aabb()
         if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
             self.x += self.speed
-        self.update_aabb()
+            self.update_aabb()
+            if(self.collides_with_wall()):
+                self.x -= self.speed
+                self.update_aabb()
+
 
 
 
