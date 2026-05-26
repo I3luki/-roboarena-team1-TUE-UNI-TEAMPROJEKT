@@ -1,5 +1,6 @@
 import pygame
 from Collision import AABB
+from Status_Effects import Speed_Buff, Healthgen_Buff
 
 # zeichnet die gegebene Instanz
 def draw(rect):
@@ -35,7 +36,7 @@ class Wall:
 
           self.surface = pygame.Surface((width, height))
           self.surface.fill(self.COLOR)
-          
+             
 
     def draw(self):
         draw(self) # globale Methode
@@ -62,6 +63,12 @@ class Speedtile:
         self.surface = pygame.Surface((self.width, self.height))
         self.surface.fill(self.COLOR)
 
+    # applies the unique effect to the given robot
+    def apply_to(self, robot):
+         status_effect = Speed_Buff()
+         robot.add_status_effect(status_effect)
+         
+
     def draw(self):
         draw(self) # globale Methode
     
@@ -87,6 +94,10 @@ class Healthtile:
         self.surface = pygame.Surface((self.width, self.height))
         self.surface.fill(self.COLOR)
 
+    def apply_to(self, robot):
+         status_effect = Healthgen_Buff()
+         robot.add_status_effect(status_effect)
+
     def draw(self):
         draw(self) # globale methode
 
@@ -111,6 +122,8 @@ class Surprisetile:
         self.surface = pygame.Surface((self.width, self.height))
         self.surface.fill(self.COLOR)
 
+    def apply_to(self, robot):
+         pass #TODO: implement an effect
 
     def draw(self):
         draw(self) # globale Methode

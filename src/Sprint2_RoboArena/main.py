@@ -18,9 +18,16 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("RoboArena")
 clock = pygame.time.Clock()
 
+# Lebens-System:
+health = HealthSystem_Player(screen, max_health=100, bar_x=10, bar_y=10, bar_width=400, bar_height=25)
+# Stamina-System:
+stamina = StaminaSystem_Player(screen, max_stamina=100, bar_x=10, bar_y=40, bar_width=400, bar_height=25)
+# Level-system
+level = Level(screen)
+
 # Create arena object
 arena = Arena(screen)
-robot = Robot(arena, arena.WIDTH/2, arena.HEIGHT/2)   # spawne in der Mitte der Arena
+robot = Robot(arena, health, stamina, level, arena.WIDTH/2, arena.HEIGHT/2)   # spawne in der Mitte der Arena
 orb_list = [Orb(arena,0,0), Orb(arena,0,0)]
 enemy_list = [Enemy(arena,0,0), Enemy(arena,0,0)]
 
@@ -32,17 +39,6 @@ for enemy in enemy_list:
 
 
 
-
-
-# Lebens-System:
-health = HealthSystem_Player(screen, max_health=100, bar_x=10, bar_y=10, bar_width=400, bar_height=25)
-
-# Stamina-System:
-stamina = StaminaSystem_Player(screen, max_stamina=100, bar_x=10, bar_y=40, bar_width=400, bar_height=25)
-
-# Level-system
-level = Level(screen)
-
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -53,11 +49,16 @@ while True:
     robot.move(keys)
     robot.update_rotation()
 
+    robot.update_status_effects()
+
+
     # Checke für Kollision von Roboter und Orb
     for orb in orb_list[:]:
         if robot.aabb.check_collision(orb.aabb):
             level.collect_orb()
             orb.randomize_position()
+
+
 
     # Zeichne Objekte auf den Screen
     screen.fill((0, 0, 0))  # clear previous frame
