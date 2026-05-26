@@ -51,13 +51,31 @@ class Enemy:
     # und updatet aabb
     def randomize_position(self):
         # frage Screengröße ab, dann erzeuge zufälliges x und y
-        screen_width, screen_height = self.screen.get_size()
-        x = random.randint(0, screen_width)
-        y = random.randint(0, screen_height)
+        while True:
+            x = random.randint(self.radius, self.arena.WIDTH - self.radius)
+            y = random.randint(self.radius, self.arena.HEIGHT - self.radius)
+
+            temp = type('', (), {})()
+            temp.x = x
+            temp.y = y
+
+            x_screen, y_screen = self.camera.global_to_screen(temp)
+
+            if not (0 <= x_screen <= self.screen.get_width() and
+                    0 <= y_screen <= self.screen.get_height()):
+                break
 
         # update Enemy-Koordinaten
         self.x = x
         self.y = y
+
+        self.aabb = AABB(
+            self.x - self.radius,
+            self.y - self.radius,
+            self.x + self.radius,
+            self.y + self.radius
+        )
+
 
 
 

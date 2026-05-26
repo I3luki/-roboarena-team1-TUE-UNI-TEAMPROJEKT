@@ -43,172 +43,77 @@ class Wall:
     def draw_aabb(self):
          draw_aabb(self) # globale Methode
 
-        
+#Überklasse für einfache tiles
+class Tile:
 
-class Speedtile:
-    COLOR  = (255, 255, 0) #yellow
-    width  = 20
+    COLOR = (255, 255, 255)
+    width = 20
     height = 20
-     
+
     def __init__(self, arena, x, y):
+
         self.arena = arena
         self.screen = arena.screen
         self.camera = arena.camera
+
         self.x = x
         self.y = y
-        self.aabb = AABB(x,y,
-                         x + self.width, y + self.height)
-        
-        self.surface = pygame.Surface((self.width, self.height))
+
+        self.aabb = AABB(
+            x,
+            y,
+            x + self.width,
+            y + self.height
+        )
+
+        self.surface = pygame.Surface(
+            (self.width, self.height)
+        )
+
         self.surface.fill(self.COLOR)
 
     def draw(self):
-        draw(self) # globale Methode
-    
-    def draw_aabb(self):
-         draw_aabb(self) # globale Methode
-    
-     
-
-class Healthtile:
-    COLOR  = (255, 105, 180) # pink
-    width  = 20
-    height = 20
-     
-    def __init__(self, arena, x, y):
-        self.arena = arena
-        self.screen = arena.screen
-        self.camera = arena.camera
-        self.x = x
-        self.y = y
-        self.aabb = AABB(x,y,
-                         x + self.width, y + self.height)        
-
-        self.surface = pygame.Surface((self.width, self.height))
-        self.surface.fill(self.COLOR)
-
-    def draw(self):
-        draw(self) # globale methode
+        draw(self)
 
     def draw_aabb(self):
-         draw_aabb(self) # globale Methode
-     
+        draw_aabb(self)
 
-class Surprisetile:
-    COLOR  = (128, 0, 128) # purple
-    width  = 20
-    height = 20
-     
-    def __init__(self, arena, x, y):
-        self.arena = arena
-        self.screen = arena.screen
-        self.camera = arena.camera
-        self.x = x
-        self.y = y
-        self.aabb = AABB(x,y,
-                         x + self.width, y + self.height)
-        
-        self.surface = pygame.Surface((self.width, self.height))
-        self.surface.fill(self.COLOR)
+class Speedtile(Tile):
+    COLOR = (255, 255, 0)
 
 
-    def draw(self):
-        draw(self) # globale Methode
+class Healthtile(Tile):
+    COLOR = (255, 105, 180)
 
-    def draw_aabb(self):
-         draw_aabb(self) # globale Methode
 
-class CactusTile:
-    COLOR = (0, 150, 0) #grün
+class Surprisetile(Tile):
+    COLOR = (128, 0, 128)
+
+
+class CactusTile(Tile):
+    COLOR = (0, 150, 0)
     width = 40
     height = 40
 
-    def __init__(self, arena, x, y):
-        self.arena = arena
-        self.screen = arena.screen
-        self.camera = arena.camera
 
-        self.x = x
-        self.y = y
-
-        self.aabb = AABB(
-            x, y,
-            x + self.width,
-            y + self.height
-        )
-
-        self.surface = pygame.Surface((self.width, self.height))
-        self.surface.fill(self.COLOR)
-
-    def draw(self):
-        draw(self)
-
-    def draw_aabb(self):
-        draw_aabb(self)
-
-
-class SkullTile:
-    COLOR = (70, 70, 70) # Dunkel grau
+class SkullTile(Tile):
+    COLOR = (70, 70, 70)
     width = 30
     height = 30
 
-    def __init__(self, arena, x, y):
-        self.arena = arena
-        self.screen = arena.screen
-        self.camera = arena.camera
 
-        self.x = x
-        self.y = y
-
-        self.aabb = AABB(
-            x, y,
-            x + self.width,
-            y + self.height
-        )
-
-        self.surface = pygame.Surface((self.width, self.height))
-        self.surface.fill(self.COLOR)
-
-    def draw(self):
-        draw(self)
-
-    def draw_aabb(self):
-        draw_aabb(self)
-
-
-class BoneTile:
-    COLOR = (245, 245, 220) #weiß
+class BoneTile(Tile):
+    COLOR = (245, 245, 220)
     width = 35
     height = 15
 
-    def __init__(self, arena, x, y):
-        self.arena = arena
-        self.screen = arena.screen
-        self.camera = arena.camera
-
-        self.x = x
-        self.y = y
-
-        self.aabb = AABB(
-            x, y,
-            x + self.width,
-            y + self.height
-        )
-
-        self.surface = pygame.Surface((self.width, self.height))
-        self.surface.fill(self.COLOR)
-
-    def draw(self):
-        draw(self)
-
-    def draw_aabb(self):
-        draw_aabb(self)
-
 class LightningTile:
+    WARNING_COLOR = (255, 255, 0)   # gelbes Warn-Dreieck
     COLOR = (250, 250, 250)   # hellblau
     width = 80
     height = 80
 
+    WARNING_TIME = 1000      # 1 Sekunde Warnung
     LIFETIME = 2000         # bleibt 2 Sekunden
     DAMAGE = 5              # Schaden pro Treffer
     DAMAGE_COOLDOWN = 500   # Schaden nur alle 0.5 Sekunden
@@ -242,6 +147,8 @@ class LightningTile:
 
         self.spawn_time = pygame.time.get_ticks()
 
+        self.is_warning = True
+
         self.aabb = AABB(
             self.x,
             self.y,
@@ -254,6 +161,7 @@ class LightningTile:
 
     def update(self, robot, health):
         current_time = pygame.time.get_ticks()
+        elapsed_time = current_time - self.spawn_time
 
         self.aabb.update(
             self.x,
@@ -262,17 +170,41 @@ class LightningTile:
             self.y + self.height
         )
 
+        # Warnphase: noch kein Schaden
+
+        if self.is_warning:
+            if elapsed_time >= self.WARNING_TIME:
+                self.is_warning = False
+                self.spawn_time = current_time
+            return
+
+        #Aktivepahse
         if self.aabb.check_collision(robot.aabb):
             if current_time - self.last_damage_time >= self.DAMAGE_COOLDOWN:
                 health.take_damage(self.DAMAGE)
                 self.last_damage_time = current_time
 
-        if current_time - self.spawn_time >= self.LIFETIME:
+        # Nach Aktivzeit neu spawnen
+        if elapsed_time >= self.LIFETIME:
             self.spawn_random()
 
     def draw(self):
         x_screen, y_screen = self.camera.global_to_screen(self)
-        self.screen.blit(self.surface, (x_screen, y_screen))
+
+        if self.is_warning:
+            points = [
+                (x_screen + self.width / 2, y_screen),
+                (x_screen, y_screen + self.height),
+                (x_screen + self.width, y_screen + self.height)
+            ]
+
+            pygame.draw.polygon(
+                self.screen,
+                self.WARNING_COLOR,
+                points
+            )
+        else:
+          self.screen.blit(self.surface, (x_screen, y_screen))
 
     def draw_aabb(self):
         draw_aabb(self)
