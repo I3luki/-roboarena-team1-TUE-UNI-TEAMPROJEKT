@@ -5,12 +5,12 @@ from Roboter import Robot
 from Orb import Orb
 from HealthSystem_Player import HealthSystem_Player
 from StaminaSystem_Player import StaminaSystem_Player
-from Enemy import Enemy
+from EnemyManager import EnemyManager
 from Level import Level
 TEST_MODE = False    # TESTMODE: wenn true, dann ist testmodus an
 
-SCREEN_WIDTH = 1000
-SCREEN_HEIGHT = 1000
+SCREEN_WIDTH = 2000
+SCREEN_HEIGHT = 2000
 
 
 pygame.init()
@@ -29,12 +29,14 @@ level = Level(screen)
 arena = Arena(screen)
 robot = Robot(arena, health, stamina, level, arena.WIDTH/2, arena.HEIGHT/2)   # spawne in der Mitte der Arena
 orb_list = [Orb(arena,0,0), Orb(arena,0,0)]
-enemy_list = [Enemy(arena,0,0), Enemy(arena,0,0)]
+enemy_manager = EnemyManager(arena)
+enemy_manager.add_enemy(0, 0)
+enemy_manager.add_enemy(0, 0)
 
 # randomize orb positions
 for orb in orb_list:
     orb.randomize_position()
-for enemy in enemy_list:
+for enemy in enemy_manager.enemies:
     enemy.randomize_position()
 
 
@@ -48,6 +50,8 @@ while True:
     keys = pygame.key.get_pressed()
     robot.move(keys)
     robot.update_rotation()
+    arena.update_lightning_tiles(robot, health)
+    arena.update_tornado(robot, health)
 
     robot.update_status_effects()
 
@@ -66,12 +70,14 @@ while True:
     robot.draw()
     for orb in orb_list:
         orb.draw()
-    for enemy in enemy_list:
+    enemy_manager.update() # Updated Liste von lebenden Gegnern
+    for enemy in enemy_manager.enemies:
         enemy.draw()
-        enemy.check_damage_player(robot,health)
+        enemy.check_damage_player(robot, health)
     health.draw()
     stamina.draw()
     level.draw()
+    robot.update_attack(enemy_manager.enemies) # Updated Attacke/Damage von Roboter an Gegner
     pygame.display.flip() #update screen
 
 
@@ -82,7 +88,7 @@ while True:
             orb.draw_aabb() 
         robot.draw_aabb()
         robot.draw_line_to_mouse()
-        for enemy in enemy_list:
+        for enemy in enemy_manager.enemies:
             enemy.draw_aabb()
             enemy.draw_line_enemy(robot)
         arena.draw_aabb()

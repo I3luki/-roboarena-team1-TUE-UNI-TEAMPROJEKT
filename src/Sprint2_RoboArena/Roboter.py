@@ -23,6 +23,12 @@ class Robot:
                          self.x + self.width,
                          self.y + self.height)
         self.angle = 0
+        self.attack_radius = 80
+        self.attack_damage = 10
+        self.attack_cooldown = 1000
+        self.last_attack_time = pygame.time.get_ticks()
+        self.is_attacking = False
+        self.attack_visible_until = 0
 
 
 
@@ -137,6 +143,15 @@ class Robot:
         # zeichen in screen
         self.screen.blit(rotated_surface, rect.topleft)
 
+        # Wenn Attacke aktiv ist, zeichne Kreis
+        if self.is_attacking:
+            pygame.draw.circle(
+                self.screen,
+                (255, 0, 0),
+                (x_screen + (self.width/2), y_screen + (self.height/2)),
+                self.attack_radius
+            )
+
     # "Zeichnet AAB-Kollisionbox"
     def draw_aabb(self):
         # berechne screen Koordinaten mit Kreis Offset
@@ -185,3 +200,27 @@ class Robot:
 
         self.angle += angle_difference * 0.1
 
+    # Erstellt in einem Zeitintervall ein Radius um Spieler, der Damage an Gegnern verursacht
+    def update_attack(self, enemies):
+        currentTime = pygame.time.get_ticks()
+        # Wenn cooldown abgelaufen ist, wird angegriffen
+        if currentTime - self.last_attack_time > self.attack_cooldown:
+            self.last_attack_time = currentTime
+            self.is_attacking = True
+            self.attack_visible_until = currentTime + 150
+
+            # Frage alle Gegner ab, die in dem Radius des Angriffs sind
+            for enemy in enemies:
+                dx = enemy.x - (self.x + self.width / 2)
+                dy = enemy.y - (self.y + self.height / 2)
+                distance = math.hypot(dx, dy)
+
+                # Wenn der Gegner im Attackeradius ist, verliert er Leben
+                if distance < self.attack_radius + enemy.radius:
+                    if hasattr(enemy, 'health_system'):
+                        enemy.health_system.take_damage(self.attack_damage)
+                        print(f"Gegner getroffen! HP: {enemy.health_system.current_health}")
+
+        # Wenn Angriffscooldown noch nicht abgeklungen ist, kann nicht angegriffen werden
+        if currentTime > self.attack_visible_until:
+            self.is_attacking = False
