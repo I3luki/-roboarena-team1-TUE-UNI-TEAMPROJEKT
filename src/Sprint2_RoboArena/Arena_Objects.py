@@ -60,12 +60,14 @@ class Wall:
     def draw_aabb(self):
          draw_aabb(self) # globale Methode
 
-  
-class Speedtile:
-    COLOR = (255, 255, 0)     # gelb
+
+
+# allgemeine Klasse für Tiles
+class Tile:
+    COLOR = (255, 255,255)     # gel
     width = 20
     height = 20
-     
+
     def __init__(self, arena, x, y):
         self.arena = arena
         self.screen = arena.screen
@@ -78,176 +80,77 @@ class Speedtile:
         self.surface = pygame.Surface((self.width, self.height))
         self.surface.fill(self.COLOR)
 
-    # applies the unique effect to the given robot
     def apply_to(self, robot):
-         status_effect = Speed_Buff()
-         robot.add_status_effect(status_effect)
+         pass
          
-
     def draw(self):
         draw(self) # globale Methode
     
     def draw_aabb(self):
          draw_aabb(self) # globale Methode
+
+
+  
+class Speedtile(Tile):
+    COLOR = (255, 255, 0)     # gelb
+     
+    # applies the unique effect to the given robot
+    def apply_to(self, robot):
+         status_effect = Speed_Buff()
+         robot.add_status_effect(status_effect)
+
    
   
   
-class Healthtile:
+class Healthtile(Tile):
     COLOR = (255, 105, 180)  # pink
-    width = 20
-    height = 20
-
-    def __init__(self, arena, x, y):
-        self.arena = arena
-        self.screen = arena.screen
-        self.camera = arena.camera
-        self.x = x
-        self.y = y
-        self.aabb = AABB(x,y,
-                         x + self.width, y + self.height)        
-
-        self.surface = pygame.Surface((self.width, self.height))
-        self.surface.fill(self.COLOR)
 
     # adds the effect to the robot
     def apply_to(self, robot):
          status_effect = Healthgen_Buff()
          robot.add_status_effect(status_effect)
 
-    def draw(self):
-        draw(self) # globale methode
-
-    def draw_aabb(self):
-         draw_aabb(self) # globale Methode
      
 
-class Surprisetile:
+class Surprisetile(Tile):
     COLOR  = (128, 0, 128) # purple
-    width  = 20
-    height = 20
-     
-    def __init__(self, arena, x, y):
-        self.arena = arena
-        self.screen = arena.screen
-        self.camera = arena.camera
-        self.x = x
-        self.y = y
-        self.aabb = AABB(x,y,
-                         x + self.width, y + self.height)
-        
-        self.surface = pygame.Surface((self.width, self.height))
-        self.surface.fill(self.COLOR)
-
 
     def apply_to(self, robot):
          pass #TODO: implement an effect
 
-    def draw(self):
-        draw(self) # globale Methode
-
-    def draw_aabb(self):
-         draw_aabb(self) # globale Methode
         
         
 
 
 
-class CactusTile:
+class CactusTile(Tile):
     COLOR = (0, 150, 0)
     width = 40
     height = 40
     
-    def __init__(self, arena, x, y):
-        self.arena = arena
-        self.screen = arena.screen
-        self.camera = arena.camera
-
-        self.x = x
-        self.y = y
-
-        self.aabb = AABB(
-            x, y,
-            x + self.width,
-            y + self.height
-        )
-
-        self.surface = pygame.Surface((self.width, self.height))
-        self.surface.fill(self.COLOR)
-
     def apply_to(self, robot):
          pass #TODO: implement an effect
 
-    def draw(self):
-        draw(self)
-
-    def draw_aabb(self):
-        draw_aabb(self)
         
         
-
-
-class SkullTile():
+class SkullTile(Tile):
     COLOR = (70, 70, 70)
     width = 30
     height = 30
-    
-    def __init__(self, arena, x, y):
-        self.arena = arena
-        self.screen = arena.screen
-        self.camera = arena.camera
-
-        self.x = x
-        self.y = y
-
-        self.aabb = AABB(
-            x, y,
-            x + self.width,
-            y + self.height
-        )
-
-        self.surface = pygame.Surface((self.width, self.height))
-        self.surface.fill(self.COLOR)
 
     def apply_to(self, robot):
          pass #TODO: implement an effect
 
-    def draw(self):
-        draw(self)
-
-    def draw_aabb(self):
-        draw_aabb(self)
 
 
-class BoneTile():
+class BoneTile(Tile):
     COLOR = (245, 245, 220)
     width = 35
     height = 15
 
-    def __init__(self, arena, x, y):
-        self.arena = arena
-        self.screen = arena.screen
-        self.camera = arena.camera
-
-        self.x = x
-        self.y = y
-
-        self.aabb = AABB(
-            x, y,
-            x + self.width,
-            y + self.height
-        )
-
-        self.surface = pygame.Surface((self.width, self.height))
-        self.surface.fill(self.COLOR)
-
     def apply_to(self, robot):
          pass #TODO: implement an effect
 
-    def draw(self):
-        draw(self)
-
-    def draw_aabb(self):
-        draw_aabb(self)
 
 
 
