@@ -11,6 +11,7 @@ class Arena:
         self.WIDTH = 3000
         self.HEIGHT = 3000
         self.camera = Camera(screen, 0, 0)
+        WALL_THICKNESS = 20
 
 
         # Hintergrund-Surfaces erstellen
@@ -38,105 +39,112 @@ class Arena:
             # Healing Spawn Mitte
             (1050, 1050, 900, 900, (100, 230, 230)),
         ]
+        self.zone_surfaces = []
+
+        for x, y, width, height, color in self.zones:
+            surface = pygame.Surface((width, height))
+            surface.fill(color)
+
+            self.zone_surfaces.append((surface, x, y))
 
         # list of all walls
         #   a wall is (x, y, WIDTH, HEIGHT)
         self.walls = [
             # Außenrand
-            Wall(self, 0, 0, 3000, 20),
-            Wall(self, 0, 0, 20, 3000),
-            Wall(self, 0, 2980, 3000, 20),
-            Wall(self, 2980, 0, 20, 3000),
+            Wall(self, 0, 0, 3000, WALL_THICKNESS),
+            Wall(self, 0, 0, WALL_THICKNESS, 3000),
+            Wall(self, 0, 2980, 3000, WALL_THICKNESS),
+            Wall(self, 2980, 0, WALL_THICKNESS, 3000),
 
             # Labyrinth-Wände
-            Wall(self, 80, 80, 160, 20),
-            Wall(self, 80, 80, 20, 20),
-            Wall(self, 320, 180, 180, 20),
+            Wall(self, 80, 80, 160, WALL_THICKNESS),
+            Wall(self, 80, 80, WALL_THICKNESS, WALL_THICKNESS),
+            Wall(self, 320, 180, 180, WALL_THICKNESS),
             Wall(self, 440, 60, 20, 140),
-            Wall(self, 440, 60, 180, 20),
-            Wall(self, 780, 60, 420, 20),
-            Wall(self, 780, 60, 20, 180),
+            Wall(self, 440, 60, 180, WALL_THICKNESS),
+            Wall(self, 780, 60, 420, WALL_THICKNESS),
+            Wall(self, 780, 60, WALL_THICKNESS, 180),
 
-            Wall(self, 920, 190, 20, 360),
+            Wall(self, 920, 190, WALL_THICKNESS, 360),
 
-            Wall(self, 920, 390, 360, 20),
-            Wall(self, 1340, 60, 120, 20),
-            Wall(self, 1400, 60, 20, 360),
+            Wall(self, 920, 390, 360, WALL_THICKNESS),
+            Wall(self, 1340, 60, 120, WALL_THICKNESS),
+            Wall(self, 1400, 60, WALL_THICKNESS, 360),
 
-            Wall(self, 120, 430, 240, 20),
-            Wall(self, 120, 430, 20, 180),
+            Wall(self, 120, 430, 240, WALL_THICKNESS),
+            Wall(self, 120, 430, WALL_THICKNESS, 180),
 
-            Wall(self, 210, 530, 20, 110),
-            Wall(self, 440, 320, 240, 20),
-            Wall(self, 440, 320, 20, 240),
-            Wall(self, 620, 500, 20, 120),
-            Wall(self, 620, 620, 120, 20),
+            Wall(self, 210, 530, WALL_THICKNESS, 110),
+            Wall(self, 440, 320, 240, WALL_THICKNESS),
+            Wall(self, 440, 320, WALL_THICKNESS, 240),
+            Wall(self, 620, 500, WALL_THICKNESS, 120),
+            Wall(self, 620, 620, 120, WALL_THICKNESS),
 
             # Rechte Mitte
-            Wall(self, 1120, 500, 240, 20),
-            Wall(self, 1120, 500, 20, 250),
+            Wall(self, 1120, 500, 240, WALL_THICKNESS),
+            Wall(self, 1120, 500, WALL_THICKNESS, 250),
 
-            Wall(self, 1260, 500, 20, 250),
+            Wall(self, 1260, 500, WALL_THICKNESS, 250),
 
-            Wall(self, 1020, 500, 20, 180),
-            Wall(self, 1320, 500, 120, 20),
-            Wall(self, 1380, 690, 80, 20),
-            Wall(self, 1440, 590, 20, 100),
+            Wall(self, 1020, 500, WALL_THICKNESS, 180),
+            Wall(self, 1320, 500, 120, WALL_THICKNESS),
+            Wall(self, 1380, 690, 80, WALL_THICKNESS),
+            Wall(self, 1440, 590, WALL_THICKNESS, 100),
             Wall(self, 1340, 590, 40, 40),
-            Wall(self, 1000, 300, 170, 20),
+            Wall(self, 1000, 300, 170, WALL_THICKNESS),
 
-            Wall(self, 1150, 180, 20, 120),
+            Wall(self, 1150, 180, WALL_THICKNESS, 120),
 
             Wall(self, 800, 300, 60, 100),
-            Wall(self, 760, 450, 20, 100),
+            Wall(self, 760, 450, WALL_THICKNESS, 100),
             Wall(self, 210, 260, 100, 100),
 
-            Wall(self, 380, 200, 20, 80),
+            Wall(self, 380, 200, WALL_THICKNESS, 80),
 
-            Wall(self, 650, 120, 20, 130),
-            Wall(self, 620, 700, 360, 20),
-            Wall(self, 620, 700, 20, 120),
+            Wall(self, 650, 120, WALL_THICKNESS, 130),
+            Wall(self, 620, 700, 360, WALL_THICKNESS),
+            Wall(self, 620, 700, WALL_THICKNESS, 120),
 
-            Wall(self, 60, 750, 240, 20),
-            Wall(self, 60, 750, 20, 180),
-            Wall(self, 140, 870, 240, 20),
+            Wall(self, 60, 750, 240, WALL_THICKNESS),
+            Wall(self, 60, 750, WALL_THICKNESS, 180),
+            Wall(self, 140, 870, 240, WALL_THICKNESS),
 
-            Wall(self, 380, 690, 120, 20),
-            Wall(self, 380, 690, 20, 120),
+            Wall(self, 380, 690, 120, WALL_THICKNESS),
+            Wall(self, 380, 690, WALL_THICKNESS, 120),
 
-            Wall(self, 500, 690, 20, 120),
+            Wall(self, 500, 690, WALL_THICKNESS, 120),
 
-            Wall(self, 920, 810, 320, 20),
-            Wall(self, 920, 810, 20, 180),
-            Wall(self, 1120, 810, 20, 180),
+            Wall(self, 920, 810, 320, WALL_THICKNESS),
+            Wall(self, 920, 810, WALL_THICKNESS, 180),
+            Wall(self, 1120, 810, WALL_THICKNESS, 180),
 
-            Wall(self, 1280, 890, 120, 20),
-            Wall(self, 1400, 770, 20, 180),
+            Wall(self, 1280, 890, 120, WALL_THICKNESS),
+            Wall(self, 1400, 770, WALL_THICKNESS, 180),
 
-            Wall(self, 1280, 890, 20, 60),
-            Wall(self, 155, 945, 240, 20),
-            Wall(self, 155, 945, 20, 300),
+            Wall(self, 1280, 890, WALL_THICKNESS, 60),
+            Wall(self, 155, 945, 240, WALL_THICKNESS),
+            Wall(self, 155, 945, WALL_THICKNESS, 300),
 
-            Wall(self, 380, 1050, 360, 20),
-            Wall(self, 380, 1050, 20, 240),
-            Wall(self, 660, 930, 20, 260),
+            Wall(self, 380, 1050, 360, WALL_THICKNESS),
+            Wall(self, 380, 1050, WALL_THICKNESS, 240),
+            Wall(self, 660, 930, WALL_THICKNESS, 260),
 
-            Wall(self, 1000, 1050, 20, 180),
-            Wall(self, 80, 1400, 180, 20),
-            Wall(self, 80, 1280, 20, 120),
+            Wall(self, 1000, 1050, WALL_THICKNESS, 180),
+            Wall(self, 80, 1400, 180, WALL_THICKNESS),
+            Wall(self, 80, 1280, WALL_THICKNESS, 120),
 
-            Wall(self, 260, 1400, 20, 60),
-            Wall(self, 580, 1180, 20, 120),
+            Wall(self, 260, 1400, WALL_THICKNESS, 60),
+            Wall(self, 580, 1180, WALL_THICKNESS, 120),
             Wall(self, 580, 1250, 280, 20),
 
-            Wall(self, 860, 1250, 20, 120),
+            Wall(self, 860, 1250, WALL_THICKNESS, 120),
 
-            Wall(self, 380, 1360, 300, 20),
+            Wall(self, 380, 1360, 300, WALL_THICKNESS),
             Wall(self, 750, 800, 80, 80),
-            Wall(self, 800, 940, 20, 60),
-            Wall(self, 500 , 900 , 20 , 150),
-            Wall(self, 800, 1100, 250, 20),
-            Wall(self, 250, 1100, 20, 300),
+            Wall(self, 800, 940, WALL_THICKNESS, 60),
+            Wall(self, 500 , 900 , WALL_THICKNESS , 150),
+            Wall(self, 800, 1100, 250, WALL_THICKNESS),
+            Wall(self, 250, 1100, WALL_THICKNESS, 300),
 
 
             # Wüste Wände
@@ -261,15 +269,18 @@ class Arena:
 
     # checks if a rectangle is visible on the screen
     def is_rect_onscreen(self, rect):
-        min_x = self.camera.x - self.screen.get_width()/2
-        max_x = self.camera.y - self.screen.get_width()/2
-        min_y = self.camera.x + self.screen.get_height()/2
-        max_y = self.camera.y + self.screen.get_height()/2
+        min_x = self.camera.x - self.screen.get_width() / 2
+        max_x = self.camera.x + self.screen.get_width() / 2
 
-        return (   min_x > rect.x + rect.width
-                or max_x < rect.x 
-                or min_y > rect.y + rect.width
-                or max_y < rect.y)
+        min_y = self.camera.y - self.screen.get_height() / 2
+        max_y = self.camera.y + self.screen.get_height() / 2
+
+        return (
+                rect.x + rect.width  >= min_x and
+                rect.x               <= max_x and
+                rect.y + rect.height >= min_y and
+                rect.y               <= max_y
+        )
 
     # draws all walls which are in screen
     def draw_walls(self):
@@ -283,23 +294,17 @@ class Arena:
 
     # Zeichen die Zonen
     def draw_zones(self):
-        for x, y, width, height, color in self.zones:
+        for surface, x, y in self.zone_surfaces:
             screen_x = x - self.camera.x + self.screen.get_width() / 2
             screen_y = y - self.camera.y + self.screen.get_height() / 2
 
-            pygame.draw.rect(
-                self.screen,
-                color,
-                (screen_x, screen_y, width, height)
-            )
+            self.screen.blit(surface, (screen_x, screen_y))
 
     # Zeichne alle Arena-Objekte und Hintergründe
     def draw(self, robot):
 
         # Zeichne Hintergrund
         self.camera.update(robot)
-
-        self.screen.fill((0, 0, 0))
 
         self.draw_zones()
         self.draw_walls()
