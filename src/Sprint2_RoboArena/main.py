@@ -1,6 +1,6 @@
 import pygame
 from sys import exit
-from Arena import Arena  # ← importieren
+from Arena import Arena
 from Roboter import Robot
 from Orb import Orb
 from HealthSystem_Player import HealthSystem_Player
@@ -9,8 +9,8 @@ from EnemyManager import EnemyManager
 from Level import Level
 TEST_MODE = False    # TESTMODE: wenn true, dann ist testmodus an
 
-SCREEN_WIDTH = 2000
-SCREEN_HEIGHT = 2000
+SCREEN_WIDTH = 1000
+SCREEN_HEIGHT = 1000
 
 
 pygame.init()
@@ -28,12 +28,15 @@ level = Level(screen)
 # Create arena object
 arena = Arena(screen)
 robot = Robot(arena, health, stamina, level, arena.WIDTH/2, arena.HEIGHT/2)   # spawne in der Mitte der Arena
+arena.camera.x = robot.x # lässt kamera auf roboter spwanen
+arena.camera.y = robot.y # lässt kamera auf roboter spwanen
+
 orb_list = [Orb(arena,0,0), Orb(arena,0,0)]
 enemy_manager = EnemyManager(arena)
-enemy_manager.add_enemy(0, 0)
-enemy_manager.add_enemy(0, 0)
+for _ in range(2):
+    enemy_manager.add_enemy(0, 0)
 
-# randomize orb positions
+# randomize orb/enemy positions
 for orb in orb_list:
     orb.randomize_position()
 for enemy in enemy_manager.enemies:
@@ -42,16 +45,26 @@ for enemy in enemy_manager.enemies:
 
 
 while True:
+
+    #Envents-Berreich
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
 
+    #Input-Berreich
     keys = pygame.key.get_pressed()
+
+    #Updates-Berreich
     robot.move(keys)
     robot.update_rotation()
     arena.update_lightning_tiles(robot, health)
     arena.update_tornado(robot, health)
+    enemy_manager.update()
+    for enemy in enemy_manager.enemies:
+        enemy.draw()
+        enemy.check_damage_player(robot, health)
+    robot.update_attack(enemy_manager.enemies) # Updated Attacke/Damage von Roboter an Gegner
 
     robot.update_status_effects()
 
@@ -62,23 +75,18 @@ while True:
             level.collect_orb()
             orb.randomize_position()
 
-
-
+    #Draw-Berreich
     # Zeichne Objekte auf den Screen
-    screen.fill((0, 0, 0))  # clear previous frame
     arena.draw(robot)
     robot.draw()
     for orb in orb_list:
         orb.draw()
-    enemy_manager.update() # Updated Liste von lebenden Gegnern
     for enemy in enemy_manager.enemies:
         enemy.draw()
-        enemy.check_damage_player(robot, health)
+
     health.draw()
     stamina.draw()
     level.draw()
-    robot.update_attack(enemy_manager.enemies) # Updated Attacke/Damage von Roboter an Gegner
-    pygame.display.flip() #update screen
 
 
     # Testmodus
@@ -92,6 +100,5 @@ while True:
             enemy.draw_aabb()
             enemy.draw_line_enemy(robot)
         arena.draw_aabb()
-
-    pygame.display.update()
+    pygame.display.flip() #update screen
     clock.tick(60)
