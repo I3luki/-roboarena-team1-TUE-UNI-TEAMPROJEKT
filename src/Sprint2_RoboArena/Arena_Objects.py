@@ -3,21 +3,8 @@ from Collision import AABB
 from Status_Effects import Speed_Buff, Healthgen_Buff
 
 
-# RICHTLINIEN für Klassen:
-#
-#                           Variablen:  arena
-#                                       screen
-#                                       camera
-#                                       x
-#                                       y
-#                                       aabb
-#                           Methoden:   draw()
-#                                       draw_aabb()
-#                                       apply_to(robot)            <- GILT NUR FÜR EFFEKT_TILES
 
-
-
-
+# -------------------------------------------------- GLOBALE METHODEN -------------
 # zeichnet die gegebene Instanz
 def draw(rect):
         rect.aabb.update(rect.x, rect.y,
@@ -32,7 +19,8 @@ def draw_aabb(rect):
         x_min_screen, y_min_screen = rect.camera.global_to_screen(rect)  
 
         rect.aabb.draw_at(rect.arena, x_min_screen, y_min_screen)
-        
+# -----------------------------------------------------------------------------------        
+
 
 
 
@@ -81,13 +69,13 @@ class Tile:
         self.surface.fill(self.COLOR)
 
     def apply_to(self, robot):
-         pass
+        pass
          
     def draw(self):
         draw(self) # globale Methode
     
     def draw_aabb(self):
-         draw_aabb(self) # globale Methode
+        draw_aabb(self) # globale Methode
 
 
   
@@ -100,8 +88,6 @@ class Speedtile(Tile):
          robot.add_status_effect(status_effect)
 
    
-  
-  
 class Healthtile(Tile):
     COLOR = (255, 105, 180)  # pink
 
@@ -111,7 +97,6 @@ class Healthtile(Tile):
          robot.add_status_effect(status_effect)
 
      
-
 class Surprisetile(Tile):
     COLOR  = (128, 0, 128) # purple
 
@@ -119,10 +104,6 @@ class Surprisetile(Tile):
          pass #TODO: implement an effect
 
         
-        
-
-
-
 class CactusTile(Tile):
     COLOR = (0, 150, 0)
     width = 40
@@ -131,8 +112,7 @@ class CactusTile(Tile):
     def apply_to(self, robot):
          pass #TODO: implement an effect
 
-        
-        
+            
 class SkullTile(Tile):
     COLOR = (70, 70, 70)
     width = 30
@@ -142,7 +122,6 @@ class SkullTile(Tile):
          pass #TODO: implement an effect
 
 
-
 class BoneTile(Tile):
     COLOR = (245, 245, 220)
     width = 35
@@ -150,7 +129,6 @@ class BoneTile(Tile):
 
     def apply_to(self, robot):
          pass #TODO: implement an effect
-
 
 
 
