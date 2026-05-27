@@ -18,3 +18,10 @@ class EnemyManager:
             e for e in self.enemies
             if not (hasattr(e, 'health_system') and e.health_system.is_dead())
         ]
+
+    def get_dead_positions(self):
+        dead_positions = [
+            (e.x, e.y) for e in self.enemies
+            if hasattr(e, 'health_system') and e.health_system.is_dead()
+        ]
+        return dead_positions

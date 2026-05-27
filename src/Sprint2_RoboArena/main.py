@@ -9,8 +9,8 @@ from EnemyManager import EnemyManager
 from Level import Level
 TEST_MODE = False    # TESTMODE: wenn true, dann ist testmodus an
 
-SCREEN_WIDTH = 1000
-SCREEN_HEIGHT = 1000
+SCREEN_WIDTH = 2000
+SCREEN_HEIGHT = 1500
 
 
 pygame.init()
@@ -28,8 +28,8 @@ level = Level(screen)
 # Create arena object
 arena = Arena(screen)
 robot = Robot(arena, health, stamina, level, arena.WIDTH/2, arena.HEIGHT/2)   # spawne in der Mitte der Arena
-arena.camera.x = robot.x # lässt kamera auf roboter spwanen
-arena.camera.y = robot.y # lässt kamera auf roboter spwanen
+arena.camera.x = robot.x # lässt kamera auf roboter spawnen
+arena.camera.y = robot.y # lässt kamera auf roboter spawnen
 
 orb_list = [Orb(arena,0,0), Orb(arena,0,0)]
 enemy_manager = EnemyManager(arena)
@@ -46,7 +46,7 @@ for enemy in enemy_manager.enemies:
 
 while True:
 
-    #Envents-Berreich
+    #Events-Bereich
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -60,10 +60,19 @@ while True:
     robot.update_rotation()
     arena.update_lightning_tiles(robot, health)
     arena.update_tornado(robot, health)
+
+    # Fügt Orb zur Orbliste hinzu, wenn Gegner stirbt
+    dead_positions = enemy_manager.get_dead_positions()
+    for x,y in dead_positions:
+        new_orb = Orb(arena,x,y)
+        orb_list.append(new_orb)
+    # Updated Liste an Gegner, die noch am Leben sind
     enemy_manager.update()
+    # Draw Gegner die in der "Noch am Leben" Liste sind
     for enemy in enemy_manager.enemies:
         enemy.draw()
         enemy.check_damage_player(robot, health)
+
     robot.update_attack(enemy_manager.enemies) # Updated Attacke/Damage von Roboter an Gegner
 
     robot.update_status_effects()
@@ -75,7 +84,7 @@ while True:
             level.collect_orb()
             orb.randomize_position()
 
-    #Draw-Berreich
+    #Draw-Bereich
     # Zeichne Objekte auf den Screen
     arena.draw(robot)
     robot.draw()
