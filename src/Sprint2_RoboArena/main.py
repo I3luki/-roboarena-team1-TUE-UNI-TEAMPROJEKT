@@ -9,8 +9,8 @@ from EnemyManager import EnemyManager
 from Level import Level
 TEST_MODE = False    # TESTMODE: wenn true, dann ist testmodus an
 
-SCREEN_WIDTH = 2000
-SCREEN_HEIGHT = 1500
+SCREEN_WIDTH = 1000
+SCREEN_HEIGHT = 1000
 
 
 pygame.init()
