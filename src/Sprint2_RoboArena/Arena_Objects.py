@@ -62,9 +62,7 @@ class Wall:
 
   
 class Speedtile:
-    COLOR = (255, 255, 0)
-
-    COLOR = (255, 255, 255)
+    COLOR = (255, 255, 0)     # gelb
     width = 20
     height = 20
      
@@ -94,8 +92,10 @@ class Speedtile:
    
   
   
-class Healthtile(Tile):
-    COLOR = (255, 105, 180)
+class Healthtile:
+    COLOR = (255, 105, 180)  # pink
+    width = 20
+    height = 20
 
     def __init__(self, arena, x, y):
         self.arena = arena
@@ -150,47 +150,9 @@ class Surprisetile:
         
         
 
+
+
 class CactusTile:
-    COLOR = (0, 150, 0) #grün
-    width = 40
-    height = 40
-    
-    def __init__(self, arena, x, y):
-
-        self.arena = arena
-        self.screen = arena.screen
-        self.camera = arena.camera
-
-        self.x = x
-        self.y = y
-
-        self.aabb = AABB(
-            x,
-            y,
-            x + self.width,
-            y + self.height
-        )
-
-        self.surface = pygame.Surface(
-            (self.width, self.height)
-        )
-
-        self.surface.fill(self.COLOR)
-
-    def apply_to(self, robot):
-         pass #TODO: implement an effect
-
-    def draw(self):
-        draw(self)
-
-    def draw_aabb(self):
-        draw_aabb(self)
-
-
-
-
-
-class CactusTile(Tile):
     COLOR = (0, 150, 0)
     width = 40
     height = 40
@@ -286,6 +248,8 @@ class BoneTile():
 
     def draw_aabb(self):
         draw_aabb(self)
+
+
 
 class LightningTile:
     WARNING_COLOR = (255, 255, 0)   # gelbes Warn-Dreieck
