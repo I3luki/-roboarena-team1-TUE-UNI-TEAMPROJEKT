@@ -1,5 +1,22 @@
 import pygame
 from Collision import AABB
+from Status_Effects import Speed_Buff, Healthgen_Buff
+
+
+# RICHTLINIEN für Klassen:
+#
+#                           Variablen:  arena
+#                                       screen
+#                                       camera
+#                                       x
+#                                       y
+#                                       aabb
+#                           Methoden:   draw()
+#                                       draw_aabb()
+#                                       apply_to(robot)            <- GILT NUR FÜR EFFEKT_TILES
+
+
+
 
 # zeichnet die gegebene Instanz
 def draw(rect):
@@ -35,7 +52,7 @@ class Wall:
 
           self.surface = pygame.Surface((width, height))
           self.surface.fill(self.COLOR)
-          
+             
 
     def draw(self):
         draw(self) # globale Methode
@@ -43,15 +60,104 @@ class Wall:
     def draw_aabb(self):
          draw_aabb(self) # globale Methode
 
-#Überklasse für einfache tiles
-class Tile:
+  
+class Speedtile:
+    COLOR = (255, 255, 0)     # gelb
+    width = 20
+    height = 20
+     
+    def __init__(self, arena, x, y):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+        self.x = x
+        self.y = y
+        self.aabb = AABB(x,y,
+                         x + self.width, y + self.height)
+        
+        self.surface = pygame.Surface((self.width, self.height))
+        self.surface.fill(self.COLOR)
 
-    COLOR = (255, 255, 255)
+    # applies the unique effect to the given robot
+    def apply_to(self, robot):
+         status_effect = Speed_Buff()
+         robot.add_status_effect(status_effect)
+         
+
+    def draw(self):
+        draw(self) # globale Methode
+    
+    def draw_aabb(self):
+         draw_aabb(self) # globale Methode
+   
+  
+  
+class Healthtile:
+    COLOR = (255, 105, 180)  # pink
     width = 20
     height = 20
 
     def __init__(self, arena, x, y):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+        self.x = x
+        self.y = y
+        self.aabb = AABB(x,y,
+                         x + self.width, y + self.height)        
 
+        self.surface = pygame.Surface((self.width, self.height))
+        self.surface.fill(self.COLOR)
+
+    # adds the effect to the robot
+    def apply_to(self, robot):
+         status_effect = Healthgen_Buff()
+         robot.add_status_effect(status_effect)
+
+    def draw(self):
+        draw(self) # globale methode
+
+    def draw_aabb(self):
+         draw_aabb(self) # globale Methode
+     
+
+class Surprisetile:
+    COLOR  = (128, 0, 128) # purple
+    width  = 20
+    height = 20
+     
+    def __init__(self, arena, x, y):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+        self.x = x
+        self.y = y
+        self.aabb = AABB(x,y,
+                         x + self.width, y + self.height)
+        
+        self.surface = pygame.Surface((self.width, self.height))
+        self.surface.fill(self.COLOR)
+
+
+    def apply_to(self, robot):
+         pass #TODO: implement an effect
+
+    def draw(self):
+        draw(self) # globale Methode
+
+    def draw_aabb(self):
+         draw_aabb(self) # globale Methode
+        
+        
+
+
+
+class CactusTile:
+    COLOR = (0, 150, 0)
+    width = 40
+    height = 40
+    
+    def __init__(self, arena, x, y):
         self.arena = arena
         self.screen = arena.screen
         self.camera = arena.camera
@@ -60,17 +166,50 @@ class Tile:
         self.y = y
 
         self.aabb = AABB(
-            x,
-            y,
+            x, y,
             x + self.width,
             y + self.height
         )
 
-        self.surface = pygame.Surface(
-            (self.width, self.height)
+        self.surface = pygame.Surface((self.width, self.height))
+        self.surface.fill(self.COLOR)
+
+    def apply_to(self, robot):
+         pass #TODO: implement an effect
+
+    def draw(self):
+        draw(self)
+
+    def draw_aabb(self):
+        draw_aabb(self)
+        
+        
+
+
+class SkullTile():
+    COLOR = (70, 70, 70)
+    width = 30
+    height = 30
+    
+    def __init__(self, arena, x, y):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+
+        self.x = x
+        self.y = y
+
+        self.aabb = AABB(
+            x, y,
+            x + self.width,
+            y + self.height
         )
 
+        self.surface = pygame.Surface((self.width, self.height))
         self.surface.fill(self.COLOR)
+
+    def apply_to(self, robot):
+         pass #TODO: implement an effect
 
     def draw(self):
         draw(self)
@@ -78,34 +217,39 @@ class Tile:
     def draw_aabb(self):
         draw_aabb(self)
 
-class Speedtile(Tile):
-    COLOR = (255, 255, 0)
 
-
-class Healthtile(Tile):
-    COLOR = (255, 105, 180)
-
-
-class Surprisetile(Tile):
-    COLOR = (128, 0, 128)
-
-
-class CactusTile(Tile):
-    COLOR = (0, 150, 0)
-    width = 40
-    height = 40
-
-
-class SkullTile(Tile):
-    COLOR = (70, 70, 70)
-    width = 30
-    height = 30
-
-
-class BoneTile(Tile):
+class BoneTile():
     COLOR = (245, 245, 220)
     width = 35
     height = 15
+
+    def __init__(self, arena, x, y):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+
+        self.x = x
+        self.y = y
+
+        self.aabb = AABB(
+            x, y,
+            x + self.width,
+            y + self.height
+        )
+
+        self.surface = pygame.Surface((self.width, self.height))
+        self.surface.fill(self.COLOR)
+
+    def apply_to(self, robot):
+         pass #TODO: implement an effect
+
+    def draw(self):
+        draw(self)
+
+    def draw_aabb(self):
+        draw_aabb(self)
+
+
 
 class LightningTile:
     WARNING_COLOR = (255, 255, 0)   # gelbes Warn-Dreieck
@@ -187,6 +331,9 @@ class LightningTile:
         # Nach Aktivzeit neu spawnen
         if elapsed_time >= self.LIFETIME:
             self.spawn_random()
+
+    def apply_to(self, robot):
+         pass #TODO: implement an effect
 
     def draw(self):
         x_screen, y_screen = self.camera.global_to_screen(self)
@@ -311,6 +458,9 @@ class Tornado:
             if current_time - self.last_damage_time >= self.DAMAGE_COOLDOWN:
                 health.take_damage(self.DAMAGE)
                 self.last_damage_time = current_time
+
+    def apply_to(self, robot):
+         pass #TODO: implement an effect
 
     def draw(self):
         x_screen, y_screen = self.camera.global_to_screen(self)

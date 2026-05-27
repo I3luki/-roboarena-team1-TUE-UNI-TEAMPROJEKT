@@ -4,15 +4,20 @@ from Collision import AABB
 
 
 class Robot:
-    def __init__(self, arena, x, y):
+    def __init__(self, arena, health, stamina, level, x, y):
         self.arena  = arena
         self.camera = arena.camera
         self.screen = arena.screen
+        self.health = health
+        self.stamina = stamina
+        self.level = level
+        self.status_effects = []
         self.x = x
         self.y = y
         self.width = 50
         self.height = 50
-        self.speed = 2
+        self.speed_base = 2
+        self.speed_current = 2
         self.aabb = AABB(self.x,
                          self.y,
                          self.x + self.width,
@@ -34,16 +39,73 @@ class Robot:
                           self.x + self.width,
                           self.y + self.height)
 
+    # überprüft ob Überschneidung mit einer Wand
+    def collides_with_wall(self):
+        for wall in self.arena.walls:
+            if(self.aabb.check_collision(wall.aabb)):
+                return True
+        False   # Falls durchläuft, dann kollidiert nicht mit einer Wand
+
+
+
     def move(self, keys):
+
         if keys[pygame.K_w] or keys[pygame.K_UP]:
-            self.y -= self.speed
+            self.y -= self.speed_current
+            self.update_aabb()
+            if(self.collides_with_wall()):
+                self.y += self.speed_current
+                self.update_aabb()
         if keys[pygame.K_s] or keys[pygame.K_DOWN]:
-            self.y += self.speed
+            self.y += self.speed_current
+            self.update_aabb()
+            if(self.collides_with_wall()):
+                self.y -= self.speed_current
+                self.update_aabb()
         if keys[pygame.K_a] or keys[pygame.K_LEFT]:
-            self.x -= self.speed
+            self.x -= self.speed_current
+            self.update_aabb()
+            if(self.collides_with_wall()):
+                self.x += self.speed_current
+                self.update_aabb()
         if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
-            self.x += self.speed
-        self.update_aabb()
+            self.x += self.speed_current
+            self.update_aabb()
+            if(self.collides_with_wall()):
+                self.x -= self.speed_current
+                self.update_aabb()
+
+
+    def add_status_effect(self, effect):
+
+        print(self.status_effects)
+
+        # check if effect already effective
+        for status_effect in self.status_effects:
+            if(isinstance(status_effect, type(effect))):
+                status_effect.renew()
+                return                           # return if effect already active
+        
+        # if not already effective add to status_effects
+        self.status_effects.append(effect)
+
+
+    # updates the status effects list
+    # checks for effect_tiles
+    # applies effects and removes status_effects with ttl==0
+    def update_status_effects(self):
+
+        # check for effect tiles and apply if colliding
+        for tile in self.arena.tiles:
+            if(self.aabb.check_collision(tile.aabb)):
+                tile.apply_to(self)
+
+        # update the status_list
+        for status_effect in self.status_effects:
+            status_effect.apply_to(self)
+            if (status_effect.ttl_current < 0):
+                self.status_effects.remove(status_effect)
+
 
 
 
