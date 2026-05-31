@@ -23,12 +23,13 @@ class Robot:
                          self.x + self.width,
                          self.y + self.height)
         self.angle = 0
-        self.attack_radius = 80
+        self.attack_radius = 200
         self.attack_damage = 10
         self.attack_cooldown = 1000
         self.last_attack_time = pygame.time.get_ticks()
         self.is_attacking = False
         self.attack_visible_until = 0
+        self.cone_half_angle = 45
 
 
 
@@ -142,14 +143,21 @@ class Robot:
         # zeichen in screen
         self.screen.blit(rotated_surface, rect.topleft)
 
-        # Wenn Attacke aktiv ist, zeichne Kreis
+        # Wenn Attacke aktiv ist, zeichne Kegel
         if self.is_attacking:
-            pygame.draw.circle(
-                self.screen,
-                (255, 0, 0),
-                (x_screen + (self.width/2), y_screen + (self.height/2)),
-                self.attack_radius
-            )
+            cx = x_screen + self.width / 2
+            cy = y_screen + self.height / 2
+            angle_rad = math.radians(self.angle)
+            half_rad = math.radians(self.cone_half_angle)
+            num_arc_points = 10
+            points = [(cx, cy)]
+            for i in range(num_arc_points + 1):
+                a = angle_rad - half_rad + (2 * half_rad * i / num_arc_points)
+                points.append((
+                    cx + math.cos(a) * self.attack_radius,
+                    cy - math.sin(a) * self.attack_radius
+                ))
+            pygame.draw.polygon(self.screen, (255, 0, 0), points)
 
     # "Zeichnet AAB-Kollisionbox"
     def draw_aabb(self):
@@ -205,19 +213,21 @@ class Robot:
         if currentTime - self.last_attack_time > self.attack_cooldown:
             self.last_attack_time = currentTime
             self.is_attacking = True
-            self.attack_visible_until = currentTime + 150
+            self.attack_visible_until = currentTime + 100
 
-            # Frage alle Gegner ab, die in dem Radius des Angriffs sind
+            # Frage alle Gegner ab, die im Kegel des Angriffs sind
             for enemy in enemies:
                 dx = enemy.x - (self.x + self.width / 2)
                 dy = enemy.y - (self.y + self.height / 2)
                 distance = math.hypot(dx, dy)
 
-                # Wenn der Gegner im Attackeradius ist, verliert er Leben
                 if distance < self.attack_radius + enemy.radius:
-                    if hasattr(enemy, 'health_system'):
-                        enemy.health_system.take_damage(self.attack_damage)
-                        print(f"Gegner getroffen! HP: {enemy.health_system.current_health}")
+                    enemy_angle = math.degrees(math.atan2(-dy, dx))
+                    angle_diff = (enemy_angle - self.angle + 180) % 360 - 180
+                    if abs(angle_diff) <= self.cone_half_angle:
+                        if hasattr(enemy, 'health_system'):
+                            enemy.health_system.take_damage(self.attack_damage)
+                            print(f"Gegner getroffen! HP: {enemy.health_system.current_health}")
 
         # Wenn Angriffscooldown noch nicht abgeklungen ist, kann nicht angegriffen werden
         if currentTime > self.attack_visible_until:
