@@ -76,9 +76,8 @@ class Robot:
                 self.update_aabb()
 
 
+    # add a status effect to the robot
     def add_status_effect(self, effect):
-
-        print(self.status_effects)
 
         # check if effect already effective
         for status_effect in self.status_effects:
@@ -108,7 +107,7 @@ class Robot:
 
 
 
-
+    # Zeichner den Roboter
     def draw(self):
 
         # lokale Koordinaten
@@ -161,8 +160,7 @@ class Robot:
 
         
 
-    
-    # Linie zur Maus,
+    # Linie zur Maus
     def draw_line_to_mouse(self):
         mouse_x, mouse_y = pygame.mouse.get_pos()
         x_screen, y_screen = self.camera.global_to_screen(self)

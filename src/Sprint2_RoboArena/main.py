@@ -13,45 +13,10 @@ SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 1000
 
 
-pygame.init()
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("RoboArena")
-clock = pygame.time.Clock()
-
-# Lebens-System:
-health = HealthSystem_Player(screen, max_health=100, bar_x=10, bar_y=10, bar_width=400, bar_height=25)
-# Stamina-System:
-stamina = StaminaSystem_Player(screen, max_stamina=100, bar_x=10, bar_y=40, bar_width=400, bar_height=25)
-# Level-system
-level = Level(screen)
-
-# Create arena object
-arena = Arena(screen)
-robot = Robot(arena, health, stamina, level, arena.WIDTH/2, arena.HEIGHT/2)   # spawne in der Mitte der Arena
-arena.camera.x = robot.x # lässt kamera auf roboter spawnen
-arena.camera.y = robot.y # lässt kamera auf roboter spawnen
-
-orb_list = [Orb(arena,0,0), Orb(arena,0,0)]
-enemy_manager = EnemyManager(arena)
-for _ in range(2):
-    enemy_manager.add_enemy(0, 0)
-
-# randomize orb/enemy positions
-for orb in orb_list:
-    orb.randomize_position()
-for enemy in enemy_manager.enemies:
-    enemy.randomize_position()
 
 
-
-while True:
-
-    #Events-Bereich
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            exit()
-
+# Update alles
+def update():
     #Input-Berreich
     keys = pygame.key.get_pressed()
 
@@ -74,18 +39,19 @@ while True:
         enemy.check_damage_player(robot, health)
 
     robot.update_attack(enemy_manager.enemies) # Updated Attacke/Damage von Roboter an Gegner
-
     robot.update_status_effects()
 
 
-    # Checke für Kollision von Roboter und Orb
+    # Checke für Kollision von Roboter und Orb 
+    # TODO: REFACTOR IT
     for orb in orb_list[:]:
         if robot.aabb.check_collision(orb.aabb):
             level.collect_orb()
             orb.randomize_position()
 
-    #Draw-Bereich
-    # Zeichne Objekte auf den Screen
+
+# Zeichne alles
+def draw():
     arena.draw(robot)
     robot.draw()
     for orb in orb_list:
@@ -98,8 +64,9 @@ while True:
     level.draw()
 
 
-    # Testmodus
-    # "visualisiert ausgewählte hintergrundberechnungen und andere testbedingte werte"
+# Testmodus
+# "visualisiert ausgewählte hintergrundberechnungen und andere testbedingte werte"
+def test_mode():
     if(TEST_MODE):
         for orb in orb_list:
             orb.draw_aabb() 
@@ -109,5 +76,53 @@ while True:
             enemy.draw_aabb()
             enemy.draw_line_enemy(robot)
         arena.draw_aabb()
+
+
+
+
+# -------------------------------------------------------------------- INITIATION ------------
+pygame.init()
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+pygame.display.set_caption("RoboArena")
+clock = pygame.time.Clock()
+
+# Lebens-System:
+health = HealthSystem_Player(screen, max_health=100, bar_x=10, bar_y=10, bar_width=400, bar_height=25)
+# Stamina-System:
+stamina = StaminaSystem_Player(screen, max_stamina=100, bar_x=10, bar_y=40, bar_width=400, bar_height=25)
+# Level-system
+level = Level(screen)
+
+# Create arena object
+arena = Arena(screen)
+robot = Robot(arena, health, stamina, level, arena.WIDTH/2, arena.HEIGHT/2)   # spawne in der Mitte der Arena
+arena.camera.x = robot.x # lässt kamera auf roboter spwanen
+arena.camera.y = robot.y # lässt kamera auf roboter spwanen
+
+orb_list = [Orb(arena,0,0), Orb(arena,0,0)]
+enemy_manager = EnemyManager(arena)
+for _ in range(2):
+    enemy_manager.add_enemy(0, 0)
+
+# randomize orb/enemy positions
+for orb in orb_list:
+    orb.randomize_position()
+for enemy in enemy_manager.enemies:
+    enemy.randomize_position()
+
+
+
+# -------------------------------------------------------------------- GAME LOOP ------------
+while True:
+
+    # Check for Quit
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
+
+    update()  # update all objects
+    draw()    # draw all objects
+
     pygame.display.flip() #update screen
-    clock.tick(60)
+    clock.tick(60) # wait until next frametime
