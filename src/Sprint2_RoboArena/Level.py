@@ -1,5 +1,4 @@
 import pygame
-from BuffManager import BuffManager
 
 
 class Level:
