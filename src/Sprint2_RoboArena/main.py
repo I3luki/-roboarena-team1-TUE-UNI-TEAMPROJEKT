@@ -7,6 +7,7 @@ from HealthSystem_Player import HealthSystem_Player
 from StaminaSystem_Player import StaminaSystem_Player
 from EnemyManager import EnemyManager
 from Level import Level
+from BuffManager import BuffManager
 TEST_MODE = False    # TESTMODE: wenn true, dann ist testmodus an
 
 SCREEN_WIDTH = 1000
@@ -46,12 +47,13 @@ def update():
     # TODO: REFACTOR IT
     for orb in orb_list[:]:
         if robot.aabb.check_collision(orb.aabb):
-            level.collect_orb()
+            level.collect_orb(buff_manager)
             orb.randomize_position()
 
 
 # Zeichne alles
 def draw():
+    screen.fill((0, 0, 0))
     arena.draw(robot)
     robot.draw()
     for orb in orb_list:
@@ -63,6 +65,7 @@ def draw():
     stamina.draw()
     level.draw()
 
+    buff_manager.draw(screen)
 
 # Testmodus
 # "visualisiert ausgewählte hintergrundberechnungen und andere testbedingte werte"
@@ -92,6 +95,7 @@ health = HealthSystem_Player(screen, max_health=100, bar_x=10, bar_y=10, bar_wid
 stamina = StaminaSystem_Player(screen, max_stamina=100, bar_x=10, bar_y=40, bar_width=400, bar_height=25)
 # Level-system
 level = Level(screen)
+buff_manager = BuffManager()
 
 # Create arena object
 arena = Arena(screen)
@@ -121,7 +125,17 @@ while True:
             pygame.quit()
             exit()
 
-    update()  # update all objects
+        if event.type == pygame.KEYDOWN:
+
+            if buff_manager.active:
+
+                if event.key == pygame.K_1:
+                    buff_manager.apply_buff(0, robot, health)
+
+                elif event.key == pygame.K_2:
+                    buff_manager.apply_buff(1, robot, health)
+    if not buff_manager.active:
+        update()  # update all objects
     draw()    # draw all objects
 
     pygame.display.flip() #update screen
