@@ -25,10 +25,19 @@ def update():
     robot.update_rotation()
     arena.update_lightning_tiles(robot, health)
     arena.update_tornado(robot, health)
+
+    # Fügt Orb zur Orbliste hinzu, wenn Gegner stirbt
+    dead_positions = enemy_manager.get_dead_positions()
+    for x,y in dead_positions:
+        new_orb = Orb(arena,x,y)
+        orb_list.append(new_orb)
+    # Updated Liste an Gegner, die noch am Leben sind
     enemy_manager.update()
+    # Draw Gegner die in der "Noch am Leben" Liste sind
     for enemy in enemy_manager.enemies:
         enemy.draw()
         enemy.check_damage_player(robot, health)
+
     robot.update_attack(enemy_manager.enemies) # Updated Attacke/Damage von Roboter an Gegner
     robot.update_status_effects()
 
