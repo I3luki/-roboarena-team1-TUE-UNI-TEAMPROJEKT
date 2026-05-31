@@ -47,8 +47,8 @@ class Enemy:
                         (x_screen_robot, y_screen_robot), 
                         1)
         
-    # setzt Koordinaten auf zufällige Nummer innerhalb des screens
-    # und updatet aabb
+    # Generiert zufällige Koordinaten
+    # Koordinaten sind valide, wenn gilt: Außerhalb des Screens UND keine Kollision mit Wänden
     def randomize_position(self):
         # frage Screengröße ab, dann erzeuge zufälliges x und y
         while True:
@@ -61,9 +61,19 @@ class Enemy:
 
             x_screen, y_screen = self.camera.global_to_screen(temp)
 
-            if not (0 <= x_screen <= self.screen.get_width() and
+            # Suche nach Position außerhalb des Screens
+            if (0 <= x_screen <= self.screen.get_width() and
                     0 <= y_screen <= self.screen.get_height()):
-                break
+                continue
+
+            # Erstelle temporäres aabb
+            # Suche damit Position, die nicht mit einer Wand kollidiert
+            temp_aabb = AABB(x - self.radius, y - self.radius,
+                             x + self.radius, y + self.radius)
+            if any(temp_aabb.check_collision(wall.aabb) for wall in self.arena.walls):
+                continue
+
+            break
 
         # update Enemy-Koordinaten
         self.x = x
