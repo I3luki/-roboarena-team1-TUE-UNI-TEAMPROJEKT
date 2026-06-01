@@ -74,8 +74,9 @@ class GameManager:
     def load_highscore(self):
         try:
             with open("highscore.txt", "r") as f:
-                return int(f.read())
-        except:
+                content = f.read().strip()
+                return int(content) if content else 0
+        except (FileNotFoundError, ValueError):
             return 0
 
     def save_highscore(self):
