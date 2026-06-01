@@ -6,16 +6,18 @@
 
       
       2. Woche
-        Arena wurde überarbeitet
+       
+          Arena wurde überarbeitet
 
-        Enemy spwan auserhablb der Kamera
+         Enemy spwan auserhablb der Kamera
         
   
-        Code smeels wurden aufgräumt 
+         Code smeels wurden aufgräumt 
      
       
-      4. Woche
-        Level wurden überarbeitet
+      3. Woche
+
+         Level wurden überarbeitet
 
 
 
