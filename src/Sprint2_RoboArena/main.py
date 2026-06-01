@@ -19,11 +19,11 @@ SCREEN_HEIGHT = 1000
 
 # Update alles
 def update():
-    #Input-Berreich
+    #Input-Bereich
     keys = pygame.key.get_pressed()
     if game.state ==  "GAME_OVER":
         return
-    #Updates-Berreich
+    #Updates-Bereich
     robot.move(keys)
     robot.update_rotation()
 

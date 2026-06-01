@@ -28,6 +28,7 @@ class GameManager:
 
         robot.x = arena.WIDTH / 2
         robot.y = arena.HEIGHT / 2
+        robot.update_aabb()
 
         self.score = 0
         self.orbs =  0
@@ -50,6 +51,9 @@ class GameManager:
             enemy.randomize_position()
 
         level.reset()
+
+
+
         self.state = "PLAYING"
 
     def draw_game_over(self, screen):
