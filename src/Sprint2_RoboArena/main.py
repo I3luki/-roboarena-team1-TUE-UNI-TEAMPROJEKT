@@ -7,7 +7,9 @@ from HealthSystem_Player import HealthSystem_Player
 from StaminaSystem_Player import StaminaSystem_Player
 from EnemyManager import EnemyManager
 from Level import Level
-TEST_MODE = False    # TESTMODE: wenn true, dann ist testmodus an
+from GameManager import GameManager
+
+TEST_MODE = False     # TESTMODE: wenn true, dann ist testmodus an
 
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 1000
@@ -19,10 +21,12 @@ SCREEN_HEIGHT = 1000
 def update():
     #Input-Berreich
     keys = pygame.key.get_pressed()
-
+    if game.state ==  "GAME_OVER":
+        return
     #Updates-Berreich
     robot.move(keys)
     robot.update_rotation()
+
     arena.update_lightning_tiles(robot, health)
     arena.update_tornado(robot, health)
 
@@ -35,18 +39,17 @@ def update():
     enemy_manager.update()
     # Draw Gegner die in der "Noch am Leben" Liste sind
     for enemy in enemy_manager.enemies:
-        enemy.draw()
         enemy.check_damage_player(robot, health)
 
     robot.update_attack(enemy_manager.enemies) # Updated Attacke/Damage von Roboter an Gegner
     robot.update_status_effects()
 
 
-    # Checke für Kollision von Roboter und Orb 
+    # Checke für Kollision von Roboter und Orb
     # TODO: REFACTOR IT
     for orb in orb_list[:]:
         if robot.aabb.check_collision(orb.aabb):
-            level.collect_orb()
+            level.collect_orb(game)
             orb.randomize_position()
 
 
@@ -62,6 +65,9 @@ def draw():
     health.draw()
     stamina.draw()
     level.draw()
+
+    if game.state == "GAME_OVER":
+        game.draw_game_over(screen)
 
 
 # Testmodus
@@ -87,7 +93,7 @@ pygame.display.set_caption("RoboArena")
 clock = pygame.time.Clock()
 
 # Lebens-System:
-health = HealthSystem_Player(screen, max_health=100, bar_x=10, bar_y=10, bar_width=400, bar_height=25)
+health = HealthSystem_Player(screen, max_health=10, bar_x=10, bar_y=10, bar_width=400, bar_height=25)
 # Stamina-System:
 stamina = StaminaSystem_Player(screen, max_stamina=100, bar_x=10, bar_y=40, bar_width=400, bar_height=25)
 # Level-system
@@ -111,6 +117,8 @@ for enemy in enemy_manager.enemies:
     enemy.randomize_position()
 
 
+game = GameManager()
+
 
 # -------------------------------------------------------------------- GAME LOOP ------------
 while True:
@@ -120,8 +128,14 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
+        game.handle_event(event, health, stamina, robot, arena, enemy_manager, orb_list, level)
 
-    update()  # update all objects
+    if game.state == "PLAYING":
+        update()  # update all objects
+        game.check_game_over(health)
+
+
+
     draw()    # draw all objects
 
     pygame.display.flip() #update screen
