@@ -3,6 +3,7 @@ import random
 import math
 from Collision import AABB
 from HealthSystem_Enemy import HealthSystem_Enemy
+from Enemy_Movement import Enemy_Movement
 
 
 class Enemy:
@@ -20,6 +21,9 @@ class Enemy:
         self.damage_radius = 100
         self.damage = 0.1
         self.health_system = HealthSystem_Enemy()
+        self.speed = 1.5
+        self.movement = Enemy_Movement()
+
     #Spieler bekommt schaden wenn er im gewissen radius zum Turret ist.
 
     def check_damage_player(self, robot, health):
@@ -123,5 +127,6 @@ class Enemy:
         # Zeichne
         self.aabb.draw_at(self.arena, x_min_screen, y_min_screen)
 
-
-
+    # Update Enemy Movement zum Spieler
+    def update(self, robot):
+        self.movement.update(self, robot, self.arena.grid_matrix)
