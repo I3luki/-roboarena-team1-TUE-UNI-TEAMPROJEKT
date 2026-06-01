@@ -1,8 +1,6 @@
 import pygame
 from Arena_Objects import Wall,Speedtile,Healthtile,Surprisetile,CactusTile,SkullTile,BoneTile, LightningTile, Tornado
 from Camera import Camera
-from Arena_Matrix import Arena_Matrix
-
 
 class Arena:
 
@@ -254,9 +252,6 @@ class Arena:
        ]
         #Tornado Tiles
         self.tornado = Tornado(self)
-
-        # Definiere grid matrix mit den definierten walls für Enemy Movement
-        self.grid_matrix = Arena_Matrix().build_grid(self.WIDTH, self.HEIGHT, self.walls)
 
 
     #Update Methode für Tornado 
