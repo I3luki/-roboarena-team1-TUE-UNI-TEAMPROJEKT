@@ -19,6 +19,10 @@ Nur Gegner in dieser Liste werden gezeichnet.
 Wenn jetzt die Leben eines Gegners auf 0 HP droppen, wird er aus der Liste entfernt und somit verschwindet er aus der Arena.
 <img width="400" height="411" alt="Player Attack" src="https://github.com/user-attachments/assets/741827fd-d485-46ba-beaa-f7fabd2394dc" />  
 
+Gegner können sich jetzt bewegen und finden immer den besten Weg zum Spieler mithilfe eines A*-Algorithmus.
+<img width="400" height="331" alt="Enemy_Movement" src="https://github.com/user-attachments/assets/998a04cc-2555-4f0a-af79-b340f3fffc91" />
+
+
 
 2. Noah
       1. Woche
