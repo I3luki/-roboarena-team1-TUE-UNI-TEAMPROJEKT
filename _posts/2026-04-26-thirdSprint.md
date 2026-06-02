@@ -19,7 +19,12 @@ Nur Gegner in dieser Liste werden gezeichnet.
 Wenn jetzt die Leben eines Gegners auf 0 HP droppen, wird er aus der Liste entfernt und somit verschwindet er aus der Arena.
 <img width="400" height="411" alt="Player Attack" src="https://github.com/user-attachments/assets/741827fd-d485-46ba-beaa-f7fabd2394dc" />  
 
-Gegner können sich jetzt bewegen und finden immer den besten Weg zum Spieler mithilfe eines A*-Algorithmus.
+Veränderter Angriff + Gegnerbewegung:
+Wir haben uns dazu entschieden den Angriff des Spielers in einer Kegelform zu machen, damit man zielen muss, um Gegner zu treffen.
+Gegner bewegen sich jetzt immer Richtung des Spielers und finden immer den besten Weg zum Spieler mithilfe eines A*-Algorithmus.
+Bisher wird der Pfad alle 0,5 Sekunden aktualisiert und die Pfade der einzelnen Gegner werden nicht gleichzeitig sondern durch Zufall verteilt berechnet, was den Rechenaufwand aufteilt.  
+Problem: Bisher ist die Map aus 20x20 Blöcken aufgebaut. Je mehr Blöcke die Map eingeteilt ist, desto rechenintensiver ist der A*-Algorithmus. Wenn wir also später 50+ Gegner gleichzeitig auf dem Feld haben wollen, wird das eventuell zu starken lags führen.
+Um das zu verbessern, müssen wir eventuell noch einmal die Map überarbeiten.
 <img width="400" height="331" alt="Enemy_Movement" src="https://github.com/user-attachments/assets/998a04cc-2555-4f0a-af79-b340f3fffc91" />
 
 
