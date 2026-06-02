@@ -29,14 +29,24 @@ class Orb:
     # und updatet aabb
     def randomize_position(self):  
         # frage screengröße ab, dann erzeuge zufälliges x und y
-        screen_width, screen_height = self.screen.get_size()
-        x = random.randint(0, screen_width)  
-        y = random.randint(0, screen_height)
+        world_width = self.arena.WIDTH
+        world_height = self.arena.HEIGHT
+        while True:
+            self.x = random.randint(self.radius, world_width - self.radius)
+            self.y = random.randint(self.radius, world_height - self.radius)
 
         # update Orb-Koordinaten
-        self.x = x
-        self.y = y
-        self.update_aabb()
+            self.update_aabb()
+
+            collision = False
+
+            for wall in self.arena.walls:
+                if self.aabb.check_collision(wall.aabb):
+                    collision = True
+                    break
+
+            if not collision:
+                return
 
 
     # zeichnet den Orb
