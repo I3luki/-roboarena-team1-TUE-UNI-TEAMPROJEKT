@@ -19,7 +19,7 @@ Nur Gegner in dieser Liste werden gezeichnet.
 Wenn jetzt die Leben eines Gegners auf 0 HP droppen, wird er aus der Liste entfernt und somit verschwindet er aus der Arena.
 <img width="400" height="411" alt="Player Attack" src="https://github.com/user-attachments/assets/741827fd-d485-46ba-beaa-f7fabd2394dc" />  
 
-Veränderter Angriff + Gegnerbewegung:
+Veränderter Angriff + Gegnerbewegung:  
 Wir haben uns dazu entschieden den Angriff des Spielers in einer Kegelform zu machen, damit man zielen muss, um Gegner zu treffen.
 Gegner bewegen sich jetzt immer Richtung des Spielers und finden immer den besten Weg zum Spieler mithilfe eines "A*-Algorithmus".
 Bisher wird der Pfad alle 0,5 Sekunden aktualisiert und die Pfade der einzelnen Gegner werden nicht gleichzeitig sondern durch Zufall verteilt berechnet, was den Rechenaufwand aufteilt.  
