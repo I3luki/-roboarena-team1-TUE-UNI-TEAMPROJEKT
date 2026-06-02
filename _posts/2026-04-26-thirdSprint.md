@@ -98,7 +98,16 @@ Um das zu verbessern, müssen wir eventuell noch einmal die Map überarbeiten.
       Anknüpfend darauf wurden die angezigten Buffs implemtiert. Dazu zählen Healt buff, speed Buff, Attack speed, Attack damage und attack range.
 
 
-
+4. Joshua Supper
 
      Insgesamt erfolgreicher Sprint ca 1000 neue Zeilen Code wurden Eingefügt von meiner Seite.
 
+
+     Ein Game Over Screen und verschieden gespeicherte Statstiken werden gespeichert und angezeigt. So kann nach dem Tod auch eine neue
+     Runde gestartet werden.
+     
+     <img width="659" height="508" alt="image" src="https://github.com/user-attachments/assets/4721024a-900a-4130-bad3-c71dfae3e17d" />
+       
+      Zusätlich kann die Klasse um einige dinge erweitert werden, wie z.B. getötete Monster oder andere Statistiken welche im laufe der       Entwicklung oder auch sonst für Interissant gehalten werden.
+
+      Auch eine Möglichekeit ist das mit erreichten Punkten sich in Zukunft dauerhafte upgrades oder neue Waffen etc. erworben werden.        Diese würden den Spielfluss verändern und interessanter gestalten.
