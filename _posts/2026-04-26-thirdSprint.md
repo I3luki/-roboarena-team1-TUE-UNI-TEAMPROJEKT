@@ -45,13 +45,13 @@ Um das zu verbessern, müssen wir eventuell noch einmal die Map überarbeiten.
 
          Labyrtinth 
 
-          <img width="1506" height="1161" alt="Screenshot 2026-06-01 185024" src="https://github.com/user-attachments/assets/234665df-446d-49c5-aedb-2b0f45466ee5" />
+          <img width="400" height="411" alt="Screenshot 2026-06-01 185024" src="https://github.com/user-attachments/assets/234665df-446d-49c5-aedb-2b0f45466ee5" />
 
             Wände wurden in großes Array hinzugefügt und ein paar tiles hinzugefügt
 
           Blitzarea
 
-         <img width="1502" height="1155" alt="Screenshot 2026-06-01 185104" src="https://github.com/user-attachments/assets/7e2e15cf-c4f9-4e19-a67c-4d3f3bb7f1fa" />
+         <img width="400" height="411" alt="Screenshot 2026-06-01 185104" src="https://github.com/user-attachments/assets/7e2e15cf-c4f9-4e19-a67c-4d3f3bb7f1fa" />
 
          Tornado der von den wänden der arena wie ein Bildschirmschoner fliegt und Schaden macht.
          Blitze wurden eingfügt 4 an der Anzahl machen ebenfals schaden und spwanen random im               Bereich
@@ -60,14 +60,14 @@ Um das zu verbessern, müssen wir eventuell noch einmal die Map überarbeiten.
          Rockarea   
 
 
-         <img width="1498" height="1168" alt="Screenshot 2026-06-01 185135" src="https://github.com/user-attachments/assets/ac94fb44-1997-4307-8e9c-192e6b36c9c4" />
+         <img width="400" height="411" alt="Screenshot 2026-06-01 185135" src="https://github.com/user-attachments/assets/ac94fb44-1997-4307-8e9c-192e6b36c9c4" />
 
 
             Mit 3 schachbrett funktionen erstellt
 
           Wüste   
 
-            <img width="1503" height="1171" alt="Screenshot 2026-06-01 185202" src="https://github.com/user-attachments/assets/7142a502-c561-450d-b8a4-59dc8df0f2e0" />
+            <img width="400" height="411" alt="Screenshot 2026-06-01 185202" src="https://github.com/user-attachments/assets/7142a502-c561-450d-b8a4-59dc8df0f2e0" />
 
 
             Neue tiles Kaktus, schädel und Knochen wurden eingügt
@@ -78,11 +78,27 @@ Um das zu verbessern, müssen wir eventuell noch einmal die Map überarbeiten.
          der kamera des players ist.
         
   
-         Code smeels wurden aufgräumt redunadetre Code wurde gelöscht. Leider
-         mussten fast alle änderung durch mergconfikte von denis gelöscht werden.
+         Code smeels wurden aufgräumt redunadetre Code wurde gelöscht(ca 200 zeilen Code). Leider
+         mussten fast alle Änderung aufgrund von Mergconfikte von denis gelöscht werden.
      
       
   3. Woche
 
-        Level wurden überarbeitet
+        Level wurden überarbeitet, da eine Balckenfrom ansprechender ist und dieser wurden nach oben rechts verschoben.
+
+      <img width="551" height="320" alt="Screenshot 2026-06-02 192145" src="https://github.com/user-attachments/assets/3e516b41-2448-4260-bb88-f05ba3315921" />
+
+
+
+      Außerdem wurden bei einem level up die gameloop pausiert damit der player eine Auswahl möglichkeit bekommt von 2 zufälligen Buffs. 
+
+      <img width="551" height="320" alt="Screenshot 2026-06-02 192412" src="https://github.com/user-attachments/assets/2f0b26b3-5942-4ec0-8a64-a33d4446081e" />
+
+     
+      Anknüpfend darauf wurden die angezigten Buffs implemtiert. Dazu zählen Healt buff, speed Buff, Attack speed, Attack damage und attack range.
+
+
+
+
+     Insgesamt erfolgreicher Sprint ca 1000 neue Zeilen Code wurden Eingefügt von meiner Seite.
 
