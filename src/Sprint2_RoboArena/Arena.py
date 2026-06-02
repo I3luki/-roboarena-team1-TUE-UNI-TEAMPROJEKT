@@ -156,14 +156,9 @@ class Arena:
             Wall(self, 900, 1700, 90,90),
             Wall(self, 700, 2500,50,100),
             Wall(self, 750, 2450,50,150),
-
-
-
-
-
-
         ]
-        #Schabrettmusster für das Quadrat
+
+        #Schabrettmuster für das Quadrat
         ROCK_SIZE = 100
         SPACING = 200
 
@@ -262,6 +257,8 @@ class Arena:
         
         #Tornado Tiles
         self.tornado = Tornado(self)
+
+
     #Update Methode für Tornado 
     def update_tornado(self, robot, health):
         self.tornado.update(robot, health)

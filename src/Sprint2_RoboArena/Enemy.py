@@ -26,6 +26,7 @@ class Enemy:
 
     #Spieler bekommt schaden wenn er im gewissen radius zum Turret ist.
 
+    #Spieler bekommt schaden wenn er im gewissen radius zum Turret ist.
     def check_damage_player(self, robot, health):
         dx = robot.x - self.x
         dy = robot.y - self.y
@@ -89,9 +90,6 @@ class Enemy:
             self.x + self.radius,
             self.y + self.radius
         )
-
-
-
 
     # zeichnet den Gegener
     def draw(self):
