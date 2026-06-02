@@ -98,13 +98,13 @@ Um das zu verbessern, müssen wir eventuell noch einmal die Map überarbeiten.
       Anknüpfend darauf wurden die angezigten Buffs implemtiert. Dazu zählen Healt buff, speed Buff, Attack speed, Attack damage und attack range.
 
 
-4. Joshua Supper
+
 
      Insgesamt erfolgreicher Sprint ca 1000 neue Zeilen Code wurden Eingefügt von meiner Seite.
 
-
-     Ein Game Over Screen und verschieden gespeicherte Statstiken werden gespeichert und angezeigt. So kann nach dem Tod auch eine neue
-     Runde gestartet werden.
+4. Joshua Supper
+     Es wurden Stationäre Gegner erstmal hinzugefügt welche in einem kleinen umkreis dem Roboter dauerhaft schaden zufügen sollte            dieser sich diesen nähern. 
+     Des weiteren wurde ein Game Over Screen hinzugefügt und verschieden Statstiken werden gespeichert und angezeigt. So kann nach dem       Tod auch eine neue Runde gestartet werden.
      
      <img width="659" height="508" alt="image" src="https://github.com/user-attachments/assets/4721024a-900a-4130-bad3-c71dfae3e17d" />
        
