@@ -124,7 +124,11 @@ Um das zu verbessern, müssen wir eventuell noch einmal die Map überarbeiten.
 Zu dem Zeitpunkt war die Map noch statisch und durch die Ränder des Screens begrenzt. Alles hing von der Screengröße ab. 
 Dann wurde eine Arena größer als der Screen erstellt und die draw Funktionen wurden auf die globale Koordinaten abhängig vom Roboter angepasst. Um den Mittelpunkt des Screens, also die Kamera, dynamischer zu gestalten wurde ein Nachzieheffekt eingeführt.
 
-<img width="400" height="400" alt="extendable-map" src="https://github.com/user-attachments/assets/6446596d-ebfe-4e36-b175-3d919f134365" />
+davor:
+<img width="250" height="250" alt="newfeature_orbs" src="https://github.com/user-attachments/assets/ff854d65-1dea-4e4f-879e-f1b80effdde6" />
+
+danach:
+<img width="250" height="250" alt="extendable-map" src="https://github.com/user-attachments/assets/6446596d-ebfe-4e36-b175-3d919f134365" />
 
 <br><br>
 
