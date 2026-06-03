@@ -36,6 +36,7 @@ class GameManager:
         # Player reset
         health.current_health = health.max_health
         stamina.current_stamina = stamina.max_stamina
+        robot.reset()
 
 
         # Orbs reset
