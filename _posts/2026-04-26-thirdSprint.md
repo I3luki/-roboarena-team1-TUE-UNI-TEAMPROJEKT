@@ -101,8 +101,9 @@ Um das zu verbessern, müssen wir eventuell noch einmal die Map überarbeiten.
 
 
      Insgesamt erfolgreicher Sprint ca 1000 neue Zeilen Code wurden Eingefügt von meiner Seite.
-
-4. Joshua Supper
+     
+<br><br><br><br><br><br>
+3. Joshua Supper
      Es wurden Stationäre Gegner erstmal hinzugefügt welche in einem kleinen umkreis dem Roboter dauerhaft schaden zufügen sollte            dieser sich diesen nähern. 
      Des weiteren wurde ein Game Over Screen hinzugefügt und verschieden Statstiken werden gespeichert und angezeigt. So kann nach dem       Tod auch eine neue Runde gestartet werden.
      
@@ -111,3 +112,25 @@ Um das zu verbessern, müssen wir eventuell noch einmal die Map überarbeiten.
       Zusätlich kann die Klasse um einige dinge erweitert werden, wie z.B. getötete Monster oder andere Statistiken welche im laufe der       Entwicklung oder auch sonst für Interissant gehalten werden.
 
       Auch eine Möglichekeit ist das mit erreichten Punkten sich in Zukunft dauerhafte upgrades oder neue Waffen etc. erworben werden.        Diese würden den Spielfluss verändern und interessanter gestalten.
+
+
+
+
+<br><br><br><br><br><br>
+4. Dennis
+
+**Scrolling Map**
+
+Zu dem Zeitpunkt war die Map noch statisch und durch die Ränder des Screens begrenzt. Alles hing von der Screengröße ab. 
+Dann wurde eine Arena größer als der Screen erstellt und die draw Funktionen wurden auf die globale Koordinaten abhängig vom Roboter angepasst. Um den Mittelpunkt des Screens, also die Kamera, dynamischer zu gestalten wurde ein Nachzieheffekt eingeführt.
+
+<img width="400" height="400" alt="extendable-map" src="https://github.com/user-attachments/assets/6446596d-ebfe-4e36-b175-3d919f134365" />
+
+<br><br>
+
+**Tile-Effekte** 
+
+Das Team hat sich Effektfelder auf dem Boden gewünscht. Diese lagen auch bisher auf dem Boden rum, aber eine Implementation für ihre Effekte gab es noch nicht. Diese wurden erstmals für ein Speedfeld und ein Heilfeld eingeführt.
+
+<img width="400" height="400" alt="Effektfelder" src="https://github.com/user-attachments/assets/950feecb-af32-404a-bc3e-4b79279d4d31" />
+
