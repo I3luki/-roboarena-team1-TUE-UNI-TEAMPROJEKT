@@ -135,6 +135,7 @@ danach:
 
 **Tile-Effekte** 
 
+Wände waren bisher begehbar. Um Wände wändlicher zu machen, wurde ein Kollisioncheck mit Wänden eingeführt und bei einer Kollision die Bewegung eingeschränkt.
 Das Team hat sich Effektfelder auf dem Boden gewünscht. Diese lagen auch bisher auf dem Boden rum, aber eine Implementation für ihre Effekte gab es noch nicht. Diese wurden erstmals für ein Speedfeld und ein Heilfeld eingeführt.
 
 <img width="400" height="400" alt="Effektfelder" src="https://github.com/user-attachments/assets/950feecb-af32-404a-bc3e-4b79279d4d31" />
