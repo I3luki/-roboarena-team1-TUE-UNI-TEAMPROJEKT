@@ -34,9 +34,7 @@ def update():
         orb_list.append(new_orb)
     # Updated Liste an Gegner (Gegner die am Leben sind, Path von Gegner zu Spieler)
     enemy_manager.update(robot)
-    # Draw Gegner die in der "Noch am Leben" Liste sind
     for enemy in enemy_manager.enemies:
-        enemy.draw()
         enemy.check_damage_player(robot, health)
 
     robot.update_attack(enemy_manager.enemies) # Updated Attacke/Damage von Roboter an Gegner
