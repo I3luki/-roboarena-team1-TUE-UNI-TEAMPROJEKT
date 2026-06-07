@@ -3,6 +3,7 @@ import math
 import random
 from Arena_Matrix import Arena_Matrix
 
+
 PATH_INTERVAL = 2  # Sekunden zwischen Pfad-Neuberechnungen
 
 class Enemy_Movement:
