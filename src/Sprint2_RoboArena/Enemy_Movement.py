@@ -17,7 +17,7 @@ class Enemy_Movement:
         # Zufälliger Offset damit nicht alle Gegner gleichzeitig berechnen
         self.last_path_update = time.time() - random.uniform(0, self.MAX_INTERVAL)
 
-    def update(self, enemy, robot, arena):
+    def update(self, enemy, robot, arena, budget_available):
         now = time.time()
 
         # Distanz zum Spieler berechnen
@@ -35,10 +35,18 @@ class Enemy_Movement:
             ratio = (distance - self.CLOSE_DISTANCE) / (self.FAR_DISTANCE - self.CLOSE_DISTANCE)
             dynamic_interval = self.MIN_INTERVAL + ratio * (self.MAX_INTERVAL - self.MIN_INTERVAL)
 
-        # Pfad alle 0.5s neu berechnen
+        calculated_this_frame = False
+
+        # Pfad aktualisieren, wenn Zeitintervall rum ist
         if now - self.last_path_update > dynamic_interval:
-            self.path = self.find_path(arena.pf_grid, arena.finder, (enemy.x, enemy.y), (robot.x, robot.y))
-            self.last_path_update = now
+            # Pfad berechnen und aktualisieren (NUR WENN BUDGET ES ERLAUBT)
+            if budget_available:
+                self.path = self.find_path(arena.pf_grid, arena.finder, (enemy.x, enemy.y), (robot.x, robot.y))
+                self.last_path_update = now
+                calculated_this_frame = True
+            else:
+                # Wenn kein Budget mehr in diesem Frame vorhanden ist, probiert es der Gegner im nächsten Frame wieder
+                pass
 
         # Zum nächsten Wegpunkt bewegen und Pfad vorwärtsschreiten
         if len(self.path) > 1:
@@ -63,6 +71,8 @@ class Enemy_Movement:
                     enemy.x + enemy.radius,
                     enemy.y + enemy.radius
                 )
+
+        return calculated_this_frame
 
     def find_path(self, grid, finder, enemy_pos, player_pos):
         grid.cleanup()

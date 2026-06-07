@@ -126,5 +126,5 @@ class Enemy:
         self.aabb.draw_at(self.arena, x_min_screen, y_min_screen)
 
     # Update Enemy Movement zum Spieler
-    def update(self, robot):
-        self.movement.update(self, robot, self.arena)
+    def update(self, robot, budget_available):
+        return self.movement.update(self, robot, self.arena, budget_available)
