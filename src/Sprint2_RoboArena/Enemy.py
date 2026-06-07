@@ -127,4 +127,4 @@ class Enemy:
 
     # Update Enemy Movement zum Spieler
     def update(self, robot):
-        self.movement.update(self, robot, self.arena.grid_matrix)
+        self.movement.update(self, robot, self.arena)

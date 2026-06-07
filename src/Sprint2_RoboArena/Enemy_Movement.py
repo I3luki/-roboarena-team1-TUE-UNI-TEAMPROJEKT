@@ -16,12 +16,12 @@ class Enemy_Movement:
         # Zufälliger Offset damit nicht alle Gegner gleichzeitig berechnen
         self.last_path_update = time.time() - random.uniform(0, PATH_INTERVAL)
 
-    def update(self, enemy, robot, matrix):
+    def update(self, enemy, robot, arena):
         now = time.time()
 
         # Pfad alle 0.5s neu berechnen
         if now - self.last_path_update > PATH_INTERVAL:
-            self.path = self.find_path(matrix, (enemy.x, enemy.y), (robot.x, robot.y))
+            self.path = self.find_path(arena.pf_grid, arena.finder, (enemy.x, enemy.y), (robot.x, robot.y))
             self.last_path_update = now
 
         # Zum nächsten Wegpunkt bewegen und Pfad vorwärtsschreiten
@@ -48,12 +48,11 @@ class Enemy_Movement:
                     enemy.y + enemy.radius
                 )
 
-    def find_path(self, matrix, enemy_pos, player_pos):
-        grid = Grid(matrix=matrix)
-        finder = AStarFinder(diagonal_movement=DiagonalMovement.only_when_no_obstacle)
+    def find_path(self, grid, finder, enemy_pos, player_pos):
+        grid.cleanup()
 
-        rows = len(matrix)
-        cols = len(matrix[0]) if rows else 0
+        rows = len(grid.nodes)
+        cols = len(grid.nodes[0]) if rows else 0
 
         ex, ey = int(enemy_pos[0] // self.CELL_SIZE), int(enemy_pos[1] // self.CELL_SIZE)
         px, py = int(player_pos[0] // self.CELL_SIZE), int(player_pos[1] // self.CELL_SIZE)
