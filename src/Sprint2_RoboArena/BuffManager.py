@@ -1,5 +1,12 @@
 import random
 import pygame
+from Level_Buffs import (
+    LevelSpeedBuff,
+    LevelDamageBuff,
+    LevelAttackSpeedBuff,
+    LevelAttackRangeBuff,
+    LevelHealthBuff
+)
 
 class BuffManager:
 
@@ -9,9 +16,11 @@ class BuffManager:
         self.big_font = pygame.font.SysFont(None, 60)
 
         self.available_buffs = [
-            "Mehr Leben",
-            "Mehr Geschwindigkeit",
-            "Mehr Schaden"
+            LevelHealthBuff(),
+            LevelSpeedBuff(),
+            LevelDamageBuff(),
+            LevelAttackSpeedBuff(),
+            LevelAttackRangeBuff()
         ]
 
         self.current_choices = []
@@ -24,19 +33,8 @@ class BuffManager:
 
     def apply_buff(self, index, robot, health):
 
-        buff = self.current_choices[index]
-
-        if buff == "Mehr Leben":
-            health.max_health += 20
-            health.current_health += 20
-
-        elif buff == "Mehr Geschwindigkeit":
-            pass
-             # TODO: ADD SPEED_LOGIC
-
-        elif buff == "Mehr Schaden":
-            pass
-            # TODO: ADD DAMAGE_LOGIC
+        selected_buff = self.current_choices[index]
+        selected_buff.apply_to(robot, health)
 
         self.active = False
         self.current_choices = []
@@ -46,6 +44,11 @@ class BuffManager:
         if not self.active:
             return
 
+        overlay = pygame.Surface(screen.get_size())
+        overlay.set_alpha(180)
+        overlay.fill((0, 0, 0))
+        screen.blit(overlay, (0, 0))
+
         title = self.big_font.render(
             "LEVEL UP!",
             True,
@@ -53,13 +56,13 @@ class BuffManager:
         )
 
         option1 = self.font.render(
-            f"1 - {self.current_choices[0]}",
+            f"1 - {self.current_choices[0].name}",
             True,
             (255, 255, 255)
         )
 
         option2 = self.font.render(
-            f"2 - {self.current_choices[1]}",
+            f"2 - {self.current_choices[1].name}",
             True,
             (255, 255, 255)
         )
