@@ -2,9 +2,6 @@ import time
 import math
 import random
 from Arena_Matrix import Arena_Matrix
-from pathfinding.core.grid import Grid
-from pathfinding.core.diagonal_movement import DiagonalMovement
-from pathfinding.finder.a_star import AStarFinder
 
 PATH_INTERVAL = 2  # Sekunden zwischen Pfad-Neuberechnungen
 
