@@ -6,7 +6,7 @@ from pathfinding.core.grid import Grid
 from pathfinding.core.diagonal_movement import DiagonalMovement
 from pathfinding.finder.a_star import AStarFinder
 
-PATH_INTERVAL = 0.5  # Sekunden zwischen Pfad-Neuberechnungen
+PATH_INTERVAL = 2  # Sekunden zwischen Pfad-Neuberechnungen
 
 class Enemy_Movement:
 
@@ -20,7 +20,7 @@ class Enemy_Movement:
         now = time.time()
 
         # Pfad alle 0.5s neu berechnen
-        if now - self.last_path_update > PATH_INTERVAL or not self.path:
+        if now - self.last_path_update > PATH_INTERVAL:
             self.path = self.find_path(matrix, (enemy.x, enemy.y), (robot.x, robot.y))
             self.last_path_update = now
 
