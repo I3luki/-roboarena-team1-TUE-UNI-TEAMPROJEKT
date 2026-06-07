@@ -3,22 +3,40 @@ import math
 import random
 from Arena_Matrix import Arena_Matrix
 
-
-PATH_INTERVAL = 2  # Sekunden zwischen Pfad-Neuberechnungen
-
 class Enemy_Movement:
+
+    CLOSE_DISTANCE = 300
+    FAR_DISTANCE = 1200
+
+    MIN_INTERVAL = 0.6
+    MAX_INTERVAL = 5
 
     def __init__(self):
         self.CELL_SIZE = Arena_Matrix.CELL_SIZE
         self.path = []
         # Zufälliger Offset damit nicht alle Gegner gleichzeitig berechnen
-        self.last_path_update = time.time() - random.uniform(0, PATH_INTERVAL)
+        self.last_path_update = time.time() - random.uniform(0, self.MAX_INTERVAL)
 
     def update(self, enemy, robot, arena):
         now = time.time()
 
+        # Distanz zum Spieler berechnen
+        dx = robot.x - enemy.x
+        dy = robot.y - enemy.y
+        distance = math.hypot(dx, dy)
+
+        # Dynamisches Intervall basierend auf Distanz zum Spieler
+        if distance <= self.CLOSE_DISTANCE:
+            dynamic_interval = self.MIN_INTERVAL
+        elif distance >= self.FAR_DISTANCE:
+            dynamic_interval = self.MAX_INTERVAL
+        else:
+            # Rechnet Wert fließend zwischen MIN_INTERVAL und MAX_INTERVAL um
+            ratio = (distance - self.CLOSE_DISTANCE) / (self.FAR_DISTANCE - self.CLOSE_DISTANCE)
+            dynamic_interval = self.MIN_INTERVAL + ratio * (self.MAX_INTERVAL - self.MIN_INTERVAL)
+
         # Pfad alle 0.5s neu berechnen
-        if now - self.last_path_update > PATH_INTERVAL:
+        if now - self.last_path_update > dynamic_interval:
             self.path = self.find_path(arena.pf_grid, arena.finder, (enemy.x, enemy.y), (robot.x, robot.y))
             self.last_path_update = now
 
