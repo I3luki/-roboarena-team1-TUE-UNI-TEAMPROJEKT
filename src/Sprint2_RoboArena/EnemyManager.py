@@ -1,5 +1,6 @@
 from Enemy import Enemy
 
+
 # Updated Liste von Gegnern, die am Leben sind
 class EnemyManager:
     def __init__(self, arena):
