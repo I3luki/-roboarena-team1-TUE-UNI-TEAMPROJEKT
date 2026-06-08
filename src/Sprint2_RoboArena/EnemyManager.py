@@ -1,4 +1,5 @@
 from Enemy import Enemy
+from Orb import Orb
 
 
 # Updated Liste von Gegnern, die am Leben sind
@@ -11,14 +12,15 @@ class EnemyManager:
     def add_enemy(self, x, y):
         new_enemy = Enemy(self.arena, x, y)
         self.enemies.append(new_enemy)
+        print("Gegner gespawned")
 
     # Updated Liste an lebenden Gegnern
-    # Sobald ein Gegner hinzugefügt/entfernt wird, wird eine neue Liste mit/ohne den Gegner erstellt
-    def update(self, robot):
-        self.enemies = [
-            e for e in self.enemies
-            if not (hasattr(e, 'health_system') and e.health_system.is_dead())
-        ]
+    def update(self, robot, orb_list, arena):
+        for enemy in self.enemies[:]:
+            if hasattr(enemy, 'health_system') and enemy.health_system.is_dead(): # Wenn Gegner tot ist
+                new_orb = Orb(arena, enemy.x, enemy.y)
+                orb_list.append(new_orb) # Erstelle neuen Orb und füge ihn der Liste hinzu
+                self.enemies.remove(enemy) # Entferne Gegner aus der Liste
 
         MAX_CALCS_PER_FRAME =  2 # Maximale Anzahl an A* Berechnungen pro Frame
         calcs_done_this_frame = 0
@@ -32,10 +34,3 @@ class EnemyManager:
 
             if did_calculate:
                 calcs_done_this_frame += 1
-
-    def get_dead_positions(self):
-        dead_positions = [
-            (e.x, e.y) for e in self.enemies
-            if hasattr(e, 'health_system') and e.health_system.is_dead()
-        ]
-        return dead_positions
