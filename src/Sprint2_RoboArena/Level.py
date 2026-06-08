@@ -14,7 +14,7 @@ class Level:
         self.current_orbs = 0
 
         # benötigte Orbs fürs nächste Level
-        self.orbs_needed = 3
+        self.orbs_needed = 2
 
         self.font = pygame.font.SysFont(None, 36)
 
@@ -59,9 +59,7 @@ class Level:
 
         self.screen.blit(text, (self.x, self.y))
 
-    def reset(self):
-        self.current_level=1
-        self.current_orbs = 0
+
         bar_x = self.x
         bar_y = self.y + 35
         bar_width = 250
@@ -90,3 +88,6 @@ class Level:
             (bar_x, bar_y, bar_width, bar_height),
             1
         )
+    def reset(self):
+        self.current_level=1
+        self.current_orbs = 0

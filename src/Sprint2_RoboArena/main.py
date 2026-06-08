@@ -96,7 +96,7 @@ pygame.display.set_caption("RoboArena")
 clock = pygame.time.Clock()
 
 # Lebens-System:
-health = HealthSystem_Player(screen, max_health=10, bar_x=10, bar_y=10, bar_width=400, bar_height=25)
+health = HealthSystem_Player(screen, max_health=100, bar_x=10, bar_y=10, bar_width=400, bar_height=25)
 # Stamina-System:
 stamina = StaminaSystem_Player(screen, max_stamina=100, bar_x=10, bar_y=40, bar_width=400, bar_height=25)
 # Level-system
@@ -127,31 +127,38 @@ game = GameManager()
 # -------------------------------------------------------------------- GAME LOOP ------------
 while True:
 
-    # Check for Quit
+    # -------------------- EVENTS --------------------
     for event in pygame.event.get():
+
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
+
+        # GameManager Events
         game.handle_event(event, health, stamina, robot, arena, enemy_manager, orb_list, level)
 
-    if game.state == "PLAYING":
-        update()  # update all objects
-        game.check_game_over(health)
 
+        if game.state == "PLAYING" and buff_manager.active:
 
-
-        if event.type == pygame.KEYDOWN:
-
-            if buff_manager.active:
+            if event.type == pygame.KEYDOWN:
 
                 if event.key == pygame.K_1:
                     buff_manager.apply_buff(0, robot, health)
 
                 elif event.key == pygame.K_2:
                     buff_manager.apply_buff(1, robot, health)
-    if not buff_manager.active:
-        update()  # update all objects
-    draw()    # draw all objects
 
-    pygame.display.flip() #update screen
-    clock.tick(60) # wait until next frametime
+
+    if game.state == "PLAYING":
+
+
+        if not buff_manager.active:
+            update()
+
+        game.check_game_over(health)
+
+
+    draw()
+
+    pygame.display.flip()
+    clock.tick(60)
