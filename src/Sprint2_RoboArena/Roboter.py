@@ -43,9 +43,9 @@ class Robot:
     # überprüft ob Überschneidung mit einer Wand
     def collides_with_wall(self):
         for wall in self.arena.walls:
-            if(self.aabb.check_collision(wall.aabb)):
+            if self.aabb.check_collision(wall.aabb):
                 return True
-        False   # Falls durchläuft, dann kollidiert nicht mit einer Wand
+        return False   # Falls durchläuft, dann kollidiert nicht mit einer Wand
 
 
 
@@ -54,25 +54,25 @@ class Robot:
         if keys[pygame.K_w] or keys[pygame.K_UP]:
             self.y -= self.speed_current
             self.update_aabb()
-            if(self.collides_with_wall()):
+            if self.collides_with_wall():
                 self.y += self.speed_current
                 self.update_aabb()
         if keys[pygame.K_s] or keys[pygame.K_DOWN]:
             self.y += self.speed_current
             self.update_aabb()
-            if(self.collides_with_wall()):
+            if self.collides_with_wall():
                 self.y -= self.speed_current
                 self.update_aabb()
         if keys[pygame.K_a] or keys[pygame.K_LEFT]:
             self.x -= self.speed_current
             self.update_aabb()
-            if(self.collides_with_wall()):
+            if self.collides_with_wall():
                 self.x += self.speed_current
                 self.update_aabb()
         if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
             self.x += self.speed_current
             self.update_aabb()
-            if(self.collides_with_wall()):
+            if self.collides_with_wall():
                 self.x -= self.speed_current
                 self.update_aabb()
 
@@ -82,7 +82,7 @@ class Robot:
 
         # check if effect already effective
         for status_effect in self.status_effects:
-            if(isinstance(status_effect, type(effect))):
+            if isinstance(status_effect, type(effect)):
                 status_effect.renew()
                 return                           # return if effect already active
         
@@ -97,13 +97,13 @@ class Robot:
 
         # check for effect tiles and apply if colliding
         for tile in self.arena.tiles:
-            if(self.aabb.check_collision(tile.aabb)):
+            if self.aabb.check_collision(tile.aabb):
                 tile.apply_to(self)
 
         # update the status_list
         for status_effect in self.status_effects:
             status_effect.apply_to(self)
-            if (status_effect.ttl_current < 0):
+            if status_effect.ttl_current < 0:
                 self.status_effects.remove(status_effect)
 
 
