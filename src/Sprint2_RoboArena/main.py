@@ -44,7 +44,7 @@ def update():
     # TODO: REFACTOR IT
     for orb in orb_list[:]:
         if robot.aabb.check_collision(orb.aabb):
-            level.collect_orb(buff_manager)
+            level.collect_orb(buff_manager, game)
             orb_list.remove(orb)
 
 
