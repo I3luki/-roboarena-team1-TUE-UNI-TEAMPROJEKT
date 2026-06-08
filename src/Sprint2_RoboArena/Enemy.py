@@ -3,6 +3,7 @@ import random
 import math
 from Collision import AABB
 from HealthSystem_Enemy import HealthSystem_Enemy
+from Enemy_Movement import Enemy_Movement
 
 
 class Enemy:
@@ -20,8 +21,12 @@ class Enemy:
         self.damage_radius = 100
         self.damage = 0.1
         self.health_system = HealthSystem_Enemy()
+        self.speed = 1.5
+        self.movement = Enemy_Movement()
+
     #Spieler bekommt schaden wenn er im gewissen radius zum Turret ist.
 
+    #Spieler bekommt schaden wenn er im gewissen radius zum Turret ist.
     def check_damage_player(self, robot, health):
         dx = robot.x - self.x
         dy = robot.y - self.y
@@ -47,8 +52,8 @@ class Enemy:
                         (x_screen_robot, y_screen_robot), 
                         1)
         
-    # setzt Koordinaten auf zufällige Nummer innerhalb des screens
-    # und updatet aabb
+    # Generiert zufällige Koordinaten
+    # Koordinaten sind valide, wenn gilt: Außerhalb des Screens UND keine Kollision mit Wänden
     def randomize_position(self):
         # frage Screengröße ab, dann erzeuge zufälliges x und y
         while True:
@@ -61,9 +66,19 @@ class Enemy:
 
             x_screen, y_screen = self.camera.global_to_screen(temp)
 
-            if not (0 <= x_screen <= self.screen.get_width() and
+            # Suche nach Position außerhalb des Screens
+            if (0 <= x_screen <= self.screen.get_width() and
                     0 <= y_screen <= self.screen.get_height()):
-                break
+                continue
+
+            # Erstelle temporäres aabb
+            # Suche damit Position, die nicht mit einer Wand kollidiert
+            temp_aabb = AABB(x - self.radius, y - self.radius,
+                             x + self.radius, y + self.radius)
+            if any(temp_aabb.check_collision(wall.aabb) for wall in self.arena.walls):
+                continue
+
+            break
 
         # update Enemy-Koordinaten
         self.x = x
@@ -75,9 +90,6 @@ class Enemy:
             self.x + self.radius,
             self.y + self.radius
         )
-
-
-
 
     # zeichnet den Gegener
     def draw(self):
@@ -113,5 +125,6 @@ class Enemy:
         # Zeichne
         self.aabb.draw_at(self.arena, x_min_screen, y_min_screen)
 
-
-
+    # Update Enemy Movement zum Spieler
+    def update(self, robot, budget_available):
+        return self.movement.update(self, robot, self.arena, budget_available)

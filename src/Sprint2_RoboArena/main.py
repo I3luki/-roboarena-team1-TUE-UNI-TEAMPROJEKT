@@ -8,8 +8,8 @@ from StaminaSystem_Player import StaminaSystem_Player
 from EnemyManager import EnemyManager
 from Level import Level
 from GameManager import GameManager
-
-TEST_MODE = False     # TESTMODE: wenn true, dann ist testmodus an
+from BuffManager import BuffManager
+TEST_MODE = False    # TESTMODE: wenn true, dann ist testmodus an
 
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 1000
@@ -35,9 +35,8 @@ def update():
     for x,y in dead_positions:
         new_orb = Orb(arena,x,y)
         orb_list.append(new_orb)
-    # Updated Liste an Gegner, die noch am Leben sind
-    enemy_manager.update()
-    # Draw Gegner die in der "Noch am Leben" Liste sind
+    # Updated Liste an Gegner (Gegner die am Leben sind, Path von Gegner zu Spieler)
+    enemy_manager.update(robot)
     for enemy in enemy_manager.enemies:
         enemy.check_damage_player(robot, health)
 
@@ -49,12 +48,15 @@ def update():
     # TODO: REFACTOR IT
     for orb in orb_list[:]:
         if robot.aabb.check_collision(orb.aabb):
-            level.collect_orb(game)
+
+            level.collect_orb(buff_manager, game)
+
             orb.randomize_position()
 
 
 # Zeichne alles
 def draw():
+    screen.fill((0, 0, 0))
     arena.draw(robot)
     robot.draw()
     for orb in orb_list:
@@ -69,6 +71,7 @@ def draw():
     if game.state == "GAME_OVER":
         game.draw_game_over(screen)
 
+    buff_manager.draw(screen)
 
 # Testmodus
 # "visualisiert ausgewählte hintergrundberechnungen und andere testbedingte werte"
@@ -98,6 +101,7 @@ health = HealthSystem_Player(screen, max_health=10, bar_x=10, bar_y=10, bar_widt
 stamina = StaminaSystem_Player(screen, max_stamina=100, bar_x=10, bar_y=40, bar_width=400, bar_height=25)
 # Level-system
 level = Level(screen)
+buff_manager = BuffManager()
 
 # Create arena object
 arena = Arena(screen)
@@ -136,6 +140,17 @@ while True:
 
 
 
+        if event.type == pygame.KEYDOWN:
+
+            if buff_manager.active:
+
+                if event.key == pygame.K_1:
+                    buff_manager.apply_buff(0, robot, health)
+
+                elif event.key == pygame.K_2:
+                    buff_manager.apply_buff(1, robot, health)
+    if not buff_manager.active:
+        update()  # update all objects
     draw()    # draw all objects
 
     pygame.display.flip() #update screen
