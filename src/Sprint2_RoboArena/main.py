@@ -8,6 +8,7 @@ from StaminaSystem_Player import StaminaSystem_Player
 from EnemyManager import EnemyManager
 from Level import Level
 from BuffManager import BuffManager
+
 TEST_MODE = False    # TESTMODE: wenn true, dann ist testmodus an
 
 SCREEN_WIDTH = 1000
@@ -27,13 +28,8 @@ def update():
     arena.update_lightning_tiles(robot, health)
     arena.update_tornado(robot, health)
 
-    # Fügt Orb zur Orbliste hinzu, wenn Gegner stirbt
-    dead_positions = enemy_manager.get_dead_positions()
-    for x,y in dead_positions:
-        new_orb = Orb(arena,x,y)
-        orb_list.append(new_orb)
     # Updated Liste an Gegner (Gegner die am Leben sind, Path von Gegner zu Spieler)
-    enemy_manager.update(robot)
+    enemy_manager.update(robot, orb_list, arena)
     for enemy in enemy_manager.enemies:
         enemy.check_damage_player(robot, health)
 
@@ -46,7 +42,7 @@ def update():
     for orb in orb_list[:]:
         if robot.aabb.check_collision(orb.aabb):
             level.collect_orb(buff_manager)
-            orb.randomize_position()
+            orb_list.remove(orb)
 
 
 # Zeichne alles
@@ -103,8 +99,13 @@ arena.camera.y = robot.y # lässt kamera auf roboter spwanen
 
 orb_list = [Orb(arena,0,0), Orb(arena,0,0)]
 enemy_manager = EnemyManager(arena)
-for _ in range(2):
-    enemy_manager.add_enemy(0, 0)
+# Definiere Event, welches alle x Sekunden Gegner spawnen soll
+SPAWN_ENEMY_EVENT = pygame.USEREVENT + 1
+pygame.time.set_timer(SPAWN_ENEMY_EVENT, 1000)
+def spawn_enemy():
+    for _ in range(2):
+        enemy_manager.add_enemy(0, 0)
+        enemy_manager.enemies[-1].randomize_position()
 
 # randomize orb/enemy positions
 for orb in orb_list:
@@ -132,6 +133,13 @@ while True:
 
                 elif event.key == pygame.K_2:
                     buff_manager.apply_buff(1, robot, health)
+
+        if event.type == SPAWN_ENEMY_EVENT:
+            if len(enemy_manager.enemies) >= 10:
+                pass
+            else:
+                spawn_enemy()
+
     if not buff_manager.active:
         update()  # update all objects
     draw()    # draw all objects
