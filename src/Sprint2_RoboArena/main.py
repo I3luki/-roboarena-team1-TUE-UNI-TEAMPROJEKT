@@ -96,7 +96,7 @@ pygame.display.set_caption("RoboArena")
 clock = pygame.time.Clock()
 
 # Lebens-System:
-health = HealthSystem_Player(screen, max_health=10, bar_x=10, bar_y=10, bar_width=400, bar_height=25)
+health = HealthSystem_Player(screen, max_health=100, bar_x=10, bar_y=10, bar_width=400, bar_height=25)
 # Stamina-System:
 stamina = StaminaSystem_Player(screen, max_stamina=100, bar_x=10, bar_y=40, bar_width=400, bar_height=25)
 # Level-system
