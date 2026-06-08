@@ -16,10 +16,10 @@ SECOND = 60   # because 60FPS at the Moment
 class Speed_Buff:
 
     def __init__(self):
-        self.ttl_max = 3 * SECOND
+        self.ttl_max = 20 * SECOND
         self.ttl_current = self.ttl_max
         self.in_use = False        
-        self.speed_factor = 1.5
+        self.speed_factor = 2.5
         self.speed_buff = 0   # initiation in apply_to()
 
     # renews the TTL
@@ -48,6 +48,12 @@ class Speed_Buff:
 
         # Tick down Time-to-Live
         self.ttl_current -= 1
+    def reset(self):
+
+        self.ttl_current = self.ttl_max
+        self.in_use = False
+        self.speed_buff = 0
+
             
 
 
@@ -78,6 +84,8 @@ class Healthgen_Buff:
 
         # update TTL
         self.ttl_current -= 1
+    def reset(self):
+        self.ttl_current = self.ttl_max
 
         
             

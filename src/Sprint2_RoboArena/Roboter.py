@@ -88,6 +88,11 @@ class Robot:
         
         # if not already effective add to status_effects
         self.status_effects.append(effect)
+    def reset_status_effects(self):
+        for effect in self.status_effects:
+            effect.reset()
+
+        self.status_effects.clear()
 
 
     # updates the status effects list
@@ -105,6 +110,10 @@ class Robot:
             status_effect.apply_to(self)
             if status_effect.ttl_current < 0:
                 self.status_effects.remove(status_effect)
+
+    def reset(self):
+        self.speed_current = self.speed_base
+        self.reset_status_effects()
 
 
 

@@ -1,6 +1,7 @@
 import pygame
 
 
+
 class Level:
 
     def __init__(self, screen):
@@ -13,7 +14,7 @@ class Level:
         self.current_orbs = 0
 
         # benötigte Orbs fürs nächste Level
-        self.orbs_needed = 3
+        self.orbs_needed = 2
 
         self.font = pygame.font.SysFont(None, 36)
 
@@ -21,19 +22,22 @@ class Level:
         self.y = 10
 
 
-    def collect_orb(self, buff_manager):
+    
+    def collect_orb(self, buff_manager, game):
 
         self.current_orbs += 1
+        game.orbs += 1
 
         # wenn genug Orbs gesammelt wurden
         if self.current_orbs >= self.orbs_needed:
-            self.level_up(buff_manager)
+         
+            self.level_up(buff_manager, game)
 
 
-    def level_up(self, buff_manager):
+    def level_up(self, buff_manager, game):
 
         self.current_level += 1
-
+        game.score += 1
         # nächstes Level braucht mehr Orbs
         self.orbs_needed += 1
 
@@ -54,6 +58,7 @@ class Level:
         )
 
         self.screen.blit(text, (self.x, self.y))
+
 
         bar_x = self.x
         bar_y = self.y + 35
@@ -83,3 +88,6 @@ class Level:
             (bar_x, bar_y, bar_width, bar_height),
             1
         )
+    def reset(self):
+        self.current_level=1
+        self.current_orbs = 0
