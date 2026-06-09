@@ -24,20 +24,22 @@ def update():
     keys = pygame.key.get_pressed()
     if game.state ==  "GAME_OVER":
         return
-    #Updates-Bereich
+    
+    # Robo-Updates
     robot.move(keys)
     robot.update_rotation()
+    robot.update_attack(enemy_manager.enemies) # Updated Attacke/Damage von Roboter an Gegner
+    robot.update_status_effects()
 
-    arena.update_lightning_tiles(robot, health)
-    arena.update_tornado(robot, health)
+    # Aren-Updates
+    arena.update(robot, health)
 
     # Updated Liste an Gegner (Gegner die am Leben sind, Path von Gegner zu Spieler)
     enemy_manager.update(robot, orb_list, arena)
     for enemy in enemy_manager.enemies:
         enemy.check_damage_player(robot, health)
 
-    robot.update_attack(enemy_manager.enemies) # Updated Attacke/Damage von Roboter an Gegner
-    robot.update_status_effects()
+    
 
 
     # Checke für Kollision von Roboter und Orb
@@ -103,6 +105,7 @@ robot = Robot(arena, health, stamina, level, arena.WIDTH/2, arena.HEIGHT/2)   # 
 arena.camera.x = robot.x # lässt kamera auf roboter spwanen
 arena.camera.y = robot.y # lässt kamera auf roboter spwanen
 
+# Gegner und Orbs
 orb_list = [Orb(arena,0,0), Orb(arena,0,0)]
 enemy_manager = EnemyManager(arena)
 # Definiere Event, welches alle x Sekunden Gegner spawnen soll

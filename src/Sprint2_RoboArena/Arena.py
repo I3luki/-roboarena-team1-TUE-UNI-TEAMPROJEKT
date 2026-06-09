@@ -276,6 +276,17 @@ class Arena:
         for lightning in self.lightning_tiles:
             lightning.update(robot, health)
 
+    # Updates all other Tiles
+    def update_tiles(self):
+        for tile in self.tiles:
+            tile.update()
+
+    # Updates everything
+    def update(self, robot, health):
+        self.update_tornado(robot, health)
+        self.update_lightning_tiles(robot, health)
+        self.update_tiles()
+
 
     # checks if a rectangle is visible on the screen
     def is_rect_onscreen(self, rect):

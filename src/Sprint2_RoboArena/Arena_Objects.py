@@ -3,15 +3,48 @@ from Collision import AABB
 from Status_Effects import Speed_Buff, Healthgen_Buff
 
 
+SECOND = 60     # Eine Sekunde sind 60 Frames
 
-# -------------------------------------------------- GLOBALE METHODEN -------------
+
+# -------------------------------------------------- GLOBALE METHODEN, KONSTANTEN UND ALLGEMEINE KLASSEN -------------
 # zeichnet die gegebene Instanz
 def draw(rect):
-        rect.aabb.update(rect.x, rect.y,
-                         rect.x + rect.width, rect.y + rect.height)
-        x_screen, y_screen = rect.camera.global_to_screen(rect)
-        rect.screen.blit(rect.surface,
-                         (x_screen, y_screen))
+    # update AABB
+    rect.aabb.update(rect.x, rect.y,
+                     rect.x + rect.width, rect.y + rect.height)
+    
+    # draw tile
+    x_screen, y_screen = rect.camera.global_to_screen(rect)
+    rect.screen.blit(rect.surface,
+                     (x_screen, y_screen))
+        
+# Zeichnet einen Cooldown über das Tile
+def draw_cooldown(tile):
+
+    if(tile.cooldown_current > 0):
+        # get width and height of tile
+        width = tile.width
+        height = tile.height
+        x_screen, y_screen = tile.camera.global_to_screen(tile)
+
+        # Transparente Fläche erstellen
+        overlay = pygame.Surface((width, height), pygame.SRCALPHA)
+        overlay.fill((80, 80, 80, 128)) # grau, 50% durchsichtig
+
+        # Prozent bis wieder up berechnen
+        ratio = (tile.cooldown_max - tile.cooldown_current) / tile.cooldown_max
+        percent = int(ratio*100)
+
+        # Zahl rendern
+        font = pygame.font.Font(None, 15)
+        text = font.render(str(percent)+"%", True, (255, 255, 255))
+
+        # Text zentrieren
+        text_rect = text.get_rect(center=(width//2, height//2))
+        overlay.blit(text, text_rect)
+
+        # Fläche auf den Bildschirm zeichnen
+        tile.screen.blit(overlay, (x_screen, y_screen))
         
 # Zeichnet die AABB der gegeben Instanz:        
 def draw_aabb(rect):
@@ -19,7 +52,54 @@ def draw_aabb(rect):
         x_min_screen, y_min_screen = rect.camera.global_to_screen(rect)  
 
         rect.aabb.draw_at(rect.arena, x_min_screen, y_min_screen)
-# -----------------------------------------------------------------------------------        
+
+
+
+# allgemeine Klasse für Tiles
+class Tile:
+    COLOR = (255, 255,255)     # schwarz
+    width = 20
+    height = 20
+
+    def __init__(self, arena, x, y):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+        self.x = x
+        self.y = y
+        self.aabb = AABB(x,y,
+                         x + self.width, y + self.height)
+        
+        self.cooldown_max = 10 * SECOND
+        self.cooldown_current = 0
+        
+        self.surface = pygame.Surface((self.width, self.height))
+        self.surface.fill(self.COLOR)
+
+
+    def apply_effect_to(self, effect ,robot):
+        # apply the given buff if cooldown is 0
+        # else just tick down cooldown
+        if (self.cooldown_current <= 0):
+            robot.add_status_effect(effect)
+            self.cooldown_current = self.cooldown_max
+
+    # Updates the cooldown of the tile
+    def update(self):
+        if (self.cooldown_current > 0):
+            self.cooldown_current -= 1
+        
+    def apply_to(self, robot):
+        pass
+         
+    def draw(self):
+        draw(self) # globale Methode
+        draw_cooldown(self) # globale Methode
+
+    def draw_aabb(self):
+        draw_aabb(self) # globale Methode
+
+# --------------------------------------------------------------------------------------------------------        
 
 
 
@@ -50,42 +130,13 @@ class Wall:
 
 
 
-# allgemeine Klasse für Tiles
-class Tile:
-    COLOR = (255, 255,255)     # gel
-    width = 20
-    height = 20
-
-    def __init__(self, arena, x, y):
-        self.arena = arena
-        self.screen = arena.screen
-        self.camera = arena.camera
-        self.x = x
-        self.y = y
-        self.aabb = AABB(x,y,
-                         x + self.width, y + self.height)
-        
-        self.surface = pygame.Surface((self.width, self.height))
-        self.surface.fill(self.COLOR)
-
-    def apply_to(self, robot):
-        pass
-         
-    def draw(self):
-        draw(self) # globale Methode
-    
-    def draw_aabb(self):
-        draw_aabb(self) # globale Methode
-
-
   
 class Speedtile(Tile):
     COLOR = (255, 255, 0)     # gelb
      
     # applies the unique effect to the given robot
     def apply_to(self, robot):
-         status_effect = Speed_Buff()
-         robot.add_status_effect(status_effect)
+         self.apply_effect_to(Speed_Buff(), robot)
 
    
 class Healthtile(Tile):
@@ -93,8 +144,7 @@ class Healthtile(Tile):
 
     # adds the effect to the robot
     def apply_to(self, robot):
-         status_effect = Healthgen_Buff()
-         robot.add_status_effect(status_effect)
+         self.apply_effect_to(Healthgen_Buff(), robot)
 
      
 class Surprisetile(Tile):

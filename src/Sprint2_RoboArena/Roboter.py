@@ -78,21 +78,14 @@ class Robot:
 
 
     # add a status effect to the robot
-    def add_status_effect(self, effect):
-
-        # check if effect already effective
-        for status_effect in self.status_effects:
-            if isinstance(status_effect, type(effect)):
-                status_effect.renew()
-                return                           # return if effect already active
-        
+    def add_status_effect(self, effect):        
         # if not already effective add to status_effects
         self.status_effects.append(effect)
-    def reset_status_effects(self):
-        for effect in self.status_effects:
-            effect.reset()
 
-        self.status_effects.clear()
+    # cleanly deletes all the status effects in next frame
+    def undo_all_status_effects(self):
+        for effect in self.status_effects:
+            effect.undo()
 
 
     # updates the status effects list
@@ -101,19 +94,21 @@ class Robot:
     def update_status_effects(self):
 
         # check for effect tiles and apply if colliding
+        #   does not apply_to makes sure effect doesnt get applied when tile on cooldown
         for tile in self.arena.tiles:
             if self.aabb.check_collision(tile.aabb):
                 tile.apply_to(self)
 
-        # update the status_list
+        # update the status_list and remove timed-out status_effects
         for status_effect in self.status_effects:
             status_effect.apply_to(self)
             if status_effect.ttl_current < 0:
                 self.status_effects.remove(status_effect)
 
+    # resets speed and status-effect-list
     def reset(self):
         self.speed_current = self.speed_base
-        self.reset_status_effects()
+        self.undo_all_status_effects()
 
 
 
