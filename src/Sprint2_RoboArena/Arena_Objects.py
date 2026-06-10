@@ -166,7 +166,7 @@ class Surprisetile(Tile):
         # pick good or bad choices with weights
         is_good_choices = random.choices((True, False),
                                         weights=(self.GOOD_PERCENT, self.BAD_PERCENT),
-                                        k=1)
+                                        k=1)[0]
         # pick from those
         if(is_good_choices):
             choice = random.choice(GOOD_CHOICES)
