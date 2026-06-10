@@ -55,6 +55,7 @@ def draw():
     screen.fill((0, 0, 0))
     arena.draw(robot)
     robot.draw()
+    robot.draw_status_effects()
     for orb in orb_list:
         orb.draw()
     for enemy in enemy_manager.enemies:

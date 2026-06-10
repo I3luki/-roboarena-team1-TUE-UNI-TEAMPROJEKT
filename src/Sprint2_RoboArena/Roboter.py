@@ -3,6 +3,7 @@ import math
 from Collision import AABB
 
 
+
 class Robot:
     def __init__(self, arena, health, stamina, level, x, y):
         self.arena  = arena
@@ -110,7 +111,42 @@ class Robot:
         self.speed_current = self.speed_base
         self.undo_all_status_effects()
 
+    # draws the icons of the status effects
+    def draw_status_effects(self):
+        # if there are no status_effects skip everything
+        if(not self.status_effects):
+            return
 
+        # get some values to define the icon_panel size and position
+        panel_pos = [10, 80]
+        icons_per_row = 7
+        temp_effect = self.status_effects[0]
+        icon_width =  temp_effect.ICON_WIDTH
+        icon_height = temp_effect.ICON_HEIGHT
+        icon_space = 5    # space between icons
+
+        # Transparent container surface
+        icon_panel = pygame.Surface((icon_width * icons_per_row, icon_height), pygame.SRCALPHA)
+
+        # Draw icons onto the panel
+        index=0
+        for effect in self.status_effects:
+            # Position des Icons abhängig vom Index
+            icon_pos = (index*(icon_width+icon_space), 0)
+
+            # Zeichne Icon auf Icon_Panel
+            icon = effect.get_icon()
+            icon_panel.blit(icon, icon_pos)
+
+            # Zeichne die verbleibende Dauer über Effect_Icon
+            icon_overlay = effect.get_icon_overlay()
+            icon_panel.blit(icon_overlay, icon_pos)
+
+            # Verschiebe den Index
+            index += 1
+
+        # Zeichne auf den screen
+        self.screen.blit(icon_panel, panel_pos)
 
     # Zeichner den Roboter
     def draw(self):
