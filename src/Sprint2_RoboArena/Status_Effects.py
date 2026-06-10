@@ -116,14 +116,14 @@ class Poison_Debuff(Tick_Effect):
     def __init__(self):
         self.ttl_max = 5 * SECOND
         self.ttl_current = self.ttl_max
-        self.effect_amount = 0.1                   
+        self.effect_amount = 0.2                   
         self.tick_rate = int(0.1 * SECOND)
 
 
     def apply_to(self, robot):
         # on-tick do dmg
         if(self.ttl_current % self.tick_rate == 0):
-            robot.health.current_health -= self.effect_amount
+            robot.health.take_damage(self.effect_amount)
         
         # update TTL
         self.ttl_current -= 1
