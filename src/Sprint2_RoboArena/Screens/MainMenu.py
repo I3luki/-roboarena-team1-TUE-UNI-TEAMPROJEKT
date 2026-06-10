@@ -23,10 +23,10 @@ class MainMenu:
 
         if event.type == pygame.KEYDOWN:
 
-            if event.key == pygame.K_UP:
+            if event.key == pygame.K_w:
                 self.selected = (self.selected - 1) % len(self.options)
 
-            elif event.key == pygame.K_DOWN:
+            elif event.key == pygame.K_s:
                 self.selected = (self.selected + 1) % len(self.options)
 
             elif event.key == pygame.K_RETURN:

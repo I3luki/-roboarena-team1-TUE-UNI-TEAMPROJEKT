@@ -17,10 +17,10 @@ class StatsScreen:
             elif event.key == pygame.K_r:
                 self.clear_stats()
 
-            elif event.key == pygame.K_DOWN:
+            elif event.key == pygame.K_s:
                 self.scroll_offset += 1
 
-            elif event.key == pygame.K_UP:
+            elif event.key == pygame.K_w:
                 self.scroll_offset -= 1
 
                 if self.scroll_offset < 0:
@@ -89,7 +89,7 @@ class StatsScreen:
         self.screen.blit(delete_text, (250, 850))
 
         scroll_text = self.text_font.render(
-            "Pfeil hoch/runter: Scrollen",
+            "w/s: Scrollen",
             True,
             (200, 200, 200)
         )

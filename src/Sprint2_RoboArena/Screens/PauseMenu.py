@@ -28,10 +28,10 @@ class PauseMenu:
             if event.key == pygame.K_ESCAPE:
                 game.state = "PLAYING"
 
-            elif event.key == pygame.K_UP:
+            elif event.key == event.key == pygame.K_w:
                 self.selected = (self.selected - 1) % len(self.options)
 
-            elif event.key == pygame.K_DOWN:
+            elif event.key == pygame.K_s:
                 self.selected = (self.selected + 1) % len(self.options)
 
             elif event.key == pygame.K_RETURN:
