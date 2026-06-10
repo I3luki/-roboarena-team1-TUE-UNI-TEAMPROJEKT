@@ -10,7 +10,8 @@ class GameManager:
         # Einfach erweiterbar (was wollen wir kills? damage vllt? oder Health lost etc müsste man nur überelgen wie man stats enpfelgt
 
     def check_game_over(self, health):
-        if health.is_dead():
+        if health.is_dead() and self.state != "GAME_OVER":
+            self.save_run()
             self.state = "GAME_OVER"
 
             if self.score > self.highscore:
@@ -34,11 +35,12 @@ class GameManager:
         self.orbs =  0
 
         # Player reset
-        health.current_health = health.max_health
-        stamina.current_stamina = stamina.max_stamina
+        health.max_health = 100
+        health.current_health = 100
         robot.reset()
-
-
+        #kamera reset
+        arena.camera.x = robot.x
+        arena.camera.y = robot.y
         # Orbs reset
         for orb in orb_list:
             orb.randomize_position()
@@ -76,14 +78,31 @@ class GameManager:
         screen.blit(orbs_text, (250, 600))
 
 
+
     def load_highscore(self):
         try:
-            with open("highscore.txt", "r") as f:
+            with open("Data/highscore.txt", "r") as f:
                 content = f.read().strip()
                 return int(content) if content else 0
         except (FileNotFoundError, ValueError):
             return 0
 
     def save_highscore(self):
-        with open("highscore.txt", "w") as f:
+        with open("Data/highscore.txt", "w") as f:
             f.write(str(self.highscore))
+   #speichert run in stats.txt
+    def save_run(self):
+        with open("Data/stats.txt", "a") as f:
+            f.write(f"{self.score}\n")
+    #gamestats
+    def start_game(self):
+        self.state = "PLAYING"
+
+    def pause_game(self):
+        self.state = "PAUSE"
+
+    def resume_game(self):
+        self.state = "PLAYING"
+
+    def go_to_menu(self):
+        self.state = "MENU"

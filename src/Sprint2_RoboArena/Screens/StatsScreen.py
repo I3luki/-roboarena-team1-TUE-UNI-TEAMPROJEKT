@@ -1,0 +1,97 @@
+import pygame
+
+
+class StatsScreen:
+
+    def __init__(self, screen):
+        self.screen = screen
+        self.title_font = pygame.font.SysFont(None, 80)
+        self.text_font = pygame.font.SysFont(None, 45)
+        self.scroll_offset = 0
+    #Keypress handler
+    def handle_event(self, event, game):
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                game.state = "MENU"
+
+            elif event.key == pygame.K_r:
+                self.clear_stats()
+
+            elif event.key == pygame.K_DOWN:
+                self.scroll_offset += 1
+
+            elif event.key == pygame.K_UP:
+                self.scroll_offset -= 1
+
+                if self.scroll_offset < 0:
+                    self.scroll_offset = 0
+    # Liest alle gespeicherten Spieldurchläufe aus stats.txt
+    def load_runs(self):
+        try:
+            with open("Data/stats.txt", "r") as f:
+                return [line.strip() for line in f if line.strip()]
+        except FileNotFoundError:
+            return []
+    #Clear von stats
+    def clear_stats(self):
+        open("Data/stats.txt", "w").close()
+        self.scroll_offset = 0
+
+    def draw(self):
+        self.screen.fill((20, 20, 20))
+
+        title = self.title_font.render(
+            "STATISTIKEN",
+            True,
+            (255, 255, 255)
+        )
+        self.screen.blit(title, (300, 100))
+
+        runs = self.load_runs()
+
+        games_text = self.text_font.render(
+            f"Spiele gespielt: {len(runs)}",
+            True,
+            (255, 255, 255)
+        )
+        self.screen.blit(games_text, (250, 220))
+
+        max_visible = 10
+        max_offset = max(0, len(runs) - max_visible)
+
+        if self.scroll_offset > max_offset:
+            self.scroll_offset = max_offset
+
+        visible_runs = runs[self.scroll_offset:self.scroll_offset + max_visible]
+
+        for i, run in enumerate(visible_runs):
+
+            text = self.text_font.render(
+                f"Spiel {self.scroll_offset + i + 1}: {run}",
+                True,
+                (255, 255, 255)
+            )
+
+            self.screen.blit(text, (250, 300 + i * 40))
+
+        info = self.text_font.render(
+            "ESC: Zurueck zum Hauptmenue",
+            True,
+            (255, 255, 0)
+        )
+        self.screen.blit(info, (250, 900))
+        delete_text = self.text_font.render(
+            "R: Alle Statistiken loeschen",
+            True,
+            (255, 100, 100)
+        )
+
+        self.screen.blit(delete_text, (250, 850))
+
+        scroll_text = self.text_font.render(
+            "Pfeil hoch/runter: Scrollen",
+            True,
+            (200, 200, 200)
+        )
+
+        self.screen.blit(scroll_text, (250, 800))
