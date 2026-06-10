@@ -73,6 +73,7 @@ def draw():
 # "visualisiert ausgewählte hintergrundberechnungen und andere testbedingte werte"
 def test_mode():
     if(TEST_MODE):
+        # Zeichnungen
         for orb in orb_list:
             orb.draw_aabb() 
         robot.draw_aabb()
@@ -81,6 +82,9 @@ def test_mode():
             enemy.draw_aabb()
             enemy.draw_line_enemy(robot)
         arena.draw_aabb()
+
+        # Konsolenausgaben
+        print(robot.status_effects)
 
 
 
