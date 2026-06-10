@@ -158,6 +158,11 @@ class Surprisetile(Tile):
 
 
     def apply_to(self, robot):
+
+        # Falls Tile auf Cooldown, keine Berechnung
+        if(self.cooldown_current > 0):
+            return
+
         # The Good and Bad Buff from which are picked
         # !!!DONOT put those 2 in __init__ or as class constants
         GOOD_CHOICES = [Speed_Buff(), Healthgen_Buff()]

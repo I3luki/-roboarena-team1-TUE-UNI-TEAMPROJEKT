@@ -205,7 +205,6 @@ class Arena:
         self.tiles = [
 
             #Tile Labyrinth
-            Healthtile(self, 500,500),
             Healthtile(self, 200, 100),
             Healthtile(self, 1200, 430),
 
