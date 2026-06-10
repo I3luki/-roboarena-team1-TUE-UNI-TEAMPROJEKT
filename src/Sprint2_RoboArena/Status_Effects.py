@@ -66,7 +66,7 @@ class Speed_Buff(Effect):
                 return
             
         # Revert Buff on TTL=0
-        if(self.ttl_current <= 0):
+        if(self.ttl_current <= 0 and self.in_use):
             robot.speed_current -= self.speed_buff
 
         # Tick down Time-to-Live
@@ -77,7 +77,7 @@ class Speed_Buff(Effect):
 class Healthgen_Buff(Tick_Effect):
 
     def __init__(self):
-        self.ttl_max = 1 * SECOND
+        self.ttl_max = 5 * SECOND
         self.ttl_current = self.ttl_max
         self.effect_amount = 0.7                   
         self.tick_rate = int(0.25 * SECOND)
@@ -102,7 +102,7 @@ class Healthgen_Buff(Tick_Effect):
 
 
 # Poison-Debuff
-class Poision_Debuff(Effect):
+class Poison_Debuff(Tick_Effect):
 
     def __init__(self):
         self.ttl_max = 5 * SECOND

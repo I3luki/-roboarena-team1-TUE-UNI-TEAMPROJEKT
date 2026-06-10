@@ -1,6 +1,7 @@
 import pygame
+import random
 from Collision import AABB
-from Status_Effects import Speed_Buff, Healthgen_Buff
+from Status_Effects import Speed_Buff, Healthgen_Buff, Poison_Debuff
 
 
 SECOND = 60     # Eine Sekunde sind 60 Frames
@@ -76,10 +77,8 @@ class Tile:
         self.surface = pygame.Surface((self.width, self.height))
         self.surface.fill(self.COLOR)
 
-
+    # Apply the given buff if cooldown is 0
     def apply_effect_to(self, effect ,robot):
-        # apply the given buff if cooldown is 0
-        # else just tick down cooldown
         if (self.cooldown_current <= 0):
             robot.add_status_effect(effect)
             self.cooldown_current = self.cooldown_max
@@ -150,8 +149,38 @@ class Healthtile(Tile):
 class Surprisetile(Tile):
     COLOR  = (128, 0, 128) # purple
 
+    
+    # Chance for good or bad effect
+    GOOD_PERCENT = 70
+    BAD_PERCENT = 100 - GOOD_PERCENT
+
+
     def apply_to(self, robot):
-         pass #TODO: implement an effect
+        # The Good and Bad Buff from which are picked
+        # !!!DONOT put those 2 in __init__ or as class constants
+        GOOD_CHOICES = [Speed_Buff(), Healthgen_Buff()]
+        BAD_CHOICES = [Poison_Debuff()]
+
+        # pick good or bad choices with weights
+        is_good_choices = random.choices((True, False),
+                                        weights=(self.GOOD_PERCENT, self.BAD_PERCENT),
+                                        k=1)
+        # pick from those
+        if(is_good_choices):
+            choice = random.choice(GOOD_CHOICES)
+        else:
+            choice = random.choice(BAD_CHOICES)
+
+        # Some Debugging
+        print("picked "+ str(choice))
+        print(str(robot.speed_base))
+        print(str(robot.speed_current))
+        print(str(robot.status_effects))
+        print()
+
+        # apply the one picked
+        self.apply_effect_to(choice, robot)
+        
 
         
 class CactusTile(Tile):

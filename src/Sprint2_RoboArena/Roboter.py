@@ -89,8 +89,8 @@ class Robot:
 
 
     # updates the status effects list
-    # checks for effect_tiles
-    # applies effects and removes status_effects with ttl==0
+    #   - checks for effect_tiles
+    #   - applies effects and removes status_effects with ttl < 0
     def update_status_effects(self):
 
         # check for effect tiles and apply if colliding
