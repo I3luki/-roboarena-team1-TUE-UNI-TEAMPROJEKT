@@ -129,7 +129,7 @@ class Wall:
 
 
 
-  
+# Gives a SpeedBuff on Collision
 class Speedtile(Tile):
     COLOR = (255, 255, 0)     # gelb
      
@@ -138,6 +138,7 @@ class Speedtile(Tile):
          self.apply_effect_to(Speed_Buff(), robot)
 
    
+# Gives a Health-Regeneration-Buff on Collision
 class Healthtile(Tile):
     COLOR = (255, 105, 180)  # pink
 
@@ -146,6 +147,7 @@ class Healthtile(Tile):
          self.apply_effect_to(Healthgen_Buff(), robot)
 
      
+# Gives a Random Buff or Debuff on Collision
 class Surprisetile(Tile):
     COLOR  = (128, 0, 128) # purple
 
@@ -171,25 +173,29 @@ class Surprisetile(Tile):
         else:
             choice = random.choice(BAD_CHOICES)
 
-        # Some Debugging
-        print("picked "+ str(choice))
-        print(str(robot.speed_base))
-        print(str(robot.speed_current))
-        print(str(robot.status_effects))
-        print()
 
         # apply the one picked
         self.apply_effect_to(choice, robot)
         
 
-        
+# Makes a small amount of Damage on Impact 
 class CactusTile(Tile):
     COLOR = (0, 150, 0)
     width = 40
     height = 40
     
+    DAMAGE = 0.5
+
+    def __init__(self,arena,x,y):
+        super().__init__(arena, x, y)
+        self.cooldown_max = int(0.5*SECOND)
+    
+    
     def apply_to(self, robot):
-         pass #TODO: implement an effect
+        if (self.cooldown_current <= 0):
+            robot.health.take_damage(self.DAMAGE) # that stings
+            self.cooldown_current = self.cooldown_max
+
 
             
 class SkullTile(Tile):

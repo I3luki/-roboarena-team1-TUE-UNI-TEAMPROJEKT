@@ -41,12 +41,15 @@ class Tick_Effect(Effect):
 # 01 Speed Buff
 class Speed_Buff(Effect):
 
+    SPEED_SLOWDOWN = 1 * SECOND
+
     def __init__(self):
         self.ttl_max = 7 * SECOND
         self.ttl_current = self.ttl_max
         self.in_use = False        
         self.speed_factor = 2.5
         self.speed_buff = 0   # initiation in apply_to()
+        self.slow_rate = 0    # initiation in apply_to()
 
 
     # applies the speed buff
@@ -56,6 +59,7 @@ class Speed_Buff(Effect):
         if(not self.in_use):
             # compute buff
             self.speed_buff = robot.speed_base * self.speed_factor
+            self.slow_rate = self.speed_buff / self.SPEED_SLOWDOWN
 
             # apply buff on Initiation
             if(self.ttl_current > 0):
@@ -63,11 +67,16 @@ class Speed_Buff(Effect):
                 self.in_use = True 
                 return
             else:
-                return
+                return        
             
         # Revert Buff on TTL=0
         if(self.ttl_current <= 0 and self.in_use):
             robot.speed_current -= self.speed_buff
+
+        if(self.ttl_current < self.SPEED_SLOWDOWN and self.in_use):
+            self.speed_buff -= self.slow_rate
+            robot.speed_current -= self.slow_rate
+
 
         # Tick down Time-to-Live
         self.ttl_current -= 1
