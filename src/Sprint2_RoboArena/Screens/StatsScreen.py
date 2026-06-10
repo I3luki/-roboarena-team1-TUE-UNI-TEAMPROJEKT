@@ -1,5 +1,9 @@
 import pygame
+import os
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+STATS_FILE = os.path.join(BASE_DIR, "Data", "stats.txt")
+HIGHSCORE_FILE = os.path.join(BASE_DIR, "Data", "highscore.txt")
 
 class StatsScreen:
 
@@ -28,13 +32,15 @@ class StatsScreen:
     # Liest alle gespeicherten Spieldurchläufe aus stats.txt
     def load_runs(self):
         try:
-            with open("Data/stats.txt", "r") as f:
+            #r für lesen
+            with open(STATS_FILE, "r") as f:
                 return [line.strip() for line in f if line.strip()]
         except FileNotFoundError:
             return []
     #Clear von stats
     def clear_stats(self):
-        open("Data/stats.txt", "w").close()
+        #w für schreiben
+        open(STATS_FILE, "w").close()
         self.scroll_offset = 0
 
     def draw(self):

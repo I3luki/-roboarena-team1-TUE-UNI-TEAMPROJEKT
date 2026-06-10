@@ -2,6 +2,9 @@ import pygame
 import os
 
 #fürs öffnen von den txt dateien
+#"r"  = read    = lesen
+#"w"  = write   = schreiben/überschreiben
+#"a"  = append  = anhängen
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATS_FILE = os.path.join(BASE_DIR, "Data", "stats.txt")
 HIGHSCORE_FILE = os.path.join(BASE_DIR, "Data", "highscore.txt")
@@ -93,9 +96,11 @@ class GameManager:
             return 0
 
     def save_highscore(self):
-        with open(HIGHSCORE_FILE, "w") as f:            f.write(str(self.highscore))
+        with open(HIGHSCORE_FILE, "w") as f:
+            f.write(str(self.highscore))
    #speichert run in stats.txt
     def save_run(self):
+        # a für anhängen
         with open(STATS_FILE, "a") as f:
             f.write(f"{self.score}\n")
     #gamestats
