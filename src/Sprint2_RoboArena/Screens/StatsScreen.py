@@ -8,10 +8,23 @@ HIGHSCORE_FILE = os.path.join(BASE_DIR, "Data", "highscore.txt")
 class StatsScreen:
 
     def __init__(self, screen):
+        self.screen_width = screen.get_width()
+        self.screen_height = screen.get_height()
         self.screen = screen
         self.title_font = pygame.font.SysFont(None, 80)
         self.text_font = pygame.font.SysFont(None, 45)
         self.scroll_offset = 0
+
+        # Layout
+        self.title_y = self.screen_height * 0.10
+        self.stats_y = self.screen_height * 0.22
+        self.list_y = self.screen_height * 0.30
+
+        self.controls_y = self.screen_height * 0.80
+        self.delete_y = self.screen_height * 0.85
+        self.info_y = self.screen_height * 0.90
+
+        self.left_margin = self.screen_width * 0.25
     #Keypress handler
     def handle_event(self, event, game):
         if event.type == pygame.KEYDOWN:
@@ -60,7 +73,10 @@ class StatsScreen:
             True,
             (255, 255, 255)
         )
-        self.screen.blit(games_text, (250, 220))
+        self.screen.blit(
+            games_text,
+            (self.left_margin, self.stats_y)
+        )
 
         max_visible = 10
         max_offset = max(0, len(runs) - max_visible)
@@ -78,7 +94,10 @@ class StatsScreen:
                 (255, 255, 255)
             )
 
-            self.screen.blit(text, (250, 300 + i * 40))
+            self.screen.blit(
+                text,
+                (self.left_margin, self.list_y + i * 40)
+            )
 
         info = self.text_font.render(
             "ESC: Zurueck zum Hauptmenue",
@@ -100,4 +119,7 @@ class StatsScreen:
             (200, 200, 200)
         )
 
-        self.screen.blit(scroll_text, (250, 800))
+        self.screen.blit(
+            scroll_text,
+            (self.left_margin, self.controls_y)
+        )
