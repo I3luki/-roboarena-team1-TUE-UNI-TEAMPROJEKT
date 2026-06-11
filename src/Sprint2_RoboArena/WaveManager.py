@@ -35,6 +35,7 @@ class WaveManager:
                 enemy_health,
                 enemy_damage
             )
+            self.enemy_manager.enemies[-1].randomize_position()
 
     def update(self):
 
@@ -54,3 +55,12 @@ class WaveManager:
             self.wave_start_time = current_time
 
             self.start_wave()
+    def reset(self):
+
+        self.current_wave = 0
+
+        self.wave_start_time = pygame.time.get_ticks()
+
+        self.enemy_manager.enemies.clear()
+
+        self.start_wave()

@@ -17,13 +17,13 @@ class GameManager:
                 self.highscore = self.score
                 self.save_highscore()
 
-    def handle_event(self, event, health, stamina, robot, arena, enemy_manager, orb_list, level):
+    def handle_event(self, event, health, stamina, robot, arena, enemy_manager, orb_list, level, wave_manager):
         if self.state == "GAME_OVER":
             if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
-                self.reset(health, stamina, robot, arena, enemy_manager, orb_list, level)
+                self.reset(health, stamina, robot, arena, enemy_manager, orb_list, level, wave_manager)
 
 
-    def reset(self, health, stamina, robot, arena, enemy_manager, orb_list, level):
+    def reset(self, health, stamina, robot, arena, enemy_manager, orb_list, level, wave_manager):
 
 
         robot.x = arena.WIDTH / 2
@@ -44,12 +44,7 @@ class GameManager:
             orb.randomize_position()
 
         # Enemies reset
-        enemy_manager.enemies.clear()
-        for _ in range(2):
-            enemy_manager.add_enemy(0, 0)
-
-        for enemy in enemy_manager.enemies:
-            enemy.randomize_position()
+        wave_manager.reset()
 
         level.reset()
 

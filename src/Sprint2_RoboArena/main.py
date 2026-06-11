@@ -139,7 +139,7 @@ while True:
             exit()
 
         # GameManager Events
-        game.handle_event(event, health, stamina, robot, arena, enemy_manager, orb_list, level)
+        game.handle_event(event, health, stamina, robot, arena, enemy_manager, orb_list, level, wave_manager)
 
 
         if game.state == "PLAYING" and buff_manager.active:
