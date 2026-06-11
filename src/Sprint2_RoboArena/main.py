@@ -55,6 +55,7 @@ def draw():
     screen.fill((0, 0, 0))
     arena.draw(robot)
     robot.draw()
+    robot.draw_status_effects()
     for orb in orb_list:
         orb.draw()
     for enemy in enemy_manager.enemies:
@@ -73,6 +74,7 @@ def draw():
 # "visualisiert ausgewählte hintergrundberechnungen und andere testbedingte werte"
 def test_mode():
     if(TEST_MODE):
+        # Zeichnungen
         for orb in orb_list:
             orb.draw_aabb() 
         robot.draw_aabb()
@@ -81,6 +83,9 @@ def test_mode():
             enemy.draw_aabb()
             enemy.draw_line_enemy(robot)
         arena.draw_aabb()
+
+        # Konsolenausgaben
+        print(robot.status_effects)
 
 
 

@@ -1,10 +1,20 @@
-
+import pygame
 
 SECOND = 60   # because 60FPS at the Moment
 
 
-# Allgemeine Klasse für Effekte 
+
+
+
+
+
+# -------------------------------------------------------- Allgemeine Klassen und Methoden ----------------- 
 class Effect:
+
+    ICON_WIDTH = 20
+    ICON_HEIGHT = 20
+    ICON_DURATION_COLOR = (0,0,0)  # (schwarz) Farbe des icon-overlays für duration
+
     def __init__(self):
         self.ttl_max = 0
         self.ttl_current = 0
@@ -17,6 +27,16 @@ class Effect:
     # sets the ttl to 0
     def undo(self):
         self.ttl_current = 0
+
+    # draws a corresponding Icon at the given location
+    def draw(self,x,y):
+        pass
+
+    def get_icon_overlay(self):
+        duration_fraction = 1 - (self.ttl_current / self.ttl_max)
+        width = duration_fraction * self.ICON_WIDTH
+        return make_icon_overlay(width, self.ICON_HEIGHT, self.ICON_DURATION_COLOR)
+        
 
 
 # Allgemeine Klasse für Effekt die periodisch ausgelöst werden
@@ -35,7 +55,30 @@ class Tick_Effect(Effect):
         pass
 
 
-# -----------------------------------------------------------------------------------
+# Zeichnet ein Surface mit einem gegebenen Text
+def make_icon(width, height, color, text):
+    # Create colored surface
+    surface = pygame.Surface((width, height))
+    surface.fill(color)  
+    # Create text surface
+    font = pygame.font.Font(None, 10)  
+    text = font.render(text, True, (0, 0, 0))  # black tex
+    # Center text on button
+    text_rect = text.get_rect(center=(width/2, height/2))
+    surface.blit(text, text_rect)
+
+    return surface
+
+# Zeichnet eine halbdurchsichtiges Rechteck, Größe abhängig von TTL-fraction
+def make_icon_overlay(width, height, color):
+    surface = pygame.Surface((width, height))
+    surface.set_alpha(128)  # 0 = unsichtbar, 255 = voll sichtbar
+    surface.fill(color) 
+
+    return surface
+
+
+# ------------------------------------------------------------------------------------------------------
 
 
 # 01 Speed Buff
@@ -81,6 +124,10 @@ class Speed_Buff(Effect):
         # Tick down Time-to-Live
         self.ttl_current -= 1
 
+    def get_icon(self):
+        color = (255,255,0)  # gelb
+        return make_icon(self.ICON_WIDTH, self.ICON_HEIGHT, color, "speed")
+
 
 # Health-Regernaration-Buff
 class Healthgen_Buff(Tick_Effect):
@@ -109,6 +156,10 @@ class Healthgen_Buff(Tick_Effect):
         # update TTL
         self.ttl_current -= 1
 
+    def get_icon(self):
+            color = (255, 192, 203)  # pink
+            return make_icon(self.ICON_WIDTH, self.ICON_HEIGHT, color, "heal")
+
 
 # Poison-Debuff
 class Poison_Debuff(Tick_Effect):
@@ -127,6 +178,10 @@ class Poison_Debuff(Tick_Effect):
         
         # update TTL
         self.ttl_current -= 1
+
+    def get_icon(self):
+        color = (128, 0, 128)  # lila
+        return make_icon(self.ICON_WIDTH, self.ICON_HEIGHT, color, "poison")
 
 
 
