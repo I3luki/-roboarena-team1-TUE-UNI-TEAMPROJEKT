@@ -9,6 +9,7 @@ from EnemyManager import EnemyManager
 from Level import Level
 from GameManager import GameManager
 from BuffManager import BuffManager
+from WaveManager import WaveManager
 
 TEST_MODE = False    # TESTMODE: wenn true, dann ist testmodus an
 
@@ -36,6 +37,7 @@ def update():
 
     # Updated Liste an Gegner (Gegner die am Leben sind, Path von Gegner zu Spieler)
     enemy_manager.update(robot, orb_list, arena)
+    wave_manager.update()
     for enemy in enemy_manager.enemies:
         enemy.check_damage_player(robot, health)
 
@@ -108,9 +110,9 @@ arena.camera.y = robot.y # lässt kamera auf roboter spwanen
 # Gegner und Orbs
 orb_list = [Orb(arena,0,0), Orb(arena,0,0)]
 enemy_manager = EnemyManager(arena)
+wave_manager = WaveManager(enemy_manager)
 # Definiere Event, welches alle x Sekunden Gegner spawnen soll
-SPAWN_ENEMY_EVENT = pygame.USEREVENT + 1
-pygame.time.set_timer(SPAWN_ENEMY_EVENT, 1000)
+
 def spawn_enemy():
     for _ in range(2):
         enemy_manager.add_enemy(0, 0)
@@ -150,11 +152,7 @@ while True:
                 elif event.key == pygame.K_2:
                     buff_manager.apply_buff(1, robot, health)
 
-        if event.type == SPAWN_ENEMY_EVENT:
-            if len(enemy_manager.enemies) >= 10:
-                pass
-            else:
-                spawn_enemy()
+
 
     if not buff_manager.active:
         update()  # update all objects
