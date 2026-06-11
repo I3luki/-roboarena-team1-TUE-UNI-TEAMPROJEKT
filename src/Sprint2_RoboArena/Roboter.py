@@ -43,9 +43,13 @@ class Robot:
         # (Werte an Assets ggf. anpassen)
         grid_idle = load_spritesheet("Sprites/Swordsman_lvl3_Idle_without_shadow.png", 64, 64, 4, 12)
         grid_run = load_spritesheet("Sprites/Swordsman_lvl3_Run_without_shadow.png", 64, 64, 4, 8)
+        grid_run_attack = load_spritesheet("Sprites/Swordsman_lvl3_Run_Attack_without_shadow.png", 64, 64, 4, 8)
+        grid_idle_attack = load_spritesheet("Sprites/Swordsman_lvl3_attack_without_shadow.png", 64, 64, 4, 8)
 
         grid_idle = animation_scaling(grid_idle, 2.5)
         grid_run = animation_scaling(grid_run, 2.5)
+        grid_idle_attack = animation_scaling(grid_idle_attack, 2.5)
+        grid_run_attack = animation_scaling(grid_run_attack, 2.5)
 
         self.animations = {
             "idle": {
@@ -59,6 +63,18 @@ class Robot:
                 "left": grid_run[1],
                 "right": grid_run[2],
                 "up": grid_run[3]
+            },
+            "idle_attack": {
+                "down": grid_idle_attack[0],
+                "left": grid_idle_attack[1],
+                "right": grid_idle_attack[2],
+                "up": grid_idle_attack[3]
+            },
+            "run_attack": {
+                "down": grid_run_attack[0],
+                "left": grid_run_attack[1],
+                "right": grid_run_attack[2],
+                "up": grid_run_attack[3]
             }
         }
 
@@ -157,7 +173,14 @@ class Robot:
         self.update_facing_direction()
 
         # Animations-Logik
-        new_state = "run" if self.is_moving else "idle"
+        if self.is_moving and not self.is_attacking:
+            new_state = "run"
+        elif not self.is_moving and not self.is_attacking:
+            new_state = "idle"
+        elif not self.is_moving and self.is_attacking:
+            new_state = "idle_attack"
+        elif self.is_moving and self.is_attacking:
+            new_state = "run_attack"
 
         if new_state != self.current_state:
             self.current_state = new_state
@@ -255,7 +278,7 @@ class Robot:
         if currentTime - self.last_attack_time > self.attack_cooldown:
             self.last_attack_time = currentTime
             self.is_attacking = True
-            self.attack_visible_until = currentTime + 100
+            self.attack_visible_until = currentTime + 400
 
             # Frage alle Gegner ab, die im Kegel des Angriffs sind
             for enemy in enemies:

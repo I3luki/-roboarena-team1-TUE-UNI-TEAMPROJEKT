@@ -151,7 +151,7 @@ while True:
                     buff_manager.apply_buff(1, robot, health)
 
         if event.type == SPAWN_ENEMY_EVENT:
-            if len(enemy_manager.enemies) >= 10:
+            if len(enemy_manager.enemies) >= 0:
                 pass
             else:
                 spawn_enemy()
