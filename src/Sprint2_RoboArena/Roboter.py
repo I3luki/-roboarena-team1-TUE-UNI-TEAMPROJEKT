@@ -31,6 +31,15 @@ class Robot:
         self.attack_visible_until = 0
         self.cone_half_angle = 45
 
+        self.weapon = ("longshot")   # "cone", "longshot". Hier die waffe ändern.
+
+        self.longshot_range = 550
+        self.longshot_damage = 75
+        self.laser_active = False
+        self.laser_end = (0, 0)
+        self.laser_duration = 150  # ms sichtbar
+        self.laser_end_time = 0
+
 
 
     # updatet die axis aligned bounding box
@@ -163,6 +172,30 @@ class Robot:
                 ))
             pygame.draw.polygon(self.screen, (255, 0, 0), points)
 
+            # LASER DRAW
+        if self.laser_active:
+
+            if pygame.time.get_ticks() < self.laser_end_time:
+
+                x_screen, y_screen = self.camera.global_to_screen(self)
+
+                start = (x_screen + self.width / 2, y_screen + self.height / 2)
+
+                end = self.camera.global_to_screen(
+                    type("tmp", (), {"x": self.laser_end[0], "y": self.laser_end[1]})
+                )
+
+                pygame.draw.line(
+                    self.screen,
+                    (255, 0, 0),
+                    start,
+                    end,
+                    3
+                )
+
+            else:
+                self.laser_active = False
+
     # "Zeichnet AAB-Kollisionbox"
     def draw_aabb(self):
         # berechne screen Koordinaten mit Kreis Offset
@@ -209,6 +242,82 @@ class Robot:
         angle_difference = (target_angle - self.angle + 180) % 360 - 180
 
         self.angle += angle_difference * 0.1
+    def shoot_longshot(self, enemies):
+
+        start_x = self.x + self.width / 2
+        start_y = self.y + self.height / 2
+
+        angle_rad = math.radians(self.angle)
+
+        dx = math.cos(angle_rad)
+        dy = -math.sin(angle_rad)
+
+        max_range = self.longshot_range
+
+        hit_x = start_x + dx * max_range
+        hit_y = start_y + dy * max_range
+
+        steps = int(max_range / 5)
+        #Überprüft das keine Mauer im weg ist.
+        for i in range(steps):
+
+            test_x = start_x + dx * i * 5
+            test_y = start_y + dy * i * 5
+
+            for wall in self.arena.walls:
+
+                if (wall.aabb.x <= test_x <= wall.aabb.x_max and
+                        wall.aabb.y <= test_y <= wall.aabb.y_max):
+
+                    hit_x = test_x
+                    hit_y = test_y
+                    break
+
+
+
+        # Gegner treffen
+        for enemy in enemies:
+
+            dx = enemy.x - start_x
+            dy = enemy.y - start_y
+
+            distance = math.hypot(dx, dy)
+            if distance > math.hypot(hit_x - start_x, hit_y - start_y):
+                continue
+
+            enemy_angle = math.degrees(math.atan2(-dy, dx))
+            angle_diff = (enemy_angle - self.angle + 180) % 360 - 180
+
+            if abs(angle_diff) > 5:
+                continue
+
+            wall_in_between = False
+
+            steps = int(distance / 10)
+
+            for i in range(steps):
+
+                test_x = start_x + dx * (i / steps)
+                test_y = start_y + dy * (i / steps)
+
+                for wall in self.arena.walls:
+
+                    if (wall.aabb.x <= test_x <= wall.aabb.x_max and
+                            wall.aabb.y <= test_y <= wall.aabb.y_max):
+
+                        wall_in_between = True
+                        break
+
+                if wall_in_between:
+                    break
+
+
+            enemy.health_system.take_damage(self.longshot_damage)
+            self.laser_active = True
+            #Falls eine Mauer dazwschen geht der laser kürzer
+            self.laser_end = (hit_x, hit_y)
+            self.laser_end_time = pygame.time.get_ticks() + self.laser_duration
+
 
     # Erstellt in einem Zeitintervall ein Radius um Spieler, der Damage an Gegnern verursacht
     def update_attack(self, enemies):
@@ -216,23 +325,26 @@ class Robot:
         # Wenn cooldown abgelaufen ist, wird angegriffen
         if currentTime - self.last_attack_time > self.attack_cooldown:
             self.last_attack_time = currentTime
-            self.is_attacking = True
-            self.attack_visible_until = currentTime + 100
+            if self.weapon == "cone":
+                self.is_attacking = True
+                self.attack_visible_until = currentTime + 100
 
-            # Frage alle Gegner ab, die im Kegel des Angriffs sind
-            for enemy in enemies:
-                dx = enemy.x - (self.x + self.width / 2)
-                dy = enemy.y - (self.y + self.height / 2)
-                distance = math.hypot(dx, dy)
+                # Frage alle Gegner ab, die im Kegel des Angriffs sind
+                for enemy in enemies:
+                    dx = enemy.x - (self.x + self.width / 2)
+                    dy = enemy.y - (self.y + self.height / 2)
+                    distance = math.hypot(dx, dy)
 
-                if distance < self.attack_radius + enemy.radius:
-                    enemy_angle = math.degrees(math.atan2(-dy, dx))
-                    angle_diff = (enemy_angle - self.angle + 180) % 360 - 180
-                    if abs(angle_diff) <= self.cone_half_angle:
-                        if hasattr(enemy, 'health_system'):
-                            enemy.health_system.take_damage(self.attack_damage)
-                            print(f"Gegner getroffen! HP: {enemy.health_system.current_health}")
+                    if distance < self.attack_radius + enemy.radius:
+                        enemy_angle = math.degrees(math.atan2(-dy, dx))
+                        angle_diff = (enemy_angle - self.angle + 180) % 360 - 180
+                        if abs(angle_diff) <= self.cone_half_angle:
+                            if hasattr(enemy, 'health_system'):
+                                enemy.health_system.take_damage(self.attack_damage)
+                                print(f"Gegner getroffen! HP: {enemy.health_system.current_health}")
 
-        # Wenn Angriffscooldown noch nicht abgeklungen ist, kann nicht angegriffen werden
+            # Wenn Angriffscooldown noch nicht abgeklungen ist, kann nicht angegriffen werden
+            elif self.weapon == "longshot":
+                self.shoot_longshot(enemies)
         if currentTime > self.attack_visible_until:
             self.is_attacking = False
