@@ -20,9 +20,8 @@ class StatsScreen:
         self.stats_y = self.screen_height * 0.22
         self.list_y = self.screen_height * 0.30
 
-        self.controls_y = self.screen_height * 0.80
-        self.delete_y = self.screen_height * 0.85
-        self.info_y = self.screen_height * 0.90
+        self.bottom_margin = 30
+        self.line_spacing = 45
 
         self.left_margin = self.screen_width * 0.25
     #Keypress handler
@@ -64,7 +63,11 @@ class StatsScreen:
             True,
             (255, 255, 255)
         )
-        self.screen.blit(title, (300, 100))
+        title_rect = title.get_rect(
+            center=(self.screen_width // 2, self.title_y)
+        )
+
+        self.screen.blit(title, title_rect)
 
         runs = self.load_runs()
 
@@ -104,14 +107,11 @@ class StatsScreen:
             True,
             (255, 255, 0)
         )
-        self.screen.blit(info, (250, 900))
         delete_text = self.text_font.render(
             "R: Alle Statistiken loeschen",
             True,
             (255, 100, 100)
         )
-
-        self.screen.blit(delete_text, (250, 850))
 
         scroll_text = self.text_font.render(
             "w/s: Scrollen",
@@ -119,7 +119,20 @@ class StatsScreen:
             (200, 200, 200)
         )
 
-        self.screen.blit(
-            scroll_text,
-            (self.left_margin, self.controls_y)
+        bottom_y = self.screen_height - self.bottom_margin
+
+        scroll_rect = scroll_text.get_rect(
+            bottomleft=(self.left_margin, bottom_y - self.line_spacing * 2)
         )
+
+        delete_rect = delete_text.get_rect(
+            bottomleft=(self.left_margin, bottom_y - self.line_spacing)
+        )
+
+        info_rect = info.get_rect(
+            bottomleft=(self.left_margin, bottom_y)
+        )
+
+        self.screen.blit(scroll_text, scroll_rect)
+        self.screen.blit(delete_text, delete_rect)
+        self.screen.blit(info, info_rect)
