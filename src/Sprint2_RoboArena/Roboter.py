@@ -2,7 +2,7 @@ import pygame
 import math
 from Collision import AABB
 from Animation_Handler import load_spritesheet
-from src.Sprint2_RoboArena.Animation_Handler import animation_scaling
+from Animation_Handler import animation_scaling
 
 
 class Robot:
