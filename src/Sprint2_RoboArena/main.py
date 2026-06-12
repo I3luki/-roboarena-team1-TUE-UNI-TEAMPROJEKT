@@ -10,6 +10,9 @@ from Level import Level
 from GameManager import GameManager
 from BuffManager import BuffManager
 from WaveManager import WaveManager
+from Screens.MainMenu import MainMenu
+from Screens.PauseMenu import PauseMenu
+from Screens.StatsScreen import StatsScreen
 
 TEST_MODE = False    # TESTMODE: wenn true, dann ist testmodus an
 
@@ -57,6 +60,7 @@ def draw():
     screen.fill((0, 0, 0))
     arena.draw(robot)
     robot.draw()
+    robot.draw_status_effects()
     for orb in orb_list:
         orb.draw()
     for enemy in enemy_manager.enemies:
@@ -75,6 +79,7 @@ def draw():
 # "visualisiert ausgewählte hintergrundberechnungen und andere testbedingte werte"
 def test_mode():
     if(TEST_MODE):
+        # Zeichnungen
         for orb in orb_list:
             orb.draw_aabb() 
         robot.draw_aabb()
@@ -83,6 +88,9 @@ def test_mode():
             enemy.draw_aabb()
             enemy.draw_line_enemy(robot)
         arena.draw_aabb()
+
+        # Konsolenausgaben
+        print(robot.status_effects)
 
 
 
@@ -127,7 +135,14 @@ for enemy in enemy_manager.enemies:
 
 game = GameManager()
 
+#Hauptmeunü
+main_menu = MainMenu(screen)
 
+game.state = "MENU"
+#Pausemenü
+pause_menu = PauseMenu(screen)
+#stats
+stats_screen = StatsScreen(screen)
 # -------------------------------------------------------------------- GAME LOOP ------------
 while True:
 
@@ -143,6 +158,33 @@ while True:
 
 
         if game.state == "PLAYING" and buff_manager.active:
+        #Hauptmenü
+        if game.state == "MENU":
+            main_menu.handle_event(event, game)
+        #stats
+        elif game.state == "STATS":
+            stats_screen.handle_event(event, game)
+        #pause
+        elif game.state == "PAUSE":
+            pause_menu.handle_event(event,
+                                    game,
+                                    health,
+                                    stamina,
+                                    robot,
+                                    arena,
+                                    enemy_manager,
+                                    orb_list,
+                                    level)
+
+        else:
+          game.handle_event(event, health, stamina, robot, arena, enemy_manager, orb_list, level, wave_manager)
+
+        #Pause Menü einführen mit Keypress
+        if game.state == "PLAYING" and event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                game.state = "PAUSE"
+
+        if buff_manager.active:
 
             if event.type == pygame.KEYDOWN:
 
@@ -154,21 +196,29 @@ while True:
 
 
 
-    if not buff_manager.active:
-        update()  # update all objects
-    draw()    # draw all objects
 
+    #draws der Menüs
+    if game.state == "MENU":
 
-    if game.state == "PLAYING":
+        main_menu.draw()
+    elif game.state == "PLAYING":
 
 
         if not buff_manager.active:
             update()
 
         game.check_game_over(health)
+        draw()
+    elif game.state == "GAME_OVER":
 
+        draw()
 
-    draw()
+    elif game.state == "PAUSE":
+        draw()
+        pause_menu.draw()
+
+    elif game.state == "STATS":
+        stats_screen.draw()
 
     pygame.display.flip()
     clock.tick(60)
