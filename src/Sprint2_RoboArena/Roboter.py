@@ -19,20 +19,21 @@ class Robot:
         self.y = y
         self.width = 50
         self.height = 50
-        self.speed_base = 2
-        self.speed_current = 2
         self.aabb = AABB(self.x,
                          self.y,
                          self.x + self.width,
                          self.y + self.height)
         self.angle = 0
-        self.attack_radius = 200
-        self.attack_damage = 10
-        self.attack_cooldown = 1000
         self.last_attack_time = pygame.time.get_ticks()
         self.is_attacking = False
         self.attack_visible_until = 0
         self.cone_half_angle = 45
+        #Ausgangs werte
+        self.default_speed_base = 2
+        self.default_speed_current = 2
+        self.default_attack_radius = 200
+        self.default_attack_damage = 50
+        self.default_attack_cooldown = 1000
         self.is_moving = False
         self.facing = "down"
         self.current_frame = 0
@@ -79,6 +80,11 @@ class Robot:
             }
         }
 
+        self.speed_base = self.default_speed_base
+        self.speed_current = self.default_speed_current
+        self.attack_radius = self.default_attack_radius
+        self.attack_damage = self.default_attack_damage
+        self.attack_cooldown = self.default_attack_cooldown
 
 
     # updatet die axis aligned bounding box
@@ -161,6 +167,17 @@ class Robot:
 
     # resets speed and status-effect-list
     def reset(self):
+        self.speed_current = self.default_speed_base
+        self.speed_current = self.default_speed_current
+
+        self.attack_radius = self.default_attack_radius
+        self.attack_damage = self.default_attack_damage
+        self.attack_cooldown = self.default_attack_cooldown
+
+        self.last_attack_time = pygame.time.get_ticks()
+        self.is_attacking = False
+        self.attack_visible_until = 0
+        self.reset_status_effects()
         self.speed_current = self.speed_base
         self.undo_all_status_effects()
 

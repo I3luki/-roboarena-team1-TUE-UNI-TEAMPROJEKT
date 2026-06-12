@@ -9,6 +9,9 @@ from EnemyManager import EnemyManager
 from Level import Level
 from GameManager import GameManager
 from BuffManager import BuffManager
+from Screens.MainMenu import MainMenu
+from Screens.PauseMenu import PauseMenu
+from Screens.StatsScreen import StatsScreen
 
 TEST_MODE = False    # TESTMODE: wenn true, dann ist testmodus an
 
@@ -130,7 +133,14 @@ for enemy in enemy_manager.enemies:
 
 game = GameManager()
 
+#Hauptmeunü
+main_menu = MainMenu(screen)
 
+game.state = "MENU"
+#Pausemenü
+pause_menu = PauseMenu(screen)
+#stats
+stats_screen = StatsScreen(screen)
 # -------------------------------------------------------------------- GAME LOOP ------------
 while True:
 
@@ -142,10 +152,33 @@ while True:
             exit()
 
         # GameManager Events
-        game.handle_event(event, health, stamina, robot, arena, enemy_manager, orb_list, level)
+        #Hauptmenü
+        if game.state == "MENU":
+            main_menu.handle_event(event, game)
+        #stats
+        elif game.state == "STATS":
+            stats_screen.handle_event(event, game)
+        #pause
+        elif game.state == "PAUSE":
+            pause_menu.handle_event(event,
+                                    game,
+                                    health,
+                                    stamina,
+                                    robot,
+                                    arena,
+                                    enemy_manager,
+                                    orb_list,
+                                    level)
 
+        else:
+          game.handle_event(event, health, stamina, robot, arena, enemy_manager, orb_list, level)
 
-        if game.state == "PLAYING" and buff_manager.active:
+        #Pause Menü einführen mit Keypress
+        if game.state == "PLAYING" and event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                game.state = "PAUSE"
+
+        if buff_manager.active:
 
             if event.type == pygame.KEYDOWN:
 
@@ -156,26 +189,36 @@ while True:
                     buff_manager.apply_buff(1, robot, health)
 
         if event.type == SPAWN_ENEMY_EVENT:
-            if len(enemy_manager.enemies) >= 0:
-                pass
-            else:
-                spawn_enemy()
-
-    if not buff_manager.active:
-        update()  # update all objects
-    draw()    # draw all objects
+            #damit nur gegener spwanen wenn spiel läuft
+            if game.state == "PLAYING":
+                if len(enemy_manager.enemies) >= 10:
+                    pass
+                else:
+                    spawn_enemy()
 
 
-    if game.state == "PLAYING":
+    #draws der Menüs
+    if game.state == "MENU":
+
+        main_menu.draw()
+    elif game.state == "PLAYING":
 
 
         if not buff_manager.active:
             update()
 
         game.check_game_over(health)
+        draw()
+    elif game.state == "GAME_OVER":
 
+        draw()
 
-    draw()
+    elif game.state == "PAUSE":
+        draw()
+        pause_menu.draw()
+
+    elif game.state == "STATS":
+        stats_screen.draw()
 
     pygame.display.flip()
     clock.tick(60)
