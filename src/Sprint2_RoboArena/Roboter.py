@@ -86,6 +86,11 @@ class Robot:
         self.attack_damage = self.default_attack_damage
         self.attack_cooldown = self.default_attack_cooldown
 
+    #reset status effekte
+    def reset_status_effects(self):
+        self.undo_all_status_effects()
+        self.status_effects.clear()
+
 
     # updatet die axis aligned bounding box
     def update_aabb(self):
