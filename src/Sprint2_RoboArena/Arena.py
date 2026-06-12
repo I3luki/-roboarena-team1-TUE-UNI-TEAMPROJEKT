@@ -205,7 +205,6 @@ class Arena:
         self.tiles = [
 
             #Tile Labyrinth
-            Healthtile(self, 500,500),
             Healthtile(self, 200, 100),
             Healthtile(self, 1200, 430),
 
@@ -275,6 +274,17 @@ class Arena:
     def update_lightning_tiles(self, robot, health):
         for lightning in self.lightning_tiles:
             lightning.update(robot, health)
+
+    # Updates all other Tiles
+    def update_tiles(self):
+        for tile in self.tiles:
+            tile.update()
+
+    # Updates everything
+    def update(self, robot, health):
+        self.update_tornado(robot, health)
+        self.update_lightning_tiles(robot, health)
+        self.update_tiles()
 
 
     # checks if a rectangle is visible on the screen
