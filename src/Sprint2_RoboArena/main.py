@@ -159,22 +159,22 @@ while True:
 
         if game.state == "PLAYING" and buff_manager.active:
         #Hauptmenü
-        if game.state == "MENU":
-            main_menu.handle_event(event, game)
-        #stats
-        elif game.state == "STATS":
-            stats_screen.handle_event(event, game)
-        #pause
-        elif game.state == "PAUSE":
-            pause_menu.handle_event(event,
-                                    game,
-                                    health,
-                                    stamina,
-                                    robot,
-                                    arena,
-                                    enemy_manager,
-                                    orb_list,
-                                    level)
+            if game.state == "MENU":
+                main_menu.handle_event(event, game)
+            #stats
+            elif game.state == "STATS":
+                stats_screen.handle_event(event, game)
+            #pause
+            elif game.state == "PAUSE":
+                pause_menu.handle_event(event,
+                                        game,
+                                        health,
+                                        stamina,
+                                        robot,
+                                        arena,
+                                        enemy_manager,
+                                        orb_list,
+                                        level, wave_manager)
 
         else:
           game.handle_event(event, health, stamina, robot, arena, enemy_manager, orb_list, level, wave_manager)
