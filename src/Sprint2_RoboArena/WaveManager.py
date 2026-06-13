@@ -16,11 +16,11 @@ class WaveManager:
 
     def start_wave(self):
 
-        enemy_count = 0 + self.current_wave * 1#Anzahl beim start mit jeder wave gibts erstmal einen Mehr war einfacher zum testen
+        enemy_count = 1 + self.current_wave * 1#Anzahl beim start mit jeder wave gibts erstmal einen Mehr war einfacher zum testen
 
-        enemy_health = 10 + self.current_wave * 10#Health wird immer mehr
+        enemy_health = 10 + self.current_wave * 50#Health wird immer mehr
 
-        enemy_damage = 0.01 + self.current_wave * 0.5#genauso wie der damage
+        enemy_damage = 0.01 + self.current_wave * 0.3#genauso wie der damage
 
         print(f"Wave {self.current_wave}")
 

@@ -153,46 +153,51 @@ while True:
             pygame.quit()
             exit()
 
-        # GameManager Events
-        game.handle_event(event, health, stamina, robot, arena, enemy_manager, orb_list, level, wave_manager)
+        if game.state == "MENU":
+            main_menu.handle_event(event, game)
 
+        elif game.state == "STATS":
+            stats_screen.handle_event(event, game)
 
-        if game.state == "PLAYING" and buff_manager.active:
-        #Hauptmenü
-            if game.state == "MENU":
-                main_menu.handle_event(event, game)
-            #stats
-            elif game.state == "STATS":
-                stats_screen.handle_event(event, game)
-            #pause
-            elif game.state == "PAUSE":
-                pause_menu.handle_event(event,
-                                        game,
-                                        health,
-                                        stamina,
-                                        robot,
-                                        arena,
-                                        enemy_manager,
-                                        orb_list,
-                                        level, wave_manager)
+        elif game.state == "PAUSE":
+            pause_menu.handle_event(
+                event,
+                game,
+                health,
+                stamina,
+                robot,
+                arena,
+                enemy_manager,
+                orb_list,
+                level
+            )
 
         else:
-          game.handle_event(event, health, stamina, robot, arena, enemy_manager, orb_list, level, wave_manager)
+            game.handle_event(
+                event,
+                health,
+                stamina,
+                robot,
+                arena,
+                enemy_manager,
+                orb_list,
+                level,
+                wave_manager
+            )
 
-        #Pause Menü einführen mit Keypress
+        # Pause
         if game.state == "PLAYING" and event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 game.state = "PAUSE"
 
-        if buff_manager.active:
+        # Buff-Auswahl
+        if buff_manager.active and event.type == pygame.KEYDOWN:
 
-            if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_1:
+                buff_manager.apply_buff(0, robot, health)
 
-                if event.key == pygame.K_1:
-                    buff_manager.apply_buff(0, robot, health)
-
-                elif event.key == pygame.K_2:
-                    buff_manager.apply_buff(1, robot, health)
+            elif event.key == pygame.K_2:
+                buff_manager.apply_buff(1, robot, health)
 
 
 
