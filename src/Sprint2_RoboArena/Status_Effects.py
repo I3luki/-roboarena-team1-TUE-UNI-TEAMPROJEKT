@@ -116,6 +116,7 @@ class Speed_Buff(Effect):
         if(self.ttl_current <= 0 and self.in_use):
             robot.speed_current -= self.speed_buff
 
+        # start to gradually slow down
         if(self.ttl_current < self.SPEED_SLOWDOWN and self.in_use):
             self.speed_buff -= self.slow_rate
             robot.speed_current -= self.slow_rate
@@ -127,6 +128,48 @@ class Speed_Buff(Effect):
     def get_icon(self):
         color = (255,255,0)  # gelb
         return make_icon(self.ICON_WIDTH, self.ICON_HEIGHT, color, "speed")
+    
+
+    
+# Slow_Debuff:  "Slows entity based on base_speed"
+class Slow_Debuff(Effect):
+
+    SLOW_TIME = 2*SECOND
+
+    def __init__(self):
+        self.ttl_max = self.SLOW_TIME
+        self.ttl_current = self.ttl_max
+        self.slow_debuff = 0  # initiated in apply_to()
+        self.slow_factor = 0.3
+
+
+    # applies the slow debuff
+    def apply_to(self, robot):
+
+        # Initial Application of the Buff
+        if(not self.in_use):
+            # compute buff
+            self.slow_debuff = robot.speed_base * self.slow_factor
+            # self.slow_rate = self.speed_buff / self.SPEED_SLOWDOWN
+
+            # apply buff on Initiation
+            if(self.ttl_current > 0):
+                robot.speed_current -= self.slow_debuff
+                self.in_use = True 
+                return
+            else:
+                return        
+            
+        # Revert Buff on TTL=0
+        if(self.ttl_current <= 0 and self.in_use):
+            robot.speed_current += self.slow_debuff
+
+        # Tick down Time-to-Live
+        self.ttl_current -= 1
+
+    def get_icon(self):
+        color = (173, 216, 230)  # hellblau
+        return make_icon(self.ICON_WIDTH, self.ICON_HEIGHT, color, "slow")
 
 
 # Health-Regernaration-Buff

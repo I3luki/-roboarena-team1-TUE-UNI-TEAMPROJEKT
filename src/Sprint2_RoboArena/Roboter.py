@@ -359,7 +359,7 @@ class Robot:
                     if abs(angle_diff) <= self.cone_half_angle:
                         if hasattr(enemy, 'health_system'):
                             self.relics.update_on_hit()        # update relics on-hit-cooldown
-                            self.relics.on_hit(self, enemy)
+                            self.relics.on_hit(self, enemy)    # use relics on-hit effects
                             enemy.health_system.take_damage(self.attack_damage)
                             print(f"Gegner getroffen! HP: {enemy.health_system.current_health}")
 
