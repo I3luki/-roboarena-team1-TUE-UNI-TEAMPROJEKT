@@ -17,7 +17,7 @@ class Robot:
         self.level = level
         self.status_effects = []
         self.relics = Relics(self, arena)
-        self.relics.list.append(Ricochet(self))#TODO: delete after testing
+        self.relics.list.append(Ice(self))#TODO: delete after testing
         self.x = x
         self.y = y
         self.width = 50

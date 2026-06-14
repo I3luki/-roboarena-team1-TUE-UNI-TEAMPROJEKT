@@ -136,30 +136,35 @@ class Speed_Buff(Effect):
 # Slow_Debuff:  "Slows entity based on base_speed"
 class Slow_Debuff(Effect):
 
-    SLOW_TIME = 2*SECOND
+    SLOW_TIME = 3*SECOND
 
-    def __init__(self):
+    def __init__(self, robot):
+        self.camera = robot.arena.camera
+        self.screen = robot.arena.screen
         self.ttl_max = self.SLOW_TIME
         self.ttl_current = self.ttl_max
         self.slow_debuff = 0  # initiated in apply_to()
         self.slow_factor = 0.3
         self.in_use = False
+        self.me = []   # current holder of the debuff
 
 
     # applies the slow debuff
-    def apply_to(self, robot):
+    def apply_to(self, me):
+        
+        self.me = me
 
         print('Slow Debuff applied')  #TODO: delete after testing
 
         # Initial Application of the Buff
         if(not self.in_use):
             # compute buff
-            self.slow_debuff = robot.speed_base * self.slow_factor
+            self.slow_debuff = me.speed_base * self.slow_factor
             # self.slow_rate = self.speed_buff / self.SPEED_SLOWDOWN
 
             # apply buff on Initiation
             if(self.ttl_current > 0):
-                robot.speed_current -= self.slow_debuff
+                me.speed_current -= self.slow_debuff
                 self.in_use = True 
                 return
             else:
@@ -167,7 +172,7 @@ class Slow_Debuff(Effect):
             
         # Revert Buff on TTL=0
         if(self.ttl_current <= 0 and self.in_use):
-            robot.speed_current += self.slow_debuff
+            me.speed_current += self.slow_debuff
 
         # Tick down Time-to-Live
         self.ttl_current -= 1
@@ -175,6 +180,17 @@ class Slow_Debuff(Effect):
     def get_icon(self):
         color = (173, 216, 230)  # hellblau
         return make_icon(self.ICON_WIDTH, self.ICON_HEIGHT, color, "slow")
+    
+    def draw(self):
+        offset = 50
+
+        x_screen, y_screen = self.camera.global_to_screen(self.me)
+        x_screen -= offset
+        y_screen -= offset
+
+        self.screen.blit(self.get_icon(), (x_screen, y_screen))
+
+
 
 
 # Healthgen_Buff: "gives flat healthgeneration over fixed time"
@@ -239,8 +255,14 @@ class Ricochet_Debuff(Effect):
 
     def __init__(self, robot, enemies):
         self.robot = robot
+        self.camera = robot.arena.camera
+        self.screen = robot.arena.screen
         self.damage = robot.attack_damage / 4
 
+        self.start = robot   # the start of the riccochet
+        self.me = robot      # the current holder of the debuff
+        self.x = robot.x     # position of the ricochet
+        self.y = robot.y
         self.jumps = 7
         self.range = 300
         self.tick = int(SECOND/3)  # makes smth every tick
@@ -256,12 +278,14 @@ class Ricochet_Debuff(Effect):
         # update
         # (has to be done first to prevent instant proccing on the next enemy, maybe)
         self.ttl_current -= 1
+        self.me = me    # TODO: Optimize
 
         # when it is time to tick
         if(self.ttl_current % self.tick == 0):
 
             print("Riccochet tick") #TODO: delete after testing
-            # delete self out of the enemies list
+            # delete self out of the enemies list, update start
+            self.start = me
             self.enemies_copy.remove(me)
 
             # make damage
@@ -288,7 +312,20 @@ class Ricochet_Debuff(Effect):
 
     # draws a ricochet
     def draw(self):
-        pass
+
+        img_ricochet = pygame.Surface((20,20))
+        img_ricochet.fill((0,0,0)) #black
+
+        fraction = 1 - ((self.ttl_current % self.tick) / self.tick)
+        direction = (self.me.x - self.start.x, self.me.y - self.start.y)
+
+        self.x = self.start.aabb.x + (direction[0]*fraction)
+        self.y = self.start.aabb.y + (direction[1]*fraction)
+
+        x_screen, y_screen = self.camera.global_to_screen(self)
+
+        self.screen.blit(img_ricochet, (x_screen, y_screen))
+
 
 
 

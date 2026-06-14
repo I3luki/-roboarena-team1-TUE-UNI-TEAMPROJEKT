@@ -64,8 +64,7 @@ def draw():
     robot.draw_status_effects()
     for orb in orb_list:
         orb.draw()
-    for enemy in enemy_manager.enemies:
-        enemy.draw()
+    enemy_manager.draw()
 
     health.draw()
     stamina.draw()

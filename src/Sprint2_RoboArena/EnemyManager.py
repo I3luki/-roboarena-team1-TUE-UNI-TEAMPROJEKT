@@ -35,3 +35,11 @@ class EnemyManager:
 
             if did_calculate:
                 calcs_done_this_frame += 1
+
+    def draw(self):
+        for enemy in self.enemies:
+            enemy.draw()
+            
+            for effect in enemy.status_effects:
+                if hasattr(effect, "draw"):
+                    effect.draw()

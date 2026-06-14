@@ -81,17 +81,18 @@ class Ricochet:
 # Ice: "slows enemies on every 4th hit"
 class Ice:
 
-    def __init__(self):
-        self.cooldown = 3   # every 3rd attack
+    def __init__(self, robot):
+        self.robot = robot
+        self.cooldown = 1   # every attack
         self.count = self.cooldown
         self.damage = 0.5
-        self.slow = 0.7
+        self.slow = 0.5     # takes speed to 0.6 of current
 
     def on_hit(self, enemy, enemies):
         # gebe getroffenem Gegner Ice-Debuff
         if(self.count <= 0):
             print('on-hit ice applied') # TODO: delete after testing
-            enemy.status_effects.append(Slow_Debuff())
+            enemy.status_effects.append(Slow_Debuff(self.robot))
             self.count = self.cooldown
 
 
