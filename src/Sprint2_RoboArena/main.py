@@ -14,6 +14,7 @@ from Screens.MainMenu import MainMenu
 from Screens.PauseMenu import PauseMenu
 from Screens.StatsScreen import StatsScreen
 
+
 TEST_MODE = False    # TESTMODE: wenn true, dann ist testmodus an
 
 SCREEN_WIDTH = 1000
@@ -45,10 +46,7 @@ def update():
         enemy.check_damage_player(robot, health)
 
     
-
-
     # Checke für Kollision von Roboter und Orb
-    # TODO: REFACTOR IT
     for orb in orb_list[:]:
         if robot.aabb.check_collision(orb.aabb):
             level.collect_orb(buff_manager, game)
@@ -61,10 +59,10 @@ def draw():
     arena.draw(robot)
     robot.draw()
     robot.draw_status_effects()
+    robot.relics.draw_icons()
     for orb in orb_list:
         orb.draw()
-    for enemy in enemy_manager.enemies:
-        enemy.draw()
+    enemy_manager.draw()
 
     health.draw()
     stamina.draw()
@@ -119,8 +117,10 @@ arena.camera.y = robot.y # lässt kamera auf roboter spwanen
 orb_list = [Orb(arena,0,0), Orb(arena,0,0)]
 enemy_manager = EnemyManager(arena)
 wave_manager = WaveManager(enemy_manager)
-# Definiere Event, welches alle x Sekunden Gegner spawnen soll
 
+# Definiere Event, welches alle x Sekunden Gegner spawnen soll
+SPAWN_ENEMY_EVENT = pygame.USEREVENT + 1
+pygame.time.set_timer(SPAWN_ENEMY_EVENT, 1000)
 def spawn_enemy():
     for _ in range(2):
         enemy_manager.add_enemy(0, 0)
@@ -143,6 +143,8 @@ game.state = "MENU"
 pause_menu = PauseMenu(screen)
 #stats
 stats_screen = StatsScreen(screen)
+
+
 # -------------------------------------------------------------------- GAME LOOP ------------
 while True:
 
@@ -200,7 +202,16 @@ while True:
             elif event.key == pygame.K_2:
                 buff_manager.apply_buff(1, robot, health)
 
+            elif event.key == pygame.K_3:
+                buff_manager.apply_buff(2, robot, health)
 
+        if event.type == SPAWN_ENEMY_EVENT:
+            #damit nur gegener spwanen wenn spiel läuft
+            if game.state == "PLAYING":
+                if len(enemy_manager.enemies) >= 10:
+                    pass
+                else:
+                    spawn_enemy()
 
 
     #draws der Menüs
