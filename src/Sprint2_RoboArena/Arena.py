@@ -60,96 +60,70 @@ class Arena:
             Wall(self, 0, 2980, 3000, WALL_THICKNESS),
             Wall(self, 2980, 0, WALL_THICKNESS, 3000),
 
-            # Labyrinth-Wände
+            # Horizontale Wände (nach x sortiert)
+            Wall(self, 80, 750, 240, WALL_THICKNESS),
             Wall(self, 80, 80, 160, WALL_THICKNESS),
-            Wall(self, 80, 80, WALL_THICKNESS, WALL_THICKNESS),
-            Wall(self, 320, 180, 180, WALL_THICKNESS),
-            Wall(self, 440, 60, 20, 140),
-            Wall(self, 440, 60, 180, WALL_THICKNESS),
-            Wall(self, 780, 60, 420, WALL_THICKNESS),
-            Wall(self, 780, 60, WALL_THICKNESS, 180),
-
-            Wall(self, 920, 190, WALL_THICKNESS, 360),
-
-            Wall(self, 920, 390, 360, WALL_THICKNESS),
-            Wall(self, 1340, 60, 120, WALL_THICKNESS),
-            Wall(self, 1400, 60, WALL_THICKNESS, 360),
-
+            Wall(self, 80, 1400, 180, WALL_THICKNESS),
             Wall(self, 120, 430, 240, WALL_THICKNESS),
-            Wall(self, 120, 430, WALL_THICKNESS, 180),
-
-            Wall(self, 210, 530, WALL_THICKNESS, 110),
+            Wall(self, 155, 945, 240, WALL_THICKNESS),
+            Wall(self, 320, 180, 180, WALL_THICKNESS),
+            Wall(self, 380, 690, 120, WALL_THICKNESS),
+            Wall(self, 380, 1050, 360, WALL_THICKNESS),
+            Wall(self, 380, 1360, 300, WALL_THICKNESS),
+            Wall(self, 440, 80, 180, WALL_THICKNESS),
             Wall(self, 440, 320, 240, WALL_THICKNESS),
-            Wall(self, 440, 320, WALL_THICKNESS, 240),
-            Wall(self, 620, 500, WALL_THICKNESS, 120),
+            Wall(self, 580, 1250, 280, 20),
             Wall(self, 620, 620, 120, WALL_THICKNESS),
-
-            # Rechte Mitte
-            Wall(self, 1120, 500, 240, WALL_THICKNESS),
-            Wall(self, 1120, 500, WALL_THICKNESS, 250),
-
-            Wall(self, 1260, 500, WALL_THICKNESS, 250),
-
-            Wall(self, 1020, 500, WALL_THICKNESS, 180),
-            Wall(self, 1320, 500, 120, WALL_THICKNESS),
-            Wall(self, 1380, 690, 80, WALL_THICKNESS),
-            Wall(self, 1440, 590, WALL_THICKNESS, 100),
-            Wall(self, 1340, 590, 40, 40),
-            Wall(self, 1000, 300, 170, WALL_THICKNESS),
-
-            Wall(self, 1150, 180, WALL_THICKNESS, 120),
-
-            Wall(self, 800, 300, 60, 100),
-            Wall(self, 760, 450, WALL_THICKNESS, 100),
-            Wall(self, 210, 260, 100, 100),
-
-            Wall(self, 380, 200, WALL_THICKNESS, 80),
-
-            Wall(self, 650, 120, WALL_THICKNESS, 130),
             Wall(self, 620, 700, 360, WALL_THICKNESS),
+            Wall(self, 780, 80, 420, WALL_THICKNESS),
+            Wall(self, 800, 1100, 250, WALL_THICKNESS),
+            Wall(self, 920, 390, 360, WALL_THICKNESS),
+            Wall(self, 920, 810, 320, WALL_THICKNESS),
+            Wall(self, 1000, 300, 170, WALL_THICKNESS),
+            Wall(self, 1120, 500, 240, WALL_THICKNESS),
+            Wall(self, 1280, 890, 120, WALL_THICKNESS),
+            Wall(self, 1320, 500, 120, WALL_THICKNESS),
+            Wall(self, 1340, 80, 120, WALL_THICKNESS),
+            Wall(self, 1380, 690, 80, WALL_THICKNESS),
+
+            # Vertikale Wände (nach x sortiert)
+            Wall(self, 80, 750, WALL_THICKNESS, 180),
+            Wall(self, 80, 1280, WALL_THICKNESS, 120),
+            Wall(self, 120, 430, WALL_THICKNESS, 180),
+            Wall(self, 155, 945, WALL_THICKNESS, 300),
+            Wall(self, 210, 530, WALL_THICKNESS, 110),
+            Wall(self, 260, 1400, WALL_THICKNESS, 60),
+            Wall(self, 380, 690, WALL_THICKNESS, 120),
+            Wall(self, 380, 1050, WALL_THICKNESS, 240),
+            Wall(self, 440, 80, WALL_THICKNESS, 120),
+            Wall(self, 440, 320, WALL_THICKNESS, 240),
+            Wall(self, 500, 690, WALL_THICKNESS, 120),
+            Wall(self, 580, 1180, WALL_THICKNESS, 120),
+            Wall(self, 620, 500, WALL_THICKNESS, 120),
             Wall(self, 620, 700, WALL_THICKNESS, 120),
 
-            Wall(self, 60, 750, 240, WALL_THICKNESS),
-            Wall(self, 60, 750, WALL_THICKNESS, 180),
-            Wall(self, 140, 870, 240, WALL_THICKNESS),
-
-            Wall(self, 380, 690, 120, WALL_THICKNESS),
-            Wall(self, 380, 690, WALL_THICKNESS, 120),
-
-            Wall(self, 500, 690, WALL_THICKNESS, 120),
-
-            Wall(self, 920, 810, 320, WALL_THICKNESS),
-            Wall(self, 920, 810, WALL_THICKNESS, 180),
-            Wall(self, 1120, 810, WALL_THICKNESS, 180),
-
-            Wall(self, 1280, 890, 120, WALL_THICKNESS),
-            Wall(self, 1400, 770, WALL_THICKNESS, 180),
-
-            Wall(self, 1280, 890, WALL_THICKNESS, 60),
-            Wall(self, 155, 945, 240, WALL_THICKNESS),
-            Wall(self, 155, 945, WALL_THICKNESS, 300),
-
-            Wall(self, 380, 1050, 360, WALL_THICKNESS),
-            Wall(self, 380, 1050, WALL_THICKNESS, 240),
-            Wall(self, 660, 930, WALL_THICKNESS, 260),
-
-            Wall(self, 1000, 1050, WALL_THICKNESS, 180),
-            Wall(self, 80, 1400, 180, WALL_THICKNESS),
-            Wall(self, 80, 1280, WALL_THICKNESS, 120),
-
-            Wall(self, 260, 1400, WALL_THICKNESS, 60),
-            Wall(self, 580, 1180, WALL_THICKNESS, 120),
-            Wall(self, 580, 1250, 280, 20),
-
-            Wall(self, 860, 1250, WALL_THICKNESS, 120),
-
-            Wall(self, 380, 1360, 300, WALL_THICKNESS),
-            Wall(self, 750, 800, 80, 80),
+            Wall(self, 760, 450, WALL_THICKNESS, 100),
+            Wall(self, 780, 80, WALL_THICKNESS, 180),
             Wall(self, 800, 940, WALL_THICKNESS, 60),
-            Wall(self, 500 , 900 , WALL_THICKNESS , 150),
-            Wall(self, 800, 1100, 250, WALL_THICKNESS),
-            Wall(self, 250, 1100, WALL_THICKNESS, 300),
+            Wall(self, 860, 1250, WALL_THICKNESS, 120),
+            Wall(self, 920, 190, WALL_THICKNESS, 360),
+            Wall(self, 920, 810, WALL_THICKNESS, 180),
+            Wall(self, 1000, 1050, WALL_THICKNESS, 180),
 
+            Wall(self, 1120, 500, WALL_THICKNESS, 250),
+            Wall(self, 1120, 810, WALL_THICKNESS, 180),
+            Wall(self, 1150, 180, WALL_THICKNESS, 120),
+            Wall(self, 1260, 500, WALL_THICKNESS, 250),
+            Wall(self, 1280, 890, WALL_THICKNESS, 60),
+            Wall(self, 1400, 80, WALL_THICKNESS, 360),
+            Wall(self, 1400, 770, WALL_THICKNESS, 180),
+            Wall(self, 1440, 590, WALL_THICKNESS, 100),
+
+            # Blöcke (nach x sortiert)
+            Wall(self, 210, 260, 100, 100),
+            Wall(self, 750, 800, 80, 80),
+
+            Wall(self, 1340, 590, 40, 40),
 
             # Wüste Wände
 
