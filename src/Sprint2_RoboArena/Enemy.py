@@ -21,8 +21,10 @@ class Enemy:
         self.damage_radius = 100
         self.damage = 0.1
         self.health_system = HealthSystem_Enemy()
-        self.speed = 1.5
+        self.speed_base = 1.5
+        self.speed_current = self.speed_base
         self.movement = Enemy_Movement()
+        self.status_effects = []
 
     #Spieler bekommt schaden wenn er im gewissen radius zum Turret ist.
 
@@ -124,6 +126,17 @@ class Enemy:
 
         # Zeichne
         self.aabb.draw_at(self.arena, x_min_screen, y_min_screen)
+
+    # update_status_effects(): "update the status_list and remove timed-out status_effects"
+    def update_status_effects(self):
+
+        for effect in self.status_effects:
+            effect.apply_to(self)
+        
+        for status_effect in self.status_effects:
+            status_effect.apply_to(self)
+            if status_effect.ttl_current < 0:
+                self.status_effects.remove(status_effect)
 
     # Update Enemy Movement zum Spieler
     def update(self, robot, budget_available):

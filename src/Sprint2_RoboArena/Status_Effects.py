@@ -1,4 +1,6 @@
 import pygame
+import math
+import random
 
 SECOND = 60   # because 60FPS at the Moment
 
@@ -81,7 +83,7 @@ def make_icon_overlay(width, height, color):
 # ------------------------------------------------------------------------------------------------------
 
 
-# 01 Speed Buff
+# Speed_Buff: "gives speed buff based on speed_base, slows down after a certain time"
 class Speed_Buff(Effect):
 
     SPEED_SLOWDOWN = 1 * SECOND
@@ -130,7 +132,7 @@ class Speed_Buff(Effect):
         return make_icon(self.ICON_WIDTH, self.ICON_HEIGHT, color, "speed")
     
 
-    
+
 # Slow_Debuff:  "Slows entity based on base_speed"
 class Slow_Debuff(Effect):
 
@@ -141,10 +143,13 @@ class Slow_Debuff(Effect):
         self.ttl_current = self.ttl_max
         self.slow_debuff = 0  # initiated in apply_to()
         self.slow_factor = 0.3
+        self.in_use = False
 
 
     # applies the slow debuff
     def apply_to(self, robot):
+
+        print('Slow Debuff applied')  #TODO: delete after testing
 
         # Initial Application of the Buff
         if(not self.in_use):
@@ -172,7 +177,7 @@ class Slow_Debuff(Effect):
         return make_icon(self.ICON_WIDTH, self.ICON_HEIGHT, color, "slow")
 
 
-# Health-Regernaration-Buff
+# Healthgen_Buff: "gives flat healthgeneration over fixed time"
 class Healthgen_Buff(Tick_Effect):
 
     def __init__(self):
@@ -204,7 +209,8 @@ class Healthgen_Buff(Tick_Effect):
             return make_icon(self.ICON_WIDTH, self.ICON_HEIGHT, color, "heal")
 
 
-# Poison-Debuff
+
+# Poison-Debuff: "does flat tick-damage over time"
 class Poison_Debuff(Tick_Effect):
 
     def __init__(self):
@@ -225,6 +231,65 @@ class Poison_Debuff(Tick_Effect):
     def get_icon(self):
         color = (128, 0, 128)  # lila
         return make_icon(self.ICON_WIDTH, self.ICON_HEIGHT, color, "poison")
+    
+
+
+# Ricochet_Debuff: "Sends a Ricochet to a random near enough enemy with damage based on robot damage"
+class Ricochet_Debuff(Effect):
+
+    def __init__(self, robot, enemies):
+        self.robot = robot
+        self.damage = robot.attack_damage / 4
+
+        self.jumps = 7
+        self.range = 300
+        self.tick = int(SECOND/3)  # makes smth every tick
+        self.enemies = enemies
+        random.shuffle(self.enemies)
+        self.enemies_copy = enemies.copy()
+        
+        self.ttl_max = self.jumps * self.tick + 1   # ttl is 0 when no jumps left
+        self.ttl_current = self.ttl_max
+        
+
+    def apply_to(self, me):
+        # update
+        # (has to be done first to prevent instant proccing on the next enemy, maybe)
+        self.ttl_current -= 1
+
+        # when it is time to tick
+        if(self.ttl_current % self.tick == 0):
+
+            print("Riccochet tick") #TODO: delete after testing
+            # delete self out of the enemies list
+            self.enemies_copy.remove(me)
+
+            # make damage
+            me.health_system.current_health -= self.damage
+
+            # jump to first close enough enemy
+            x1 = me.aabb.x
+            y1 = me.aabb.y
+            for enemy in self.enemies_copy:
+                x2 = enemy.aabb.x
+                y2 = enemy.aabb.y
+                # check distance
+                distance = math.hypot(x2 - x1, y2 - y1)
+                if(distance < self.range):
+                    print("near enemy found!") #TODO: delete after testing
+                    # add this debuff to the enemy, than remove this effect from me
+                    enemy.status_effects.append(self)
+                    me.status_effects.remove(self) 
+                    return
+                
+            # if no target found, destroy this status effect
+            self.ttl_current = -1
+            print("no more near targets found") #TODO: delete after testing
+
+    # draws a ricochet
+    def draw(self):
+        pass
+
 
 
 

@@ -1,7 +1,7 @@
 import pygame
 import math
 from Collision import AABB
-from Relics import Relics
+from Relics import Relics, Ice, Ricochet  #TODO: delete Ice after testing
 from Animation_Handler import load_spritesheet
 from Animation_Handler import animation_scaling
 
@@ -16,7 +16,8 @@ class Robot:
         self.stamina = stamina
         self.level = level
         self.status_effects = []
-        self.relics = Relics()
+        self.relics = Relics(self, arena)
+        self.relics.list.append(Ricochet(self))#TODO: delete after testing
         self.x = x
         self.y = y
         self.width = 50
@@ -359,7 +360,7 @@ class Robot:
                     if abs(angle_diff) <= self.cone_half_angle:
                         if hasattr(enemy, 'health_system'):
                             self.relics.update_on_hit()        # update relics on-hit-cooldown
-                            self.relics.on_hit(self, enemy)    # use relics on-hit effects
+                            self.relics.on_hit(enemy, enemies)    # use relics on-hit effects
                             enemy.health_system.take_damage(self.attack_damage)
                             print(f"Gegner getroffen! HP: {enemy.health_system.current_health}")
 

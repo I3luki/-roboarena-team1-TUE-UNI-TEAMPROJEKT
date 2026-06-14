@@ -13,6 +13,9 @@ from Screens.MainMenu import MainMenu
 from Screens.PauseMenu import PauseMenu
 from Screens.StatsScreen import StatsScreen
 
+#TODO: delete after testing
+from Relics import Ice
+
 TEST_MODE = False    # TESTMODE: wenn true, dann ist testmodus an
 
 SCREEN_WIDTH = 1000
@@ -141,6 +144,8 @@ game.state = "MENU"
 pause_menu = PauseMenu(screen)
 #stats
 stats_screen = StatsScreen(screen)
+
+
 # -------------------------------------------------------------------- GAME LOOP ------------
 while True:
 
