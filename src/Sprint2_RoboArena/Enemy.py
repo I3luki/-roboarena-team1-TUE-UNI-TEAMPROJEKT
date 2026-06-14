@@ -133,10 +133,10 @@ class Enemy:
         for effect in self.status_effects:
             effect.apply_to(self)
         
-        for status_effect in self.status_effects:
-            status_effect.apply_to(self)
-            if status_effect.ttl_current < 0:
-                self.status_effects.remove(status_effect)
+        for effect in self.status_effects:
+            effect.apply_to(self)
+            if effect.ttl_current < 0:
+                self.status_effects.remove(effect)
 
     # Update Enemy Movement zum Spieler
     def update(self, robot, budget_available):

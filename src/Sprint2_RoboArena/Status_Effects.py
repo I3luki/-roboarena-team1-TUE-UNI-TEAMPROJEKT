@@ -144,7 +144,7 @@ class Slow_Debuff(Effect):
         self.ttl_max = self.SLOW_TIME
         self.ttl_current = self.ttl_max
         self.slow_debuff = 0  # initiated in apply_to()
-        self.slow_factor = 0.3
+        self.slow_factor = 0.2
         self.in_use = False
         self.me = []   # current holder of the debuff
 
@@ -156,9 +156,8 @@ class Slow_Debuff(Effect):
 
         # Initial Application of the Buff
         if(not self.in_use):
-            # compute buff
+            # compute debuff
             self.slow_debuff = me.speed_base * self.slow_factor
-            # self.slow_rate = self.speed_buff / self.SPEED_SLOWDOWN
 
             # apply buff on Initiation
             if(self.ttl_current > 0):
@@ -186,7 +185,9 @@ class Slow_Debuff(Effect):
         x_screen -= offset
         y_screen -= offset
 
-        self.screen.blit(self.get_icon(), (x_screen, y_screen))
+        # if self.me was already assigned
+        if self.me:
+            self.screen.blit(self.get_icon(), (x_screen, y_screen))
 
 
 

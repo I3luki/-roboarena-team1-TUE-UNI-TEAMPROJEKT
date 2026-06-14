@@ -187,6 +187,7 @@ class Robot:
         self.reset_status_effects()
         self.speed_current = self.speed_base
         self.undo_all_status_effects()
+        self.relics.list.clear()
 
     # draws the icons of the status effects
     def draw_status_effects(self):

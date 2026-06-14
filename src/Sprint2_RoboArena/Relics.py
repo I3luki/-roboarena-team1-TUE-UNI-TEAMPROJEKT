@@ -95,12 +95,16 @@ class Ice:
         if(self.count <= 0):
             print('on-hit ice applied') # TODO: delete after testing
             enemy.status_effects.append(Slow_Debuff(self.robot))
-            self.count = self.cooldown
+            
 
 
     def update_on_attack(self):
         print("Ice count updated on attack")#TODO: delete after testing
+        if(self.count <= 0):
+            self.count = self.cooldown
+
         self.count -= 1
+
 
     def get_icon(self):
         surf = pygame.Surface((ICON_WIDTH,ICON_HEIGHT))
