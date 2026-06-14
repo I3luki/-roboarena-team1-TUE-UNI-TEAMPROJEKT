@@ -169,7 +169,8 @@ while True:
                 arena,
                 enemy_manager,
                 orb_list,
-                level
+                level,
+                wave_manager
             )
 
         else:
