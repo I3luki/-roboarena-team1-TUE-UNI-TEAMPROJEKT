@@ -29,12 +29,11 @@ class Relics:
         # Zeichne die relic Icons auf die Icon-Bar
         for relic in self.list:
             icon_bar.blit(relic.get_icon(), (index*(ICON_WIDTH+space), 0))
+            index += 1
 
         # Zeichne die Icon-Bar auf den Screen
         self.screen.blit(icon_bar, icon_bar_pos)
 
-
-        print("relicshave been drawn")#TODO: delete after testing
 
     # updates every on-hit-cooldown relic
     def update_on_hit(self):
@@ -74,7 +73,7 @@ class Ricochet:
         
 
     def get_icon(self):
-        surf = pygame.surface(ICON_WIDTH,ICON_HEIGHT)
+        surf = pygame.Surface((ICON_WIDTH,ICON_HEIGHT))
         surf.fill((0,0,255))     # blau
         return surf
     

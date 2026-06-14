@@ -154,8 +154,6 @@ class Slow_Debuff(Effect):
         
         self.me = me
 
-        print('Slow Debuff applied')  #TODO: delete after testing
-
         # Initial Application of the Buff
         if(not self.in_use):
             # compute buff
@@ -257,7 +255,7 @@ class Ricochet_Debuff(Effect):
         self.robot = robot
         self.camera = robot.arena.camera
         self.screen = robot.arena.screen
-        self.damage = robot.attack_damage / 4
+        self.damage = robot.attack_damage / 5
 
         self.start = robot   # the start of the riccochet
         self.me = robot      # the current holder of the debuff
@@ -278,7 +276,7 @@ class Ricochet_Debuff(Effect):
         # update
         # (has to be done first to prevent instant proccing on the next enemy, maybe)
         self.ttl_current -= 1
-        self.me = me    # TODO: Optimize
+        self.me = me   
 
         # when it is time to tick
         if(self.ttl_current % self.tick == 0):
@@ -300,7 +298,7 @@ class Ricochet_Debuff(Effect):
                 # check distance
                 distance = math.hypot(x2 - x1, y2 - y1)
                 if(distance < self.range):
-                    print("near enemy found!") #TODO: delete after testing
+                    print("Ricochet: near enemy found!") #TODO: delete after testing
                     # add this debuff to the enemy, than remove this effect from me
                     enemy.status_effects.append(self)
                     me.status_effects.remove(self) 
@@ -308,7 +306,7 @@ class Ricochet_Debuff(Effect):
                 
             # if no target found, destroy this status effect
             self.ttl_current = -1
-            print("no more near targets found") #TODO: delete after testing
+            print("Ricochet: no more near targets found") #TODO: delete after testing
 
     # draws a ricochet
     def draw(self):

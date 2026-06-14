@@ -193,6 +193,9 @@ while True:
                 elif event.key == pygame.K_2:
                     buff_manager.apply_buff(1, robot, health)
 
+                elif event.key == pygame.K_3:
+                    buff_manager.apply_buff(2, robot, health)
+
         if event.type == SPAWN_ENEMY_EVENT:
             #damit nur gegener spwanen wenn spiel läuft
             if game.state == "PLAYING":
