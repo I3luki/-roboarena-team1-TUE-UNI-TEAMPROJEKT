@@ -1,7 +1,7 @@
 import pygame
 import math
 from Collision import AABB
-from Relics import Relics, Ice, Ricochet  #TODO: delete Ice after testing
+from Relics import Relics
 from Animation_Handler import load_spritesheet
 from Animation_Handler import animation_scaling
 
@@ -17,7 +17,6 @@ class Robot:
         self.level = level
         self.status_effects = []
         self.relics = Relics(self, arena)
-        self.relics.list.append(Ice(self))#TODO: delete after testing
         self.x = x
         self.y = y
         self.width = 50
