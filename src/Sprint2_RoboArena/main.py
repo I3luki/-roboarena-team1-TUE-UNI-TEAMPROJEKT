@@ -62,6 +62,7 @@ def draw():
     arena.draw(robot)
     robot.draw()
     robot.draw_status_effects()
+    robot.relics.draw_icons()
     for orb in orb_list:
         orb.draw()
     enemy_manager.draw()

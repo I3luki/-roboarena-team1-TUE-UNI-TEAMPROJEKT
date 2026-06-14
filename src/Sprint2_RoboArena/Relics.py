@@ -20,18 +20,21 @@ class Relics:
         
     def draw_icons(self):
         # Definiere Position der Icons
-        icon_bar = pygame.surface(ICON_WIDTH*7, ICON_HEIGHT, pygame.SRCALPHA)
+        icon_bar = pygame.Surface((ICON_WIDTH*7, ICON_HEIGHT), pygame.SRCALPHA)
         icon_bar.fill((0,0,0,0))
-        icon_bar_pos = (50, 200)
+        icon_bar_pos = (30, 120)
         index = 0
         space = int(ICON_WIDTH / 4)  # abstand zwischen icons
 
         # Zeichne die relic Icons auf die Icon-Bar
         for relic in self.list:
-            relic.get_icon().blit(icon_bar, index*(ICON_WIDTH+space))
+            icon_bar.blit(relic.get_icon(), (index*(ICON_WIDTH+space), 0))
 
         # Zeichne die Icon-Bar auf den Screen
-        icon_bar.blit(self.screen, icon_bar_pos)
+        self.screen.blit(icon_bar, icon_bar_pos)
+
+
+        print("relicshave been drawn")#TODO: delete after testing
 
     # updates every on-hit-cooldown relic
     def update_on_hit(self):
@@ -101,6 +104,6 @@ class Ice:
         self.count -= 1
 
     def get_icon(self):
-        surf = pygame.surface(ICON_WIDTH,ICON_HEIGHT)
+        surf = pygame.Surface((ICON_WIDTH,ICON_HEIGHT))
         surf.fill(((173, 216, 230)))   # hellblau
         return surf   
