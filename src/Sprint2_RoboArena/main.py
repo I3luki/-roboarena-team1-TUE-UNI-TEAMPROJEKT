@@ -9,6 +9,7 @@ from EnemyManager import EnemyManager
 from Level import Level
 from GameManager import GameManager
 from BuffManager import BuffManager
+from WaveManager import WaveManager
 from Screens.MainMenu import MainMenu
 from Screens.PauseMenu import PauseMenu
 from Screens.StatsScreen import StatsScreen
@@ -42,6 +43,7 @@ def update():
 
     # Updated Liste an Gegner (Gegner die am Leben sind, Path von Gegner zu Spieler)
     enemy_manager.update(robot, orb_list, arena)
+    wave_manager.update()
     for enemy in enemy_manager.enemies:
         enemy.check_damage_player(robot, health)
 
@@ -119,9 +121,9 @@ arena.camera.y = robot.y # lässt kamera auf roboter spwanen
 # Gegner und Orbs
 orb_list = [Orb(arena,0,0), Orb(arena,0,0)]
 enemy_manager = EnemyManager(arena)
+wave_manager = WaveManager(enemy_manager)
 # Definiere Event, welches alle x Sekunden Gegner spawnen soll
-SPAWN_ENEMY_EVENT = pygame.USEREVENT + 1
-pygame.time.set_timer(SPAWN_ENEMY_EVENT, 1000)
+
 def spawn_enemy():
     for _ in range(2):
         enemy_manager.add_enemy(0, 0)
@@ -156,42 +158,53 @@ while True:
             pygame.quit()
             exit()
 
-        # GameManager Events
-        #Hauptmenü
         if game.state == "MENU":
             main_menu.handle_event(event, game)
-        #stats
+
         elif game.state == "STATS":
             stats_screen.handle_event(event, game)
-        #pause
+
         elif game.state == "PAUSE":
-            pause_menu.handle_event(event,
-                                    game,
-                                    health,
-                                    stamina,
-                                    robot,
-                                    arena,
-                                    enemy_manager,
-                                    orb_list,
-                                    level)
+            pause_menu.handle_event(
+                event,
+                game,
+                health,
+                stamina,
+                robot,
+                arena,
+                enemy_manager,
+                orb_list,
+                level,
+                wave_manager
+            )
 
         else:
-          game.handle_event(event, health, stamina, robot, arena, enemy_manager, orb_list, level)
+            game.handle_event(
+                event,
+                health,
+                stamina,
+                robot,
+                arena,
+                enemy_manager,
+                orb_list,
+                level,
+                wave_manager
+            )
 
-        #Pause Menü einführen mit Keypress
+        # Pause
         if game.state == "PLAYING" and event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 game.state = "PAUSE"
 
-        if buff_manager.active:
+        # Buff-Auswahl
+        if buff_manager.active and event.type == pygame.KEYDOWN:
 
-            if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_1:
+                buff_manager.apply_buff(0, robot, health)
 
-                if event.key == pygame.K_1:
-                    buff_manager.apply_buff(0, robot, health)
+            elif event.key == pygame.K_2:
+                buff_manager.apply_buff(1, robot, health)
 
-                elif event.key == pygame.K_2:
-                    buff_manager.apply_buff(1, robot, health)
 
                 elif event.key == pygame.K_3:
                     buff_manager.apply_buff(2, robot, health)

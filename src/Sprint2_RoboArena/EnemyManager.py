@@ -9,8 +9,8 @@ class EnemyManager:
         self.enemies = []
 
     # Fügt Gegner zu Gegnerliste hinzu
-    def add_enemy(self, x, y):
-        new_enemy = Enemy(self.arena, x, y)
+    def add_enemy(self, x, y, health=100, damage=0.1):
+        new_enemy = Enemy(self.arena, x, y, health, damage)
         self.enemies.append(new_enemy)
         print("Gegner gespawned")
 

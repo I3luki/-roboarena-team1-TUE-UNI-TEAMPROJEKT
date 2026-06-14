@@ -7,7 +7,7 @@ from Enemy_Movement import Enemy_Movement
 
 
 class Enemy:
-    def __init__(self, arena, x ,y):
+    def __init__(self, arena, x ,y, health=100, damage=0.1):
         self.arena  = arena
         self.screen = arena.screen
         self.camera = arena.camera
