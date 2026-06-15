@@ -44,7 +44,7 @@ class Bee(Enemy):
         return False
 
     def check_damage_player(self, robot, health):
-        wave= wave
+
         if self.attack_cooldown > 0:
             self.attack_cooldown -= 1
             return
