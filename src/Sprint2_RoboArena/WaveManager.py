@@ -29,16 +29,16 @@ class WaveManager:
         elif self.current_wave < 3:
 
             enemy_weights = {
-            "goblin": 90,
-            "slime": 10
+            "goblin": 70,
+            "slime": 30
         }
 
         elif self.current_wave < 4:
 
             enemy_weights = {
-            "goblin": 75,
+            "goblin": 65,
             "slime": 15,
-            "bee": 10
+            "bee": 20
         }
 
         else:

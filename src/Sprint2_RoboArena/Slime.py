@@ -1,7 +1,7 @@
 from Enemy import Enemy
 import math
+from Status_Effects import Slow_DebuffPlayer
 
-from src.Sprint2_RoboArena.Status_Effects import Slow_Debuff
 
 
 class Slime(Enemy):
@@ -32,5 +32,5 @@ class Slime(Enemy):
         distance = math.hypot(dx, dy)
 
         if distance < self.damage_radius:
-            robot.add_status_effect(Slow_Debuff(5*60, 0.5))
+            robot.add_status_effect(Slow_DebuffPlayer(5*60, 0.5))
             self.slow_cooldown = self.slow_cooldown_max

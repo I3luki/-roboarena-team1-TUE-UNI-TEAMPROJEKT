@@ -321,7 +321,7 @@ class Ricochet_Debuff(Effect):
 
 
 
-class Slow_Debuff(Effect):
+class Slow_DebuffPlayer(Effect):
 
     def __init__(self, duration=2*SECOND, factor=0.5):
         self.ttl_max = duration
