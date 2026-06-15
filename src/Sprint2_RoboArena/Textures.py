@@ -73,7 +73,8 @@ def load_spritesheet(filename, frame_width, frame_height, rows, cols, skip_cols=
         row_frames = []
         for col in range(cols):
             # Von 0,1,2.. auf 1,2,3..
-            current_col_intuitive = col + 1
+            # current_col_intuitive = col + 1
+            
             # Wenn Spalte in Skipliste, überspringen
             if col in skip_cols:
                 continue
