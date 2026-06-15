@@ -20,7 +20,7 @@ class Enemy:
                          self.y + self.radius)
         self.damage_radius = 100
         self.damage = 0.1
-        self.health_system = HealthSystem_Enemy()
+        self.health_system = HealthSystem_Enemy(health)
         self.speed_base = 1.5
         self.speed_current = self.speed_base
         self.movement = Enemy_Movement()
