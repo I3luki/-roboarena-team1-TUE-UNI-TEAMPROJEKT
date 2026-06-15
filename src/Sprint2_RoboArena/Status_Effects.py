@@ -237,7 +237,7 @@ class Poison_Debuff(Tick_Effect):
         self.ttl_current -= 1
 
     def get_icon(self):
-        color = (128, 0, 128)
+        color = (128, 0, 128) # lila
         return make_icon(self.ICON_WIDTH, self.ICON_HEIGHT, color, "poison")
     
 

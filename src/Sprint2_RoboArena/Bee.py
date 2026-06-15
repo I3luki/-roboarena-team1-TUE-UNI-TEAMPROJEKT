@@ -15,11 +15,12 @@ class Bee(Enemy):
             damage
         )
 
-        self.speed = 2
+        self.speed = 2.5
         self.damage_radius = 30
         self.color = (255, 255, 0)
-        self.attack_cooldown_max = 120
+        self.attack_cooldown_max = 3*60
         self.attack_cooldown = 0
+
 
     def update(self, robot, budget_available):
 
@@ -43,7 +44,7 @@ class Bee(Enemy):
         return False
 
     def check_damage_player(self, robot, health):
-
+        wave= wave
         if self.attack_cooldown > 0:
             self.attack_cooldown -= 1
             return
@@ -56,6 +57,6 @@ class Bee(Enemy):
         if distance < self.damage_radius:
 
             robot.add_status_effect(
-                Poison_Debuff(3*60,0.5)
+                Poison_Debuff(3*60,5)
             )
             self.attack_cooldown = self.attack_cooldown_max

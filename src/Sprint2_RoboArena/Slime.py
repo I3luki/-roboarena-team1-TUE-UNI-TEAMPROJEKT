@@ -18,7 +18,7 @@ class Slime(Enemy):
         self.color = (0, 200, 255)
         self.speed = 0.5
         self.slow_cooldown = 0
-        self.slow_cooldown_max = 120
+        self.slow_cooldown_max = 5*60
 
         self.damage_radius = 70 + 2 * wave
     def check_damage_player(self, robot, health):
@@ -32,5 +32,5 @@ class Slime(Enemy):
         distance = math.hypot(dx, dy)
 
         if distance < self.damage_radius:
-            robot.add_status_effect(Slow_DebuffPlayer(5*60, 0.5))
+            robot.add_status_effect(Slow_DebuffPlayer(5*60, 0.2))
             self.slow_cooldown = self.slow_cooldown_max

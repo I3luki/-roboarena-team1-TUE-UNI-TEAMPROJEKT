@@ -20,20 +20,21 @@ class WaveManager:
 
         print(f"Wave {self.current_wave}")
 
-        if self.current_wave < 2:
+        if self.current_wave < 3:
 
             enemy_weights = {
                 "goblin": 100
+
             }
 
-        elif self.current_wave < 3:
+        elif self.current_wave < 5:
 
             enemy_weights = {
             "goblin": 70,
             "slime": 30
         }
 
-        elif self.current_wave < 4:
+        elif self.current_wave < 9:
 
             enemy_weights = {
             "goblin": 65,
