@@ -21,7 +21,8 @@ class PauseMenu:
                      arena,
                      enemy_manager,
                      orb_list,
-                     level):
+                     level,
+                     wave_mananger):
 
         if event.type == pygame.KEYDOWN:
 
@@ -47,7 +48,9 @@ class PauseMenu:
                         arena,
                         enemy_manager,
                         orb_list,
-                        level
+                        level,
+                        wave_mananger
+
                     )
 
                     game.go_to_menu()
