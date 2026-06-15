@@ -18,11 +18,12 @@ class Enemy:
                          self.y - self.radius,
                          self.x + self.radius, 
                          self.y + self.radius)
-        self.damage_radius = 100
+        self.damage_radius = 40
         self.damage = damage
         self.health_system = HealthSystem_Enemy(health)
         self.speed = 1.5
         self.movement = Enemy_Movement()
+        self.color = (0, 128, 0)
 
     #Spieler bekommt schaden wenn er im gewissen radius zum Turret ist.
 
@@ -93,25 +94,25 @@ class Enemy:
 
     # zeichnet den Gegener
     def draw(self):
-        color_inner = (0,128,0)
-        color_outer = (0,0,0)
+
+        color_outer = (0, 0, 0)
 
         x_screen, y_screen = self.camera.global_to_screen(self)
 
-        # Zeichne inneren Kreis
         pygame.draw.circle(
             self.screen,
-            color_inner,
-            (x_screen,y_screen),
+            self.color,
+            (x_screen, y_screen),
             self.radius
         )
 
-        # Zeichne äußeren Kreis
-        pygame.draw.circle(self.screen,
-                           color_outer,
-                           (x_screen,y_screen),
-                           100,
-                           2)
+        pygame.draw.circle(
+            self.screen,
+            color_outer,
+            (x_screen, y_screen),
+            self.radius,
+            2
+        )
 
         self.health_system.draw(self.screen, x_screen, y_screen)
 
