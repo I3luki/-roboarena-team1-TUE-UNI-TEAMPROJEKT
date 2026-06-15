@@ -12,14 +12,12 @@ from BuffManager import BuffManager
 from Screens.MainMenu import MainMenu
 from Screens.PauseMenu import PauseMenu
 from Screens.StatsScreen import StatsScreen
+from Textures import Textures
 
 TEST_MODE = False    # TESTMODE: wenn true, dann ist testmodus an
 
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 1000
-
-
-
 
 # Update alles
 def update():
@@ -57,7 +55,6 @@ def update():
 def draw():
     screen.fill((0, 0, 0))
     arena.draw(robot)
-    robot.draw()
     robot.draw_status_effects()
     for orb in orb_list:
         orb.draw()
@@ -98,6 +95,8 @@ pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("RoboArena")
 clock = pygame.time.Clock()
+
+Textures.load_all()
 
 # Lebens-System:
 health = HealthSystem_Player(screen, max_health=100, bar_x=10, bar_y=10, bar_width=400, bar_height=25)
@@ -191,7 +190,7 @@ while True:
         if event.type == SPAWN_ENEMY_EVENT:
             #damit nur gegener spwanen wenn spiel läuft
             if game.state == "PLAYING":
-                if len(enemy_manager.enemies) >= 10:
+                if len(enemy_manager.enemies) >= 0:
                     pass
                 else:
                     spawn_enemy()
