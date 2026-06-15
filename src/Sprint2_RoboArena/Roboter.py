@@ -1,6 +1,7 @@
 import pygame
 import math
 from Collision import AABB
+from Relics import Relics
 from Animation_Handler import load_spritesheet
 from Animation_Handler import animation_scaling
 
@@ -15,6 +16,7 @@ class Robot:
         self.stamina = stamina
         self.level = level
         self.status_effects = []
+        self.relics = Relics(self, arena)
         self.x = x
         self.y = y
         self.width = 50
@@ -185,6 +187,7 @@ class Robot:
         self.reset_status_effects()
         self.speed_current = self.speed_base
         self.undo_all_status_effects()
+        self.relics.list.clear()
 
     # draws the icons of the status effects
     def draw_status_effects(self):
@@ -342,6 +345,9 @@ class Robot:
             self.is_attacking = True
             self.attack_visible_until = currentTime + 600
 
+            # update relic on-attack cooldown
+            self.relics.update_on_attack()
+
             # Frage alle Gegner ab, die im Kegel des Angriffs sind
             for enemy in enemies:
                 dx = enemy.x - (self.x + self.width / 2)
@@ -353,6 +359,8 @@ class Robot:
                     angle_diff = (enemy_angle - self.angle + 180) % 360 - 180
                     if abs(angle_diff) <= self.cone_half_angle:
                         if hasattr(enemy, 'health_system'):
+                            self.relics.update_on_hit()        # update relics on-hit-cooldown
+                            self.relics.on_hit(enemy, enemies)    # use relics on-hit effects
                             enemy.health_system.take_damage(self.attack_damage)
                             print(f"Gegner getroffen! HP: {enemy.health_system.current_health}")
 

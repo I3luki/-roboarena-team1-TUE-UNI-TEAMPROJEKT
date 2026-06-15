@@ -39,6 +39,7 @@ class EnemyManager:
     # Updated Liste an lebenden Gegnern
     def update(self, robot, orb_list, arena):
         for enemy in self.enemies[:]:
+            enemy.update_status_effects()
             if hasattr(enemy, 'health_system') and enemy.health_system.is_dead(): # Wenn Gegner tot ist
                 new_orb = Orb(arena, enemy.x, enemy.y)
                 orb_list.append(new_orb) # Erstelle neuen Orb und füge ihn der Liste hinzu
@@ -56,3 +57,11 @@ class EnemyManager:
 
             if did_calculate:
                 calcs_done_this_frame += 1
+
+    def draw(self):
+        for enemy in self.enemies:
+            enemy.draw()
+            
+            for effect in enemy.status_effects:
+                if hasattr(effect, "draw"):
+                    effect.draw()
