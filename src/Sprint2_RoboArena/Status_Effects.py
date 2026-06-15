@@ -4,12 +4,6 @@ import random
 
 SECOND = 60   # because 60FPS at the Moment
 
-
-
-
-
-
-
 # -------------------------------------------------------- Allgemeine Klassen und Methoden ----------------- 
 class Effect:
 
@@ -228,23 +222,22 @@ class Healthgen_Buff(Tick_Effect):
 # Poison-Debuff: "does flat tick-damage over time"
 class Poison_Debuff(Tick_Effect):
 
-    def __init__(self):
-        self.ttl_max = 5 * SECOND
-        self.ttl_current = self.ttl_max
-        self.effect_amount = 0.2                   
-        self.tick_rate = int(0.1 * SECOND)
-
+    def __init__(self, duration=3*SECOND, dmg=0.5):
+        self.ttl_max = duration
+        self.ttl_current = duration
+        self.effect_amount = dmg
+        self.tick_rate = int(0.5 * SECOND)  # alle 0.5 Sekunden Schaden
 
     def apply_to(self, robot):
-        # on-tick do dmg
-        if(self.ttl_current % self.tick_rate == 0):
+
+        # nur auf Tick Schaden machen
+        if self.ttl_current % self.tick_rate == 0:
             robot.health.take_damage(self.effect_amount)
-        
-        # update TTL
+
         self.ttl_current -= 1
 
     def get_icon(self):
-        color = (128, 0, 128)  # lila
+        color = (128, 0, 128) # lila
         return make_icon(self.ICON_WIDTH, self.ICON_HEIGHT, color, "poison")
     
 
@@ -328,8 +321,34 @@ class Ricochet_Debuff(Effect):
 
 
 
+class Slow_DebuffPlayer(Effect):
 
-        
+    def __init__(self, duration=2*SECOND, factor=0.5):
+        self.ttl_max = duration
+        self.ttl_current = duration
+        self.factor = factor
+        self.in_use = False
+        self.slow_amount = 0
+
+    def apply_to(self, robot):
+
+
+        if not self.in_use and self.ttl_current > 0:
+            self.slow_amount = robot.speed_current * (1 - self.factor)
+            robot.speed_current *= self.factor
+            self.in_use = True
+
+        # wenn abgelaufen → zurücksetzen
+        if self.ttl_current <= 0 and self.in_use:
+            robot.speed_current /= self.factor
+            self.in_use = False
+
+        # TTL runterzählen
+        self.ttl_current -= 1
+
+    def get_icon(self):
+        color = (0, 150, 255)  # blau
+        return make_icon(self.ICON_WIDTH, self.ICON_HEIGHT, color, "slow")
             
 
         

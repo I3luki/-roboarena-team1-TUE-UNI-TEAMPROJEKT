@@ -1,5 +1,9 @@
-from Enemy import Enemy
+
 from Orb import Orb
+from Goblin import Goblin
+from Slime import Slime
+from Bee import Bee
+from Wolf import Wolf
 
 
 # Updated Liste von Gegnern, die am Leben sind
@@ -9,10 +13,28 @@ class EnemyManager:
         self.enemies = []
 
     # Fügt Gegner zu Gegnerliste hinzu
-    def add_enemy(self, x, y, health=100, damage=0.1):
-        new_enemy = Enemy(self.arena, x, y, health, damage)
-        self.enemies.append(new_enemy)
-        print("Gegner gespawned")
+
+
+    def add_enemy(self, enemy_type, x, y, wave):
+
+        if enemy_type == "goblin":
+            enemy = Goblin(self.arena, x, y, wave)
+            print("Goblin gespawned")
+        elif enemy_type == "slime":
+            enemy = Slime(self.arena, x, y, wave)
+            print("slime gespawned")
+        elif enemy_type == "bee":
+            enemy = Bee(self.arena, x, y, wave)
+            print("bee gespawned")
+        elif enemy_type == "wolf":
+            enemy = Wolf(self.arena, x, y, wave)
+            print("Wolf gespawned")
+
+
+        else:
+            return
+
+        self.enemies.append(enemy)
 
     # Updated Liste an lebenden Gegnern
     def update(self, robot, orb_list, arena):
