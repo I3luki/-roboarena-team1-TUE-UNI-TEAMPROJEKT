@@ -42,8 +42,6 @@ class Textures:
         cls.GROUND_ROCKS = pygame.image.load("Sprites/ground_rocks1.png").convert_alpha()
         cls.GROUND_ROCKS = pygame.transform.scale(cls.GROUND_ROCKS, (50, 50))
 
-        rocks_full_sheet = pygame.image.load("Sprites/ground_rocks_all.png").convert_alpha()
-
         cls.GROUND_LABYRINTH = pygame.image.load("Sprites/ground_labyrinth.png").convert_alpha()
         cls.GROUND_LABYRINTH = pygame.transform.scale(cls.GROUND_LABYRINTH, (80, 80))
 
@@ -68,8 +66,6 @@ def load_spritesheet(filename, frame_width, frame_height, rows, cols, skip_cols=
         raw_sheet.set_colorkey(colorkey)
 
     sprite_sheet = raw_sheet.convert_alpha()
-    sheet_width = sprite_sheet.get_width()
-    sheet_height = sprite_sheet.get_height()
 
     animation_grid = []
 
