@@ -3,7 +3,7 @@ import random
 import math
 from Collision import AABB
 from Status_Effects import Speed_Buff, Healthgen_Buff, Poison_Debuff
-
+from Textures import Textures
 
 SECOND = 60     # Eine Sekunde sind 60 Frames
 
@@ -11,14 +11,19 @@ SECOND = 60     # Eine Sekunde sind 60 Frames
 # -------------------------------------------------- GLOBALE METHODEN, KONSTANTEN UND ALLGEMEINE KLASSEN -------------
 # zeichnet die gegebene Instanz
 def draw(rect):
-    # update AABB
+    # update aabb
     rect.aabb.update(rect.x, rect.y,
                      rect.x + rect.width, rect.y + rect.height)
-    
-    # draw tile
+
     x_screen, y_screen = rect.camera.global_to_screen(rect)
+
+    offset_x = (rect.surface.get_width() - rect.width) // 2
+    offset_y = (rect.surface.get_height() - rect.height) // 2
+
+    # draw rect
     rect.screen.blit(rect.surface,
-                     (x_screen, y_screen))
+                     (x_screen - offset_x,
+                      y_screen - offset_y))
         
 # Zeichnet einen Cooldown über das Tile
 def draw_cooldown(tile):
@@ -185,16 +190,33 @@ class Surprisetile(Tile):
         
 
 # Makes a small amount of Damage on Impact 
-class CactusTile(Tile):
-    COLOR = (0, 150, 0)
-    width = 40
-    height = 40
-    
+class Cactus:
+    width = 15
+    height = 15
     DAMAGE = 0.5
 
-    def __init__(self,arena,x,y):
-        super().__init__(arena, x, y)
-        self.cooldown_max = int(0.5*SECOND)
+    def __init__(self, arena, x, y):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+
+        # Die Hitbox sitzt genau auf den übergebenen Koordinaten
+        self.x = x
+        self.y = y
+
+        self.last_damage_time = 0
+        self.cooldown = 500
+
+        # Bild laden und auf die gewünschte Grafik-Größe skalieren
+        self.surface = pygame.transform.scale(Textures.CACTUS1, (80, 80))
+
+        self.aabb = AABB(self.x, self.y, self.x + self.width, self.y + self.height)
+
+    def handle_damage(self, robot):
+        current_time = pygame.time.get_ticks()
+        if current_time - self.last_damage_time >= self.cooldown:
+            self.last_damage_time = current_time
+            robot.health.take_damage(self.DAMAGE)
     
     
     def apply_to(self, robot):
@@ -202,8 +224,72 @@ class CactusTile(Tile):
             robot.health.take_damage(self.DAMAGE) # that stings
             self.cooldown_current = self.cooldown_max
 
+    def draw(self):
+        draw(self)
 
-            
+    def draw_aabb(self):
+        draw_aabb(self)
+
+class CursedStone:
+    width = 70
+    height = 50
+
+    def __init__(self, arena, x, y):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+
+        # Die Hitbox sitzt genau auf den übergebenen Koordinaten
+        self.x = x
+        self.y = y
+
+        # Bild laden und auf die gewünschte Grafik-Größe
+        # Entweder 1 oder 2 der Assets aus Textures.CURSED_ROCK1 oder Textures.CURSED_ROCK2
+        r = random.randint(0, 1)
+        if r == 0:
+            self.surface = pygame.transform.scale(Textures.CURSED_STONE1, (100, 140))
+        else:
+            self.surface = pygame.transform.scale(Textures.CURSED_STONE2, (100, 140))
+
+        self.aabb = AABB(self.x, self.y, self.x + self.width, self.y + self.height)
+
+    def draw(self):
+        draw(self)
+
+    def draw_aabb(self):
+        draw_aabb(self)
+
+class CursedHole:
+
+    def __init__(self, arena, x, y):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+
+        # Die Hitbox sitzt genau auf den übergebenen Koordinaten
+        self.x = x
+        self.y = y
+
+        # Bild laden und auf die gewünschte Grafik-Größe
+        r = random.randint(1, 3)
+        if r == 1:
+            self.surface = pygame.transform.scale(Textures.CURSED_HOLE1, (100, 140))
+            self.width = 42
+            self.height = 36
+        elif r == 2:
+            self.surface = pygame.transform.scale(Textures.CURSED_HOLE2, (100, 140))
+            self.width = 38
+            self.height = 32
+        else:
+            self.surface = pygame.transform.scale(Textures.CURSED_HOLE3, (100, 140))
+            self.width = 34
+            self.height = 42
+
+        self.aabb = AABB(self.x, self.y, self.x + self.width, self.y + self.height)
+
+    def draw(self):
+        draw(self)
+
 class SkullTile(Tile):
     COLOR = (70, 70, 70)
     width = 30
@@ -221,18 +307,68 @@ class BoneTile(Tile):
     def apply_to(self, robot):
          pass #TODO: implement an effect
 
+class Stone:
 
+    def __init__(self, arena, x, y):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+
+        # Die Hitbox sitzt genau auf den übergebenen Koordinaten
+        self.x = x
+        self.y = y
+
+        # Bild laden und auf die gewünschte Grafik-Größe (100x100) skalieren
+        r = random.randint(1, 7)
+        if r == 1:
+            self.surface = pygame.transform.scale(Textures.STONE1, (150, 150))
+            self.width = 70
+            self.height = 45
+        elif r == 2:
+            self.surface = pygame.transform.scale(Textures.STONE2, (80, 80))
+            self.width = 43
+            self.height = 25
+        elif r == 3:
+            self.surface = pygame.transform.scale(Textures.STONE3, (150, 150))
+            self.width = 72
+            self.height = 48
+        elif r == 4:
+            self.surface = pygame.transform.scale(Textures.STONE4, (110, 110))
+            self.width = 43
+            self.height = 33
+        elif r == 5:
+            self.surface = pygame.transform.scale(Textures.STONE5, (130, 130))
+            self.width = 60
+            self.height = 40
+        elif r == 6:
+            self.surface = pygame.transform.scale(Textures.STONE6, (130, 130))
+            self.width = 75
+            self.height = 40
+        else:
+            self.surface = pygame.transform.scale(Textures.STONE7, (130, 130))
+            self.width = 80
+            self.height = 45
+
+        self.aabb = AABB(self.x, self.y, self.x + self.width, self.y + self.height)
+
+    def draw(self):
+        draw(self)
+
+    def draw_aabb(self):
+        draw_aabb(self)
 
 class LightningTile:
     WARNING_COLOR = (255, 255, 0)   # gelbes Warn-Dreieck
     COLOR = (250, 250, 250)   # hellblau
     width = 80
-    height = 80
+    height = 20
 
-    WARNING_TIME = 1000      # 1 Sekunde Warnung
-    LIFETIME = 2000         # bleibt 2 Sekunden
+    WARNING_TIME = 500      # 1 Sekunde Warnung
+    LIFETIME = 500         # bleibt 2 Sekunden
     DAMAGE = 5              # Schaden pro Treffer
     DAMAGE_COOLDOWN = 500   # Schaden nur alle 0.5 Sekunden
+
+    FRAME_DURATION = 60 # Wie viele ms ein Animationsframe sichtbar ist
 
     def __init__(self, arena):
         self.arena = arena
@@ -308,9 +444,12 @@ class LightningTile:
          pass #TODO: implement an effect
 
     def draw(self):
+        current_time = pygame.time.get_ticks()
+        elapsed_time = current_time - self.spawn_time
         x_screen, y_screen = self.camera.global_to_screen(self)
 
         if self.is_warning:
+            # Gelbes Dreieck zeichnen
             points = [
                 (x_screen + self.width / 2, y_screen),
                 (x_screen, y_screen + self.height),
@@ -323,7 +462,16 @@ class LightningTile:
                 points
             )
         else:
-          self.screen.blit(self.surface, (x_screen, y_screen))
+            # Blitz Animation abspielen
+            active_frames = Textures.LIGHTNING_ANIMATION[0]
+            frame_index = (elapsed_time // self.FRAME_DURATION) % len(active_frames)
+            current_surface = active_frames[frame_index]
+
+            # Zentrieren damit Hitbox mittig vom Blitz ist
+            x_offset = (current_surface.get_width() - self.width) // 2
+            y_offset = current_surface.get_height() - self.height
+
+            self.screen.blit(current_surface, (x_screen - x_offset, y_screen - y_offset))
 
     def draw_aabb(self):
         draw_aabb(self)

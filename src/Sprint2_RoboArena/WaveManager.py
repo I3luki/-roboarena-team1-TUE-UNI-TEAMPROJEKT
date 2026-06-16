@@ -18,23 +18,57 @@ class WaveManager:
 
         enemy_count = 1 + self.current_wave * 1#Anzahl beim start mit jeder wave gibts erstmal einen Mehr war einfacher zum testen
 
-        enemy_health = 10 + self.current_wave * 50#Health wird immer mehr
-
-        enemy_damage = 0.01 + self.current_wave * 0.3#genauso wie der damage
-
         print(f"Wave {self.current_wave}")
+
+        if self.current_wave < 3:
+
+            enemy_weights = {
+                "goblin": 100
+
+            }
+
+        elif self.current_wave < 5:
+
+            enemy_weights = {
+            "goblin": 70,
+            "slime": 30
+        }
+
+        elif self.current_wave < 9:
+
+            enemy_weights = {
+            "goblin": 65,
+            "slime": 15,
+            "bee": 20
+        }
+
+        else:
+
+            enemy_weights = {
+            "goblin": 50,
+            "slime": 15,
+            "bee": 15,
+            "wolf": 20
+        }
 
         for i in range(enemy_count):
 
             x = random.randint(100, 3000)
             y = random.randint(100, 3000)
 
+            enemy_type = random.choices(
+                list(enemy_weights.keys()),
+                weights=list(enemy_weights.values()),
+                k=1
+            )[0]
+
             self.enemy_manager.add_enemy(
+                enemy_type,
                 x,
                 y,
-                enemy_health,
-                enemy_damage
+                self.current_wave
             )
+
             self.enemy_manager.enemies[-1].randomize_position()
 
     def update(self):

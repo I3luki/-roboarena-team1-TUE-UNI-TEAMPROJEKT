@@ -62,8 +62,8 @@ class Enemy_Movement:
                 # Wegpunkt erreicht: einen Schritt im Pfad vorwärts
                 self.path.pop(0)
             else:
-                enemy.x += (dx / dist) * enemy.speed
-                enemy.y += (dy / dist) * enemy.speed
+                enemy.x += (dx / dist) * enemy.speed_current
+                enemy.y += (dy / dist) * enemy.speed_current
 
                 enemy.aabb.update(
                     enemy.x - enemy.radius,

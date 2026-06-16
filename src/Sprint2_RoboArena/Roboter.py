@@ -1,10 +1,9 @@
 import pygame
 import math
+
 from Collision import AABB
-from Animation_Handler import load_spritesheet
-from Animation_Handler import animation_scaling
-
-
+from Relics import Relics
+from Textures import load_spritesheet, animation_scaling
 
 class Robot:
     def __init__(self, arena, health, stamina, level, x, y):
@@ -15,6 +14,7 @@ class Robot:
         self.stamina = stamina
         self.level = level
         self.status_effects = []
+        self.relics = Relics(self, arena)
         self.x = x
         self.y = y
         self.width = 50
@@ -29,8 +29,8 @@ class Robot:
         self.attack_visible_until = 0
         self.cone_half_angle = 45
         #Ausgangs werte
-        self.default_speed_base = 2
-        self.default_speed_current = 2
+        self.default_speed_base = 5
+        self.default_speed_current = 5
         self.default_attack_radius = 200
         self.default_attack_damage = 50
         self.default_attack_cooldown = 1000
@@ -48,10 +48,10 @@ class Robot:
         grid_run_attack = load_spritesheet("Sprites/Swordsman_lvl3_Run_Attack_without_shadow.png", 64, 64, 4, 8)
         grid_idle_attack = load_spritesheet("Sprites/Swordsman_lvl3_attack_without_shadow.png", 64, 64, 4, 8)
 
-        grid_idle = animation_scaling(grid_idle, 2.5)
-        grid_run = animation_scaling(grid_run, 2.5)
-        grid_idle_attack = animation_scaling(grid_idle_attack, 2.5)
-        grid_run_attack = animation_scaling(grid_run_attack, 2.5)
+        grid_idle = animation_scaling(grid_idle, 2.5, 2.5)
+        grid_run = animation_scaling(grid_run, 2.5, 2.5)
+        grid_idle_attack = animation_scaling(grid_idle_attack, 2.5, 2.5)
+        grid_run_attack = animation_scaling(grid_run_attack, 2.5, 2.5)
 
         self.animations = {
             "idle": {
@@ -106,38 +106,66 @@ class Robot:
                 return True
         return False   # Falls durchläuft, dann kollidiert nicht mit einer Wand
 
+    def collides_with_stone(self):
+        for stone in self.arena.stones:
+            if self.aabb.check_collision(stone.aabb):
+                return True
+        return False
 
+    def collides_with_cactus(self):
+        for cactus in self.arena.cactus:
+                if self.aabb.check_collision(cactus.aabb):
+                    cactus.handle_damage(self)
+                    return True
+        return False
+
+    def collides_with_cursed_stone(self):
+        for cursed_stone in self.arena.cursed_stones:
+            if self.aabb.check_collision(cursed_stone.aabb):
+                return True
+        return False
+
+    def collides_with_cursed_hole(self):
+        for cursed_hole in self.arena.cursed_holes:
+            if self.aabb.check_collision(cursed_hole.aabb):
+                return True
+        return False
+
+    def is_blocked(self):
+        return self.collides_with_wall() or self.collides_with_stone() or self.collides_with_cactus() or self.collides_with_cursed_stone() or self.collides_with_cursed_hole()
 
     def move(self, keys):
-
         self.is_moving = False
 
         if keys[pygame.K_w] or keys[pygame.K_UP]:
             self.y -= self.speed_current
             self.is_moving = True
             self.update_aabb()
-            if self.collides_with_wall():
+            if self.is_blocked():
                 self.y += self.speed_current
                 self.update_aabb()
+
         if keys[pygame.K_s] or keys[pygame.K_DOWN]:
             self.y += self.speed_current
             self.is_moving = True
             self.update_aabb()
-            if self.collides_with_wall():
+            if self.is_blocked():
                 self.y -= self.speed_current
                 self.update_aabb()
+
         if keys[pygame.K_a] or keys[pygame.K_LEFT]:
             self.x -= self.speed_current
             self.is_moving = True
             self.update_aabb()
-            if self.collides_with_wall():
+            if self.is_blocked():
                 self.x += self.speed_current
                 self.update_aabb()
+
         if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
             self.x += self.speed_current
             self.is_moving = True
             self.update_aabb()
-            if self.collides_with_wall():
+            if self.is_blocked():
                 self.x -= self.speed_current
                 self.update_aabb()
 
@@ -185,6 +213,7 @@ class Robot:
         self.reset_status_effects()
         self.speed_current = self.speed_base
         self.undo_all_status_effects()
+        self.relics.list.clear()
 
     # draws the icons of the status effects
     def draw_status_effects(self):
@@ -312,7 +341,7 @@ class Robot:
             return dx / distance, dy / distance
 
         return 0,0
-    
+
     # updatet den Rotationswinkel
     def update_rotation(self):
         direction_x, direction_y = self.get_direction_to_mouse()
@@ -342,6 +371,9 @@ class Robot:
             self.is_attacking = True
             self.attack_visible_until = currentTime + 600
 
+            # update relic on-attack cooldown
+            self.relics.update_on_attack()
+
             # Frage alle Gegner ab, die im Kegel des Angriffs sind
             for enemy in enemies:
                 dx = enemy.x - (self.x + self.width / 2)
@@ -353,6 +385,8 @@ class Robot:
                     angle_diff = (enemy_angle - self.angle + 180) % 360 - 180
                     if abs(angle_diff) <= self.cone_half_angle:
                         if hasattr(enemy, 'health_system'):
+                            self.relics.update_on_hit()        # update relics on-hit-cooldown
+                            self.relics.on_hit(enemy, enemies)    # use relics on-hit effects
                             enemy.health_system.take_damage(self.attack_damage)
                             print(f"Gegner getroffen! HP: {enemy.health_system.current_health}")
 
