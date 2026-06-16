@@ -1,10 +1,12 @@
 import pygame
-from Arena_Objects import Wall,Speedtile,Healthtile,Surprisetile,CactusTile,SkullTile,BoneTile, LightningTile, Tornado
+from Arena_Objects import Wall, Speedtile, Healthtile, Surprisetile, Cactus, SkullTile, BoneTile, LightningTile, \
+    Tornado, Stone, CursedStone, CursedHole
 from Camera import Camera
 from Arena_Matrix import Arena_Matrix
 from pathfinding.core.grid import Grid
 from pathfinding.core.diagonal_movement import DiagonalMovement
 from pathfinding.finder.a_star import AStarFinder
+from Textures import Textures
 
 class Arena:
 
@@ -17,28 +19,46 @@ class Arena:
         self.camera = Camera(screen, 0, 0)
         WALL_THICKNESS = 20
 
-
         # Hintergrund-Surfaces erstellen
-        self.background_surf = pygame.Surface((self.WIDTH,self.HEIGHT))
-        self.background_surf.fill((200, 200, 200))
+        self.background_surf = pygame.Surface((self.WIDTH,self.HEIGHT), pygame.SRCALPHA)
+
+        tile_rocks_w = Textures.GROUND_ROCKS.get_width()
+        tile_rocks_h = Textures.GROUND_ROCKS.get_height()
+
+        rockland_area = [
+            (1950, 1500, 1050, 450),
+            (1500, 1950, 1500, 1050)
+        ]
+
+        # Rockland-Surfaces erstellen
+        for rx, ry, width, height in rockland_area:
+            for x in range(rx, rx + width, tile_rocks_w):
+                for y in range(ry, ry + height, tile_rocks_h):
+                    self.background_surf.blit(Textures.GROUND_ROCKS, (x, y))
+
+        labyrinth_area = [
+            (0, 0, 1500, 1050),
+            (0, 1050, 1050, 450)
+        ]
+
+        tile_labyrinth_w = Textures.GROUND_LABYRINTH.get_width()
+        tile_labyrinth_h = Textures.GROUND_LABYRINTH.get_height()
+
+        # Labyrinth-Surfaces erstellen
+        for lx, ly, width, height in labyrinth_area:
+            for x in range(lx, lx + width, tile_labyrinth_w):
+                for y in range(ly, ly + height, tile_labyrinth_h):
+                    self.background_surf.blit(Textures.GROUND_LABYRINTH, (x, y))
 
         # Farbige Map-Zonen
         self.zones = [
-            # Labyrinth oben links
-            (0, 0, 1500, 1050, (180, 120, 220)),
-            (0, 1050, 1050, 450, (180, 120, 220)),
-
             # Blitzland oben rechts
-            (1500, 0, 1500, 1050, (255, 120, 120)),
-            (1950, 1050, 1050, 450, (255, 120, 120)),
+            (1500, 0, 1500, 1050, (157, 98, 89)),
+            (1950, 1050, 1050, 450, (157, 98, 89)),
 
             # Wüste unten links
             (0, 1500, 1050, 450, (240, 190, 120)),
             (0, 1950, 1500, 1050, (240, 190, 120)),
-
-            # Rochland unten rechts
-            (1950, 1500, 1050, 450, (170, 170, 170)),
-            (1500, 1950, 1500, 1050, (170, 170, 170)),
 
             # Healing Spawn Mitte
             (1050, 1050, 900, 900, (100, 230, 230)),
@@ -50,6 +70,7 @@ class Arena:
             surface.fill(color)
 
             self.zone_surfaces.append((surface, x, y))
+
 
         # list of all walls
         #   a wall is (x, y, WIDTH, HEIGHT)
@@ -161,8 +182,9 @@ class Arena:
             Wall(self, 750, 2450,50,150),
         ]
 
+        # --- Steine ---
+        self.stones = []
         #Schabrettmuster für das Quadrat
-        ROCK_SIZE = 100
         SPACING = 200
 
         # Quadrat unten rechts
@@ -171,10 +193,7 @@ class Arena:
                 if (row + col) % 2 == 0:
                     x = 2050 + col * SPACING
                     y = 2050 + row * SPACING
-
-                    self.walls.append(
-                        Wall(self, x, y, ROCK_SIZE, ROCK_SIZE)
-                    )
+                    self.stones.append(Stone(self, x, y))
 
 
         # Rechteck oben rechts
@@ -183,10 +202,7 @@ class Arena:
                 if (row + col) % 2 == 0:
                     x = 2050 + col * SPACING
                     y = 1550 + row * SPACING
-
-                    self.walls.append(
-                        Wall(self, x, y, ROCK_SIZE, ROCK_SIZE)
-                    )
+                    self.stones.append(Stone(self, x, y))
 
 
         # Rechteck links unten
@@ -195,10 +211,13 @@ class Arena:
                 if (row + col) % 2 == 0:
                     x = 1550 + col * SPACING
                     y = 2050 + row * SPACING
+                    self.stones.append(Stone(self, x, y))
 
-                    self.walls.append(
-                        Wall(self, x, y, ROCK_SIZE, ROCK_SIZE)
-                    )
+        # Cactus Objekte
+        self.cactus = [
+            Cactus(self, 250, 1800),
+            Cactus(self, 500, 2200),
+            Cactus(self, 800, 2600)]
 
         # list of all tiles
         #   a tile is (x,y)
@@ -214,11 +233,6 @@ class Arena:
 
             Surprisetile(self, 500,500),
             Surprisetile(self, 800,900),
-
-            # Wüsten-Tiles(Nur optik)
-            CactusTile(self, 250, 1800),
-            CactusTile(self, 500, 2200),
-            CactusTile(self, 800, 2600),
 
             SkullTile(self, 700, 1900),
             SkullTile(self, 1000, 2400),
@@ -239,10 +253,6 @@ class Arena:
             Surprisetile(self, 800, 1800),
             Surprisetile(self, 1100, 2000),
             Surprisetile(self, 600, 2500),
-
-
-
-
         ]
 
         #Lighting Tiles Anzahl
@@ -251,11 +261,26 @@ class Arena:
             LightningTile(self),
             LightningTile(self),
             LightningTile(self)
-
        ]
 
-        # Definiere grid matrix mit den definierten walls für Enemy Movement
-        self.grid_matrix = Arena_Matrix().build_grid(self.WIDTH, self.HEIGHT, self.walls)
+        self.cursed_stones = [
+            CursedStone(self, 1720, 280),
+            CursedStone(self, 2510, 410),
+            CursedStone(self, 1980, 790),
+            CursedStone(self, 2440, 1220),
+        ]
+
+        self.cursed_holes = [
+            CursedHole(self, 1910, 360),
+            CursedHole(self, 2380, 180),
+            CursedHole(self, 2200, 620),
+            CursedHole(self, 2150, 1130),
+        ]
+
+        # Definiere grid matrix für Enemy Movement
+        # Erstelle dafür all_obstacles mit allen Objekten, die als nicht begehbar gelten sollen
+        all_obstacles = self.walls + self.stones + self.cactus+ self.cursed_stones + self.cursed_holes
+        self.grid_matrix = Arena_Matrix().build_grid(self.WIDTH, self.HEIGHT, all_obstacles)
 
         # Grid und Finder nur einmal erstellen
         self.pf_grid = Grid(matrix=self.grid_matrix)
@@ -306,11 +331,27 @@ class Arena:
     def draw_walls(self):
         for wall in self.walls:
             wall.draw()
+    # draws all stones which are in screen
+    def draw_stones(self):
+        for stone in self.stones:
+            stone.draw()
+
+    def draw_cursed_stones(self):
+        for cursed_stone in self.cursed_stones:
+            cursed_stone.draw()
+
+    def draw_cursed_holes(self):
+        for cursed_hole in self.cursed_holes:
+            cursed_hole.draw()
 
     # draws all tiles which are in screen
     def draw_tiles(self):
         for tile in self.tiles:
             tile.draw()
+
+    def draw_cactus(self):
+        for cactus in self.cactus:
+            cactus.draw()
 
     # Zeichen die Zonen
     def draw_zones(self):
@@ -320,18 +361,67 @@ class Arena:
 
             self.screen.blit(surface, (screen_x, screen_y))
 
+
+
     # Zeichne alle Arena-Objekte und Hintergründe
     def draw(self, robot):
 
         # Zeichne Hintergrund
         self.camera.update(robot)
 
+        bg_x = 0 - self.camera.x + self.screen.get_width() / 2
+        bg_y = 0 - self.camera.y + self.screen.get_height() / 2
+        self.screen.blit(self.background_surf, (bg_x, bg_y))
+
         self.draw_zones()
         self.draw_walls()
+        self.draw_stones()
+        self.draw_cursed_stones()
+
+        # --- Schwarze Vierecke unter den cursed holes zeichnen ---
+        for hole in self.cursed_holes:
+            # ERHÖHE diese Werte, um das Quadrat weiter nach unten/rechts zu schieben:
+            move_horizontal = 15  # Erhöhe, wenn es noch weiter nach rechts soll
+            move_vertical = 30  # Erhöhe, wenn es noch weiter nach unten soll
+
+            # Berechnung inklusive Kamera und Feintuning
+            screen_x = (hole.x - 32 + move_horizontal) - self.camera.x + self.screen.get_width() / 2
+            screen_y = (hole.y - 32 + move_vertical) - self.camera.y + self.screen.get_height() / 2
+
+            # Zeichne das 64x64 Quadrat
+            pygame.draw.rect(self.screen, (0, 0, 0), (screen_x, screen_y, 64, 64))
+
+        self.draw_cursed_holes()
         self.draw_tiles()
         self.tornado.draw()
 
-        #Blitze zeichen
+        # Y-SORTIERUNG: Alle Objekte mit "Tiefe" in einer Liste sammeln
+        render_queue = []
+
+        # Steine hinzufügen
+        render_queue.extend(self.stones)
+
+        # Cactus hinzufügen
+        render_queue.extend(self.cactus)
+
+        render_queue.extend(self.cursed_stones)
+
+        # Roboter (Spieler) hinzufügen
+        render_queue.append(robot)
+
+        # Tornado hinzufügen
+        render_queue.append(self.tornado)
+
+        # (Wenn Gegner hinzugefügt werden, kommen die auch hier rein: render_queue.extend(self.enemies))
+
+        # Sortieren nach der Unterkante des Objekts (y + height)
+        # Lambda nimmt jedes Objekt und schaut, wo seine "Füße" auf der Y-Achse stehen
+        render_queue.sort(key=lambda obj: obj.y + obj.height)
+
+        # Objekte von hinten nach vorne durchgehen und zeichnen
+        for obj in render_queue:
+            obj.draw()
+
         for lightning in self.lightning_tiles:
             lightning.draw()
 
@@ -346,4 +436,6 @@ class Arena:
             if(self.is_rect_onscreen(wall)):
                 wall.draw_aabb()
 
-    
+        for stone in self.stones:
+            if(self.is_rect_onscreen(stone)):
+                stone.draw_aabb()
