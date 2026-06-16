@@ -19,10 +19,13 @@ class Enemy:
                          self.x + self.radius, 
                          self.y + self.radius)
         self.damage_radius = 100
-        self.damage = damage
+        self.damage = 0.1
         self.health_system = HealthSystem_Enemy(health)
-        self.speed = 1.5
+        self.speed_base = 1.5
+        self.speed_current = self.speed_base
         self.movement = Enemy_Movement()
+        self.status_effects = []
+        self.color= (0,128,0)
 
     #Spieler bekommt schaden wenn er im gewissen radius zum Turret ist.
 
@@ -93,7 +96,7 @@ class Enemy:
 
     # zeichnet den Gegener
     def draw(self):
-        color_inner = (0,128,0)
+
         color_outer = (0,0,0)
 
         x_screen, y_screen = self.camera.global_to_screen(self)
@@ -101,7 +104,7 @@ class Enemy:
         # Zeichne inneren Kreis
         pygame.draw.circle(
             self.screen,
-            color_inner,
+            self.color,
             (x_screen,y_screen),
             self.radius
         )
@@ -124,6 +127,17 @@ class Enemy:
 
         # Zeichne
         self.aabb.draw_at(self.arena, x_min_screen, y_min_screen)
+
+    # update_status_effects(): "update the status_list and remove timed-out status_effects"
+    def update_status_effects(self):
+
+        for effect in self.status_effects:
+            effect.apply_to(self)
+        
+        for effect in self.status_effects:
+            effect.apply_to(self)
+            if effect.ttl_current < 0:
+                self.status_effects.remove(effect)
 
     # Update Enemy Movement zum Spieler
     def update(self, robot, budget_available):
