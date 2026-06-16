@@ -2,6 +2,7 @@ import pygame
 import math
 
 from Collision import AABB
+from Relics import Relics
 from Textures import load_spritesheet, animation_scaling
 
 class Robot:
