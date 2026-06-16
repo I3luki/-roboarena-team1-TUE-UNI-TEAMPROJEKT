@@ -1,5 +1,6 @@
 import pygame
 import random
+import math
 from Collision import AABB
 from Status_Effects import Speed_Buff, Healthgen_Buff, Poison_Debuff
 from Textures import Textures
@@ -487,6 +488,9 @@ class Tornado:
     DAMAGE = 8
     DAMAGE_COOLDOWN = 600
 
+    PULL_RADIUS = 250
+    PULL_STRENGTH = 2
+
     def __init__(self, arena):
         self.arena = arena
         self.screen = arena.screen
@@ -572,7 +576,22 @@ class Tornado:
                 self.y + self.height
             )
 
-        # Schaden
+        # Spieler anziehen
+
+        dx_player = self.x + self.width / 2 - robot.x
+        dy_player = self.y + self.height / 2 - robot.y
+
+        distance = math.sqrt(dx_player**2 + dy_player**2)
+
+        if 0 < distance < self.PULL_RADIUS:
+            strength = (self.PULL_RADIUS - distance) / self.PULL_RADIUS * 5
+
+            robot.x += (dx_player / distance) * strength
+            robot.y += (dy_player / distance) * strength
+
+            robot.update_aabb()
+
+                # Schaden
         if self.aabb.check_collision(robot.aabb):
             if current_time - self.last_damage_time >= self.DAMAGE_COOLDOWN:
                 health.take_damage(self.DAMAGE)
