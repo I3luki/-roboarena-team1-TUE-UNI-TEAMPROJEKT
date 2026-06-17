@@ -11,9 +11,17 @@ SECOND = 60     # Eine Sekunde sind 60 Frames
 # -------------------------------------------------- GLOBALE METHODEN, KONSTANTEN UND ALLGEMEINE KLASSEN -------------
 # zeichnet die gegebene Instanz
 def draw(rect):
-    # update aabb
-    rect.aabb.update(rect.x, rect.y,
-                     rect.x + rect.width, rect.y + rect.height)
+    # Schauen, ob das Objekt eigene Offsets hat, sonst 0 nutzen
+    offset_x = getattr(rect, 'offset_x', 0)
+    offset_y = getattr(rect, 'offset_y', 0)
+
+    # update aabb unter Beachtung des Offsets
+    rect.aabb.update(
+        rect.x + offset_x,
+        rect.y + offset_y,
+        rect.x + offset_x + rect.width,
+        rect.y + offset_y + rect.height
+    )
 
     x_screen, y_screen = rect.camera.global_to_screen(rect)
 
@@ -55,10 +63,18 @@ def draw_cooldown(tile):
         
 # Zeichnet die AABB der gegeben Instanz:        
 def draw_aabb(rect):
-        # berechne screen Koordinaten
-        x_min_screen, y_min_screen = rect.camera.global_to_screen(rect)  
+        # Offsets holen (Standard 0)
+        offset_x = getattr(rect, 'offset_x', 0)
+        offset_y = getattr(rect, 'offset_y', 0)
 
-        rect.aabb.draw_at(rect.arena, x_min_screen, y_min_screen)
+        # berechne screen Koordinaten
+        x_min_screen, y_min_screen = rect.camera.global_to_screen(rect)
+
+        rect.aabb.draw_at(
+            rect.arena,
+            x_min_screen + offset_x,
+            y_min_screen + offset_y
+        )
 
 
 
@@ -109,7 +125,7 @@ class Tile:
 
 
 
-class Wall: 
+class Wall:
     COLOR = (0,0,255)
      
     def __init__(self, arena, x, y, width, height):
@@ -299,13 +315,108 @@ class SkullTile(Tile):
          pass #TODO: implement an effect
 
 
-class BoneTile(Tile):
-    COLOR = (245, 245, 220)
-    width = 35
-    height = 15
+class Bone:
 
-    def apply_to(self, robot):
-         pass #TODO: implement an effect
+    def __init__(self, arena, x, y):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+
+        self.x = x
+        self.y = y
+
+        r = random.randint(1,6)
+        if r == 1:
+            self.surface = pygame.transform.scale(Textures.BONE1, (120, 120))
+            self.width = 60
+            self.height = 40
+
+            self.offset_x = 10
+            self.offset_y = -20
+
+        elif r == 2:
+            self.surface = pygame.transform.scale(Textures.BONE2, (200, 200))
+            self.width = 100
+            self.height = 60
+
+            self.offset_x = -10
+            self.offset_y = 0
+
+        elif r == 3:
+            self.surface = pygame.transform.scale(Textures.BONE3, (100, 100))
+            self.width = 60
+            self.height = 20
+
+            self.offset_x = 0
+            self.offset_y = 0
+
+        elif r == 4:
+            self.surface = pygame.transform.scale(Textures.BONE4, (100, 100))
+            self.width = 40
+            self.height = 30
+
+            self.offset_x = 0
+            self.offset_y = 0
+
+        elif r == 5:
+            self.surface = pygame.transform.scale(Textures.BONE5, (100, 100))
+            self.width = 50
+            self.height = 25
+
+            self.offset_x = 0
+            self.offset_y = -10
+
+        elif r == 6:
+            self.surface = pygame.transform.scale(Textures.BONE6, (90, 90))
+            self.width = 30
+            self.height = 40
+
+            self.offset_x = 10
+            self.offset_y = -20
+
+        self.aabb = AABB(self.x, self.y, self.x + self.width, self.y + self.height)
+
+    def draw(self):
+        draw(self)
+
+    def draw_aabb(self):
+        draw_aabb(self)
+
+class Bone_Rib:
+
+    def __init__(self, arena, x, y):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+
+        self.x = x
+        self.y = y
+
+        r = random.randint(1,2)
+        if r == 1:
+            self.surface = pygame.transform.scale(Textures.BONE_RIB1, (200, 200))
+            self.width = 40
+            self.height = 70
+
+            self.offset_x = 20
+            self.offset_y = 30
+
+        elif r == 2:
+            self.surface = pygame.transform.scale(Textures.BONE_RIB2, (200, 200))
+            self.width = 40
+            self.height = 70
+
+            self.offset_x = -10
+            self.offset_y = 30
+
+        self.aabb = AABB(self.x, self.y, self.x + self.width, self.y + self.height)
+
+    def draw(self):
+        draw(self)
+
+    def draw_aabb(self):
+        draw_aabb(self)
+
 
 class Stone:
 

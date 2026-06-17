@@ -9,14 +9,28 @@ class Textures:
     STONE5 = None
     STONE6 = None
     STONE7 = None
-    LIGHTNING_ANIMATION = None
-    GROUND_ROCKS = None
-    GROUND_LABYRINTH = None
     CURSED_STONE1 = None
     CURSED_STONE2 = None
     CURSED_HOLE1 = None
     CURSED_HOLE2 = None
     CURSED_HOLE3 = None
+    BONE1 = None
+    BONE2 = None
+    BONE3 = None
+    BONE4 = None
+    BONE5 = None
+    BONE6 = None
+    BONE_RIB1 = None
+    BONE_RIB2 = None
+    LABYRINTH_WALL_VERTICAL = None
+    LABYRINTH_WALL_HORIZONTAL = None
+    LABYRINTH_WALL = None
+
+    GROUND_STONE = None
+    GROUND_LABYRINTH = None
+    GROUND_DESERT = None
+
+    LIGHTNING_ANIMATION = None
 
     @classmethod
     def load_all(cls):
@@ -25,8 +39,9 @@ class Textures:
 
         print("Lade Texturen...")
 
-        cls.CACTUS1 = pygame.image.load("Sprites/Cactus1.png").convert_alpha()
-        cls.CACTUS1 = pygame.transform.scale(cls.CACTUS1, (80, 80))
+        # --- Stone ---
+        cls.GROUND_STONE = pygame.image.load("Sprites/ground_stone2.png").convert_alpha()
+        cls.GROUND_STONE = pygame.transform.scale(cls.GROUND_STONE, (50, 50))
 
         cls.STONE1 = pygame.image.load("Sprites/Stone1.png").convert_alpha()
         cls.STONE2 = pygame.image.load("Sprites/Stone2.png").convert_alpha()
@@ -36,22 +51,39 @@ class Textures:
         cls.STONE6 = pygame.image.load("Sprites/Stone6.png").convert_alpha()
         cls.STONE7 = pygame.image.load("Sprites/Stone7.png").convert_alpha()
 
-        raw_lightning_animation = load_spritesheet("Sprites/Lightning1.png", 64, 160, 1, 10, skip_cols=[2])
-        cls.LIGHTNING_ANIMATION = animation_scaling(raw_lightning_animation, 2.0, 2.5)
+        # --- Desert ---
+        cls.GROUND_DESERT = pygame.image.load("Sprites/ground_sand1.png").convert_alpha()
+        cls.GROUND_DESERT = pygame.transform.scale(cls.GROUND_DESERT, (50, 50))
 
-        cls.GROUND_ROCKS = pygame.image.load("Sprites/ground_rocks1.png").convert_alpha()
-        cls.GROUND_ROCKS = pygame.transform.scale(cls.GROUND_ROCKS, (50, 50))
+        cls.CACTUS1 = pygame.image.load("Sprites/Cactus1.png").convert_alpha()
 
+        cls.BONE1 = pygame.image.load("Sprites/bone1.png").convert_alpha()
+        cls.BONE2 = pygame.image.load("Sprites/bone2.png").convert_alpha()
+        cls.BONE3 = pygame.image.load("Sprites/bone3.png").convert_alpha()
+        cls.BONE4 = pygame.image.load("Sprites/bone4.png").convert_alpha()
+        cls.BONE5 = pygame.image.load("Sprites/bone5.png").convert_alpha()
+        cls.BONE6 = pygame.image.load("Sprites/bone6.png").convert_alpha()
+
+        cls.BONE_RIB1 = pygame.image.load("Sprites/bonerib1.png").convert_alpha()
+        cls.BONE_RIB2 = pygame.image.load("Sprites/bonerib2.png").convert_alpha()
+
+        # --- Labyrinth ---
         cls.GROUND_LABYRINTH = pygame.image.load("Sprites/ground_labyrinth.png").convert_alpha()
         cls.GROUND_LABYRINTH = pygame.transform.scale(cls.GROUND_LABYRINTH, (80, 80))
 
+        cls.LABYRINTH_WALL_VERTICAL = pygame.image.load("Sprites/labyrinth_wall_vertical.png").convert_alpha()
+        cls.LABYRINTH_WALL_HORIZONTAL = pygame.image.load("Sprites/labyrinth_wall_horizontal.png").convert_alpha()
+        cls.LABYRINTH_WALL = pygame.image.load("Sprites/labyrinth_wall.png").convert_alpha()
+
+        # --- Cursed ---
         cls.CURSED_STONE1 = pygame.image.load("Sprites/ground_cursed_stone1.png").convert_alpha()
         cls.CURSED_STONE2 = pygame.image.load("Sprites/ground_cursed_stone2.png").convert_alpha()
         cls.CURSED_HOLE1 = pygame.image.load("Sprites/ground_cursed_hole1.png").convert_alpha()
         cls.CURSED_HOLE2 = pygame.image.load("Sprites/ground_cursed_hole2.png").convert_alpha()
         cls.CURSED_HOLE3 = pygame.image.load("Sprites/ground_cursed_hole3.png").convert_alpha()
 
-
+        raw_lightning_animation = load_spritesheet("Sprites/Lightning1.png", 64, 160, 1, 10, skip_cols=[2])
+        cls.LIGHTNING_ANIMATION = animation_scaling(raw_lightning_animation, 2.0, 2.5)
 
 
 def load_spritesheet(filename, frame_width, frame_height, rows, cols, skip_cols=None, colorkey = (0,0,0)):

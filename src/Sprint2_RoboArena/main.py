@@ -16,7 +16,7 @@ from Screens.StatsScreen import StatsScreen
 from Textures import Textures
 
 
-TEST_MODE = False    # TESTMODE: wenn true, dann ist testmodus an
+TEST_MODE = True    # TESTMODE: wenn true, dann ist testmodus an
 
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 1000
@@ -107,7 +107,7 @@ level = Level(screen)
 buff_manager = BuffManager()
 
 # Create arena object
-arena = Arena(screen)
+arena = Arena(screen, TEST_MODE = TEST_MODE)
 robot = Robot(arena, health, stamina, level, arena.WIDTH/2, arena.HEIGHT/2)   # spawne in der Mitte der Arena
 arena.camera.x = robot.x # lässt kamera auf roboter spwanen
 arena.camera.y = robot.y # lässt kamera auf roboter spwanen

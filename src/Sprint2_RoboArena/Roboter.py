@@ -131,8 +131,20 @@ class Robot:
                 return True
         return False
 
+    def collides_with_bone(self):
+        for bone in self.arena.bones:
+            if self.aabb.check_collision(bone.aabb):
+                return True
+        return False
+
+    def collides_with_bone_rib(self):
+        for bone_rib in self.arena.bone_ribs:
+            if self.aabb.check_collision(bone_rib.aabb):
+                return True
+        return False
+
     def is_blocked(self):
-        return self.collides_with_wall() or self.collides_with_stone() or self.collides_with_cactus() or self.collides_with_cursed_stone() or self.collides_with_cursed_hole()
+        return self.collides_with_wall() or self.collides_with_stone() or self.collides_with_cactus() or self.collides_with_cursed_stone() or self.collides_with_cursed_hole() or self.collides_with_bone() or self.collides_with_bone_rib()
 
     def move(self, keys):
         self.is_moving = False

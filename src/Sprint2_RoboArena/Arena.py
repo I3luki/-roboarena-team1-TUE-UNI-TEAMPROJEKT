@@ -1,6 +1,6 @@
 import pygame
-from Arena_Objects import Wall, Speedtile, Healthtile, Surprisetile, Cactus, SkullTile, BoneTile, LightningTile, \
-    Tornado, Stone, CursedStone, CursedHole
+from Arena_Objects import Wall, Speedtile, Healthtile, Surprisetile, Cactus, SkullTile, LightningTile, \
+    Tornado, Stone, CursedStone, CursedHole, Bone, Bone_Rib
 from Camera import Camera
 from Arena_Matrix import Arena_Matrix
 from pathfinding.core.grid import Grid
@@ -11,9 +11,10 @@ from Textures import Textures
 class Arena:
 
 
-    def __init__(self, screen):
+    def __init__(self, screen, TEST_MODE = False):
 
         self.screen = screen
+        self.TEST_MODE = TEST_MODE
         self.WIDTH = 3000
         self.HEIGHT = 3000
         self.camera = Camera(screen, 0, 0)
@@ -22,8 +23,8 @@ class Arena:
         # Hintergrund-Surfaces erstellen
         self.background_surf = pygame.Surface((self.WIDTH,self.HEIGHT), pygame.SRCALPHA)
 
-        tile_rocks_w = Textures.GROUND_ROCKS.get_width()
-        tile_rocks_h = Textures.GROUND_ROCKS.get_height()
+        tile_rocks_w = Textures.GROUND_STONE.get_width()
+        tile_rocks_h = Textures.GROUND_STONE.get_height()
 
         rockland_area = [
             (1950, 1500, 1050, 450),
@@ -34,7 +35,7 @@ class Arena:
         for rx, ry, width, height in rockland_area:
             for x in range(rx, rx + width, tile_rocks_w):
                 for y in range(ry, ry + height, tile_rocks_h):
-                    self.background_surf.blit(Textures.GROUND_ROCKS, (x, y))
+                    self.background_surf.blit(Textures.GROUND_STONE, (x, y))
 
         labyrinth_area = [
             (0, 0, 1500, 1050),
@@ -50,15 +51,26 @@ class Arena:
                 for y in range(ly, ly + height, tile_labyrinth_h):
                     self.background_surf.blit(Textures.GROUND_LABYRINTH, (x, y))
 
+        # Wüste unten links
+        desert_area = [
+            (0, 1500, 1050, 450),
+            (0, 1950, 1500, 1050)
+        ]
+
+        tile_desert_w = Textures.GROUND_DESERT.get_width()
+        tile_desert_h = Textures.GROUND_DESERT.get_height()
+
+        # Desert-Surfaces erstellen
+        for lx, ly, width, height in desert_area:
+            for x in range(lx, lx + width, tile_desert_w):
+                for y in range(ly, ly + height, tile_desert_h):
+                    self.background_surf.blit(Textures.GROUND_DESERT, (x, y))
+
         # Farbige Map-Zonen
         self.zones = [
             # Blitzland oben rechts
             (1500, 0, 1500, 1050, (157, 98, 89)),
             (1950, 1050, 1050, 450, (157, 98, 89)),
-
-            # Wüste unten links
-            (0, 1500, 1050, 450, (240, 190, 120)),
-            (0, 1950, 1500, 1050, (240, 190, 120)),
 
             # Healing Spawn Mitte
             (1050, 1050, 900, 900, (100, 230, 230)),
@@ -145,15 +157,6 @@ class Arena:
             Wall(self, 750, 800, 80, 80),
 
             Wall(self, 1340, 590, 40, 40),
-
-            # Wüste Wände
-
-            Wall(self, 300, 2000, 100,100),
-
-            Wall(self, 200, 2500,50,90),
-            Wall(self, 900, 1700, 90,90),
-            Wall(self, 700, 2500,50,100),
-            Wall(self, 750, 2450,50,150),
         ]
 
         # --- Steine ---
@@ -190,8 +193,21 @@ class Arena:
         # Cactus Objekte
         self.cactus = [
             Cactus(self, 250, 1800),
-            Cactus(self, 500, 2200),
-            Cactus(self, 800, 2600)]
+            Cactus(self, 800, 2100),
+            Cactus(self, 1000, 2600)
+        ]
+
+        self.bones = [
+            Bone(self, 350, 2500),
+            Bone(self, 1200, 2100),
+            Bone(self, 900, 2800),
+            Bone(self, 250, 2300)
+        ]
+
+        self.bone_ribs = [
+            Bone_Rib(self, 600, 1700),
+            Bone_Rib(self, 1000, 2400)
+        ]
 
         # list of all tiles
         #   a tile is (x,y)
@@ -207,13 +223,6 @@ class Arena:
 
             Surprisetile(self, 500,500),
             Surprisetile(self, 800,900),
-
-            SkullTile(self, 700, 1900),
-            SkullTile(self, 1000, 2400),
-
-            BoneTile(self, 350, 2500),
-            BoneTile(self, 1200, 2100),
-            BoneTile(self, 900, 2800),
 
             #Tiles wüste
             Speedtile(self, 250, 1700),
@@ -253,7 +262,7 @@ class Arena:
 
         # Definiere grid matrix für Enemy Movement
         # Erstelle dafür all_obstacles mit allen Objekten, die als nicht begehbar gelten sollen
-        all_obstacles = self.walls + self.stones + self.cactus+ self.cursed_stones + self.cursed_holes
+        all_obstacles = self.walls + self.stones + self.cactus + self.cursed_stones + self.cursed_holes + self.bones + self.bone_ribs
         self.grid_matrix = Arena_Matrix().build_grid(self.WIDTH, self.HEIGHT, all_obstacles)
 
         # Grid und Finder nur einmal erstellen
@@ -327,6 +336,10 @@ class Arena:
         for cactus in self.cactus:
             cactus.draw()
 
+    def draw_bones(self):
+        for bone in self.bones:
+            bone.draw()
+
     # Zeichen die Zonen
     def draw_zones(self):
         for surface, x, y in self.zone_surfaces:
@@ -378,6 +391,10 @@ class Arena:
         # Cactus hinzufügen
         render_queue.extend(self.cactus)
 
+        render_queue.extend(self.bone_ribs)
+
+        render_queue.extend(self.bones)
+
         render_queue.extend(self.cursed_stones)
 
         # Roboter (Spieler) hinzufügen
@@ -399,17 +416,35 @@ class Arena:
         for lightning in self.lightning_tiles:
             lightning.draw()
 
+        if self.TEST_MODE:
+            self.draw_aabb()
+
+
+
+
     # Zeichne AABBs
     def draw_aabb(self):
 
         for tile in self.tiles:
-            if(self.is_rect_onscreen(tile)):
+            if self.is_rect_onscreen(tile):
                 tile.draw_aabb()
 
         for wall in self.walls:
-            if(self.is_rect_onscreen(wall)):
+            if self.is_rect_onscreen(wall):
                 wall.draw_aabb()
 
         for stone in self.stones:
-            if(self.is_rect_onscreen(stone)):
+            if self.is_rect_onscreen(stone):
                 stone.draw_aabb()
+
+        for bone in self.bones:
+            if self.is_rect_onscreen(bone):
+                bone.draw_aabb()
+
+        for cactus in self.cactus:
+            if self.is_rect_onscreen(cactus):
+                cactus.draw_aabb()
+
+        for bone_rib in self.bone_ribs:
+            if self.is_rect_onscreen(bone_rib):
+                bone_rib.draw_aabb()
