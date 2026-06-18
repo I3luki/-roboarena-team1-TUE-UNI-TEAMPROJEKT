@@ -60,6 +60,8 @@ class Textures:
     GROUND_GRASS_DOWN_LEFT = None
     GROUND_GRASS_DOWN_RIGHT = None
 
+    GRASS_TILES = []
+
     LIGHTNING_ANIMATION = None
     TORNADO_ANIMATION = None
 
@@ -112,6 +114,7 @@ class Textures:
         cls.LABYRINTH_WALL = pygame.transform.scale(cls.LABYRINTH_WALL, (20, 20))
 
         # --- Cursed ---
+
         cls.CURSED_STONE1 = pygame.image.load("Sprites/ground_cursed_stone1.png").convert_alpha()
         cls.CURSED_STONE2 = pygame.image.load("Sprites/ground_cursed_stone2.png").convert_alpha()
         cls.CURSED_HOLE1 = pygame.image.load("Sprites/ground_cursed_hole1.png").convert_alpha()
@@ -192,6 +195,8 @@ class Textures:
         cls.CENTER_FIR2 = pygame.image.load("Sprites/center_fir2.png").convert_alpha()
         cls.CENTER_FIR2 = pygame.transform.scale(cls.CENTER_FIR2, (150, 150))
 
+        cls.GRASS_TILES = pygame.image.load("Sprites/grass_tiles.png").convert_alpha()
+
         # --- Icons ---
 
         cls.HEALING_ICON = pygame.image.load("Sprites/healing_icon.png").convert_alpha()
@@ -203,7 +208,17 @@ class Textures:
         cls.RANDOM_ICON = pygame.image.load("Sprites/random_icon.png").convert_alpha()
         cls.RANDOM_ICON = pygame.transform.scale(cls.RANDOM_ICON, (20, 30))
 
+        raw_grass_sheet = pygame.image.load("Sprites/grass_tiles.png").convert_alpha()
+        tile_w = raw_grass_sheet.get_width() // 4
+        tile_h = raw_grass_sheet.get_height() // 4
 
+        cls.GRASS_TILES = []
+        for row in range(4):
+            for col in range(4):
+                x = col * tile_w
+                y = row * tile_h
+                tile = raw_grass_sheet.subsurface(pygame.Rect(x, y, tile_w, tile_h))
+                cls.GRASS_TILES.append(tile)
 
 def load_spritesheet(filename, frame_width, frame_height, rows, cols, skip_cols=None, skip_rows=None, colorkey = (0,0,0)):
     """

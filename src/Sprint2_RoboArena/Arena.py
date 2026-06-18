@@ -1,4 +1,5 @@
 import pygame
+import random
 from Arena_Objects import Wall, Speedtile, Healthtile, Surprisetile, Cactus, LightningTile, \
     Tornado, Stone, CursedStone, CursedHole, Bone, Bone_Rib, Ruins, Tree_Dead, Tree_Normal, Tree_Palm, Tree_Fir, \
     Center_Normal, Center_Dead, Center_Palm, Center_Fir
@@ -74,13 +75,30 @@ class Arena:
             (1950, 1050, 1050, 450, (157, 98, 89)),
 
             # Healing Spawn Mitte
-            (1050, 1050, 900, 900, (166, 176, 79))
+            (1050, 1050, 900, 900, "GRASS")
         ]
         self.zone_surfaces = []
 
-        for x, y, width, height, color in self.zones:
-            surface = pygame.Surface((width, height))
-            surface.fill(color)
+        for x, y, width, height, zone_type in self.zones:
+            surface = pygame.Surface((width, height), pygame.SRCALPHA)
+
+            if zone_type == "GRASS":
+                surface.fill((166, 176, 79))
+                # --- INTEGRATION: Fülle die Healing-Zone mit zufälligen Gras-Tiles ---
+                tile_size = 50  # Gewünschte Anzeigegröße der Kacheln auf der Map
+                if Textures.GRASS_TILES:
+                    for tx in range(0, width, tile_size):
+                        for ty in range(0, height, tile_size):
+                            # Zufällige Kachel wählen & auf Map-Größe skalieren
+                            rand_tile = random.choice(Textures.GRASS_TILES)
+                            scaled_tile = pygame.transform.scale(rand_tile, (tile_size, tile_size))
+                            surface.blit(scaled_tile, (tx, ty))
+                else:
+                    # Fallback, falls die Texturen nicht geladen wurden
+                    surface.fill((166, 176, 79))
+            else:
+                # Normale Farbzone (z.B. Blitzland)
+                surface.fill(zone_type)
 
             self.zone_surfaces.append((surface, x, y))
 
@@ -388,19 +406,19 @@ class Arena:
             ruins.draw()
 
     def draw_tree_normal(self):
-        for tree_normal in self.tree_normal:
+        for tree_normal in self.trees_normal:
             tree_normal.draw()
 
     def draw_tree_dead(self):
-        for tree_dead in self.tree_dead:
+        for tree_dead in self.trees_dead:
             tree_dead.draw()
 
     def draw_tree_palm(self):
-        for tree_palm in self.tree_palm:
+        for tree_palm in self.trees_palm:
             tree_palm.draw()
 
     def draw_tree_fir(self):
-        for tree_fir in self.tree_fir:
+        for tree_fir in self.trees_fir:
             tree_fir.draw()
 
     def draw_center_normal(self):
@@ -545,8 +563,6 @@ class Arena:
         self.draw_zones()
         self.draw_center()
         self.draw_walls()
-        self.draw_stones()
-        self.draw_cursed_stones()
 
         # --- Schwarze Vierecke unter den cursed holes zeichnen ---
         for hole in self.cursed_holes:

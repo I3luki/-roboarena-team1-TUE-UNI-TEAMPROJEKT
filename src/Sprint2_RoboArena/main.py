@@ -18,8 +18,8 @@ from Textures import Textures
 
 TEST_MODE = False    # TESTMODE: wenn true, dann ist testmodus an
 
-SCREEN_WIDTH = 1500
-SCREEN_HEIGHT = 1200
+SCREEN_WIDTH = 1000
+SCREEN_HEIGHT = 1000
 
 # Update alles
 def update():

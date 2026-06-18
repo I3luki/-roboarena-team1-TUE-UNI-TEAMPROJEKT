@@ -787,6 +787,24 @@ class Center_Fir:
     def draw_aabb(self):
         draw_aabb(self)
 
+
+class GrassTile:
+    def __init__(self, arena, x, y, surface):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+        self.x = x
+        self.y = y
+        self.surface = surface  # Hier übergeben wir die bereits ausgeschnittene Kachel
+
+    def draw(self):
+        # Wir nutzen dein Kamerasystem. Da 'global_to_screen' das Objekt selbst erwartet,
+        # übergeben wir 'self' (da es .x und .y besitzt).
+        x_screen, y_screen = self.camera.global_to_screen(self)
+
+        # Direkt auf den Bildschirm blitten (ohne AABB-Berechnungen)
+        self.screen.blit(self.surface, (x_screen, y_screen))
+
 class LightningTile:
     WARNING_COLOR = (255, 255, 0)   # gelbes Warn-Dreieck
     COLOR = (250, 250, 250)   # hellblau
