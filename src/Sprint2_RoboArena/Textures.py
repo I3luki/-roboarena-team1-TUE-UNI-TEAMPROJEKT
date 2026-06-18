@@ -65,9 +65,13 @@ class Textures:
     LIGHTNING_ANIMATION = None
     TORNADO_ANIMATION = None
 
+    LIGHTNING_SHADOW = None
+
     HEALING_ICON = None
     SPEED_ICON = None
     RANDOM_ICON = None
+
+    ORB_ICON = None
 
     @classmethod
     def load_all(cls):
@@ -123,6 +127,9 @@ class Textures:
 
         raw_lightning_animation = load_spritesheet("Sprites/Lightning1.png", 64, 160, 1, 10, skip_cols=[2])
         cls.LIGHTNING_ANIMATION = animation_scaling(raw_lightning_animation, 2.0, 2.5)
+
+        cls.LIGHTNING_SHADOW = pygame.image.load("Sprites/Lightning_shadow.png").convert_alpha()
+        cls.LIGHTNING_SHADOW = pygame.transform.scale(cls.LIGHTNING_SHADOW, (60, 60))
 
         raw_tornado_animation = load_spritesheet("Sprites/tornado.png", 1048, 1048, 12, 5, skip_rows=[0,1,2])
         cls.TORNADO_ANIMATION = animation_scaling(raw_tornado_animation, 0.15, 0.15)
@@ -207,6 +214,9 @@ class Textures:
 
         cls.RANDOM_ICON = pygame.image.load("Sprites/random_icon.png").convert_alpha()
         cls.RANDOM_ICON = pygame.transform.scale(cls.RANDOM_ICON, (20, 30))
+
+        cls.ORB_ICON = pygame.image.load("Sprites/orb_yellow.png").convert_alpha()
+        cls.ORB_ICON = pygame.transform.scale(cls.ORB_ICON, (30, 30))
 
         raw_grass_sheet = pygame.image.load("Sprites/grass_tiles.png").convert_alpha()
         tile_w = raw_grass_sheet.get_width() // 4

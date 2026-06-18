@@ -897,18 +897,11 @@ class LightningTile:
         x_screen, y_screen = self.camera.global_to_screen(self)
 
         if self.is_warning:
-            # Gelbes Dreieck zeichnen
-            points = [
-                (x_screen + self.width / 2, y_screen),
-                (x_screen, y_screen + self.height),
-                (x_screen + self.width, y_screen + self.height)
-            ]
+            # Schatten zeichnen
+            shadow_x = x_screen + (self.width // 2) - (Textures.LIGHTNING_SHADOW.get_width() // 2)
+            shadow_y = y_screen + (self.height // 2) - (Textures.LIGHTNING_SHADOW.get_height() // 2)
+            self.screen.blit(Textures.LIGHTNING_SHADOW, (shadow_x, shadow_y))
 
-            pygame.draw.polygon(
-                self.screen,
-                self.WARNING_COLOR,
-                points
-            )
         else:
             # Blitz Animation abspielen
             active_frames = Textures.LIGHTNING_ANIMATION[0]
