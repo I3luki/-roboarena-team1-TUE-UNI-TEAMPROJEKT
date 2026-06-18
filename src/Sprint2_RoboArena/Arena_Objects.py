@@ -126,22 +126,28 @@ class Tile:
 
 
 class Wall:
-    COLOR = (0,0,255)
-     
-    def __init__(self, arena, x, y, width, height):
-          self.arena = arena
-          self.screen = arena.screen
-          self.camera = arena.camera
-          self.x = x
-          self.y = y
-          self.width = width
-          self.height = height
-          self.aabb = AABB(x,y,
-                           x + self.width, y + self.height)
 
-          self.surface = pygame.Surface((width, height))
-          self.surface.fill(self.COLOR)
-             
+    def __init__(self, arena, x, y, width, height):
+
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.aabb = AABB(x,y,
+                        x + self.width, y + self.height)
+
+        self.surface = pygame.Surface((width, height), pygame.SRCALPHA)
+
+        tex_w = Textures.LABYRINTH_WALL.get_width()
+        tex_h = Textures.LABYRINTH_WALL.get_height()
+
+        for tx in range(0, width, tex_w):
+            for ty in range(0, height, tex_h):
+                self.surface.blit(Textures.LABYRINTH_WALL, (tx, ty))
+
 
     def draw(self):
         draw(self) # globale Methode
@@ -588,10 +594,8 @@ class LightningTile:
         draw_aabb(self)
 
 class Tornado:
-    COLOR = (80, 80, 80)
-
-    width = 70
-    height = 70
+    width = 105
+    height = 105
 
     SPEED_X = 4
     SPEED_Y = 3
@@ -623,8 +627,12 @@ class Tornado:
             self.y + self.height
         )
 
-        self.surface = pygame.Surface((self.width, self.height))
-        self.surface.fill(self.COLOR)
+        self.frames = [frame for row in Textures.TORNADO_ANIMATION for frame in row]
+
+        self.current_frame = 0
+        self.animation_speed = 0.35 # höher = schneller, niedriger = langsamer
+
+        self.surface = self.frames[0]
 
     def update(self, robot, health):
         current_time = pygame.time.get_ticks()
@@ -687,6 +695,13 @@ class Tornado:
                 self.y + self.height
             )
 
+        # Animation
+        self.current_frame += self.animation_speed
+        if self.current_frame >= len(self.frames):
+            self.current_frame = 0
+
+        self.surface = self.frames[int(self.current_frame)]
+
         # Spieler anziehen
 
         dx_player = self.x + self.width / 2 - robot.x
@@ -712,8 +727,7 @@ class Tornado:
          pass #TODO: implement an effect
 
     def draw(self):
-        x_screen, y_screen = self.camera.global_to_screen(self)
-        self.screen.blit(self.surface, (x_screen, y_screen))
+        draw(self)
 
     def draw_aabb(self):
         draw_aabb(self)

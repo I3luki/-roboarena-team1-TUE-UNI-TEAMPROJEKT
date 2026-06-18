@@ -31,6 +31,7 @@ class Textures:
     GROUND_DESERT = None
 
     LIGHTNING_ANIMATION = None
+    TORNADO_ANIMATION = None
 
     @classmethod
     def load_all(cls):
@@ -73,7 +74,8 @@ class Textures:
 
         cls.LABYRINTH_WALL_VERTICAL = pygame.image.load("Sprites/labyrinth_wall_vertical.png").convert_alpha()
         cls.LABYRINTH_WALL_HORIZONTAL = pygame.image.load("Sprites/labyrinth_wall_horizontal.png").convert_alpha()
-        cls.LABYRINTH_WALL = pygame.image.load("Sprites/labyrinth_wall.png").convert_alpha()
+        cls.LABYRINTH_WALL = pygame.image.load("Sprites/labyrinth_wall3.png").convert_alpha()
+        cls.LABYRINTH_WALL = pygame.transform.scale(cls.LABYRINTH_WALL, (20, 20))
 
         # --- Cursed ---
         cls.CURSED_STONE1 = pygame.image.load("Sprites/ground_cursed_stone1.png").convert_alpha()
@@ -85,13 +87,19 @@ class Textures:
         raw_lightning_animation = load_spritesheet("Sprites/Lightning1.png", 64, 160, 1, 10, skip_cols=[2])
         cls.LIGHTNING_ANIMATION = animation_scaling(raw_lightning_animation, 2.0, 2.5)
 
+        raw_tornado_animation = load_spritesheet("Sprites/tornado.png", 1048, 1048, 12, 5, skip_rows=[0,1,2])
+        cls.TORNADO_ANIMATION = animation_scaling(raw_tornado_animation, 0.15, 0.15)
 
-def load_spritesheet(filename, frame_width, frame_height, rows, cols, skip_cols=None, colorkey = (0,0,0)):
+
+def load_spritesheet(filename, frame_width, frame_height, rows, cols, skip_cols=None, skip_rows=None, colorkey = (0,0,0)):
     """
     Lädt ein Spritesheet und schneidet es in eine Liste von Listen (Zeilen & Spalten)
     """
     if skip_cols is None:
         skip_cols = []
+
+    if skip_rows is None:
+        skip_rows = []
 
     raw_sheet = pygame.image.load(filename)
     if colorkey is not None:
@@ -103,10 +111,13 @@ def load_spritesheet(filename, frame_width, frame_height, rows, cols, skip_cols=
 
     for row in range(rows):
         row_frames = []
+        if row in skip_rows:
+            continue
+
         for col in range(cols):
             # Von 0,1,2.. auf 1,2,3..
             # current_col_intuitive = col + 1
-            
+
             # Wenn Spalte in Skipliste, überspringen
             if col in skip_cols:
                 continue

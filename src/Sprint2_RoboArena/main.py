@@ -16,7 +16,7 @@ from Screens.StatsScreen import StatsScreen
 from Textures import Textures
 
 
-TEST_MODE = True    # TESTMODE: wenn true, dann ist testmodus an
+TEST_MODE = False    # TESTMODE: wenn true, dann ist testmodus an
 
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 1000
