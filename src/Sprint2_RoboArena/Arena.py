@@ -1,5 +1,5 @@
 import pygame
-from Arena_Objects import Wall, Speedtile, Healthtile, Surprisetile, Cactus, SkullTile, LightningTile, \
+from Arena_Objects import Wall, Speedtile, Healthtile, Surprisetile, Cactus, LightningTile, \
     Tornado, Stone, CursedStone, CursedHole, Bone, Bone_Rib
 from Camera import Camera
 from Arena_Matrix import Arena_Matrix

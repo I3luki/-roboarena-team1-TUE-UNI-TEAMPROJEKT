@@ -312,14 +312,6 @@ class CursedHole:
     def draw(self):
         draw(self)
 
-class SkullTile(Tile):
-    COLOR = (70, 70, 70)
-    width = 30
-    height = 30
-
-    def apply_to(self, robot):
-         pass #TODO: implement an effect
-
 
 class Bone:
 
