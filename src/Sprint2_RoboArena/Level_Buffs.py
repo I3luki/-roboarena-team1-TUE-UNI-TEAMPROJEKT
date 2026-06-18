@@ -3,9 +3,9 @@ from Relics import Ice, Ricochet
 # Frames per second
 SECOND = 60 
 # Rarities and corresponding probabilites
-COMMON = 0.55
-RARE = 0.3
-EPIC = 0.15
+COMMON = 0.85
+RARE = 0.10
+EPIC = 0.05
 
 
 
@@ -92,6 +92,8 @@ class LevelHealthBuff:
 
 class LevelIceRelic:
 
+    key = "ice_relic"
+    shop_locked = True
     name = "Skadi's Blessing"
     description = "Your attacks slows the enemies on-hit."
     flavor_text = "May Skadi protect you."
@@ -104,6 +106,8 @@ class LevelIceRelic:
 
 class LevelRicochetRelic:
 
+    key = "ricochet_relic"
+    shop_locked = True
     name = "A Pile of Ricochets."
     description = "Send Ricochets to the nearest few enemies hit."
     flavor_text = "Where do you intend to store all of those?"

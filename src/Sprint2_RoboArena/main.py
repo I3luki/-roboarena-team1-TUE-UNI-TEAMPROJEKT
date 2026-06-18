@@ -13,6 +13,7 @@ from WaveManager import WaveManager
 from Screens.MainMenu import MainMenu
 from Screens.PauseMenu import PauseMenu
 from Screens.StatsScreen import StatsScreen
+from Screens.ShopScreen import ShopScreen
 from Textures import Textures
 
 
@@ -142,6 +143,8 @@ game.state = "MENU"
 pause_menu = PauseMenu(screen)
 #stats
 stats_screen = StatsScreen(screen)
+#Shop
+shop_screen = ShopScreen(screen)
 
 
 # -------------------------------------------------------------------- GAME LOOP ------------
@@ -159,6 +162,9 @@ while True:
 
         elif game.state == "STATS":
             stats_screen.handle_event(event, game)
+
+        elif game.state == "SHOP":
+            shop_screen.handle_event(event, game)
 
         elif game.state == "PAUSE":
             pause_menu.handle_event(
@@ -226,6 +232,9 @@ while True:
 
     elif game.state == "STATS":
         stats_screen.draw()
+
+    elif game.state == "SHOP":
+        shop_screen.draw(game)
 
     pygame.display.flip()
     clock.tick(60)
