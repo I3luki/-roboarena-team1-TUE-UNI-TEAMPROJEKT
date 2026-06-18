@@ -1,6 +1,7 @@
 import pygame
 from Arena_Objects import Wall, Speedtile, Healthtile, Surprisetile, Cactus, LightningTile, \
-    Tornado, Stone, CursedStone, CursedHole, Bone, Bone_Rib, Ruins
+    Tornado, Stone, CursedStone, CursedHole, Bone, Bone_Rib, Ruins, Tree_Dead, Tree_Normal, Tree_Palm, Tree_Fir, \
+    Center_Normal, Center_Dead, Center_Palm, Center_Fir
 from Camera import Camera
 from Arena_Matrix import Arena_Matrix
 from pathfinding.core.grid import Grid
@@ -264,10 +265,47 @@ class Arena:
             Ruins(self, 1450, 1400),
         ]
 
+        self.trees_normal = [
+            Tree_Normal(self, 1150, 1150),
+        ]
+
+        self.trees_dead = [
+            Tree_Dead(self, 1800, 1150),
+        ]
+
+        self.trees_palm = [
+            Tree_Palm(self, 1150, 1800),
+        ]
+
+        self.trees_fir = [
+            Tree_Fir(self, 1800, 1800),
+        ]
+
+        self.center_normal = [
+            Center_Normal(self, 1100, 1300),
+            Center_Normal(self, 1300, 1100),
+        ]
+
+        self.center_dead = [
+            Center_Dead(self, 1800, 1300),
+            Center_Dead(self, 1630, 1100),
+        ]
+
+        self.center_palm = [
+            Center_Palm(self, 1150, 1650),
+            Center_Palm(self, 1350, 1800),
+        ]
+
+        self.center_fir = [
+            Center_Fir(self, 1650, 1770),
+            Center_Fir(self, 1850, 1670),
+        ]
+
         # Definiere grid matrix für Enemy Movement
         # Erstelle dafür all_obstacles mit allen Objekten, die als nicht begehbar gelten sollen
         all_obstacles = self.walls + self.stones + self.cactus + self.cursed_stones + self.cursed_holes \
-                + self.bones + self.bone_ribs + self.ruins
+                + self.bones + self.bone_ribs + self.ruins + self.trees_normal + self.trees_dead + self.trees_palm \
+                + self.trees_fir + self.center_normal + self.center_dead + self.center_palm + self.center_fir
         self.grid_matrix = Arena_Matrix().build_grid(self.WIDTH, self.HEIGHT, all_obstacles)
 
         # Grid und Finder nur einmal erstellen
@@ -348,6 +386,38 @@ class Arena:
     def draw_ruins(self):
         for ruins in self.ruins:
             ruins.draw()
+
+    def draw_tree_normal(self):
+        for tree_normal in self.tree_normal:
+            tree_normal.draw()
+
+    def draw_tree_dead(self):
+        for tree_dead in self.tree_dead:
+            tree_dead.draw()
+
+    def draw_tree_palm(self):
+        for tree_palm in self.tree_palm:
+            tree_palm.draw()
+
+    def draw_tree_fir(self):
+        for tree_fir in self.tree_fir:
+            tree_fir.draw()
+
+    def draw_center_normal(self):
+        for center_normal in self.center_normal:
+            center_normal.draw()
+
+    def draw_center_dead(self):
+        for center_dead in self.center_dead:
+            center_dead.draw()
+
+    def draw_center_palm(self):
+        for center_palm in self.center_palm:
+            center_palm.draw()
+
+    def draw_center_fir(self):
+        for center_fir in self.center_fir:
+            center_fir.draw()
 
     # Zeichen die Zonen
     def draw_zones(self):
@@ -511,6 +581,16 @@ class Arena:
         render_queue.extend(self.cursed_stones)
 
         render_queue.extend(self.ruins)
+
+        render_queue.extend(self.trees_normal)
+        render_queue.extend(self.trees_dead)
+        render_queue.extend(self.trees_palm)
+        render_queue.extend(self.trees_fir)
+
+        render_queue.extend(self.center_normal)
+        render_queue.extend(self.center_dead)
+        render_queue.extend(self.center_palm)
+        render_queue.extend(self.center_fir)
 
         # Roboter (Spieler) hinzufügen
         render_queue.append(robot)

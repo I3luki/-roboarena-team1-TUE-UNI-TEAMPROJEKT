@@ -149,9 +149,60 @@ class Robot:
                 return True
         return False
 
+    def collides_with_tree_normal(self):
+        for tree in self.arena.trees_normal:
+            if self.aabb.check_collision(tree.aabb):
+                return True
+        return False
+
+    def collides_with_tree_dead(self):
+        for tree in self.arena.trees_dead:
+            if self.aabb.check_collision(tree.aabb):
+                return True
+        return False
+
+    def collides_with_tree_palm(self):
+        for tree in self.arena.trees_palm:
+            if self.aabb.check_collision(tree.aabb):
+                return True
+        return False
+
+    def collides_with_tree_fir(self):
+        for tree in self.arena.trees_fir:
+            if self.aabb.check_collision(tree.aabb):
+                return True
+        return False
+
+    def collides_with_center_normal(self):
+        for center in self.arena.center_normal:
+            if self.aabb.check_collision(center.aabb):
+                return True
+        return False
+
+    def collides_with_center_dead(self):
+        for center in self.arena.center_dead:
+            if self.aabb.check_collision(center.aabb):
+                return True
+        return False
+
+    def collides_with_center_palm(self):
+        for center in self.arena.center_palm:
+            if self.aabb.check_collision(center.aabb):
+                return True
+        return False
+
+    def collides_with_center_fir(self):
+        for center in self.arena.center_fir:
+            if self.aabb.check_collision(center.aabb):
+                return True
+        return False
+
     def is_blocked(self):
         return self.collides_with_wall() or self.collides_with_stone() or self.collides_with_cactus() or self.collides_with_cursed_stone() \
-            or self.collides_with_cursed_hole() or self.collides_with_bone() or self.collides_with_bone_rib() or self.collides_with_ruins()
+            or self.collides_with_cursed_hole() or self.collides_with_bone() or self.collides_with_bone_rib() or self.collides_with_ruins() \
+            or self.collides_with_tree_normal() or self.collides_with_tree_dead() or self.collides_with_tree_palm() or self.collides_with_tree_fir() \
+            or self.collides_with_center_normal() or self.collides_with_center_dead() or self.collides_with_center_palm() or self.collides_with_center_fir()
+
 
 
     def move(self, keys):

@@ -1,7 +1,7 @@
 import pygame
 
 class Textures:
-    CACTUS1 = None
+
     STONE1 = None
     STONE2= None
     STONE3 = None
@@ -9,11 +9,14 @@ class Textures:
     STONE5 = None
     STONE6 = None
     STONE7 = None
+
     CURSED_STONE1 = None
     CURSED_STONE2 = None
     CURSED_HOLE1 = None
     CURSED_HOLE2 = None
     CURSED_HOLE3 = None
+
+    CACTUS1 = None
     BONE1 = None
     BONE2 = None
     BONE3 = None
@@ -22,10 +25,27 @@ class Textures:
     BONE6 = None
     BONE_RIB1 = None
     BONE_RIB2 = None
+
     LABYRINTH_WALL_VERTICAL = None
     LABYRINTH_WALL_HORIZONTAL = None
     LABYRINTH_WALL = None
+
     RUINS1 = None
+    TREE_NORMAL = None
+    TREE_DEAD = None
+    TREE_FIR = None
+    TREE_PALM = None
+    CENTER_NORMAL1 = None
+    CENTER_NORMAL2 = None
+    CENTER_NORMAL3 = None
+    CENTER_DEAD1 = None
+    CENTER_DEAD2 = None
+    CENTER_DEAD3 = None
+    CENTER_PALM1 = None
+    CENTER_PALM2 = None
+    CENTER_PALM3 = None
+    CENTER_FIR1 = None
+    CENTER_FIR2 = None
 
     GROUND_STONE = None
     GROUND_LABYRINTH = None
@@ -133,6 +153,46 @@ class Textures:
         cls.GROUND_GRASS_DOWN_RIGHT = pygame.transform.scale(cls.GROUND_GRASS_DOWN_RIGHT, (53, 53))
 
         cls.RUINS1 = pygame.image.load("Sprites/ruins1.png").convert_alpha()
+
+        cls.TREE_NORMAL = pygame.image.load("Sprites/tree_normal.png").convert_alpha()
+        cls.TREE_NORMAL = pygame.transform.scale(cls.TREE_NORMAL, (150, 150))
+
+        cls.TREE_DEAD = pygame.image.load("Sprites/tree_dead.png").convert_alpha()
+        cls.TREE_DEAD = pygame.transform.scale(cls.TREE_DEAD, (150, 150))
+
+        cls.TREE_FIR = pygame.image.load("Sprites/tree_fir.png").convert_alpha()
+        cls.TREE_FIR = pygame.transform.scale(cls.TREE_FIR, (150, 150))
+
+        cls.TREE_PALM = pygame.image.load("Sprites/tree_palm.png").convert_alpha()
+        cls.TREE_PALM = pygame.transform.scale(cls.TREE_PALM, (150, 150))
+
+        cls.CENTER_NORMAL1 = pygame.image.load("Sprites/center_normal1.png").convert_alpha()
+        cls.CENTER_NORMAL1 = pygame.transform.scale(cls.CENTER_NORMAL1, (130, 130))
+        cls.CENTER_NORMAL2 = pygame.image.load("Sprites/center_normal2.png").convert_alpha()
+        cls.CENTER_NORMAL2 = pygame.transform.scale(cls.CENTER_NORMAL2, (150, 150))
+        cls.CENTER_NORMAL3 = pygame.image.load("Sprites/center_normal3.png").convert_alpha()
+        cls.CENTER_NORMAL3 = pygame.transform.scale(cls.CENTER_NORMAL3, (80, 80))
+
+        cls.CENTER_DEAD1 = pygame.image.load("Sprites/center_dead1.png").convert_alpha()
+        cls.CENTER_DEAD1 = pygame.transform.scale(cls.CENTER_DEAD1, (200, 200))
+        cls.CENTER_DEAD2 = pygame.image.load("Sprites/center_dead2.png").convert_alpha()
+        cls.CENTER_DEAD2 = pygame.transform.scale(cls.CENTER_DEAD2, (150, 150))
+        cls.CENTER_DEAD3 = pygame.image.load("Sprites/center_dead3.png").convert_alpha()
+        cls.CENTER_DEAD3 = pygame.transform.scale(cls.CENTER_DEAD3, (150, 150))
+
+        cls.CENTER_PALM1 = pygame.image.load("Sprites/center_palm1.png").convert_alpha()
+        cls.CENTER_PALM1 = pygame.transform.scale(cls.CENTER_PALM1, (130, 130))
+        cls.CENTER_PALM2 = pygame.image.load("Sprites/center_palm2.png").convert_alpha()
+        cls.CENTER_PALM2 = pygame.transform.scale(cls.CENTER_PALM2, (150, 150))
+        cls.CENTER_PALM3 = pygame.image.load("Sprites/center_palm3.png").convert_alpha()
+        cls.CENTER_PALM3 = pygame.transform.scale(cls.CENTER_PALM3, (150, 150))
+
+        cls.CENTER_FIR1 = pygame.image.load("Sprites/center_fir1.png").convert_alpha()
+        cls.CENTER_FIR1 = pygame.transform.scale(cls.CENTER_FIR1, (80, 80))
+        cls.CENTER_FIR2 = pygame.image.load("Sprites/center_fir2.png").convert_alpha()
+        cls.CENTER_FIR2 = pygame.transform.scale(cls.CENTER_FIR2, (150, 150))
+
+        # --- Icons ---
 
         cls.HEALING_ICON = pygame.image.load("Sprites/healing_icon.png").convert_alpha()
         cls.HEALING_ICON = pygame.transform.scale(cls.HEALING_ICON, (30, 30))

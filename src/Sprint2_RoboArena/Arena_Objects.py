@@ -549,6 +549,244 @@ class Ruins:
     def draw_aabb(self):
         draw_aabb(self)
 
+class Tree_Normal:
+    def __init__(self, arena, x, y):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+
+        # Die Hitbox sitzt genau auf den übergebenen Koordinaten
+        self.x = x
+        self.y = y
+
+        self.surface = Textures.TREE_NORMAL
+        self.width = 20
+        self.height = 20
+
+        self.offset_x = 0
+        self.offset_y = 15
+
+        self.aabb = AABB(self.x, self.y, self.x + self.width, self.y + self.height)
+
+    def draw(self):
+        draw(self)
+
+    def draw_aabb(self):
+        draw_aabb(self)
+
+class Tree_Dead:
+    def __init__(self, arena, x, y):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+
+        # Die Hitbox sitzt genau auf den übergebenen Koordinaten
+        self.x = x
+        self.y = y
+
+        self.surface = Textures.TREE_DEAD
+        self.width = 20
+        self.height = 20
+
+        self.offset_x = 0
+        self.offset_y = 15
+
+        self.aabb = AABB(self.x, self.y, self.x + self.width, self.y + self.height)
+
+    def draw(self):
+        draw(self)
+
+    def draw_aabb(self):
+        draw_aabb(self)
+
+class Tree_Palm:
+    def __init__(self, arena, x, y):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+
+        # Die Hitbox sitzt genau auf den übergebenen Koordinaten
+        self.x = x
+        self.y = y
+
+        self.surface = Textures.TREE_PALM
+        self.width = 20
+        self.height = 20
+
+        self.offset_x = 0
+        self.offset_y = 15
+
+        self.aabb = AABB(self.x, self.y, self.x + self.width, self.y + self.height)
+
+    def draw(self):
+        draw(self)
+
+    def draw_aabb(self):
+        draw_aabb(self)
+
+class Tree_Fir:
+    def __init__(self, arena, x, y):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+
+        # Die Hitbox sitzt genau auf den übergebenen Koordinaten
+        self.x = x
+        self.y = y
+
+        self.surface = Textures.TREE_FIR
+        self.width = 20
+        self.height = 20
+
+        self.offset_x = 0
+        self.offset_y = 15
+
+        self.aabb = AABB(self.x, self.y, self.x + self.width, self.y + self.height)
+
+    def draw(self):
+        draw(self)
+
+    def draw_aabb(self):
+        draw_aabb(self)
+
+class Center_Normal:
+    def __init__(self, arena, x, y):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+
+        # Die Hitbox sitzt genau auf den übergebenen Koordinaten
+        self.x = x
+        self.y = y
+
+        r = random.randint(1, 3)
+        if r == 1:
+            self.surface = Textures.CENTER_NORMAL1
+            self.width = 30
+            self.height = 15
+
+        elif r == 2:
+            self.surface = Textures.CENTER_NORMAL2
+            self.width = 30
+            self.height = 15
+
+        elif r == 3:
+            self.surface = Textures.CENTER_NORMAL3
+            self.width = 30
+            self.height = 15
+
+        self.aabb = AABB(self.x, self.y, self.x + self.width, self.y + self.height)
+
+    def draw(self):
+        draw(self)
+
+    def draw_aabb(self):
+        draw_aabb(self)
+
+class Center_Dead:
+    def __init__(self, arena, x, y):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+
+        # Die Hitbox sitzt genau auf den übergebenen Koordinaten
+        self.x = x
+        self.y = y
+
+        r = random.randint(1, 3)
+        if r == 1:
+            self.surface = Textures.CENTER_DEAD1
+            self.width = 60
+            self.height = 20
+
+            self.offset_x = 0
+            self.offset_y = -10
+
+        elif r == 2:
+            self.surface = Textures.CENTER_DEAD2
+            self.width = 30
+            self.height = 15
+
+        elif r == 3:
+            self.surface = Textures.CENTER_DEAD3
+            self.width = 30
+            self.height = 15
+
+        self.aabb = AABB(self.x, self.y, self.x + self.width, self.y + self.height)
+
+    def draw(self):
+        draw(self)
+
+    def draw_aabb(self):
+        draw_aabb(self)
+
+class Center_Palm:
+    def __init__(self, arena, x, y):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+
+        # Die Hitbox sitzt genau auf den übergebenen Koordinaten
+        self.x = x
+        self.y = y
+
+        r = random.randint(1, 3)
+        if r == 1:
+            self.surface = Textures.CENTER_PALM1
+            self.width = 30
+            self.height = 15
+
+        elif r == 2:
+            self.surface = Textures.CENTER_PALM2
+            self.width = 30
+            self.height = 15
+
+            self.offset_x = 5
+            self.offset_y = 0
+
+        elif r == 3:
+            self.surface = Textures.CENTER_PALM3
+            self.width = 30
+            self.height = 15
+
+        self.aabb = AABB(self.x, self.y, self.x + self.width, self.y + self.height)
+
+    def draw(self):
+        draw(self)
+
+    def draw_aabb(self):
+        draw_aabb(self)
+
+class Center_Fir:
+    def __init__(self, arena, x, y):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+
+        # Die Hitbox sitzt genau auf den übergebenen Koordinaten
+        self.x = x
+        self.y = y
+
+        r = random.randint(1, 2)
+        if r == 1:
+            self.surface = Textures.CENTER_FIR1
+            self.width = 30
+            self.height = 15
+
+        elif r == 2:
+            self.surface = Textures.CENTER_FIR2
+            self.width = 30
+            self.height = 15
+
+
+        self.aabb = AABB(self.x, self.y, self.x + self.width, self.y + self.height)
+
+    def draw(self):
+        draw(self)
+
+    def draw_aabb(self):
+        draw_aabb(self)
+
 class LightningTile:
     WARNING_COLOR = (255, 255, 0)   # gelbes Warn-Dreieck
     COLOR = (250, 250, 250)   # hellblau
