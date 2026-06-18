@@ -1,4 +1,3 @@
-import pygame
 import random
 from Collision import AABB
 from Textures import Textures
