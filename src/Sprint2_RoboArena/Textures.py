@@ -43,6 +43,10 @@ class Textures:
     LIGHTNING_ANIMATION = None
     TORNADO_ANIMATION = None
 
+    HEALING_ICON = None
+    SPEED_ICON = None
+    RANDOM_ICON = None
+
     @classmethod
     def load_all(cls):
         """Lädt alle Texturen einmalig in den Speicher.
@@ -129,6 +133,15 @@ class Textures:
         cls.GROUND_GRASS_DOWN_RIGHT = pygame.transform.scale(cls.GROUND_GRASS_DOWN_RIGHT, (53, 53))
 
         cls.RUINS1 = pygame.image.load("Sprites/ruins1.png").convert_alpha()
+
+        cls.HEALING_ICON = pygame.image.load("Sprites/healing_icon.png").convert_alpha()
+        cls.HEALING_ICON = pygame.transform.scale(cls.HEALING_ICON, (30, 30))
+
+        cls.SPEED_ICON = pygame.image.load("Sprites/speed_icon.png").convert_alpha()
+        cls.SPEED_ICON = pygame.transform.scale(cls.SPEED_ICON, (23, 30))
+
+        cls.RANDOM_ICON = pygame.image.load("Sprites/random_icon.png").convert_alpha()
+        cls.RANDOM_ICON = pygame.transform.scale(cls.RANDOM_ICON, (20, 30))
 
 
 

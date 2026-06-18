@@ -161,18 +161,56 @@ class Wall:
 class Speedtile(Tile):
     COLOR = (255, 255, 0)     # gelb
      
-    # applies the unique effect to the given robot
+    # adds the effect to the robot
     def apply_to(self, robot):
-         self.apply_effect_to(Speed_Buff(), robot)
+        self.apply_effect_to(Speed_Buff(), robot)
 
-   
+    def draw(self):
+        # 1. Das normale pinke Tile und den eventuellen Prozent-Cooldown zeichnen
+        super().draw()
+
+        # 2. Das schwebende Icon nur zeichnen, wenn das Tile bereit ist (kein Cooldown)
+        if self.cooldown_current <= 0:
+            current_time = pygame.time.get_ticks()
+
+            # Sinuswelle für das Auf- und Abschweben (Geschwindigkeit * 0.005, Reichweite 5 Pixel)
+            bobbing_offset = math.sin(current_time * 0.005) * 5
+
+            x_screen, y_screen = self.camera.global_to_screen(self)
+
+            # Das Icon (30x30) mittig über dem Tile (20x20) platzieren und leicht nach oben versetzen
+            icon_x = x_screen + (self.width - Textures.SPEED_ICON.get_width()) // 2
+            icon_y = y_screen + (self.height - Textures.SPEED_ICON.get_height()) // 2 - 12 + bobbing_offset
+
+            self.screen.blit(Textures.SPEED_ICON, (icon_x, icon_y))
+
+
 # Gives a Health-Regeneration-Buff on Collision
 class Healthtile(Tile):
     COLOR = (255, 105, 180)  # pink
 
     # adds the effect to the robot
     def apply_to(self, robot):
-         self.apply_effect_to(Healthgen_Buff(), robot)
+        self.apply_effect_to(Healthgen_Buff(), robot)
+
+    def draw(self):
+        # 1. Das normale pinke Tile und den eventuellen Prozent-Cooldown zeichnen
+        super().draw()
+
+        # 2. Das schwebende Icon nur zeichnen, wenn das Tile bereit ist (kein Cooldown)
+        if self.cooldown_current <= 0:
+            current_time = pygame.time.get_ticks()
+
+            # Sinuswelle für das Auf- und Abschweben (Geschwindigkeit * 0.005, Reichweite 5 Pixel)
+            bobbing_offset = math.sin(current_time * 0.005) * 5
+
+            x_screen, y_screen = self.camera.global_to_screen(self)
+
+            # Das Icon (30x30) mittig über dem Tile (20x20) platzieren und leicht nach oben versetzen
+            icon_x = x_screen + (self.width - Textures.HEALING_ICON.get_width()) // 2
+            icon_y = y_screen + (self.height - Textures.HEALING_ICON.get_height()) // 2 - 12 + bobbing_offset
+
+            self.screen.blit(Textures.HEALING_ICON, (icon_x, icon_y))
 
      
 # Gives a Random Buff or Debuff on Collision
@@ -209,6 +247,25 @@ class Surprisetile(Tile):
 
         # apply the one picked
         self.apply_effect_to(choice, robot)
+
+    def draw(self):
+        # 1. Das normale pinke Tile und den eventuellen Prozent-Cooldown zeichnen
+        super().draw()
+
+        # 2. Das schwebende Icon nur zeichnen, wenn das Tile bereit ist (kein Cooldown)
+        if self.cooldown_current <= 0:
+            current_time = pygame.time.get_ticks()
+
+            # Sinuswelle für das Auf- und Abschweben (Geschwindigkeit * 0.005, Reichweite 5 Pixel)
+            bobbing_offset = math.sin(current_time * 0.005) * 5
+
+            x_screen, y_screen = self.camera.global_to_screen(self)
+
+            # Das Icon (30x30) mittig über dem Tile (20x20) platzieren und leicht nach oben versetzen
+            icon_x = x_screen + (self.width - Textures.RANDOM_ICON.get_width()) // 2
+            icon_y = y_screen + (self.height - Textures.RANDOM_ICON.get_height()) // 2 - 12 + bobbing_offset
+
+            self.screen.blit(Textures.RANDOM_ICON, (icon_x, icon_y))
         
 
 # Makes a small amount of Damage on Impact 
