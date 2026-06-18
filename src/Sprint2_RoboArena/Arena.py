@@ -1,6 +1,6 @@
 import pygame
 from Arena_Objects import Wall, Speedtile, Healthtile, Surprisetile, Cactus, LightningTile, \
-    Tornado, Stone, CursedStone, CursedHole, Bone, Bone_Rib
+    Tornado, Stone, CursedStone, CursedHole, Bone, Bone_Rib, Ruins
 from Camera import Camera
 from Arena_Matrix import Arena_Matrix
 from pathfinding.core.grid import Grid
@@ -73,7 +73,7 @@ class Arena:
             (1950, 1050, 1050, 450, (157, 98, 89)),
 
             # Healing Spawn Mitte
-            (1050, 1050, 900, 900, (100, 230, 230)),
+            (1050, 1050, 900, 900, (166, 176, 79))
         ]
         self.zone_surfaces = []
 
@@ -260,9 +260,14 @@ class Arena:
             CursedHole(self, 2150, 1130),
         ]
 
+        self.ruins = [
+            Ruins(self, 1450, 1400),
+        ]
+
         # Definiere grid matrix für Enemy Movement
         # Erstelle dafür all_obstacles mit allen Objekten, die als nicht begehbar gelten sollen
-        all_obstacles = self.walls + self.stones + self.cactus + self.cursed_stones + self.cursed_holes + self.bones + self.bone_ribs
+        all_obstacles = self.walls + self.stones + self.cactus + self.cursed_stones + self.cursed_holes \
+                + self.bones + self.bone_ribs + self.ruins
         self.grid_matrix = Arena_Matrix().build_grid(self.WIDTH, self.HEIGHT, all_obstacles)
 
         # Grid und Finder nur einmal erstellen
@@ -340,6 +345,10 @@ class Arena:
         for bone in self.bones:
             bone.draw()
 
+    def draw_ruins(self):
+        for ruins in self.ruins:
+            ruins.draw()
+
     # Zeichen die Zonen
     def draw_zones(self):
         for surface, x, y in self.zone_surfaces:
@@ -348,7 +357,110 @@ class Arena:
 
             self.screen.blit(surface, (screen_x, screen_y))
 
+    def draw_center(self):
+        tile_w = Textures.GROUND_DIRT1.get_width()
+        tile_h = Textures.GROUND_DIRT1.get_height()
 
+        # Der absolute Mittelpunkt der 3000x3000-Map
+        center_x = 1500
+        center_y = 1500
+
+        # Startkoordinate des exakten zentralen Tiles
+        mid_tile_x = center_x - tile_w // 2
+        mid_tile_y = center_y - tile_h // 2
+
+        screen_w = self.screen.get_width()
+        screen_h = self.screen.get_height()
+
+        # Dictionary, das alle Kacheln temporär speichert (Key: (col, row), Value: Texture)
+        tiles = {}
+
+        # 1. Das zentrale 7x7 Dirt-Quadrat (-3 bis 3)
+        for row in range(-3, 4):
+            for col in range(-3, 4):
+                tiles[(col, row)] = Textures.GROUND_DIRT1
+
+        # 2. Der standardmäßige 9x9 Gras-Außenrahmen
+        for col in range(-4, 5):
+            # Oben
+            if col == -4:
+                tiles[(-4, -4)] = Textures.GROUND_GRASS_UP_LEFT
+            elif col == 4:
+                tiles[(4, -4)] = Textures.GROUND_GRASS_UP_RIGHT
+            else:
+                tiles[(col, -4)] = Textures.GROUND_GRASS_UP
+
+            # Unten
+            if col == -4:
+                tiles[(-4, 4)] = Textures.GROUND_GRASS_DOWN_LEFT
+            elif col == 4:
+                tiles[(4, 4)] = Textures.GROUND_GRASS_DOWN_RIGHT
+            else:
+                tiles[(col, 4)] = Textures.GROUND_GRASS_DOWN
+
+        for row in range(-3, 4):
+            tiles[(-4, row)] = Textures.GROUND_GRASS_LEFT
+            tiles[(4, row)] = Textures.GROUND_GRASS_RIGHT
+
+        # Die 4 Wege generieren
+        max_reach = 8
+
+        # --- Linker Weg (col von -max_reach bis -4) ---
+        for col in range(-max_reach, -3):
+            tiles[(col, 0)] = Textures.GROUND_DIRT1
+            if col == -4:  # Die Verbindung zum Quadrat
+                tiles[(col, -1)] = Textures.GROUND_GRASS_UP_LEFT
+                tiles[(col, 1)] = Textures.GROUND_GRASS_DOWN_LEFT
+            else:
+                tiles[(col, -1)] = Textures.GROUND_GRASS_UP
+                tiles[(col, 1)] = Textures.GROUND_GRASS_DOWN
+
+        # --- Rechter Weg (col von 4 to max_reach) ---
+        for col in range(4, max_reach + 1):
+            tiles[(col, 0)] = Textures.GROUND_DIRT1
+            if col == 4:  # Die Verbindung zum Quadrat
+                tiles[(col, -1)] = Textures.GROUND_GRASS_UP_RIGHT
+                tiles[(col, 1)] = Textures.GROUND_GRASS_DOWN_RIGHT
+            else:
+                tiles[(col, -1)] = Textures.GROUND_GRASS_UP
+                tiles[(col, 1)] = Textures.GROUND_GRASS_DOWN
+
+        # --- Oberer Weg (row von -max_reach bis -4) ---
+        for row in range(-max_reach, -3):
+            tiles[(0, row)] = Textures.GROUND_DIRT1
+            if row == -4:  # Die Verbindung zum Quadrat
+                tiles[(-1, row)] = Textures.GROUND_GRASS_UP_LEFT
+                tiles[(1, row)] = Textures.GROUND_GRASS_UP_RIGHT
+            else:
+                tiles[(-1, row)] = Textures.GROUND_GRASS_LEFT
+                tiles[(1, row)] = Textures.GROUND_GRASS_RIGHT
+
+        # --- Unterer Weg (row von 4 bis max_reach) ---
+        for row in range(4, max_reach + 1):
+            tiles[(0, row)] = Textures.GROUND_DIRT1
+            if row == 4:  # Die Verbindung zum Quadrat
+                tiles[(-1, row)] = Textures.GROUND_GRASS_DOWN_LEFT
+                tiles[(1, row)] = Textures.GROUND_GRASS_DOWN_RIGHT
+            else:
+                tiles[(-1, row)] = Textures.GROUND_GRASS_LEFT
+                tiles[(1, row)] = Textures.GROUND_GRASS_RIGHT
+
+        # Bestimmte Kacheln explizit mit Dirt-Tiles überschreiben
+        specific_dirt_tiles = [(-4, -1), (-4, 1), (-2, 4), (1, 4), (-1, -4), (1, -4), (4, -1), (4, 1), (-1, 4)]
+        for c, r in specific_dirt_tiles:
+            tiles[(c, r)] = Textures.GROUND_DIRT1
+
+        # Alle berechneten Tiles auf den Screen blitten
+        for (col, row), texture in tiles.items():
+            world_x = mid_tile_x + (col * tile_w)
+            world_y = mid_tile_y + (row * tile_h)
+
+            screen_x = world_x - self.camera.x + screen_w / 2
+            screen_y = world_y - self.camera.y + screen_h / 2
+
+            # Frustum Culling: Rendere nur, was im sichtbaren Bildschirmbereich liegt
+            if -tile_w <= screen_x <= screen_w and -tile_h <= screen_y <= screen_h:
+                self.screen.blit(texture, (screen_x, screen_y))
 
     # Zeichne alle Arena-Objekte und Hintergründe
     def draw(self, robot):
@@ -361,6 +473,7 @@ class Arena:
         self.screen.blit(self.background_surf, (bg_x, bg_y))
 
         self.draw_zones()
+        self.draw_center()
         self.draw_walls()
         self.draw_stones()
         self.draw_cursed_stones()
@@ -396,6 +509,8 @@ class Arena:
         render_queue.extend(self.bones)
 
         render_queue.extend(self.cursed_stones)
+
+        render_queue.extend(self.ruins)
 
         # Roboter (Spieler) hinzufügen
         render_queue.append(robot)
@@ -448,3 +563,7 @@ class Arena:
         for bone_rib in self.bone_ribs:
             if self.is_rect_onscreen(bone_rib):
                 bone_rib.draw_aabb()
+
+        for ruins in self.ruins:
+            if self.is_rect_onscreen(ruins):
+                ruins.draw_aabb()

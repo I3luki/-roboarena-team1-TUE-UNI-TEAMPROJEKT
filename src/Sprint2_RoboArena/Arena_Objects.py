@@ -466,6 +466,32 @@ class Stone:
     def draw_aabb(self):
         draw_aabb(self)
 
+class Ruins:
+
+    def __init__(self, arena, x, y):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+
+        # Die Hitbox sitzt genau auf den übergebenen Koordinaten
+        self.x = x
+        self.y = y
+
+        self.surface = pygame.transform.scale(Textures.RUINS1, (250, 250))
+        self.width = 160
+        self.height = 110
+
+        self.offset_x = 0
+        self.offset_y = 30
+
+        self.aabb = AABB(self.x, self.y, self.x + self.width, self.y + self.height)
+
+    def draw(self):
+        draw(self)
+
+    def draw_aabb(self):
+        draw_aabb(self)
+
 class LightningTile:
     WARNING_COLOR = (255, 255, 0)   # gelbes Warn-Dreieck
     COLOR = (250, 250, 250)   # hellblau

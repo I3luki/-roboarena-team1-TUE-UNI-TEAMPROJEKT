@@ -25,10 +25,20 @@ class Textures:
     LABYRINTH_WALL_VERTICAL = None
     LABYRINTH_WALL_HORIZONTAL = None
     LABYRINTH_WALL = None
+    RUINS1 = None
 
     GROUND_STONE = None
     GROUND_LABYRINTH = None
     GROUND_DESERT = None
+    GROUND_DIRT1 = None
+    GROUND_GRASS_DOWN = None
+    GROUND_GRASS_UP = None
+    GROUND_GRASS_LEFT = None
+    GROUND_GRASS_RIGHT = None
+    GROUND_GRASS_UP_LEFT = None
+    GROUND_GRASS_UP_RIGHT = None
+    GROUND_GRASS_DOWN_LEFT = None
+    GROUND_GRASS_DOWN_RIGHT = None
 
     LIGHTNING_ANIMATION = None
     TORNADO_ANIMATION = None
@@ -70,7 +80,7 @@ class Textures:
 
         # --- Labyrinth ---
         cls.GROUND_LABYRINTH = pygame.image.load("Sprites/ground_labyrinth.png").convert_alpha()
-        cls.GROUND_LABYRINTH = pygame.transform.scale(cls.GROUND_LABYRINTH, (80, 80))
+        cls.GROUND_LABYRINTH = pygame.transform.scale(cls.GROUND_LABYRINTH, (87, 87))
 
         cls.LABYRINTH_WALL_VERTICAL = pygame.image.load("Sprites/labyrinth_wall_vertical.png").convert_alpha()
         cls.LABYRINTH_WALL_HORIZONTAL = pygame.image.load("Sprites/labyrinth_wall_horizontal.png").convert_alpha()
@@ -89,6 +99,37 @@ class Textures:
 
         raw_tornado_animation = load_spritesheet("Sprites/tornado.png", 1048, 1048, 12, 5, skip_rows=[0,1,2])
         cls.TORNADO_ANIMATION = animation_scaling(raw_tornado_animation, 0.15, 0.15)
+
+        # --- Middle Ground ---
+        cls.GROUND_DIRT1 = pygame.image.load("Sprites/ground_dirt1.png").convert_alpha()
+        cls.GROUND_DIRT1 = pygame.transform.scale(cls.GROUND_DIRT1, (53, 53))
+
+        cls.GROUND_GRASS_DOWN = pygame.image.load("Sprites/ground_grass_down.png").convert_alpha()
+        cls.GROUND_GRASS_DOWN = pygame.transform.scale(cls.GROUND_GRASS_DOWN, (53, 53))
+
+        cls.GROUND_GRASS_UP = pygame.image.load("Sprites/ground_grass_up.png").convert_alpha()
+        cls.GROUND_GRASS_UP = pygame.transform.scale(cls.GROUND_GRASS_UP, (53, 53))
+
+        cls.GROUND_GRASS_LEFT = pygame.image.load("Sprites/ground_grass_left.png").convert_alpha()
+        cls.GROUND_GRASS_LEFT = pygame.transform.scale(cls.GROUND_GRASS_LEFT, (53, 53))
+
+        cls.GROUND_GRASS_RIGHT = pygame.image.load("Sprites/ground_grass_right.png").convert_alpha()
+        cls.GROUND_GRASS_RIGHT = pygame.transform.scale(cls.GROUND_GRASS_RIGHT, (53, 53))
+
+        cls.GROUND_GRASS_UP_LEFT = pygame.image.load("Sprites/ground_grass_up_left.png").convert_alpha()
+        cls.GROUND_GRASS_UP_LEFT = pygame.transform.scale(cls.GROUND_GRASS_UP_LEFT, (53, 53))
+
+        cls.GROUND_GRASS_UP_RIGHT = pygame.image.load("Sprites/ground_grass_up_right.png").convert_alpha()
+        cls.GROUND_GRASS_UP_RIGHT = pygame.transform.scale(cls.GROUND_GRASS_UP_RIGHT, (53, 53))
+
+        cls.GROUND_GRASS_DOWN_LEFT = pygame.image.load("Sprites/ground_grass_down_left.png").convert_alpha()
+        cls.GROUND_GRASS_DOWN_LEFT = pygame.transform.scale(cls.GROUND_GRASS_DOWN_LEFT, (53, 53))
+
+        cls.GROUND_GRASS_DOWN_RIGHT = pygame.image.load("Sprites/ground_grass_down_right.png").convert_alpha()
+        cls.GROUND_GRASS_DOWN_RIGHT = pygame.transform.scale(cls.GROUND_GRASS_DOWN_RIGHT, (53, 53))
+
+        cls.RUINS1 = pygame.image.load("Sprites/ruins1.png").convert_alpha()
+
 
 
 def load_spritesheet(filename, frame_width, frame_height, rows, cols, skip_cols=None, skip_rows=None, colorkey = (0,0,0)):
