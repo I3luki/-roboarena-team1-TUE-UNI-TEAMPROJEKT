@@ -107,8 +107,8 @@ level = Level(screen)
 buff_manager = BuffManager()
 
 # Create arena object
-arena = Arena(screen)
-robot = Robot(arena, health, stamina, level, arena.WIDTH/2, arena.HEIGHT/2)   # spawne in der Mitte der Arena
+arena = Arena(screen, TEST_MODE = TEST_MODE)
+robot = Robot(arena, health, stamina, level, arena.WIDTH/2, 1600)   # spawne in der Mitte der Arena
 arena.camera.x = robot.x # lässt kamera auf roboter spwanen
 arena.camera.y = robot.y # lässt kamera auf roboter spwanen
 

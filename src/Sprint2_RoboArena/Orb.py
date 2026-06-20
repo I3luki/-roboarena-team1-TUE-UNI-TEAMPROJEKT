@@ -1,6 +1,6 @@
-import pygame
 import random
 from Collision import AABB
+from Textures import Textures
 
 class Orb:
 
@@ -51,14 +51,13 @@ class Orb:
 
     # zeichnet den Orb
     def draw(self):
-        color = (255,64,64)
         screen_x, screen_y = self.camera.global_to_screen(self)
-        pygame.draw.circle(
-            self.screen,
-            color,
-            (screen_x,screen_y),
-            self.radius
-        )
+        orb_image = Textures.ORB_ICON
+
+        blit_x = screen_x - (orb_image.get_width() // 2)
+        blit_y = screen_y - (orb_image.get_height() // 2)
+
+        self.screen.blit(orb_image, (blit_x, blit_y))
 
 
     # zeichnet die AABB (für visuelle Tests)

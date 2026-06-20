@@ -11,9 +11,17 @@ SECOND = 60     # Eine Sekunde sind 60 Frames
 # -------------------------------------------------- GLOBALE METHODEN, KONSTANTEN UND ALLGEMEINE KLASSEN -------------
 # zeichnet die gegebene Instanz
 def draw(rect):
-    # update aabb
-    rect.aabb.update(rect.x, rect.y,
-                     rect.x + rect.width, rect.y + rect.height)
+    # Schauen, ob das Objekt eigene Offsets hat, sonst 0 nutzen
+    offset_x = getattr(rect, 'offset_x', 0)
+    offset_y = getattr(rect, 'offset_y', 0)
+
+    # update aabb unter Beachtung des Offsets
+    rect.aabb.update(
+        rect.x + offset_x,
+        rect.y + offset_y,
+        rect.x + offset_x + rect.width,
+        rect.y + offset_y + rect.height
+    )
 
     x_screen, y_screen = rect.camera.global_to_screen(rect)
 
@@ -55,10 +63,18 @@ def draw_cooldown(tile):
         
 # Zeichnet die AABB der gegeben Instanz:        
 def draw_aabb(rect):
-        # berechne screen Koordinaten
-        x_min_screen, y_min_screen = rect.camera.global_to_screen(rect)  
+        # Offsets holen (Standard 0)
+        offset_x = getattr(rect, 'offset_x', 0)
+        offset_y = getattr(rect, 'offset_y', 0)
 
-        rect.aabb.draw_at(rect.arena, x_min_screen, y_min_screen)
+        # berechne screen Koordinaten
+        x_min_screen, y_min_screen = rect.camera.global_to_screen(rect)
+
+        rect.aabb.draw_at(
+            rect.arena,
+            x_min_screen + offset_x,
+            y_min_screen + offset_y
+        )
 
 
 
@@ -109,23 +125,29 @@ class Tile:
 
 
 
-class Wall: 
-    COLOR = (0,0,255)
-     
-    def __init__(self, arena, x, y, width, height):
-          self.arena = arena
-          self.screen = arena.screen
-          self.camera = arena.camera
-          self.x = x
-          self.y = y
-          self.width = width
-          self.height = height
-          self.aabb = AABB(x,y,
-                           x + self.width, y + self.height)
+class Wall:
 
-          self.surface = pygame.Surface((width, height))
-          self.surface.fill(self.COLOR)
-             
+    def __init__(self, arena, x, y, width, height):
+
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.aabb = AABB(x,y,
+                        x + self.width, y + self.height)
+
+        self.surface = pygame.Surface((width, height), pygame.SRCALPHA)
+
+        tex_w = Textures.LABYRINTH_WALL.get_width()
+        tex_h = Textures.LABYRINTH_WALL.get_height()
+
+        for tx in range(0, width, tex_w):
+            for ty in range(0, height, tex_h):
+                self.surface.blit(Textures.LABYRINTH_WALL, (tx, ty))
+
 
     def draw(self):
         draw(self) # globale Methode
@@ -139,18 +161,56 @@ class Wall:
 class Speedtile(Tile):
     COLOR = (255, 255, 0)     # gelb
      
-    # applies the unique effect to the given robot
+    # adds the effect to the robot
     def apply_to(self, robot):
-         self.apply_effect_to(Speed_Buff(), robot)
+        self.apply_effect_to(Speed_Buff(), robot)
 
-   
+    def draw(self):
+        # 1. Das normale pinke Tile und den eventuellen Prozent-Cooldown zeichnen
+        super().draw()
+
+        # 2. Das schwebende Icon nur zeichnen, wenn das Tile bereit ist (kein Cooldown)
+        if self.cooldown_current <= 0:
+            current_time = pygame.time.get_ticks()
+
+            # Sinuswelle für das Auf- und Abschweben (Geschwindigkeit * 0.005, Reichweite 5 Pixel)
+            bobbing_offset = math.sin(current_time * 0.005) * 5
+
+            x_screen, y_screen = self.camera.global_to_screen(self)
+
+            # Das Icon (30x30) mittig über dem Tile (20x20) platzieren und leicht nach oben versetzen
+            icon_x = x_screen + (self.width - Textures.SPEED_ICON.get_width()) // 2
+            icon_y = y_screen + (self.height - Textures.SPEED_ICON.get_height()) // 2 - 12 + bobbing_offset
+
+            self.screen.blit(Textures.SPEED_ICON, (icon_x, icon_y))
+
+
 # Gives a Health-Regeneration-Buff on Collision
 class Healthtile(Tile):
     COLOR = (255, 105, 180)  # pink
 
     # adds the effect to the robot
     def apply_to(self, robot):
-         self.apply_effect_to(Healthgen_Buff(), robot)
+        self.apply_effect_to(Healthgen_Buff(), robot)
+
+    def draw(self):
+        # 1. Das normale pinke Tile und den eventuellen Prozent-Cooldown zeichnen
+        super().draw()
+
+        # 2. Das schwebende Icon nur zeichnen, wenn das Tile bereit ist (kein Cooldown)
+        if self.cooldown_current <= 0:
+            current_time = pygame.time.get_ticks()
+
+            # Sinuswelle für das Auf- und Abschweben (Geschwindigkeit * 0.005, Reichweite 5 Pixel)
+            bobbing_offset = math.sin(current_time * 0.005) * 5
+
+            x_screen, y_screen = self.camera.global_to_screen(self)
+
+            # Das Icon (30x30) mittig über dem Tile (20x20) platzieren und leicht nach oben versetzen
+            icon_x = x_screen + (self.width - Textures.HEALING_ICON.get_width()) // 2
+            icon_y = y_screen + (self.height - Textures.HEALING_ICON.get_height()) // 2 - 12 + bobbing_offset
+
+            self.screen.blit(Textures.HEALING_ICON, (icon_x, icon_y))
 
      
 # Gives a Random Buff or Debuff on Collision
@@ -187,6 +247,25 @@ class Surprisetile(Tile):
 
         # apply the one picked
         self.apply_effect_to(choice, robot)
+
+    def draw(self):
+        # 1. Das normale pinke Tile und den eventuellen Prozent-Cooldown zeichnen
+        super().draw()
+
+        # 2. Das schwebende Icon nur zeichnen, wenn das Tile bereit ist (kein Cooldown)
+        if self.cooldown_current <= 0:
+            current_time = pygame.time.get_ticks()
+
+            # Sinuswelle für das Auf- und Abschweben (Geschwindigkeit * 0.005, Reichweite 5 Pixel)
+            bobbing_offset = math.sin(current_time * 0.005) * 5
+
+            x_screen, y_screen = self.camera.global_to_screen(self)
+
+            # Das Icon (30x30) mittig über dem Tile (20x20) platzieren und leicht nach oben versetzen
+            icon_x = x_screen + (self.width - Textures.RANDOM_ICON.get_width()) // 2
+            icon_y = y_screen + (self.height - Textures.RANDOM_ICON.get_height()) // 2 - 12 + bobbing_offset
+
+            self.screen.blit(Textures.RANDOM_ICON, (icon_x, icon_y))
         
 
 # Makes a small amount of Damage on Impact 
@@ -290,22 +369,109 @@ class CursedHole:
     def draw(self):
         draw(self)
 
-class SkullTile(Tile):
-    COLOR = (70, 70, 70)
-    width = 30
-    height = 30
 
-    def apply_to(self, robot):
-         pass #TODO: implement an effect
+class Bone:
 
+    def __init__(self, arena, x, y):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
 
-class BoneTile(Tile):
-    COLOR = (245, 245, 220)
-    width = 35
-    height = 15
+        self.x = x
+        self.y = y
 
-    def apply_to(self, robot):
-         pass #TODO: implement an effect
+        r = random.randint(1,6)
+        if r == 1:
+            self.surface = pygame.transform.scale(Textures.BONE1, (120, 120))
+            self.width = 60
+            self.height = 40
+
+            self.offset_x = 10
+            self.offset_y = -20
+
+        elif r == 2:
+            self.surface = pygame.transform.scale(Textures.BONE2, (200, 200))
+            self.width = 100
+            self.height = 60
+
+            self.offset_x = -10
+            self.offset_y = 0
+
+        elif r == 3:
+            self.surface = pygame.transform.scale(Textures.BONE3, (100, 100))
+            self.width = 60
+            self.height = 20
+
+            self.offset_x = 0
+            self.offset_y = 0
+
+        elif r == 4:
+            self.surface = pygame.transform.scale(Textures.BONE4, (100, 100))
+            self.width = 40
+            self.height = 30
+
+            self.offset_x = 0
+            self.offset_y = 0
+
+        elif r == 5:
+            self.surface = pygame.transform.scale(Textures.BONE5, (100, 100))
+            self.width = 50
+            self.height = 25
+
+            self.offset_x = 0
+            self.offset_y = -10
+
+        elif r == 6:
+            self.surface = pygame.transform.scale(Textures.BONE6, (90, 90))
+            self.width = 30
+            self.height = 40
+
+            self.offset_x = 10
+            self.offset_y = -20
+
+        self.aabb = AABB(self.x, self.y, self.x + self.width, self.y + self.height)
+
+    def draw(self):
+        draw(self)
+
+    def draw_aabb(self):
+        draw_aabb(self)
+
+class Bone_Rib:
+
+    def __init__(self, arena, x, y):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+
+        self.x = x
+        self.y = y
+
+        r = random.randint(1,2)
+        if r == 1:
+            self.surface = pygame.transform.scale(Textures.BONE_RIB1, (200, 200))
+            self.width = 40
+            self.height = 70
+
+            self.offset_x = 20
+            self.offset_y = 30
+
+        elif r == 2:
+            self.surface = pygame.transform.scale(Textures.BONE_RIB2, (200, 200))
+            self.width = 40
+            self.height = 70
+
+            self.offset_x = -10
+            self.offset_y = 30
+
+        self.aabb = AABB(self.x, self.y, self.x + self.width, self.y + self.height)
+
+    def draw(self):
+        draw(self)
+
+    def draw_aabb(self):
+        draw_aabb(self)
+
 
 class Stone:
 
@@ -356,6 +522,288 @@ class Stone:
 
     def draw_aabb(self):
         draw_aabb(self)
+
+class Ruins:
+
+    def __init__(self, arena, x, y):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+
+        # Die Hitbox sitzt genau auf den übergebenen Koordinaten
+        self.x = x
+        self.y = y
+
+        self.surface = pygame.transform.scale(Textures.RUINS1, (250, 250))
+        self.width = 160
+        self.height = 110
+
+        self.offset_x = 0
+        self.offset_y = 30
+
+        self.aabb = AABB(self.x, self.y, self.x + self.width, self.y + self.height)
+
+    def draw(self):
+        draw(self)
+
+    def draw_aabb(self):
+        draw_aabb(self)
+
+class Tree_Normal:
+    def __init__(self, arena, x, y):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+
+        # Die Hitbox sitzt genau auf den übergebenen Koordinaten
+        self.x = x
+        self.y = y
+
+        self.surface = Textures.TREE_NORMAL
+        self.width = 20
+        self.height = 20
+
+        self.offset_x = 0
+        self.offset_y = 15
+
+        self.aabb = AABB(self.x, self.y, self.x + self.width, self.y + self.height)
+
+    def draw(self):
+        draw(self)
+
+    def draw_aabb(self):
+        draw_aabb(self)
+
+class Tree_Dead:
+    def __init__(self, arena, x, y):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+
+        # Die Hitbox sitzt genau auf den übergebenen Koordinaten
+        self.x = x
+        self.y = y
+
+        self.surface = Textures.TREE_DEAD
+        self.width = 20
+        self.height = 20
+
+        self.offset_x = 0
+        self.offset_y = 15
+
+        self.aabb = AABB(self.x, self.y, self.x + self.width, self.y + self.height)
+
+    def draw(self):
+        draw(self)
+
+    def draw_aabb(self):
+        draw_aabb(self)
+
+class Tree_Palm:
+    def __init__(self, arena, x, y):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+
+        # Die Hitbox sitzt genau auf den übergebenen Koordinaten
+        self.x = x
+        self.y = y
+
+        self.surface = Textures.TREE_PALM
+        self.width = 20
+        self.height = 20
+
+        self.offset_x = 0
+        self.offset_y = 15
+
+        self.aabb = AABB(self.x, self.y, self.x + self.width, self.y + self.height)
+
+    def draw(self):
+        draw(self)
+
+    def draw_aabb(self):
+        draw_aabb(self)
+
+class Tree_Fir:
+    def __init__(self, arena, x, y):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+
+        # Die Hitbox sitzt genau auf den übergebenen Koordinaten
+        self.x = x
+        self.y = y
+
+        self.surface = Textures.TREE_FIR
+        self.width = 20
+        self.height = 20
+
+        self.offset_x = 0
+        self.offset_y = 15
+
+        self.aabb = AABB(self.x, self.y, self.x + self.width, self.y + self.height)
+
+    def draw(self):
+        draw(self)
+
+    def draw_aabb(self):
+        draw_aabb(self)
+
+class Center_Normal:
+    def __init__(self, arena, x, y):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+
+        # Die Hitbox sitzt genau auf den übergebenen Koordinaten
+        self.x = x
+        self.y = y
+
+        r = random.randint(1, 3)
+        if r == 1:
+            self.surface = Textures.CENTER_NORMAL1
+            self.width = 30
+            self.height = 15
+
+        elif r == 2:
+            self.surface = Textures.CENTER_NORMAL2
+            self.width = 30
+            self.height = 15
+
+        elif r == 3:
+            self.surface = Textures.CENTER_NORMAL3
+            self.width = 30
+            self.height = 15
+
+        self.aabb = AABB(self.x, self.y, self.x + self.width, self.y + self.height)
+
+    def draw(self):
+        draw(self)
+
+    def draw_aabb(self):
+        draw_aabb(self)
+
+class Center_Dead:
+    def __init__(self, arena, x, y):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+
+        # Die Hitbox sitzt genau auf den übergebenen Koordinaten
+        self.x = x
+        self.y = y
+
+        r = random.randint(1, 3)
+        if r == 1:
+            self.surface = Textures.CENTER_DEAD1
+            self.width = 60
+            self.height = 20
+
+            self.offset_x = 0
+            self.offset_y = -10
+
+        elif r == 2:
+            self.surface = Textures.CENTER_DEAD2
+            self.width = 30
+            self.height = 15
+
+        elif r == 3:
+            self.surface = Textures.CENTER_DEAD3
+            self.width = 30
+            self.height = 15
+
+        self.aabb = AABB(self.x, self.y, self.x + self.width, self.y + self.height)
+
+    def draw(self):
+        draw(self)
+
+    def draw_aabb(self):
+        draw_aabb(self)
+
+class Center_Palm:
+    def __init__(self, arena, x, y):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+
+        # Die Hitbox sitzt genau auf den übergebenen Koordinaten
+        self.x = x
+        self.y = y
+
+        r = random.randint(1, 3)
+        if r == 1:
+            self.surface = Textures.CENTER_PALM1
+            self.width = 30
+            self.height = 15
+
+        elif r == 2:
+            self.surface = Textures.CENTER_PALM2
+            self.width = 30
+            self.height = 15
+
+            self.offset_x = 5
+            self.offset_y = 0
+
+        elif r == 3:
+            self.surface = Textures.CENTER_PALM3
+            self.width = 30
+            self.height = 15
+
+        self.aabb = AABB(self.x, self.y, self.x + self.width, self.y + self.height)
+
+    def draw(self):
+        draw(self)
+
+    def draw_aabb(self):
+        draw_aabb(self)
+
+class Center_Fir:
+    def __init__(self, arena, x, y):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+
+        # Die Hitbox sitzt genau auf den übergebenen Koordinaten
+        self.x = x
+        self.y = y
+
+        r = random.randint(1, 2)
+        if r == 1:
+            self.surface = Textures.CENTER_FIR1
+            self.width = 30
+            self.height = 15
+
+        elif r == 2:
+            self.surface = Textures.CENTER_FIR2
+            self.width = 30
+            self.height = 15
+
+
+        self.aabb = AABB(self.x, self.y, self.x + self.width, self.y + self.height)
+
+    def draw(self):
+        draw(self)
+
+    def draw_aabb(self):
+        draw_aabb(self)
+
+
+class GrassTile:
+    def __init__(self, arena, x, y, surface):
+        self.arena = arena
+        self.screen = arena.screen
+        self.camera = arena.camera
+        self.x = x
+        self.y = y
+        self.surface = surface  # Hier übergeben wir die bereits ausgeschnittene Kachel
+
+    def draw(self):
+        # Wir nutzen dein Kamerasystem. Da 'global_to_screen' das Objekt selbst erwartet,
+        # übergeben wir 'self' (da es .x und .y besitzt).
+        x_screen, y_screen = self.camera.global_to_screen(self)
+
+        # Direkt auf den Bildschirm blitten (ohne AABB-Berechnungen)
+        self.screen.blit(self.surface, (x_screen, y_screen))
 
 class LightningTile:
     WARNING_COLOR = (255, 255, 0)   # gelbes Warn-Dreieck
@@ -449,18 +897,11 @@ class LightningTile:
         x_screen, y_screen = self.camera.global_to_screen(self)
 
         if self.is_warning:
-            # Gelbes Dreieck zeichnen
-            points = [
-                (x_screen + self.width / 2, y_screen),
-                (x_screen, y_screen + self.height),
-                (x_screen + self.width, y_screen + self.height)
-            ]
+            # Schatten zeichnen
+            shadow_x = x_screen + (self.width // 2) - (Textures.LIGHTNING_SHADOW.get_width() // 2)
+            shadow_y = y_screen + (self.height // 2) - (Textures.LIGHTNING_SHADOW.get_height() // 2)
+            self.screen.blit(Textures.LIGHTNING_SHADOW, (shadow_x, shadow_y))
 
-            pygame.draw.polygon(
-                self.screen,
-                self.WARNING_COLOR,
-                points
-            )
         else:
             # Blitz Animation abspielen
             active_frames = Textures.LIGHTNING_ANIMATION[0]
@@ -477,10 +918,8 @@ class LightningTile:
         draw_aabb(self)
 
 class Tornado:
-    COLOR = (80, 80, 80)
-
-    width = 70
-    height = 70
+    width = 105
+    height = 105
 
     SPEED_X = 4
     SPEED_Y = 3
@@ -512,8 +951,12 @@ class Tornado:
             self.y + self.height
         )
 
-        self.surface = pygame.Surface((self.width, self.height))
-        self.surface.fill(self.COLOR)
+        self.frames = [frame for row in Textures.TORNADO_ANIMATION for frame in row]
+
+        self.current_frame = 0
+        self.animation_speed = 0.35 # höher = schneller, niedriger = langsamer
+
+        self.surface = self.frames[0]
 
     def update(self, robot, health):
         current_time = pygame.time.get_ticks()
@@ -576,6 +1019,13 @@ class Tornado:
                 self.y + self.height
             )
 
+        # Animation
+        self.current_frame += self.animation_speed
+        if self.current_frame >= len(self.frames):
+            self.current_frame = 0
+
+        self.surface = self.frames[int(self.current_frame)]
+
         # Spieler anziehen
 
         dx_player = self.x + self.width / 2 - robot.x
@@ -601,8 +1051,7 @@ class Tornado:
          pass #TODO: implement an effect
 
     def draw(self):
-        x_screen, y_screen = self.camera.global_to_screen(self)
-        self.screen.blit(self.surface, (x_screen, y_screen))
+        draw(self)
 
     def draw_aabb(self):
         draw_aabb(self)
