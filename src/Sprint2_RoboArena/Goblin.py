@@ -5,7 +5,7 @@ class Goblin(Enemy):
     def __init__(self, arena, x, y, wave):
 
         health = 100 + wave * 20
-        damage = 2 + wave * 2
+        damage = 1 + wave * 0.5
 
         super().__init__(
             arena,
@@ -25,9 +25,10 @@ class Goblin(Enemy):
         self.normal_speed = self.speed_base
         self.normal_radius = self.radius
 
-        self.berserker_damage_multiplier = 1.5
-        self.berserker_speed_multiplier = 1.4
-        self.berserker_size_multiplier = 3.1
+        self.berserker_damage_multiplier = 5.5
+        self.berserker_speed_multiplier = 2.4
+        self.berserker_size_multiplier = 1.4 # erstmal damits auffält etwas größer sont
+        # würde ich a uf 10% gehen
 
     def activate_berserker_mode(self):
         if self.berserker_active:
@@ -44,7 +45,7 @@ class Goblin(Enemy):
 
         # X * größer
         self.radius = int(self.normal_radius * self.berserker_size_multiplier)
-        self.damage_radius =int(self.damage_radius * self.berserker_speed_multiplier)
+        self.damage_radius =int(self.damage_radius * self.berserker_size_multiplier)
 
         # AABB wegen neuer Größe aktualisieren
         self.aabb.x_min = self.x - self.radius
