@@ -36,15 +36,15 @@ class GameManager:
 
 
         robot.x = arena.WIDTH / 2
-        robot.y = arena.HEIGHT / 2
+        robot.y = 1600
         robot.update_aabb()
 
         self.score = 0
         self.orbs =  0
 
         # Player reset
-        health.max_health = 100
-        health.current_health = 100
+
+        health.current_health = health.max_health
         robot.reset()
         #kamera reset
         arena.camera.x = robot.x

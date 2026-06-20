@@ -23,7 +23,10 @@ class WaveManager:
         if self.current_wave < 3:
 
             enemy_weights = {
-                "goblin": 100
+                "goblin": 40,
+                "wolf":30,
+                "bee":10,
+                "slime":10
 
             }
 
