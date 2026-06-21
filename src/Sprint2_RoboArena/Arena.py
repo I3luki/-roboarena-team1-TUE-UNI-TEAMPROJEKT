@@ -1,6 +1,8 @@
 import pygame
-from Arena_Objects import Wall, Speedtile, Healthtile, Surprisetile, Cactus, SkullTile, BoneTile, LightningTile, \
-    Tornado, Stone, CursedStone, CursedHole
+import random
+from Arena_Objects import Wall, Speedtile, Healthtile, Surprisetile, Cactus, LightningTile, \
+    Tornado, Stone, CursedStone, CursedHole, Bone, Bone_Rib, Ruins, Tree_Dead, Tree_Normal, Tree_Palm, Tree_Fir, \
+    Center_Normal, Center_Dead, Center_Palm, Center_Fir
 from Camera import Camera
 from Arena_Matrix import Arena_Matrix
 from pathfinding.core.grid import Grid
@@ -11,9 +13,10 @@ from Textures import Textures
 class Arena:
 
 
-    def __init__(self, screen):
+    def __init__(self, screen, TEST_MODE = False):
 
         self.screen = screen
+        self.TEST_MODE = TEST_MODE
         self.WIDTH = 3000
         self.HEIGHT = 3000
         self.camera = Camera(screen, 0, 0)
@@ -22,8 +25,8 @@ class Arena:
         # Hintergrund-Surfaces erstellen
         self.background_surf = pygame.Surface((self.WIDTH,self.HEIGHT), pygame.SRCALPHA)
 
-        tile_rocks_w = Textures.GROUND_ROCKS.get_width()
-        tile_rocks_h = Textures.GROUND_ROCKS.get_height()
+        tile_rocks_w = Textures.GROUND_STONE.get_width()
+        tile_rocks_h = Textures.GROUND_STONE.get_height()
 
         rockland_area = [
             (1950, 1500, 1050, 450),
@@ -34,7 +37,7 @@ class Arena:
         for rx, ry, width, height in rockland_area:
             for x in range(rx, rx + width, tile_rocks_w):
                 for y in range(ry, ry + height, tile_rocks_h):
-                    self.background_surf.blit(Textures.GROUND_ROCKS, (x, y))
+                    self.background_surf.blit(Textures.GROUND_STONE, (x, y))
 
         labyrinth_area = [
             (0, 0, 1500, 1050),
@@ -50,24 +53,52 @@ class Arena:
                 for y in range(ly, ly + height, tile_labyrinth_h):
                     self.background_surf.blit(Textures.GROUND_LABYRINTH, (x, y))
 
+        # Wüste unten links
+        desert_area = [
+            (0, 1500, 1050, 450),
+            (0, 1950, 1500, 1050)
+        ]
+
+        tile_desert_w = Textures.GROUND_DESERT.get_width()
+        tile_desert_h = Textures.GROUND_DESERT.get_height()
+
+        # Desert-Surfaces erstellen
+        for lx, ly, width, height in desert_area:
+            for x in range(lx, lx + width, tile_desert_w):
+                for y in range(ly, ly + height, tile_desert_h):
+                    self.background_surf.blit(Textures.GROUND_DESERT, (x, y))
+
         # Farbige Map-Zonen
         self.zones = [
             # Blitzland oben rechts
             (1500, 0, 1500, 1050, (157, 98, 89)),
             (1950, 1050, 1050, 450, (157, 98, 89)),
 
-            # Wüste unten links
-            (0, 1500, 1050, 450, (240, 190, 120)),
-            (0, 1950, 1500, 1050, (240, 190, 120)),
-
             # Healing Spawn Mitte
-            (1050, 1050, 900, 900, (100, 230, 230)),
+            (1050, 1050, 900, 900, "GRASS")
         ]
         self.zone_surfaces = []
 
-        for x, y, width, height, color in self.zones:
-            surface = pygame.Surface((width, height))
-            surface.fill(color)
+        for x, y, width, height, zone_type in self.zones:
+            surface = pygame.Surface((width, height), pygame.SRCALPHA)
+
+            if zone_type == "GRASS":
+                surface.fill((166, 176, 79))
+                # --- INTEGRATION: Fülle die Healing-Zone mit zufälligen Gras-Tiles ---
+                tile_size = 50  # Gewünschte Anzeigegröße der Kacheln auf der Map
+                if Textures.GRASS_TILES:
+                    for tx in range(0, width, tile_size):
+                        for ty in range(0, height, tile_size):
+                            # Zufällige Kachel wählen & auf Map-Größe skalieren
+                            rand_tile = random.choice(Textures.GRASS_TILES)
+                            scaled_tile = pygame.transform.scale(rand_tile, (tile_size, tile_size))
+                            surface.blit(scaled_tile, (tx, ty))
+                else:
+                    # Fallback, falls die Texturen nicht geladen wurden
+                    surface.fill((166, 176, 79))
+            else:
+                # Normale Farbzone (z.B. Blitzland)
+                surface.fill(zone_type)
 
             self.zone_surfaces.append((surface, x, y))
 
@@ -145,15 +176,6 @@ class Arena:
             Wall(self, 750, 800, 80, 80),
 
             Wall(self, 1340, 590, 40, 40),
-
-            # Wüste Wände
-
-            Wall(self, 300, 2000, 100,100),
-
-            Wall(self, 200, 2500,50,90),
-            Wall(self, 900, 1700, 90,90),
-            Wall(self, 700, 2500,50,100),
-            Wall(self, 750, 2450,50,150),
         ]
 
         # --- Steine ---
@@ -190,8 +212,21 @@ class Arena:
         # Cactus Objekte
         self.cactus = [
             Cactus(self, 250, 1800),
-            Cactus(self, 500, 2200),
-            Cactus(self, 800, 2600)]
+            Cactus(self, 800, 2100),
+            Cactus(self, 1000, 2600)
+        ]
+
+        self.bones = [
+            Bone(self, 350, 2500),
+            Bone(self, 1200, 2100),
+            Bone(self, 900, 2800),
+            Bone(self, 250, 2300)
+        ]
+
+        self.bone_ribs = [
+            Bone_Rib(self, 600, 1700),
+            Bone_Rib(self, 1000, 2400)
+        ]
 
         # list of all tiles
         #   a tile is (x,y)
@@ -207,13 +242,6 @@ class Arena:
 
             Surprisetile(self, 500,500),
             Surprisetile(self, 800,900),
-
-            SkullTile(self, 700, 1900),
-            SkullTile(self, 1000, 2400),
-
-            BoneTile(self, 350, 2500),
-            BoneTile(self, 1200, 2100),
-            BoneTile(self, 900, 2800),
 
             #Tiles wüste
             Speedtile(self, 250, 1700),
@@ -251,9 +279,51 @@ class Arena:
             CursedHole(self, 2150, 1130),
         ]
 
+        self.ruins = [
+            Ruins(self, 1450, 1400),
+        ]
+
+        self.trees_normal = [
+            Tree_Normal(self, 1150, 1150),
+        ]
+
+        self.trees_dead = [
+            Tree_Dead(self, 1800, 1150),
+        ]
+
+        self.trees_palm = [
+            Tree_Palm(self, 1150, 1800),
+        ]
+
+        self.trees_fir = [
+            Tree_Fir(self, 1800, 1800),
+        ]
+
+        self.center_normal = [
+            Center_Normal(self, 1100, 1300),
+            Center_Normal(self, 1300, 1100),
+        ]
+
+        self.center_dead = [
+            Center_Dead(self, 1800, 1300),
+            Center_Dead(self, 1630, 1100),
+        ]
+
+        self.center_palm = [
+            Center_Palm(self, 1150, 1650),
+            Center_Palm(self, 1350, 1800),
+        ]
+
+        self.center_fir = [
+            Center_Fir(self, 1650, 1770),
+            Center_Fir(self, 1850, 1670),
+        ]
+
         # Definiere grid matrix für Enemy Movement
         # Erstelle dafür all_obstacles mit allen Objekten, die als nicht begehbar gelten sollen
-        all_obstacles = self.walls + self.stones + self.cactus+ self.cursed_stones + self.cursed_holes
+        all_obstacles = self.walls + self.stones + self.cactus + self.cursed_stones + self.cursed_holes \
+                + self.bones + self.bone_ribs + self.ruins + self.trees_normal + self.trees_dead + self.trees_palm \
+                + self.trees_fir + self.center_normal + self.center_dead + self.center_palm + self.center_fir
         self.grid_matrix = Arena_Matrix().build_grid(self.WIDTH, self.HEIGHT, all_obstacles)
 
         # Grid und Finder nur einmal erstellen
@@ -327,6 +397,46 @@ class Arena:
         for cactus in self.cactus:
             cactus.draw()
 
+    def draw_bones(self):
+        for bone in self.bones:
+            bone.draw()
+
+    def draw_ruins(self):
+        for ruins in self.ruins:
+            ruins.draw()
+
+    def draw_tree_normal(self):
+        for tree_normal in self.trees_normal:
+            tree_normal.draw()
+
+    def draw_tree_dead(self):
+        for tree_dead in self.trees_dead:
+            tree_dead.draw()
+
+    def draw_tree_palm(self):
+        for tree_palm in self.trees_palm:
+            tree_palm.draw()
+
+    def draw_tree_fir(self):
+        for tree_fir in self.trees_fir:
+            tree_fir.draw()
+
+    def draw_center_normal(self):
+        for center_normal in self.center_normal:
+            center_normal.draw()
+
+    def draw_center_dead(self):
+        for center_dead in self.center_dead:
+            center_dead.draw()
+
+    def draw_center_palm(self):
+        for center_palm in self.center_palm:
+            center_palm.draw()
+
+    def draw_center_fir(self):
+        for center_fir in self.center_fir:
+            center_fir.draw()
+
     # Zeichen die Zonen
     def draw_zones(self):
         for surface, x, y in self.zone_surfaces:
@@ -335,7 +445,110 @@ class Arena:
 
             self.screen.blit(surface, (screen_x, screen_y))
 
+    def draw_center(self):
+        tile_w = Textures.GROUND_DIRT1.get_width()
+        tile_h = Textures.GROUND_DIRT1.get_height()
 
+        # Der absolute Mittelpunkt der 3000x3000-Map
+        center_x = 1500
+        center_y = 1500
+
+        # Startkoordinate des exakten zentralen Tiles
+        mid_tile_x = center_x - tile_w // 2
+        mid_tile_y = center_y - tile_h // 2
+
+        screen_w = self.screen.get_width()
+        screen_h = self.screen.get_height()
+
+        # Dictionary, das alle Kacheln temporär speichert (Key: (col, row), Value: Texture)
+        tiles = {}
+
+        # 1. Das zentrale 7x7 Dirt-Quadrat (-3 bis 3)
+        for row in range(-3, 4):
+            for col in range(-3, 4):
+                tiles[(col, row)] = Textures.GROUND_DIRT1
+
+        # 2. Der standardmäßige 9x9 Gras-Außenrahmen
+        for col in range(-4, 5):
+            # Oben
+            if col == -4:
+                tiles[(-4, -4)] = Textures.GROUND_GRASS_UP_LEFT
+            elif col == 4:
+                tiles[(4, -4)] = Textures.GROUND_GRASS_UP_RIGHT
+            else:
+                tiles[(col, -4)] = Textures.GROUND_GRASS_UP
+
+            # Unten
+            if col == -4:
+                tiles[(-4, 4)] = Textures.GROUND_GRASS_DOWN_LEFT
+            elif col == 4:
+                tiles[(4, 4)] = Textures.GROUND_GRASS_DOWN_RIGHT
+            else:
+                tiles[(col, 4)] = Textures.GROUND_GRASS_DOWN
+
+        for row in range(-3, 4):
+            tiles[(-4, row)] = Textures.GROUND_GRASS_LEFT
+            tiles[(4, row)] = Textures.GROUND_GRASS_RIGHT
+
+        # Die 4 Wege generieren
+        max_reach = 8
+
+        # --- Linker Weg (col von -max_reach bis -4) ---
+        for col in range(-max_reach, -3):
+            tiles[(col, 0)] = Textures.GROUND_DIRT1
+            if col == -4:  # Die Verbindung zum Quadrat
+                tiles[(col, -1)] = Textures.GROUND_GRASS_UP_LEFT
+                tiles[(col, 1)] = Textures.GROUND_GRASS_DOWN_LEFT
+            else:
+                tiles[(col, -1)] = Textures.GROUND_GRASS_UP
+                tiles[(col, 1)] = Textures.GROUND_GRASS_DOWN
+
+        # --- Rechter Weg (col von 4 to max_reach) ---
+        for col in range(4, max_reach + 1):
+            tiles[(col, 0)] = Textures.GROUND_DIRT1
+            if col == 4:  # Die Verbindung zum Quadrat
+                tiles[(col, -1)] = Textures.GROUND_GRASS_UP_RIGHT
+                tiles[(col, 1)] = Textures.GROUND_GRASS_DOWN_RIGHT
+            else:
+                tiles[(col, -1)] = Textures.GROUND_GRASS_UP
+                tiles[(col, 1)] = Textures.GROUND_GRASS_DOWN
+
+        # --- Oberer Weg (row von -max_reach bis -4) ---
+        for row in range(-max_reach, -3):
+            tiles[(0, row)] = Textures.GROUND_DIRT1
+            if row == -4:  # Die Verbindung zum Quadrat
+                tiles[(-1, row)] = Textures.GROUND_GRASS_UP_LEFT
+                tiles[(1, row)] = Textures.GROUND_GRASS_UP_RIGHT
+            else:
+                tiles[(-1, row)] = Textures.GROUND_GRASS_LEFT
+                tiles[(1, row)] = Textures.GROUND_GRASS_RIGHT
+
+        # --- Unterer Weg (row von 4 bis max_reach) ---
+        for row in range(4, max_reach + 1):
+            tiles[(0, row)] = Textures.GROUND_DIRT1
+            if row == 4:  # Die Verbindung zum Quadrat
+                tiles[(-1, row)] = Textures.GROUND_GRASS_DOWN_LEFT
+                tiles[(1, row)] = Textures.GROUND_GRASS_DOWN_RIGHT
+            else:
+                tiles[(-1, row)] = Textures.GROUND_GRASS_LEFT
+                tiles[(1, row)] = Textures.GROUND_GRASS_RIGHT
+
+        # Bestimmte Kacheln explizit mit Dirt-Tiles überschreiben
+        specific_dirt_tiles = [(-4, -1), (-4, 1), (-2, 4), (1, 4), (-1, -4), (1, -4), (4, -1), (4, 1), (-1, 4)]
+        for c, r in specific_dirt_tiles:
+            tiles[(c, r)] = Textures.GROUND_DIRT1
+
+        # Alle berechneten Tiles auf den Screen blitten
+        for (col, row), texture in tiles.items():
+            world_x = mid_tile_x + (col * tile_w)
+            world_y = mid_tile_y + (row * tile_h)
+
+            screen_x = world_x - self.camera.x + screen_w / 2
+            screen_y = world_y - self.camera.y + screen_h / 2
+
+            # Frustum Culling: Rendere nur, was im sichtbaren Bildschirmbereich liegt
+            if -tile_w <= screen_x <= screen_w and -tile_h <= screen_y <= screen_h:
+                self.screen.blit(texture, (screen_x, screen_y))
 
     # Zeichne alle Arena-Objekte und Hintergründe
     def draw(self, robot):
@@ -348,9 +561,8 @@ class Arena:
         self.screen.blit(self.background_surf, (bg_x, bg_y))
 
         self.draw_zones()
+        self.draw_center()
         self.draw_walls()
-        self.draw_stones()
-        self.draw_cursed_stones()
 
         # --- Schwarze Vierecke unter den cursed holes zeichnen ---
         for hole in self.cursed_holes:
@@ -378,7 +590,23 @@ class Arena:
         # Cactus hinzufügen
         render_queue.extend(self.cactus)
 
+        render_queue.extend(self.bone_ribs)
+
+        render_queue.extend(self.bones)
+
         render_queue.extend(self.cursed_stones)
+
+        render_queue.extend(self.ruins)
+
+        render_queue.extend(self.trees_normal)
+        render_queue.extend(self.trees_dead)
+        render_queue.extend(self.trees_palm)
+        render_queue.extend(self.trees_fir)
+
+        render_queue.extend(self.center_normal)
+        render_queue.extend(self.center_dead)
+        render_queue.extend(self.center_palm)
+        render_queue.extend(self.center_fir)
 
         # Roboter (Spieler) hinzufügen
         render_queue.append(robot)
@@ -399,17 +627,39 @@ class Arena:
         for lightning in self.lightning_tiles:
             lightning.draw()
 
+        if self.TEST_MODE:
+            self.draw_aabb()
+
+
+
+
     # Zeichne AABBs
     def draw_aabb(self):
 
         for tile in self.tiles:
-            if(self.is_rect_onscreen(tile)):
+            if self.is_rect_onscreen(tile):
                 tile.draw_aabb()
 
         for wall in self.walls:
-            if(self.is_rect_onscreen(wall)):
+            if self.is_rect_onscreen(wall):
                 wall.draw_aabb()
 
         for stone in self.stones:
-            if(self.is_rect_onscreen(stone)):
+            if self.is_rect_onscreen(stone):
                 stone.draw_aabb()
+
+        for bone in self.bones:
+            if self.is_rect_onscreen(bone):
+                bone.draw_aabb()
+
+        for cactus in self.cactus:
+            if self.is_rect_onscreen(cactus):
+                cactus.draw_aabb()
+
+        for bone_rib in self.bone_ribs:
+            if self.is_rect_onscreen(bone_rib):
+                bone_rib.draw_aabb()
+
+        for ruins in self.ruins:
+            if self.is_rect_onscreen(ruins):
+                ruins.draw_aabb()
