@@ -40,7 +40,7 @@ class GameManager:
 
 
         robot.x = arena.WIDTH / 2
-        robot.y = arena.HEIGHT / 2
+        robot.y = 1600
         robot.update_aabb()
 
         self.score = 0
