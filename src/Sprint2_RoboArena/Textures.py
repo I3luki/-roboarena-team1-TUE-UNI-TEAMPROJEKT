@@ -70,8 +70,16 @@ class Textures:
     HEALING_ICON = None
     SPEED_ICON = None
     RANDOM_ICON = None
-
     ORB_ICON = None
+
+    GOBLIN_WALK_ANIMATION = None
+    GOBLIN_DEATH_ANIMATION = None
+    BEE_WALK_ANIMATION = None
+    BEE_DEATH_ANIMATION = None
+    WOLF_WALK_ANIMATION = None
+    WOLF_DEATH_ANIMATION = None
+    SLIME_WALK_ANIMATION = None
+    SLIME_DEATH_ANIMATION = None
 
     @classmethod
     def load_all(cls):
@@ -230,7 +238,28 @@ class Textures:
                 tile = raw_grass_sheet.subsurface(pygame.Rect(x, y, tile_w, tile_h))
                 cls.GRASS_TILES.append(tile)
 
-def load_spritesheet(filename, frame_width, frame_height, rows, cols, skip_cols=None, skip_rows=None, colorkey = (0,0,0)):
+        # --- Enemy Animation ---
+        raw_goblin_walk_animation = load_spritesheet("Sprites/goblin_walk_animation.png", 48, 48, 1, 6)
+        cls.GOBLIN_WALK_ANIMATION = animation_scaling(raw_goblin_walk_animation, 2, 2)
+        raw_goblin_death_animation = load_spritesheet("Sprites/goblin_death_animation.png", 48, 48, 1, 6)
+        cls.GOBLIN_DEATH_ANIMATION = animation_scaling(raw_goblin_death_animation, 2, 2)
+
+        raw_bee_walk_animation = load_spritesheet("Sprites/bee_walk_animation.png", 48, 48, 1, 6)
+        cls.BEE_WALK_ANIMATION = animation_scaling(raw_bee_walk_animation, 2, 2)
+        raw_bee_death_animation = load_spritesheet("Sprites/bee_death_animation.png", 48, 48, 1, 6)
+        cls.BEE_DEATH_ANIMATION = animation_scaling(raw_bee_death_animation, 2, 2)
+
+        raw_wolf_walk_animation = load_spritesheet("Sprites/wolf_walk_animation.png", 48, 48, 1, 6)
+        cls.WOLF_WALK_ANIMATION = animation_scaling(raw_wolf_walk_animation, 2, 2)
+        raw_wolf_death_animation = load_spritesheet("Sprites/wolf_death_animation.png", 48, 48, 1, 6)
+        cls.WOLF_DEATH_ANIMATION = animation_scaling(raw_wolf_death_animation, 2, 2)
+
+        raw_slime_walk_animation = load_spritesheet("Sprites/slime_walk_animation.png", 48, 48, 1, 6)
+        cls.SLIME_WALK_ANIMATION = animation_scaling(raw_slime_walk_animation, 2, 2)
+        raw_slime_death_animation = load_spritesheet("Sprites/slime_death_animation.png", 48, 48, 1, 6)
+        cls.SLIME_DEATH_ANIMATION = animation_scaling(raw_slime_death_animation, 2, 2)
+
+def load_spritesheet(filename, frame_width, frame_height, rows, cols, skip_cols=None, skip_rows=None, colorkey = None):
     """
     Lädt ein Spritesheet und schneidet es in eine Liste von Listen (Zeilen & Spalten)
     """
