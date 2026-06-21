@@ -19,7 +19,7 @@ class Enemy:
                          self.x + self.radius, 
                          self.y + self.radius)
         self.damage_radius = 100
-        self.damage = 0.1
+        self.damage = damage
         self.health_system = HealthSystem_Enemy(health)
         self.speed_base = 1.5
         self.speed_current = self.speed_base
@@ -113,7 +113,7 @@ class Enemy:
         pygame.draw.circle(self.screen,
                            color_outer,
                            (x_screen,y_screen),
-                           100,
+                           self.damage_radius,
                            2)
 
         self.health_system.draw(self.screen, x_screen, y_screen)
