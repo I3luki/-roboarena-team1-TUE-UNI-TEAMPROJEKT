@@ -46,7 +46,7 @@ class Level:
 
         #Buffmanger aufrufen
 
-        buff_manager.generate_choices()
+        buff_manager.generate_choices(game)
 
     # Zeichnet die Anzeige
     def draw(self):

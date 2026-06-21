@@ -2,12 +2,14 @@ import pygame
 import os
 
 #fürs öffnen von den txt dateien
-#"r"  = read    = lesen
-#"w"  = write   = schreiben/überschreiben
-#"a"  = append  = anhängen
+#"r" = lesen
+#"w" = schreiben/überschreiben
+#"a" = anhängen
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATS_FILE = os.path.join(BASE_DIR, "Data", "stats.txt")
 HIGHSCORE_FILE = os.path.join(BASE_DIR, "Data", "highscore.txt")
+SHOP_POINTS_FILE = os.path.join(BASE_DIR, "Data", "shop_points.txt")
+SHOP_UNLOCKS_FILE = os.path.join(BASE_DIR, "Data", "shop_unlocks.txt")
 
 class GameManager:
     def __init__(self):
@@ -15,6 +17,8 @@ class GameManager:
         self.score = 0
         self.orbs = 0
         self.highscore = self.load_highscore()
+        self.shop_points = self.load_shop_points()
+        self.unlocked_shop_buffs = self.load_shop_unlocks()
         # Einfach erweiterbar (was wollen wir kills? damage vllt? oder Health lost etc müsste man nur überelgen wie man stats enpfelgt
 
     def check_game_over(self, health):
@@ -84,7 +88,7 @@ class GameManager:
 
     def load_highscore(self):
         try:
-            with open(STATS_FILE, "a") as f:
+            with open(HIGHSCORE_FILE, "a") as f:
                 content = f.read().strip()
                 return int(content) if content else 0
         except (FileNotFoundError, ValueError):
@@ -93,11 +97,50 @@ class GameManager:
     def save_highscore(self):
         with open(HIGHSCORE_FILE, "w") as f:
             f.write(str(self.highscore))
+
+    def load_shop_points(self):
+        try:
+            with open(SHOP_POINTS_FILE, "r") as f:
+                content = f.read().strip()
+                return int(content) if content else 0
+        except (FileNotFoundError, ValueError):
+            return 0
+
+
+    def save_shop_points(self):
+        with open(SHOP_POINTS_FILE, "w") as f:
+            f.write(str(self.shop_points))
+
+    def load_shop_unlocks(self):
+        try:
+            with open(SHOP_UNLOCKS_FILE, "r") as f:
+                return f.read().splitlines()
+        except FileNotFoundError:
+            return []
+
+
+    def save_shop_unlocks(self):
+        with open(SHOP_UNLOCKS_FILE, "w") as f:
+            for buff_key in self.unlocked_shop_buffs:
+                f.write(buff_key + "\n")
+
+
+    def unlock_shop_buff(self, buff_key):
+        if buff_key not in self.unlocked_shop_buffs:
+            self.unlocked_shop_buffs.append(buff_key)
+            self.save_shop_unlocks()
+
+
+    def is_shop_buff_unlocked(self, buff_key):
+        return buff_key in self.unlocked_shop_buffs
+
    #speichert run in stats.txt
     def save_run(self):
         # a für anhängen
         with open(STATS_FILE, "a") as f:
             f.write(f"{self.score}\n")
+        self.shop_points += self.score
+        self.save_shop_points()
     #gamestats
     def start_game(self):
         self.state = "PLAYING"

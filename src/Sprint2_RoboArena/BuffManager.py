@@ -48,17 +48,62 @@ class BuffManager:
         self.current_choices = []
         self.active = False
 
-    def generate_choices(self):
+    def get_available_buffs(self, game):
+        available_buffs = []
 
-        self.current_choices = []
+        for buff in self.available_buffs:
+            if hasattr(buff, "shop_locked"):
+                if game.is_shop_buff_unlocked(buff.key):
+                    available_buffs.append(buff)
+            else:
+                available_buffs.append(buff)
 
-        for i in range(self.choices_amount):
-            chosen_list = random.choices(self.buff_lists, weights=self.weights, k=1)[0]
-            chosen_item = random.choice(chosen_list)
-            self.current_choices.append(chosen_item)
+        return available_buffs
 
+
+    def get_buffs_by_rarity(self, buffs):
+        common = [b for b in buffs if b.rarity == COMMON]
+        rare = [b for b in buffs if b.rarity == RARE]
+        epic = [b for b in buffs if b.rarity == EPIC]
+
+        return [
+            (common, COMMON),
+            (rare, RARE),
+            (epic, EPIC)
+        ]
+
+
+    def roll_buff_choices(self, rarity_groups):
+        choices = []
+
+        possible_groups = [
+            (buff_list, weight)
+            for buff_list, weight in rarity_groups
+            if len(buff_list) > 0
+        ]
+
+        buff_lists = [group[0] for group in possible_groups]
+        weights = [group[1] for group in possible_groups]
+
+        for _ in range(self.choices_amount):
+            chosen_list = random.choices(
+                buff_lists,
+                weights=weights,
+                k=1
+            )[0]
+
+            chosen_buff = random.choice(chosen_list)
+            choices.append(chosen_buff)
+
+        return choices
+
+
+    def generate_choices(self, game):
+        available_buffs = self.get_available_buffs(game)
+        rarity_groups = self.get_buffs_by_rarity(available_buffs)
+
+        self.current_choices = self.roll_buff_choices(rarity_groups)
         self.active = True
-
 
     def apply_buff(self, index, robot, health):
 
