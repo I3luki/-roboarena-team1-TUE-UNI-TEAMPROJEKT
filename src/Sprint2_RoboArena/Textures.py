@@ -128,7 +128,9 @@ class Textures:
         raw_lightning_animation = load_spritesheet("Sprites/Lightning1.png", 64, 160, 1, 10, skip_cols=[2])
         cls.LIGHTNING_ANIMATION = animation_scaling(raw_lightning_animation, 2.0, 2.5)
 
-        cls.LIGHTNING_SHADOW = pygame.image.load("Sprites/Lightning_shadow.png").convert_alpha()
+        cls.LIGHTNING_SHADOW = pygame.image.load(
+            "Sprites/lightning_shadow.png"
+        ).convert_alpha()
         cls.LIGHTNING_SHADOW = pygame.transform.scale(cls.LIGHTNING_SHADOW, (60, 60))
 
         raw_tornado_animation = load_spritesheet("Sprites/tornado.png", 1048, 1048, 12, 5, skip_rows=[0,1,2])
