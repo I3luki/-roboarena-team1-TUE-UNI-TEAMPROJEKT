@@ -41,9 +41,23 @@ class EnemyManager:
         for enemy in self.enemies[:]:
             enemy.update_status_effects()
             if hasattr(enemy, 'health_system') and enemy.health_system.is_dead(): # Wenn Gegner tot ist
-                new_orb = Orb(arena, enemy.x, enemy.y)
-                orb_list.append(new_orb) # Erstelle neuen Orb und füge ihn der Liste hinzu
-                self.enemies.remove(enemy) # Entferne Gegner aus der Liste
+                if hasattr(enemy, 'is_dying'):
+                    if not enemy.is_dying:
+                        # Starte Death Animation
+                        enemy.is_dying = True
+                        enemy.death_finished = False
+                        enemy.death_frame = 0
+                        enemy.death_timer = 0.0
+                    elif enemy.death_finished:
+                        # Animation fertig -> Orb droppen + entfernen
+                        new_orb = Orb(arena, enemy.x, enemy.y)
+                        orb_list.append(new_orb)
+                        self.enemies.remove(enemy)
+                else:
+                    # Keine Death Animation -> Sofort entfernen
+                    new_orb = Orb(arena, enemy.x, enemy.y)
+                    orb_list.append(new_orb) # Erstelle neuen Orb und füge ihn der Liste hinzu
+                    self.enemies.remove(enemy) # Entferne Gegner aus der Liste
 
         MAX_CALCS_PER_FRAME =  2 # Maximale Anzahl an A* Berechnungen pro Frame
         calcs_done_this_frame = 0
