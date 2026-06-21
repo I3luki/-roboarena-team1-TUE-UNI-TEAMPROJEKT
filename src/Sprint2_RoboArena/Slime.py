@@ -50,7 +50,7 @@ class Slime(Enemy):
             return False
 
         # NORMAL: Bewegung über Parent + Walk-Animation
-        old_x, old_y = self.x, self.y
+        old_x = self.x
         did_calculate = super().update(robot, budget_available)
 
         dx = self.x - old_x
