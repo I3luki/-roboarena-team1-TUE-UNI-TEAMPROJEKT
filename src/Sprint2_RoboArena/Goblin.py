@@ -25,9 +25,9 @@ class Goblin(Enemy):
         self.normal_speed = self.speed_base
         self.normal_radius = self.radius
 
-        self.berserker_damage_multiplier = 5.5
-        self.berserker_speed_multiplier = 2.4
-        self.berserker_size_multiplier = 1.4 # erstmal damits auffält etwas größer sont
+        self.berserker_damage_multiplier = 1.5
+        self.berserker_speed_multiplier = 1.4
+        self.berserker_size_multiplier = 1.3 # erstmal damits auffält etwas größer sont
         # würde ich a uf 10% gehen
 
     def activate_berserker_mode(self):
