@@ -37,6 +37,7 @@ class Bee(Enemy):
         self.facing_right = True
         self.frame_width = self.walk_frames[0].get_width()
         self.frame_height = self.walk_frames[0].get_height()
+        self.height = self.frame_height
 
     def update(self, robot, budget_available):
         # STERBE-ZUSTAND

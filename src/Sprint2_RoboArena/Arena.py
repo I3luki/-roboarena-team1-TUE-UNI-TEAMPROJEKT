@@ -333,6 +333,8 @@ class Arena:
         #Tornado Tiles
         self.tornado = Tornado(self)
 
+        self.enemy_manager = None
+
 
 
     #Update Methode für Tornado 
@@ -611,6 +613,9 @@ class Arena:
         # Roboter (Spieler) hinzufügen
         render_queue.append(robot)
 
+        # Gegner hinzufügen
+        render_queue.extend(self.enemy_manager.enemies)
+
         # Tornado hinzufügen
         render_queue.append(self.tornado)
 
@@ -618,7 +623,7 @@ class Arena:
 
         # Sortieren nach der Unterkante des Objekts (y + height)
         # Lambda nimmt jedes Objekt und schaut, wo seine "Füße" auf der Y-Achse stehen
-        render_queue.sort(key=lambda obj: obj.y + obj.height)
+        render_queue.sort(key=lambda obj: obj.y + getattr(obj, 'sort_offset', getattr(obj, 'height', 0)))
 
         # Objekte von hinten nach vorne durchgehen und zeichnen
         for obj in render_queue:

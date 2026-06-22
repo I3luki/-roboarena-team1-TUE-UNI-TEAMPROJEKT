@@ -32,7 +32,7 @@ class Robot:
         self.default_speed_base = 5
         self.default_speed_current = 5
         self.default_attack_radius = 200
-        self.default_attack_damage = 50
+        self.default_attack_damage = 40
         self.default_attack_cooldown = 1000
         self.is_moving = False
         self.facing = "down"

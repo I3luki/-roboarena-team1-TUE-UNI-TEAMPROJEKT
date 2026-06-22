@@ -60,7 +60,6 @@ def draw():
     robot.relics.draw_icons()
     for orb in orb_list:
         orb.draw()
-    enemy_manager.draw()
 
     health.draw()
     stamina.draw()
@@ -118,7 +117,7 @@ orb_list = [Orb(arena,0,0), Orb(arena,0,0)]
 enemy_manager = EnemyManager(arena)
 wave_manager = WaveManager(enemy_manager)
 
-
+arena.enemy_manager = enemy_manager
 
 def spawn_enemy():
     for _ in range(2):
