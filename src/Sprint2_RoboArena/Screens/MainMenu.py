@@ -32,7 +32,7 @@ class MainMenu:
             elif event.key == pygame.K_RETURN:
 
                 if self.selected == 0:
-                    game.state = "PLAYING"
+                    game.state = "MAP_SELECT"
 
                 elif self.selected == 1:
                     game.state = "SHOP"
