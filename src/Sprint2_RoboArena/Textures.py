@@ -72,6 +72,8 @@ class Textures:
     RANDOM_ICON = None
     ORB_ICON = None
 
+    SWORD1 = None
+
     GOBLIN_WALK_ANIMATION = None
     GOBLIN_DEATH_ANIMATION = None
     BEE_WALK_ANIMATION = None
@@ -239,6 +241,9 @@ class Textures:
                 y = row * tile_h
                 tile = raw_grass_sheet.subsurface(pygame.Rect(x, y, tile_w, tile_h))
                 cls.GRASS_TILES.append(tile)
+
+        # --- Player Weapon ---
+        cls.SWORD1 = pygame.image.load("Sprites/sword1.png").convert_alpha()
 
         # --- Enemy Animation ---
         raw_goblin_walk_animation = load_spritesheet("Sprites/goblin_walk_animation.png", 48, 48, 1, 6)
