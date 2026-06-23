@@ -10,28 +10,92 @@ class Goblin(Enemy):
         damage = 2 + wave * 2
         super().__init__(arena, x, y, health, damage)
 
-        # Walk Animation
-        self.walk_frames = Textures.GOBLIN_WALK_ANIMATION[0]
-        self.walk_frames = [f.convert_alpha() for f in self.walk_frames]
+        # Walk Animation (Original-Frames für Neuskalierung speichern)
+        self.walk_frames_original = Textures.GOBLIN_WALK_ANIMATION[0]
+        self.walk_frames_original = [f.convert_alpha() for f in self.walk_frames_original]
+        self.walk_frames = [f.copy() for f in self.walk_frames_original]
         self.current_frame = 0
         self.animation_timer = 0.0
         self.animation_speed = 0.15
 
-        # Death Animation
-        self.death_frames = Textures.GOBLIN_DEATH_ANIMATION[0]
-        self.death_frames = [f.convert_alpha() for f in self.death_frames]
-        self.is_dying = False          # True = spielt Death-Animation
+        # Death Animation (ebenfalls Original speichern)
+        self.death_frames_original = Textures.GOBLIN_DEATH_ANIMATION[0]
+        self.death_frames_original = [f.convert_alpha() for f in self.death_frames_original]
+        self.death_frames = [f.copy() for f in self.death_frames_original]
+        self.is_dying = False
         self.death_frame = 0
         self.death_timer = 0.0
         self.death_speed = 0.1
-        self.death_finished = False    # True = Animation komplett abgespielt
+        self.death_finished = False
 
         self.facing_right = True
         self.frame_width = self.walk_frames[0].get_width()
         self.frame_height = self.walk_frames[0].get_height()
+        self.height = self.frame_height
+
+        self.damage_radius = 45
+
+        # Berserker Werte
+        self.max_health = health
+        self.berserker_active = False
+
+        self.normal_damage = self.damage
+        self.normal_speed_base = self.speed_base
+        self.normal_speed_current = self.speed_current
+        self.normal_damage_radius = self.damage_radius
+
+        self.berserker_damage_multiplier = 1.5
+        self.berserker_speed_multiplier = 2
+        self.berserker_size_multiplier = 2
+
+    def _rescale_frames(self, frames_original, scale):
+        """Skaliert Frames mit dem gleichen Prinzip wie animation_scaling."""
+        return [
+            pygame.transform.scale(
+                frame,
+                (int(frame.get_width() * scale), int(frame.get_height() * scale))
+            )
+            for frame in frames_original
+        ]
+
+    def activate_berserker_mode(self):
+        if self.berserker_active:
+            return
+
+        self.berserker_active = True
+
+        # Mehr Schaden
+        self.damage = self.normal_damage * self.berserker_damage_multiplier
+
+        # Schneller
+        self.speed_base = self.normal_speed_base * self.berserker_speed_multiplier
+        self.speed_current = self.normal_speed_current * self.berserker_speed_multiplier
+
+        # Größer (Kollisionsradius)
+        self.damage_radius = int(self.normal_damage_radius * self.berserker_size_multiplier)
+
+        # === ANIMATION GRÖßER MACHEN ===
+        self.walk_frames = self._rescale_frames(
+            self.walk_frames_original, self.berserker_size_multiplier
+        )
+        self.death_frames = self._rescale_frames(
+            self.death_frames_original, self.berserker_size_multiplier
+        )
+        # Frame-Größe aktualisieren
+        self.frame_width = self.walk_frames[0].get_width()
+        self.frame_height = self.walk_frames[0].get_height()
+
+        # AABB wegen neuer Größe aktualisieren
+        self.aabb.x_min = self.x - self.radius
+        self.aabb.y_min = self.y - self.radius
+        self.aabb.x_max = self.x + self.radius
+        self.aabb.y_max = self.y + self.radius
+
+        # Andere Farbe im Berserker-Modus
+        self.color = (0, 100, 0)
 
     def update(self, robot, budget_available):
-        # STERBE-ZUSTAND: Keine Bewegung, nur Animation abspielen
+        # STERBE-ZUSTAND
         if self.is_dying:
             self.death_timer += 1 / 60
             if self.death_timer >= self.death_speed:
@@ -40,7 +104,12 @@ class Goblin(Enemy):
                 if self.death_frame >= len(self.death_frames):
                     self.death_frame = len(self.death_frames) - 1
                     self.death_finished = True
-            return False  # Keine A*-Berechnung für toten Gegner
+            return False
+
+        # Berserker-Modus prüfen
+        current_health = self.health_system.current_health
+        if current_health <= self.max_health * 0.3:
+            self.activate_berserker_mode()
 
         # NORMAL: Bewegung + Walk-Animation
         old_x = self.x
@@ -58,7 +127,7 @@ class Goblin(Enemy):
         return did_calculate
 
     def draw(self):
-        # STERBE-ZUSTAND: Death-Animation zeichnen
+        # STERBE-ZUSTAND
         if self.is_dying:
             frame = self.death_frames[self.death_frame]
             x_screen, y_screen = self.camera.global_to_screen(self)
