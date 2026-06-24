@@ -290,6 +290,7 @@ class Cactus:
 
         # Bild laden und auf die gewünschte Grafik-Größe skalieren
         self.surface = pygame.transform.scale(Textures.CACTUS1, (80, 80))
+        self.sort_offset = 60
 
         self.aabb = AABB(self.x, self.y, self.x + self.width, self.y + self.height)
 
@@ -329,8 +330,10 @@ class CursedStone:
         r = random.randint(0, 1)
         if r == 0:
             self.surface = pygame.transform.scale(Textures.CURSED_STONE1, (100, 140))
+            self.sort_offset = 70
         else:
             self.surface = pygame.transform.scale(Textures.CURSED_STONE2, (100, 140))
+            self.sort_offset = 70
 
         self.aabb = AABB(self.x, self.y, self.x + self.width, self.y + self.height)
 
@@ -387,6 +390,7 @@ class Bone:
             self.surface = pygame.transform.scale(Textures.BONE1, (120, 120))
             self.width = 60
             self.height = 40
+            self.sort_offset = 60
 
             self.offset_x = 10
             self.offset_y = -20
@@ -395,6 +399,7 @@ class Bone:
             self.surface = pygame.transform.scale(Textures.BONE2, (200, 200))
             self.width = 100
             self.height = 60
+            self.sort_offset = 100
 
             self.offset_x = -10
             self.offset_y = 0
@@ -403,6 +408,7 @@ class Bone:
             self.surface = pygame.transform.scale(Textures.BONE3, (100, 100))
             self.width = 60
             self.height = 20
+            self.sort_offset = 60
 
             self.offset_x = 0
             self.offset_y = 0
@@ -411,6 +417,7 @@ class Bone:
             self.surface = pygame.transform.scale(Textures.BONE4, (100, 100))
             self.width = 40
             self.height = 30
+            self.sort_offset = 60
 
             self.offset_x = 0
             self.offset_y = 0
@@ -419,6 +426,7 @@ class Bone:
             self.surface = pygame.transform.scale(Textures.BONE5, (100, 100))
             self.width = 50
             self.height = 25
+            self.sort_offset = 60
 
             self.offset_x = 0
             self.offset_y = -10
@@ -427,6 +435,7 @@ class Bone:
             self.surface = pygame.transform.scale(Textures.BONE6, (90, 90))
             self.width = 30
             self.height = 40
+            self.sort_offset = 60
 
             self.offset_x = 10
             self.offset_y = -20
@@ -454,6 +463,7 @@ class Bone_Rib:
             self.surface = pygame.transform.scale(Textures.BONE_RIB1, (200, 200))
             self.width = 40
             self.height = 70
+            self.sort_offset = 100
 
             self.offset_x = 20
             self.offset_y = 30
@@ -462,6 +472,7 @@ class Bone_Rib:
             self.surface = pygame.transform.scale(Textures.BONE_RIB2, (200, 200))
             self.width = 40
             self.height = 70
+            self.sort_offset = 100
 
             self.offset_x = -10
             self.offset_y = 30
@@ -492,30 +503,37 @@ class Stone:
             self.surface = pygame.transform.scale(Textures.STONE1, (150, 150))
             self.width = 70
             self.height = 45
+            self.sort_offset = 100
         elif r == 2:
             self.surface = pygame.transform.scale(Textures.STONE2, (80, 80))
             self.width = 43
             self.height = 25
+            self.sort_offset = 40
         elif r == 3:
             self.surface = pygame.transform.scale(Textures.STONE3, (150, 150))
             self.width = 72
             self.height = 48
+            self.sort_offset = 80
         elif r == 4:
             self.surface = pygame.transform.scale(Textures.STONE4, (110, 110))
             self.width = 43
             self.height = 33
+            self.sort_offset = 75
         elif r == 5:
             self.surface = pygame.transform.scale(Textures.STONE5, (130, 130))
             self.width = 60
             self.height = 40
+            self.sort_offset = 75
         elif r == 6:
             self.surface = pygame.transform.scale(Textures.STONE6, (130, 130))
             self.width = 75
             self.height = 40
+            self.sort_offset = 75
         else:
             self.surface = pygame.transform.scale(Textures.STONE7, (130, 130))
             self.width = 80
             self.height = 45
+            self.sort_offset = 75
 
         self.aabb = AABB(self.x, self.y, self.x + self.width, self.y + self.height)
 
@@ -539,6 +557,7 @@ class Ruins:
         self.surface = pygame.transform.scale(Textures.RUINS1, (250, 250))
         self.width = 160
         self.height = 110
+        self.sort_offset = 150
 
         self.offset_x = 0
         self.offset_y = 30
@@ -564,6 +583,7 @@ class Tree_Normal:
         self.surface = Textures.TREE_NORMAL
         self.width = 20
         self.height = 20
+        self.sort_offset = 85
 
         self.offset_x = 0
         self.offset_y = 15
@@ -589,6 +609,7 @@ class Tree_Dead:
         self.surface = Textures.TREE_DEAD
         self.width = 20
         self.height = 20
+        self.sort_offset = 85
 
         self.offset_x = 0
         self.offset_y = 15
@@ -614,6 +635,7 @@ class Tree_Palm:
         self.surface = Textures.TREE_PALM
         self.width = 20
         self.height = 20
+        self.sort_offset = 85
 
         self.offset_x = 0
         self.offset_y = 15
@@ -639,6 +661,7 @@ class Tree_Fir:
         self.surface = Textures.TREE_FIR
         self.width = 20
         self.height = 20
+        self.sort_offset = 85
 
         self.offset_x = 0
         self.offset_y = 15
@@ -666,16 +689,19 @@ class Center_Normal:
             self.surface = Textures.CENTER_NORMAL1
             self.width = 30
             self.height = 15
+            self.sort_offset = 60
 
         elif r == 2:
             self.surface = Textures.CENTER_NORMAL2
             self.width = 30
             self.height = 15
+            self.sort_offset = 60
 
         elif r == 3:
             self.surface = Textures.CENTER_NORMAL3
             self.width = 30
             self.height = 15
+            self.sort_offset = 50
 
         self.aabb = AABB(self.x, self.y, self.x + self.width, self.y + self.height)
 
@@ -700,6 +726,7 @@ class Center_Dead:
             self.surface = Textures.CENTER_DEAD1
             self.width = 60
             self.height = 20
+            self.sort_offset = 80
 
             self.offset_x = 0
             self.offset_y = -10
@@ -708,11 +735,13 @@ class Center_Dead:
             self.surface = Textures.CENTER_DEAD2
             self.width = 30
             self.height = 15
+            self.sort_offset = 60
 
         elif r == 3:
             self.surface = Textures.CENTER_DEAD3
             self.width = 30
             self.height = 15
+            self.sort_offset = 60
 
         self.aabb = AABB(self.x, self.y, self.x + self.width, self.y + self.height)
 
@@ -737,11 +766,13 @@ class Center_Palm:
             self.surface = Textures.CENTER_PALM1
             self.width = 30
             self.height = 15
+            self.sort_offset = 60
 
         elif r == 2:
             self.surface = Textures.CENTER_PALM2
             self.width = 30
             self.height = 15
+            self.sort_offset = 60
 
             self.offset_x = 5
             self.offset_y = 0
@@ -750,6 +781,7 @@ class Center_Palm:
             self.surface = Textures.CENTER_PALM3
             self.width = 30
             self.height = 15
+            self.sort_offset = 60
 
         self.aabb = AABB(self.x, self.y, self.x + self.width, self.y + self.height)
 
@@ -774,11 +806,13 @@ class Center_Fir:
             self.surface = Textures.CENTER_FIR1
             self.width = 30
             self.height = 15
+            self.sort_offset = 60
 
         elif r == 2:
             self.surface = Textures.CENTER_FIR2
             self.width = 30
             self.height = 15
+            self.sort_offset = 60
 
 
         self.aabb = AABB(self.x, self.y, self.x + self.width, self.y + self.height)

@@ -6,7 +6,7 @@ class WaveManager:
 
     def __init__(self, enemy_manager):
         self.enemy_manager = enemy_manager
-        self.current_wave = 0
+        self.current_wave = 1
         self.wave_duration = 120 * 1000
         self.wave_start_time = pygame.time.get_ticks()
         self.wave_running = False
@@ -21,10 +21,7 @@ class WaveManager:
 
         if self.current_wave < 3:
             enemy_weights = {
-                "goblin": 40,
-                "wolf": 50,
-                "bee": 5,
-                "slime": 5
+                "goblin": 100
             }
 
         elif self.current_wave < 5:
@@ -33,7 +30,7 @@ class WaveManager:
                 "slime": 30
             }
 
-        elif self.current_wave < 9:
+        elif self.current_wave < 7:
             enemy_weights = {
                 "goblin": 65,
                 "slime": 15,
@@ -85,6 +82,6 @@ class WaveManager:
             self.start_wave()
 
     def reset(self):
-        self.current_wave = 0
+        self.current_wave = 1
         self.enemy_manager.enemies.clear()
         self.wave_running = False
