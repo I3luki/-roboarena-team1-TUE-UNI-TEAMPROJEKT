@@ -1,5 +1,3 @@
-from pty import spawn
-
 import pygame
 import random
 import math

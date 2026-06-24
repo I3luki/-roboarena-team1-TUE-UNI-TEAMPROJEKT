@@ -72,7 +72,7 @@ class ArenaLabyrinth:
             Wall(self, 0, 1980, 2000, WALL_THICKNESS),
             Wall(self, 1980, 0, WALL_THICKNESS, 2000),
 
-            # HIER DEINE LABYRINTH-WÄNDE EINFÜGEN
+            # LABYRINTH-WÄNDE 
         ]
 
         self.tiles = [
