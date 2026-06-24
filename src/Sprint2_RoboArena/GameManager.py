@@ -19,6 +19,7 @@ class GameManager:
         self.highscore = self.load_highscore()
         self.shop_points = self.load_shop_points()
         self.unlocked_shop_buffs = self.load_shop_unlocks()
+        self.selected_map = None
         # Einfach erweiterbar (was wollen wir kills? damage vllt? oder Health lost etc müsste man nur überelgen wie man stats enpfelgt
 
     def check_game_over(self, health):

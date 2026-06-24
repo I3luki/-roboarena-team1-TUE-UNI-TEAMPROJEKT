@@ -15,6 +15,8 @@ from Screens.PauseMenu import PauseMenu
 from Screens.StatsScreen import StatsScreen
 from Screens.ShopScreen import ShopScreen
 from Textures import Textures
+from Arena1 import ArenaLabyrinth
+from Screens.MapSelectScreen import MapSelectScreen
 
 
 TEST_MODE = False    # TESTMODE: wenn true, dann ist testmodus an
@@ -106,31 +108,56 @@ stamina = StaminaSystem_Player(screen, max_stamina=100, bar_x=10, bar_y=40, bar_
 level = Level(screen)
 buff_manager = BuffManager()
 
+#Arena
+map_select_screen = MapSelectScreen(screen)
+
 # Create arena object
-arena = Arena(screen, TEST_MODE = TEST_MODE)
-robot = Robot(arena, health, stamina, level, arena.WIDTH/2, 1600)   # spawne etwas weiter unter der Mitte der Arena
-arena.camera.x = robot.x # lässt kamera auf roboter spwanen
-arena.camera.y = robot.y # lässt kamera auf roboter spwanen
+def create_game(selected_map):
 
-# Gegner und Orbs
-orb_list = [Orb(arena,0,0), Orb(arena,0,0)]
-enemy_manager = EnemyManager(arena)
-wave_manager = WaveManager(enemy_manager)
+    global arena
+    global robot
+    global enemy_manager
+    global wave_manager
+    global orb_list
 
-arena.enemy_manager = enemy_manager
+    if selected_map == 1:
+        arena = Arena(screen, TEST_MODE=TEST_MODE)
+    else:
+        arena = ArenaLabyrinth(screen, TEST_MODE=TEST_MODE)
+
+    robot = Robot(
+        arena,
+        health,
+        stamina,
+        level,
+        arena.player_spawn[0],
+        arena.player_spawn[1]
+    )
+
+    arena.camera.x = robot.x
+    arena.camera.y = robot.y
+
+    orb_list = [Orb(arena, 0, 0), Orb(arena, 0, 0)]
+
+    for orb in orb_list:
+        orb.randomize_position()
+
+    enemy_manager = EnemyManager(arena)
+    arena.enemy_manager = enemy_manager
+    wave_manager = WaveManager(enemy_manager)
+
 
 def spawn_enemy():
     for _ in range(2):
         enemy_manager.add_enemy(0, 0)
         enemy_manager.enemies[-1].randomize_position()
 
-# randomize orb/enemy positions
-for orb in orb_list:
-    orb.randomize_position()
-for enemy in enemy_manager.enemies:
-    enemy.randomize_position()
 
-
+arena = None
+robot = None
+enemy_manager = None
+wave_manager = None
+orb_list = []
 game = GameManager()
 
 #Hauptmeunü
@@ -143,7 +170,8 @@ pause_menu = PauseMenu(screen)
 stats_screen = StatsScreen(screen)
 #Shop
 shop_screen = ShopScreen(screen)
-
+#lezt ausgewählte map merken
+last_selected_map = None
 
 # -------------------------------------------------------------------- GAME LOOP ------------
 while True:
@@ -163,6 +191,9 @@ while True:
 
         elif game.state == "SHOP":
             shop_screen.handle_event(event, game)
+
+        elif game.state == "MAP_SELECT":
+            map_select_screen.handle_event(event, game)
 
         elif game.state == "PAUSE":
             pause_menu.handle_event(
@@ -214,7 +245,9 @@ while True:
         main_menu.draw()
     elif game.state == "PLAYING":
 
-
+        if arena is None or game.selected_map != last_selected_map:
+            create_game(game.selected_map)
+        last_selected_map = game.selected_map
         if not buff_manager.active:
             update()
 
@@ -233,6 +266,9 @@ while True:
 
     elif game.state == "SHOP":
         shop_screen.draw(game)
+
+    elif game.state == "MAP_SELECT":
+        map_select_screen.draw()
 
     pygame.display.flip()
     clock.tick(60)

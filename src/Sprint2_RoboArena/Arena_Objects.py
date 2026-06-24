@@ -866,11 +866,16 @@ class LightningTile:
         # Blitz-Arena besteht aus 2 Rechtecken:
         # 1. oben rechts
         # 2. rechts neben der Healzone
+        if self.arena.lightning_mode == "zone":
+            spawn_areas = [
+                (1500, 0, 1500, 1050),      # oben rechts
+                (1950, 1050, 1050, 450),    # rechts neben Healzone
+            ]
+        else:
+            spawn_areas = [
+                (0, 0, self.arena.WIDTH, self.arena.HEIGHT)    # rechts neben Healzone
+            ]
 
-        spawn_areas = [
-            (1500, 0, 1500, 1050),      # oben rechts
-            (1950, 1050, 1050, 450),    # rechts neben Healzone
-        ]
 
         area = random.choice(spawn_areas)
 
