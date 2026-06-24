@@ -143,9 +143,9 @@ def create_game(selected_map):
         orb.randomize_position()
 
     enemy_manager = EnemyManager(arena)
+    arena.enemy_manager = enemy_manager
     wave_manager = WaveManager(enemy_manager)
 
-arena.enemy_manager = enemy_manager
 
 def spawn_enemy():
     for _ in range(2):
