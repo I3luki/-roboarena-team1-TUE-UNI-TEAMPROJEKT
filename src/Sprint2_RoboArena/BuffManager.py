@@ -1,20 +1,7 @@
 import random
 import pygame
-from Level_Buffs import (
-    LevelSpeedBuff,
-    LevelDamageBuff,
-    LevelAttackSpeedBuff,
-    LevelAttackRangeBuff,
-    LevelHealthBuff,
-    LevelIceRelic,
-    LevelRicochetRelic,
-    LevelJinguBangRelic,
-    LevelSwordmasterManualRelic,
-    LevelHermesShoe,
-    LevelDevilContractI,
-    LevelDevilContractII,
-    COMMON, RARE, EPIC       # probability of corresponding rarity
-)
+from Level_Buffs import LevelBuffs
+from Level_Buffs import COMMON, RARE, EPIC       # probability of corresponding rarity
 
 COLOR_COMMON = (128, 128, 128)
 COLOR_RARE = (173, 216, 230)
@@ -31,20 +18,8 @@ class BuffManager:
         self.font_rarity = pygame.font.SysFont("Papyrus", 34)
         self.big_font = pygame.font.SysFont(None, 60)
 
-        self.available_buffs = [
-            LevelHealthBuff(),
-            LevelSpeedBuff(),
-            LevelDamageBuff(),
-            LevelAttackSpeedBuff(),
-            LevelAttackRangeBuff(),
-            LevelIceRelic(),
-            LevelRicochetRelic(),
-            LevelJinguBangRelic(),
-            LevelSwordmasterManualRelic(),
-            LevelHermesShoe(),
-            LevelDevilContractI(),
-            LevelDevilContractII()
-        ]
+        self.available_buffs = LevelBuffs().all
+        
 
         self.common_buffs = [buff for buff in self.available_buffs if buff.rarity == COMMON]
         self.rare_buffs = [buff for buff in self.available_buffs if buff.rarity == RARE]
@@ -56,7 +31,7 @@ class BuffManager:
         self.choices_amount = 3
         self.current_choices = []
         self.active = False
-        
+
 
     def get_available_buffs(self, game):
         available_buffs = []
