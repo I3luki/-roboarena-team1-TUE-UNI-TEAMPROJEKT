@@ -1,5 +1,5 @@
 import pygame
-from Level_Buffs import LevelBuffs, LevelHermesShoe
+from Level_Buffs import LevelBuffs
 
 class ShopScreen:
 
