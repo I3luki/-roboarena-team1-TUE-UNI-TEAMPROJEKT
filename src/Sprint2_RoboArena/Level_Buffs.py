@@ -163,7 +163,7 @@ class LevelHermesShoe:
     rarity = RARE
 
     def apply_to(self, robot, health):
-        relic = Swordmaster_Manual(robot)
+        relic = Hermes_Shoe(robot)
         robot.relics.add(relic)
 
 
