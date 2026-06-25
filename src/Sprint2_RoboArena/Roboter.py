@@ -2,8 +2,10 @@ import pygame
 import math
 
 from Collision import AABB
-from Relics import Relics
+from Relics import Relics  
+from Level_Buffs import LevelJinguBangRelic, LevelSwordmasterManualRelic, LevelHermesShoe, LevelDevilContractI, LevelDevilContractII  #TODO: DELETE AFTER TESTING
 from Textures import load_spritesheet, animation_scaling, Textures
+
 
 
 class Robot:
@@ -16,6 +18,7 @@ class Robot:
         self.level = level
         self.status_effects = []
         self.relics = Relics(self, arena)
+        
         self.x = x
         self.y = y
         self.width = 50
@@ -40,6 +43,12 @@ class Robot:
         self.current_frame = 0
         self.current_state = "idle"
         self.animation_speed = 0.1
+        # aktuelle Werte
+        self.speed_base = self.default_speed_base
+        self.speed_current = self.default_speed_current
+        self.attack_radius = self.default_attack_radius
+        self.attack_damage = self.default_attack_damage
+        self.attack_cooldown = self.default_attack_cooldown
 
         # === SCHWERT-SCHWUNG-ATTRIBUTE ===
         self.sword_swing_progress = 0.0
@@ -78,11 +87,15 @@ class Robot:
             }
         }
 
-        self.speed_base = self.default_speed_base
-        self.speed_current = self.default_speed_current
-        self.attack_radius = self.default_attack_radius
-        self.attack_damage = self.default_attack_damage
-        self.attack_cooldown = self.default_attack_cooldown
+         # ---- TODO: delete after testing!!! ----
+        #LevelJinguBangRelic().apply_to(self, self.health)
+        #LevelSwordmasterManualRelic().apply_to(self, self.health)
+        #LevelHermesShoe().apply_to(self, self.health)
+        #LevelDevilContractI().apply_to(self, self.health)
+        LevelDevilContractII().apply_to(self, self.health)
+        # ----------------------------------------
+
+    
 
     #reset status effekte
     def reset_status_effects(self):
@@ -266,6 +279,7 @@ class Robot:
             status_effect.apply_to(self)
             if status_effect.ttl_current < 0:
                 self.status_effects.remove(status_effect)
+            
 
     # resets speed and status-effect-list
     def reset(self):
@@ -565,7 +579,9 @@ class Robot:
             self.sword_swing_direction *= -1
             self.sword_swing_progress = 0.0
 
+            self.relics.on_attack(enemies)
             self.relics.update_on_attack()
+            
 
             for enemy in enemies:
                 dx = enemy.x - (self.x + self.width / 2)

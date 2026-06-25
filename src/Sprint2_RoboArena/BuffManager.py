@@ -8,6 +8,11 @@ from Level_Buffs import (
     LevelHealthBuff,
     LevelIceRelic,
     LevelRicochetRelic,
+    LevelJinguBangRelic,
+    LevelSwordmasterManualRelic,
+    LevelHermesShoe,
+    LevelDevilContractI,
+    LevelDevilContractII,
     COMMON, RARE, EPIC       # probability of corresponding rarity
 )
 
@@ -33,13 +38,17 @@ class BuffManager:
             LevelAttackSpeedBuff(),
             LevelAttackRangeBuff(),
             LevelIceRelic(),
-            LevelRicochetRelic()
+            LevelRicochetRelic(),
+            LevelJinguBangRelic(),
+            LevelSwordmasterManualRelic(),
+            LevelHermesShoe(),
+            LevelDevilContractI(),
+            LevelDevilContractII()
         ]
 
         self.common_buffs = [buff for buff in self.available_buffs if buff.rarity == COMMON]
         self.rare_buffs = [buff for buff in self.available_buffs if buff.rarity == RARE]
         self.epic_buffs = [buff for buff in self.available_buffs if buff.rarity == EPIC]
-
 
         self.buff_lists = [self.common_buffs, self.rare_buffs, self.epic_buffs]
         self.weights = [COMMON, RARE, EPIC]  
@@ -47,6 +56,7 @@ class BuffManager:
         self.choices_amount = 3
         self.current_choices = []
         self.active = False
+        
 
     def get_available_buffs(self, game):
         available_buffs = []

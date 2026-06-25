@@ -74,7 +74,18 @@ def make_icon_overlay(width, height, color):
     return surface
 
 
+
+
+
+
+
 # ------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
 
 
 # Speed_Buff: "gives speed buff based on speed_base, slows down after a certain time"
@@ -82,11 +93,12 @@ class Speed_Buff(Effect):
 
     SPEED_SLOWDOWN = 1 * SECOND
 
-    def __init__(self):
-        self.ttl_max = 7 * SECOND
+    def __init__(self, ttl=7*SECOND, factor=2.5, source="tile"):
+        self.source = source     #needed to not be able to hardstack speedbuff from hermes relic
+        self.ttl_max = ttl
         self.ttl_current = self.ttl_max
         self.in_use = False        
-        self.speed_factor = 2.5
+        self.speed_factor = factor
         self.speed_buff = 0   # initiation in apply_to()
         self.slow_rate = 0    # initiation in apply_to()
 
@@ -120,6 +132,9 @@ class Speed_Buff(Effect):
 
         # Tick down Time-to-Live
         self.ttl_current -= 1
+
+    def renew(self):
+        self.ttl_current = self.ttl_max
 
     def get_icon(self):
         color = (255,255,0)  # gelb
@@ -222,11 +237,12 @@ class Healthgen_Buff(Tick_Effect):
 # Poison-Debuff: "does flat tick-damage over time"
 class Poison_Debuff(Tick_Effect):
 
-    def __init__(self, duration=3*SECOND, dmg=0.5):
+    def __init__(self, duration=3*SECOND, dmg=0.5, permanent=False):
         self.ttl_max = duration
         self.ttl_current = duration
         self.effect_amount = dmg
         self.tick_rate = int(0.5 * SECOND)  # alle 0.5 Sekunden Schaden
+        self.permanent = permanent
 
     def apply_to(self, robot):
 
@@ -234,7 +250,8 @@ class Poison_Debuff(Tick_Effect):
         if self.ttl_current % self.tick_rate == 0:
             robot.health.take_damage(self.effect_amount)
 
-        self.ttl_current -= 1
+        if not self.permanent:
+            self.ttl_current -= 1
 
     def get_icon(self):
         color = (128, 0, 128) # lila
@@ -302,6 +319,7 @@ class Ricochet_Debuff(Effect):
             self.ttl_current = -1
             print("Ricochet: no more near targets found") #TODO: delete after testing
 
+
     # draws a ricochet
     def draw(self):
 
@@ -330,17 +348,17 @@ class Slow_DebuffPlayer(Effect):
         self.in_use = False
         self.slow_amount = 0
 
-    def apply_to(self, robot):
 
+    def apply_to(self, robot):
 
         if not self.in_use and self.ttl_current > 0:
             self.slow_amount = robot.speed_current * (1 - self.factor)
-            robot.speed_current *= self.factor
+            robot.speed_current -= self.slow_amount
             self.in_use = True
 
         # wenn abgelaufen → zurücksetzen
         if self.ttl_current <= 0 and self.in_use:
-            robot.speed_current /= self.factor
+            robot.speed_current += self.slow_amount
             self.in_use = False
 
         # TTL runterzählen
@@ -349,7 +367,96 @@ class Slow_DebuffPlayer(Effect):
     def get_icon(self):
         color = (0, 150, 255)  # blau
         return make_icon(self.ICON_WIDTH, self.ICON_HEIGHT, color, "slow")
-            
+    
 
+
+class Relic_RangeBuff(Effect):
+
+    def __init__(self):
+        self.ttl_max = 7 * SECOND
+        self.ttl_current = self.ttl_max
+        self.in_use = False        
+        self.range_flat = 10
+        self.range_buff = 0
+
+
+    # applies the range
+    def apply_to(self, robot):
+        print("jingu apply_to() called")
+
+        # Initial Application of the Buff
+        if(not self.in_use):
+
+            # apply buff on Initiation
+            if(self.ttl_current > 0):
+                print("buff initially applied")
+                robot.attack_radius += self.range_flat
+                self.range_buff += self.range_flat
+                self.in_use = True 
+                return
+            else:
+                return        
+            
+        # Revert Buff on TTL=0
+        if(self.ttl_current <= 0 and self.in_use):
+            robot.attack_radius -= self.range_buff
+
+        # Tick down Time-to-Live
+        self.ttl_current -= 1
+
+
+    # repeats the range buff, resets ttl
+    def repeat(self, robot):
+        print("range buff repeated")
+        self.ttl_current = self.ttl_max
+        robot.attack_radius += self.range_flat
+        self.range_buff += self.range_flat
+
+
+    def get_icon(self):
+        color = (255, 165, 0)   # Orange
+        return make_icon(self.ICON_WIDTH, self.ICON_HEIGHT, color, "range")
         
 
+# Swordmaster_AttackspeedBuff: "gain x relative attackspeed every xth attack for y attacks"
+class Swordmaster_AttackspeedBuff(Effect):
+
+    def __init__(self,b):
+        self.ttl_max = b             #attackspeed-buff for b attacks; !!! this is not a classic ttl, name because compatibility
+        self.ttl_current = self.ttl_max           
+        self.in_use = False        
+        self.attackspeed_factor = 3   
+        self.attackspeed_buff = 0   #initiated in apply_to()
+
+
+
+    # applies the range
+    def apply_to(self, robot):
+
+        # Initial Application of the Buff
+        if(not self.in_use):
+
+            # apply buff on Initiation
+            if(self.ttl_current > 0):
+                self.attackspeed_buff = robot.attack_cooldown / self.attackspeed_factor
+                self.attackspeed_buff *= self.attackspeed_factor-1
+                robot.attack_cooldown -= self.attackspeed_buff
+                self.in_use = True 
+                print("as buff initially applied; new att-cd: " + str(robot.attack_cooldown))
+                return
+            else:
+                return        
+            
+        # Revert Buff on TTL=0
+        if(self.ttl_current == 0 and self.in_use):
+            robot.attack_cooldown += self.attackspeed_buff
+            self.ttl_current -= 1
+            print("as-buff reverted, new att-cd: "+str(robot.attack_cooldown))
+
+    def decrease(self):
+        self.ttl_current -= 1
+
+    def get_icon(self):
+        color = (245, 222, 179)   # pergament
+        return make_icon(self.ICON_WIDTH, self.ICON_HEIGHT, color, "S-Master")
+        

@@ -1,2 +1,7 @@
 ice_relic
 ricochet_relic
+jingu_relic
+swordmaster_relic
+devil_I_relic
+devil_II_relic
+hermes_relic
