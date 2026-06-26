@@ -42,7 +42,7 @@ def update():
 
     # Updated Liste an Gegner (Gegner die am Leben sind, Path von Gegner zu Spieler)
     enemy_manager.update(robot, orb_list, arena)
-    #wave_manager.update()
+    wave_manager.update()
     for enemy in enemy_manager.enemies:
         enemy.check_damage_player(robot, health)
 

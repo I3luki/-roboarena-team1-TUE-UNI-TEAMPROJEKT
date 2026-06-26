@@ -1,2 +1,3 @@
 ice_relic
 ricochet_relic
+labyrinth_map

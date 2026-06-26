@@ -42,8 +42,8 @@ class GameManager:
     def reset(self, health, stamina, robot, arena, enemy_manager, orb_list, level, wave_manager):
 
 
-        robot.x = arena.WIDTH / 2
-        robot.y = 1600
+        robot.x = arena.player_spawn[0]
+        robot.y = arena.player_spawn[1]
         robot.update_aabb()
 
         self.score = 0
