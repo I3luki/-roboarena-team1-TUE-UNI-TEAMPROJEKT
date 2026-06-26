@@ -16,8 +16,8 @@ class ArenaLabyrinth:
         self.screen = screen
         self.TEST_MODE = TEST_MODE
 
-        self.WIDTH = 2000
-        self.HEIGHT = 2000
+        self.WIDTH = 1500
+        self.HEIGHT = 1500
 
         self.camera = Camera(screen, 0, 0)
 
@@ -41,7 +41,7 @@ class ArenaLabyrinth:
         self.center_dead = []
         self.center_palm = []
         self.center_fir = []
-        self.player_spawn = (1000, 1000)
+        self.player_spawn = (750, 750)
 
         self.tornado = None
 
@@ -67,23 +67,95 @@ class ArenaLabyrinth:
 
         # Außenwände
         self.walls = [
-            Wall(self, 0, 0, 2000, WALL_THICKNESS),
-            Wall(self, 0, 0, WALL_THICKNESS, 2000),
-            Wall(self, 0, 1980, 2000, WALL_THICKNESS),
-            Wall(self, 1980, 0, WALL_THICKNESS, 2000),
+            Wall(self, 0, 0, 1500, WALL_THICKNESS),
+            Wall(self, 0, 0, WALL_THICKNESS, 1500),
+            Wall(self, 0, 1480, 1500, WALL_THICKNESS),
+            Wall(self, 1480, 0, WALL_THICKNESS, 1500),
 
-            # LABYRINTH-WÄNDE 
+            # LABYRINTH-WÄNDE
+            #Horinzontal
+            Wall(self, 100, 120, 300, WALL_THICKNESS),
+            Wall(self, 190, 200, 400, WALL_THICKNESS),
+            Wall(self, 250 , 280, 200, WALL_THICKNESS),
+            Wall(self, 250 , 350, 500, WALL_THICKNESS),
+            Wall(self, 350 , 420, 500, WALL_THICKNESS),
+            Wall(self, 250 , 600, 550, WALL_THICKNESS),
+            Wall(self, 100 , 700, 530, WALL_THICKNESS),
+            Wall(self, 120 , 780, 300, WALL_THICKNESS),
+            Wall(self, 250 , 890, 200, WALL_THICKNESS),
+            Wall(self, 140 , 970, 450, WALL_THICKNESS),
+            Wall(self, 90 , 1070, 150, WALL_THICKNESS),
+            Wall(self, 210 , 1150, 350, WALL_THICKNESS),
+            Wall(self, 250 , 1280, 350, WALL_THICKNESS),
+            Wall(self, 100 , 1380, 200, WALL_THICKNESS),
+
+            Wall(self, 680 , 840, 350, WALL_THICKNESS),
+            Wall(self, 700 , 150, 100, WALL_THICKNESS),
+            Wall(self, 1000 , 370, 200, WALL_THICKNESS),
+            Wall(self, 630 , 520, 250, WALL_THICKNESS),
+            Wall(self, 700 , 720, 180, WALL_THICKNESS),
+            Wall(self, 950 , 1000, 400, WALL_THICKNESS),
+            Wall(self, 800 , 1150, 400, WALL_THICKNESS),
+            Wall(self, 700 , 1300, 350, WALL_THICKNESS),
+            Wall(self, 620 , 1400, 200, WALL_THICKNESS),
+            Wall(self, 1200 , 100, 200, WALL_THICKNESS),
+            Wall(self, 1100 , 200, 300, WALL_THICKNESS),
+            Wall(self, 1000 , 700, 500, WALL_THICKNESS),
+            Wall(self, 1200 , 1350, 200, WALL_THICKNESS),
+            Wall(self, 700 , 240, 200, WALL_THICKNESS),
+            Wall(self, 1030 , 900, 200, WALL_THICKNESS),
+
+            Wall(self, 600 , 1050, 280, WALL_THICKNESS),
+            Wall(self, 860 , 600, 300, WALL_THICKNESS),
+            Wall(self, 1000 , 500, 270, WALL_THICKNESS),
+
+
+
+            #Horinzontale
+            Wall(self, 100 , 120,  WALL_THICKNESS, 300),
+            Wall(self, 100 , 600,  WALL_THICKNESS, 300),
+            Wall(self, 250 , 280,  WALL_THICKNESS, 70),
+            Wall(self, 100 , 400,  WALL_THICKNESS, 300),
+            Wall(self, 400 , 420,  WALL_THICKNESS, 180),
+            Wall(self, 90 , 1070, WALL_THICKNESS, 150),
+            Wall(self, 860 , 520, WALL_THICKNESS, 200),
+            Wall(self, 280 , 1400, WALL_THICKNESS, 100),
+            Wall(self, 850 , 250, WALL_THICKNESS, 190),
+            Wall(self, 600 , 1280, WALL_THICKNESS, 140),
+            Wall(self, 1200 , 1150, WALL_THICKNESS, 200),
+            Wall(self, 1400 , 1120, WALL_THICKNESS, 250),
+            Wall(self, 1300 , 820, WALL_THICKNESS, 200),
+            Wall(self, 1010 , 850, WALL_THICKNESS, 70),
+            Wall(self, 700 , 0, WALL_THICKNESS, 150),
+            Wall(self, 800 , 1230, WALL_THICKNESS, 80),
+            Wall(self, 590 , 970, WALL_THICKNESS, 100),
+            Wall(self, 1000 , 150, WALL_THICKNESS, 220),
+            Wall(self, 1000 , 500, WALL_THICKNESS, 100),
+            Wall(self, 1050 , 1300, WALL_THICKNESS, 200),
+            Wall(self, 1350 , 200, WALL_THICKNESS, 200),
+            Wall(self, 1350 , 500, WALL_THICKNESS, 200),
+            Wall(self, 1200 , 1000, WALL_THICKNESS, 200),
+
+
+
+
         ]
+
 
         self.tiles = [
             Healthtile(self, 200, 100),
             Healthtile(self, 1200, 430),
+            Healthtile(self, 600, 900),
+            Healthtile(self, 400, 1330),
+
 
             Speedtile(self, 200, 1000),
             Speedtile(self, 1000, 100),
+            Speedtile(self, 1300, 1300),
 
             Surprisetile(self, 500, 500),
-            Surprisetile(self, 800, 900),
+            Surprisetile(self, 1040, 730),
+            Surprisetile(self, 1100, 1400),
         ]
 
         self.lightning_tiles = [

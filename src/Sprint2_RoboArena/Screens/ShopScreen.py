@@ -36,6 +36,17 @@ class ShopScreen:
                     game.save_shop_points()
                     game.unlock_shop_buff("ricochet_relic")
 
+            #2 Map kaufen
+            elif event.key == pygame.K_3:
+
+                if (
+                        game.shop_points >= 100 and
+                        not game.is_map_unlocked("labyrinth_map")
+                ):
+                    game.shop_points -= 100
+                    game.save_shop_points()
+                    game.unlock_map("labyrinth_map")
+
             elif event.key == pygame.K_ESCAPE:
                 game.state = "MENU"
 
@@ -87,13 +98,27 @@ class ShopScreen:
         )
         self.screen.blit(ricochet_text, (100, 330))
 
+        #Map
+        map_status = (
+            "GEKAUFT"
+            if game.is_map_unlocked("labyrinth_map")
+            else "100 Coins"
+        )
+
+        map_text = self.font.render(
+            f"3 - Labyrinth Map ({map_status})",
+            True,
+            (255, 255, 255)
+        )
+        self.screen.blit(map_text, (100, 400))
+
         # Hinweis
         info_text = self.font.render(
             "Freigeschaltete Relics koennen spaeter bei Level-Ups erscheinen.",
             True,
             (180, 180, 180)
         )
-        self.screen.blit(info_text, (100, 420))
+        self.screen.blit(info_text, (100, 490))
 
         # Zurück
         esc_text = self.font.render(
@@ -101,4 +126,4 @@ class ShopScreen:
             True,
             (200, 200, 200)
         )
-        self.screen.blit(esc_text, (100, 500))
+        self.screen.blit(esc_text, (100, 570))
