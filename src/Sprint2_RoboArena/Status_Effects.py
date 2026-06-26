@@ -373,7 +373,7 @@ class Slow_DebuffPlayer(Effect):
 class Relic_RangeBuff(Effect):
 
     def __init__(self):
-        self.ttl_max = 7 * SECOND
+        self.ttl_max = 3 * SECOND
         self.ttl_current = self.ttl_max
         self.in_use = False        
         self.range_flat = 10

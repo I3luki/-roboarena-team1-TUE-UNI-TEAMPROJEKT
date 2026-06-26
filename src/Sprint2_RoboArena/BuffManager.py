@@ -26,7 +26,7 @@ class BuffManager:
         self.epic_buffs = [buff for buff in self.available_buffs if buff.rarity == EPIC]
 
         self.buff_lists = [self.common_buffs, self.rare_buffs, self.epic_buffs]
-        self.weights = [COMMON, RARE, EPIC]  
+        self.weights = [COMMON, RARE, EPIC]    
 
         self.choices_amount = 3
         self.current_choices = []
@@ -132,10 +132,19 @@ class BuffManager:
             texts_names.append(text)
 
             # Generate Description
-            text = self.font_description.render(f"{choice.description}",
-                                    True,
-                                    (255, 255, 255))
-            texts_descriptions.append(text)
+            description = choice.description
+            lines = description.split("\n")
+                # Unsichtbare Surface mit transparentem Hintergrund
+            line_height = self.font_description.get_height()
+            width = max(self.font_description.size(line)[0] for line in lines)
+            height = line_height * len(lines)
+            surface = pygame.Surface((width, height), pygame.SRCALPHA)
+            y = 0
+            for line in lines:
+                text_surface = self.font_description.render(line, True, (255, 255, 255))
+                surface.blit(text_surface, (0, y))
+                y += line_height
+            texts_descriptions.append(surface)
 
             # Generate Flavor texts
             text = self.font_flavor.render(f"{choice.flavor_text}",
@@ -172,7 +181,7 @@ class BuffManager:
         cards = []
         pos_name = (CARD_WIDTH/3, CARD_HEIGHT/7)
         pos_description = (CARD_WIDTH/3, CARD_HEIGHT/3)
-        pos_flavor = (CARD_WIDTH/3, 2*(CARD_HEIGHT/3))
+        pos_flavor = (2*(CARD_WIDTH/3), 9*(CARD_HEIGHT/10))
         pos_rarity = (CARD_WIDTH/8, CARD_HEIGHT/6)
 
             # blit everything on the card

@@ -173,7 +173,7 @@ class LevelDevilContractI:
     shop_locked = True
     cost = 40
     name = "Devil's Contract I"
-    description = "1.7xDMG\n 0.5xRange\n 0.7xMaxHealth\n heal full now"
+    description = "-> 1.7xDMG\n-> 0.5xRange\n-> 0.7xMaxHealth\n-> heal full now"
     flavor_text = "Is it worth it?"
     rarity = RARE
 
@@ -192,7 +192,7 @@ class LevelDevilContractII:
     shop_locked = True
     cost = 70
     name = "Devil's Contract II"
-    description = "1.7xDMG\n 0.8xMaxHealth\n get permanantly poisoned\n heal on hit based on missing health\n heal full now\n"
+    description = "-> 1.7xDMG\n-> 0.8xMaxHealth\n-> get permanantly poisoned\n-> heal on hit based on missing health\n-> heal full now\n"
     flavor_text = "YOLO."
     rarity = RARE
 

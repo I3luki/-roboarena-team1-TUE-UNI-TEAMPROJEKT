@@ -211,7 +211,7 @@ class Hermes_Shoe():
             for effect in self.robot.status_effects:
                 if isinstance(effect, Speed_Buff):
                     if effect.source == "hermes":
-                        effect.renew(self.robot)
+                        effect.renew()
                         return
             # wenn status effekt noch nicht teil von spieler ist
             self.robot.status_effects.append(Speed_Buff(ttl=int(0.2*SECOND), factor=1.3, source="hermes"))

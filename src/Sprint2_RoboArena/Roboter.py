@@ -88,11 +88,11 @@ class Robot:
         }
 
          # ---- TODO: delete after testing!!! ----
-        #LevelJinguBangRelic().apply_to(self, self.health)
+        LevelJinguBangRelic().apply_to(self, self.health)
         #LevelSwordmasterManualRelic().apply_to(self, self.health)
         #LevelHermesShoe().apply_to(self, self.health)
         #LevelDevilContractI().apply_to(self, self.health)
-        LevelDevilContractII().apply_to(self, self.health)
+        #LevelDevilContractII().apply_to(self, self.health)
         # ----------------------------------------
 
     
