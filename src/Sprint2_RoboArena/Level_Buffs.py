@@ -128,7 +128,7 @@ class LevelJinguBangRelic:
     shop_locked = True
     cost = 30
     name = "Fragment of Jingu Bang"
-    decription = "Grow your sword temporarily on successfull attack."
+    description = "Grow your sword temporarily on successfull attack."
     flavor_text = "Size matters."
     rarity = RARE
 
