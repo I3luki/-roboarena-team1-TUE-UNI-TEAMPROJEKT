@@ -55,7 +55,8 @@ class ShopScreen:
                 
 
             #2 Map kaufen
-            elif event.key == pygame.K_3:
+            keypress = getattr(pygame, f"K_{index}")
+            if event.key == keypress:
 
                 if (
                         game.shop_points >= 100 and
@@ -64,6 +65,7 @@ class ShopScreen:
                     game.shop_points -= 100
                     game.save_shop_points()
                     game.unlock_map("labyrinth_map")
+
 
             elif event.key == pygame.K_ESCAPE:
                 game.state = "MENU"
@@ -107,13 +109,15 @@ class ShopScreen:
         )
 
         map_text = self.font.render(
-            f"3 - Labyrinth Map ({map_status})",
+            f"{index} - Labyrinth Map ({map_status})",
             True,
             (255, 255, 255)
         )
-        self.screen.blit(map_text, (100, 400))
+        self.screen.blit(map_text, (100, CHOICE_START + index*SPACE))
+
 
         # Hinweis
+        index += 1
         hinweis_offset = 20    # vergrößert den space um sich von choices abzuheben
         info_text = self.font.render(
             "Freigeschaltete Relics koennen spaeter bei Level-Ups erscheinen.",
