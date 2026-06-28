@@ -24,7 +24,6 @@ class Relics:
                 relic.on_hit(enemy, enemies)
 
     def on_attack(self, enemies):
-        print("relic on attack called")  #TODO: DELETE
         for relic in self.list:
             if hasattr(relic, "on_attack"):
                 relic.on_attack(enemies)
@@ -69,7 +68,7 @@ class Ricochet:
 
     def __init__(self, robot):
         self.robot = robot
-        self.cooldown = 1    # every 7th enemy hit    #TODO: change to 7, maybe 
+        self.cooldown = 1    # every enemy hit
         self.count = self.cooldown
 
 
@@ -104,13 +103,11 @@ class Ice:
     def on_hit(self, enemy, enemies):
         # gebe getroffenem Gegner Ice-Debuff
         if(self.count <= 0):
-            print('on-hit ice applied') # TODO: delete after testing
             enemy.status_effects.append(Slow_Debuff(self.robot))
             
 
 
     def update_on_attack(self):
-        print("Ice count updated on attack")#TODO: delete after testing
         if(self.count <= 0):
             self.count = self.cooldown
 
@@ -137,7 +134,6 @@ class Jingu_Bang:
         print("jingu hit detected")
         if(self.count <= 0):
             self.count = self.cooldown   # prox max 1 time per attack
-            print('jingu on-hit triggered') # TODO: delete after testing
             # wenn der status effekt schon teil von spieler, erneuere durch repeat
             for effect in self.robot.status_effects:
                 if isinstance(effect, Relic_RangeBuff):
@@ -174,7 +170,6 @@ class Swordmaster_Manual:
     def on_attack(self, enemies):
         # gebe Spieler attack-speed Buff
         if(self.count <= 0):
-            print('swordmaster xth on-attack triggered') # TODO: delete after testing
             # wenn der status effekt schon teil von spieler, erneuere durch repeat
             self.robot.status_effects.append(Swordmaster_AttackspeedBuff(self.b))
         # decrease the buff on each attack
@@ -206,7 +201,6 @@ class Hermes_Shoe():
         # gebe Spieler movementspeed Buff
         if(self.count <= 0):
             self.count = self.cooldown   # prox max 1 time per attack
-            print('hermes on-hit trigger') # TODO: delete after testing
             # wenn der status effekt schon teil vom spieler mit der gleichen quelle, erneuere durch renew
             for effect in self.robot.status_effects:
                 if isinstance(effect, Speed_Buff):
@@ -257,7 +251,7 @@ class Devil_Contract_II:
         if(self.count <= 0):
             heal_amount = 0.1 * (max_health - current_health)   
             self.robot.health.current_health += heal_amount
-            print("DC_II: healed for " + str(heal_amount))       #TODO: DELETE AFTER TESTING
+
             
     def update_on_attack(self):
         if(self.count <= 0):

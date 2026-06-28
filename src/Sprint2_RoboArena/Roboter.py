@@ -3,7 +3,6 @@ import math
 
 from Collision import AABB
 from Relics import Relics  
-from Level_Buffs import LevelJinguBangRelic, LevelSwordmasterManualRelic, LevelHermesShoe, LevelDevilContractI, LevelDevilContractII  #TODO: DELETE AFTER TESTING
 from Textures import load_spritesheet, animation_scaling, Textures
 
 
@@ -86,14 +85,6 @@ class Robot:
                 "up": grid_run[3]
             }
         }
-
-         # ---- TODO: delete after testing!!! ----
-        LevelJinguBangRelic().apply_to(self, self.health)
-        #LevelSwordmasterManualRelic().apply_to(self, self.health)
-        #LevelHermesShoe().apply_to(self, self.health)
-        #LevelDevilContractI().apply_to(self, self.health)
-        #LevelDevilContractII().apply_to(self, self.health)
-        # ----------------------------------------
 
     
 
