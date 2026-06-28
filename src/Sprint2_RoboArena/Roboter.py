@@ -94,6 +94,7 @@ class Robot:
         self.relics.add(Ice(self))
         self.relics.add(Hermes_Shoe(self)) 
         self.relics.add(Swordmaster_Manual(self))
+        self.relics.add(Ricochet(self))
     
 
     #reset status effekte
