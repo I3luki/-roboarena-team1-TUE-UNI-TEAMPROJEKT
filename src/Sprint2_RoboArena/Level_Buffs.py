@@ -1,6 +1,5 @@
 from Relics import Ice, Ricochet, Jingu_Bang, Swordmaster_Manual, Hermes_Shoe, Devil_Contract_I, Devil_Contract_II
 from Status_Effects import Poison_Debuff
-from Roboter import Robot
 from Textures import Textures
 
 
