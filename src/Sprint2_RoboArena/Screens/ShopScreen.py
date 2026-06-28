@@ -52,9 +52,20 @@ class ShopScreen:
                     self.handle_event_buy(game,shop_buff)
 
                 index+=1
-            
-            # check for escape to menu
-            if event.key == pygame.K_ESCAPE:
+                
+
+            #2 Map kaufen
+            elif event.key == pygame.K_3:
+
+                if (
+                        game.shop_points >= 100 and
+                        not game.is_map_unlocked("labyrinth_map")
+                ):
+                    game.shop_points -= 100
+                    game.save_shop_points()
+                    game.unlock_map("labyrinth_map")
+
+            elif event.key == pygame.K_ESCAPE:
                 game.state = "MENU"
 
 
@@ -87,6 +98,20 @@ class ShopScreen:
             self.draw_relic_choice(game, CHOICE_START, index, SPACE, level_relic)
             index += 1
 
+
+        #Map
+        map_status = (
+            "GEKAUFT"
+            if game.is_map_unlocked("labyrinth_map")
+            else "100 Coins"
+        )
+
+        map_text = self.font.render(
+            f"3 - Labyrinth Map ({map_status})",
+            True,
+            (255, 255, 255)
+        )
+        self.screen.blit(map_text, (100, 400))
 
         # Hinweis
         hinweis_offset = 20    # vergrößert den space um sich von choices abzuheben

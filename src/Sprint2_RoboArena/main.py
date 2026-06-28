@@ -63,6 +63,8 @@ def draw():
     for orb in orb_list:
         orb.draw()
 
+    enemy_manager.draw()
+
     health.draw()
     stamina.draw()
     level.draw()
@@ -148,7 +150,7 @@ def create_game(selected_map):
 
 
 def spawn_enemy():
-    for _ in range(2):
+   for _ in range(2):
         enemy_manager.add_enemy(0, 0)
         enemy_manager.enemies[-1].randomize_position()
 
@@ -268,7 +270,7 @@ while True:
         shop_screen.draw(game)
 
     elif game.state == "MAP_SELECT":
-        map_select_screen.draw()
+        map_select_screen.draw(game)
 
     pygame.display.flip()
     clock.tick(60)

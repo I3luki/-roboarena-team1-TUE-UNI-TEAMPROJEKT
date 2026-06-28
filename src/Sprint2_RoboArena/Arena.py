@@ -24,6 +24,7 @@ class Arena:
         self.player_spawn = (1500, 1600)
         self.lightning_mode = "zone"
 
+
         # Hintergrund-Surfaces erstellen
         self.background_surf = pygame.Surface((self.WIDTH,self.HEIGHT), pygame.SRCALPHA)
 

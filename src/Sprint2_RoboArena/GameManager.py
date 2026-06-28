@@ -20,6 +20,8 @@ class GameManager:
         self.shop_points = self.load_shop_points()
         self.unlocked_shop_buffs = self.load_shop_unlocks()
         self.selected_map = None
+        self.labyrinth_map_unlocked = False
+        self.labyrinth_map_cost = 50
         # Einfach erweiterbar (was wollen wir kills? damage vllt? oder Health lost etc müsste man nur überelgen wie man stats enpfelgt
 
     def check_game_over(self, health):
@@ -40,8 +42,8 @@ class GameManager:
     def reset(self, health, stamina, robot, arena, enemy_manager, orb_list, level, wave_manager):
 
 
-        robot.x = arena.WIDTH / 2
-        robot.y = 1600
+        robot.x = arena.player_spawn[0]
+        robot.y = arena.player_spawn[1]
         robot.update_aabb()
 
         self.score = 0
@@ -125,7 +127,7 @@ class GameManager:
             for buff_key in self.unlocked_shop_buffs:
                 f.write(buff_key + "\n")
 
-
+    #Für Buffs freischalten
     def unlock_shop_buff(self, buff_key):
         if buff_key not in self.unlocked_shop_buffs:
             self.unlocked_shop_buffs.append(buff_key)
@@ -134,6 +136,16 @@ class GameManager:
 
     def is_shop_buff_unlocked(self, buff_key):
         return buff_key in self.unlocked_shop_buffs
+
+    #Map 2 freischalten mit shop_buff points
+    def unlock_map(self, map_key):
+        if map_key not in self.unlocked_shop_buffs:
+            self.unlocked_shop_buffs.append(map_key)
+            self.save_shop_unlocks()
+
+
+    def is_map_unlocked(self, map_key):
+        return map_key in self.unlocked_shop_buffs
 
    #speichert run in stats.txt
     def save_run(self):
