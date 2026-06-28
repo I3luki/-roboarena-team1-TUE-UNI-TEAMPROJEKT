@@ -4,6 +4,8 @@ import math
 from Collision import AABB
 from Relics import Relics  
 from Textures import load_spritesheet, animation_scaling, Textures
+#TODO:    delete import after testing!!!!
+from Relics import Swordmaster_Manual, Hermes_Shoe, Devil_Contract_I, Devil_Contract_II, Ice, Jingu_Bang, Ricochet
 
 
 
@@ -85,7 +87,13 @@ class Robot:
                 "up": grid_run[3]
             }
         }
-
+        # TODO: DELETE AFTER TESTING
+        self.relics.add(Devil_Contract_I(self)) 
+        self.relics.add(Devil_Contract_II(self)) 
+        self.relics.add(Jingu_Bang(self))
+        self.relics.add(Ice(self))
+        self.relics.add(Hermes_Shoe(self)) 
+        self.relics.add(Swordmaster_Manual(self))
     
 
     #reset status effekte

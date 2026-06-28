@@ -1,9 +1,9 @@
 import pygame
 from Status_Effects import Slow_Debuff, Ricochet_Debuff, Relic_RangeBuff, Swordmaster_AttackspeedBuff, Speed_Buff
+from Textures import Textures
 
-
-ICON_WIDTH = 40
-ICON_HEIGHT = 40
+ICON_WIDTH = 50
+ICON_HEIGHT = 50
 
 SECOND = 60
 
@@ -83,9 +83,7 @@ class Ricochet:
         
 
     def get_icon(self):
-        surf = pygame.Surface((ICON_WIDTH,ICON_HEIGHT))
-        surf.fill((0,0,255))     # blau
-        return surf
+        return Textures.RELIC_ICON_RICOCHETS
     
     
 
@@ -115,9 +113,7 @@ class Ice:
 
 
     def get_icon(self):
-        surf = pygame.Surface((ICON_WIDTH,ICON_HEIGHT))
-        surf.fill(((173, 216, 230)))   # hellblau
-        return surf   
+        return Textures.RELIC_ICON_SKADI
     
 
 
@@ -151,9 +147,7 @@ class Jingu_Bang:
 
 
     def get_icon(self):
-        surf = pygame.Surface((ICON_WIDTH,ICON_HEIGHT))
-        surf.fill(((255, 165, 0)))   # orange
-        return surf  
+        return Textures.RELIC_ICON_JINGUBANG
      
     
 # Swordmaster_Manual: "every a-th attack gain x attackspeed for b attacks"
@@ -183,10 +177,8 @@ class Swordmaster_Manual:
             self.count = self.cooldown
         self.count -= 1
 
-    def get_icon(self):
-        surf = pygame.Surface((ICON_WIDTH,ICON_HEIGHT))
-        surf.fill((245, 222, 179))   # pergament
-        return surf   
+    def get_icon(self): 
+        return Textures.RELIC_ICON_SWORDMASTER
     
 
 # Hermes_Shoe: "adds temporary movementspeed on successfull attack"
@@ -218,9 +210,7 @@ class Hermes_Shoe():
 
 
     def get_icon(self):
-        surf = pygame.Surface((ICON_WIDTH,ICON_HEIGHT))
-        surf.fill((192, 192, 192))   # silber
-        return surf 
+        return Textures.RELIC_ICON_HERMES
     
 
 # Devil_Contract_I: "1.7xDMG, 0.5xRange, 0.7xMaxHealth"
@@ -230,9 +220,7 @@ class Devil_Contract_I:
         self.robot = robot
 
     def get_icon(self):
-        surf = pygame.Surface((ICON_WIDTH,ICON_HEIGHT))
-        surf.fill((180, 0, 0))   # red
-        return surf 
+        return Textures.RELIC_ICON_DEVIL_1
     
 
 # Devil_Contract_II: "1.7xDMG, 0.8xMaxHealth, get permanantly poisoned, heal on hit based on missing health, heal full now"
@@ -259,7 +247,5 @@ class Devil_Contract_II:
         self.count -= 1
 
     def get_icon(self):
-        surf = pygame.Surface((ICON_WIDTH,ICON_HEIGHT))
-        surf.fill((100, 0, 0))   # dunkelrot
-        return surf 
+        return Textures.RELIC_ICON_DEVIL_2
     
