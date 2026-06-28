@@ -12,22 +12,23 @@ class EnemyManager:
         self.arena = arena
         self.enemies = []
 
+
     # Fügt Gegner zu Gegnerliste hinzu
 
 
-    def add_enemy(self, enemy_type, x, y, wave):
+    def add_enemy(self, enemy_type, x, y, wave, is_boss=False):
 
         if enemy_type == "goblin":
-            enemy = Goblin(self.arena, x, y, wave)
+            enemy = Goblin(self.arena, x, y, wave, is_boss)
             print("Goblin gespawned")
         elif enemy_type == "slime":
             enemy = Slime(self.arena, x, y, wave)
             print("slime gespawned")
         elif enemy_type == "bee":
-            enemy = Bee(self.arena, x, y, wave)
+            enemy = Bee(self.arena, x, y, wave, is_boss)
             print("bee gespawned")
         elif enemy_type == "wolf":
-            enemy = Wolf(self.arena, x, y, wave)
+            enemy = Wolf(self.arena, x, y, wave,is_boss)
             print("Wolf gespawned")
 
 

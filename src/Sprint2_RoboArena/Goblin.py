@@ -5,9 +5,13 @@ from Textures import Textures
 
 class Goblin(Enemy):
 
-    def __init__(self, arena, x, y, wave):
+    def __init__(self, arena, x, y, wave, is_boss):
         health = 100 + wave * 20
         damage = 2 + wave * 2
+        self.is_boss = is_boss
+        if self.is_boss:
+            health *=5
+            damage *=2
         super().__init__(arena, x, y, health, damage)
 
         # Walk Animation (Original-Frames für Neuskalierung speichern)
@@ -32,8 +36,28 @@ class Goblin(Enemy):
         self.frame_width = self.walk_frames[0].get_width()
         self.frame_height = self.walk_frames[0].get_height()
         self.height = self.frame_height
+        if self.is_boss:
+            boss_size_multiplier = 2
+
+            self.walk_frames = self._rescale_frames(
+                self.walk_frames_original,
+                boss_size_multiplier
+            )
+
+            self.death_frames = self._rescale_frames(
+                self.death_frames_original,
+                boss_size_multiplier
+            )
+
+            self.frame_width = self.walk_frames[0].get_width()
+            self.frame_height = self.walk_frames[0].get_height()
+            self.height = self.frame_height
 
         self.damage_radius = 45
+        if self.is_boss:
+            self.speed_base *= 0.5
+            self.speed_current *= 0.5
+            self.damage_radius = int(self.damage_radius * 2)
 
         # Berserker Werte
         self.max_health = health
