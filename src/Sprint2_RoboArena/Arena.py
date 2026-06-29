@@ -24,7 +24,6 @@ class Arena:
         self.player_spawn = (1500, 1600)
         self.lightning_mode = "zone"
 
-
         # Hintergrund-Surfaces erstellen
         self.background_surf = pygame.Surface((self.WIDTH,self.HEIGHT), pygame.SRCALPHA)
 
@@ -324,10 +323,10 @@ class Arena:
 
         # Definiere grid matrix für Enemy Movement
         # Erstelle dafür all_obstacles mit allen Objekten, die als nicht begehbar gelten sollen
-        all_obstacles = self.walls + self.stones + self.cactus + self.cursed_stones + self.cursed_holes \
+        self.all_obstacles = self.walls + self.stones + self.cactus + self.cursed_stones + self.cursed_holes \
                 + self.bones + self.bone_ribs + self.ruins + self.trees_normal + self.trees_dead + self.trees_palm \
                 + self.trees_fir + self.center_normal + self.center_dead + self.center_palm + self.center_fir
-        self.grid_matrix = Arena_Matrix().build_grid(self.WIDTH, self.HEIGHT, all_obstacles)
+        self.grid_matrix = Arena_Matrix().build_grid(self.WIDTH, self.HEIGHT, self.all_obstacles)
 
         # Grid und Finder nur einmal erstellen
         self.pf_grid = Grid(matrix=self.grid_matrix)
