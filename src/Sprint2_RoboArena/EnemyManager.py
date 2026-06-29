@@ -1,4 +1,3 @@
-from pygame.gfxdraw import textured_polygon
 
 from Orb import Orb
 from Goblin import Goblin

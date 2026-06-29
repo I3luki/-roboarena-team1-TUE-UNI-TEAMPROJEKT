@@ -2,7 +2,6 @@ import pygame
 from sys import exit
 from Arena import Arena
 from Roboter import Robot
-from Orb import Orb
 from HealthSystem_Player import HealthSystem_Player
 from StaminaSystem_Player import StaminaSystem_Player
 from EnemyManager import EnemyManager
