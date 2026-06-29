@@ -87,14 +87,7 @@ class Robot:
                 "up": grid_run[3]
             }
         }
-        # TODO: DELETE AFTER TESTING
-        self.relics.add(Devil_Contract_I(self)) 
-        self.relics.add(Devil_Contract_II(self)) 
-        self.relics.add(Jingu_Bang(self))
-        self.relics.add(Ice(self))
-        self.relics.add(Hermes_Shoe(self)) 
-        self.relics.add(Swordmaster_Manual(self))
-        self.relics.add(Ricochet(self))
+
     
 
     #reset status effekte
