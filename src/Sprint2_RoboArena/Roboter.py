@@ -4,8 +4,6 @@ import math
 from Collision import AABB
 from Relics import Relics  
 from Textures import load_spritesheet, animation_scaling, Textures
-#TODO:    delete import after testing!!!!
-from Relics import Swordmaster_Manual, Hermes_Shoe, Devil_Contract_I, Devil_Contract_II, Ice, Jingu_Bang, Ricochet
 
 
 
