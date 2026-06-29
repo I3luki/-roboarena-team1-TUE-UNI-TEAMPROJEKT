@@ -227,8 +227,17 @@ class Textures:
         cls.RANDOM_ICON = pygame.image.load("Sprites/random_icon.png").convert_alpha()
         cls.RANDOM_ICON = pygame.transform.scale(cls.RANDOM_ICON, (20, 30))
 
-        cls.ORB_ICON = pygame.image.load("Sprites/orb_yellow.png").convert_alpha()
+        cls.ORB_ICON = pygame.image.load("Sprites/orb_icon.png").convert_alpha()
         cls.ORB_ICON = pygame.transform.scale(cls.ORB_ICON, (30, 30))
+
+        cls.ORB_PURPLE = pygame.image.load("Sprites/orb_purple.png").convert_alpha()
+        cls.ORB_PURPLE = pygame.transform.scale(cls.ORB_PURPLE, (30, 30))
+
+        cls.ORB_YELLOW = pygame.image.load("Sprites/orb_yellow.png").convert_alpha()
+        cls.ORB_YELLOW = pygame.transform.scale(cls.ORB_YELLOW, (30, 30))
+
+        cls.ORB_BLUE = pygame.image.load("Sprites/orb_blue.png").convert_alpha()
+        cls.ORB_BLUE = pygame.transform.scale(cls.ORB_BLUE, (30, 30))
 
         raw_grass_sheet = pygame.image.load("Sprites/grass_tiles.png").convert_alpha()
         tile_w = raw_grass_sheet.get_width() // 4

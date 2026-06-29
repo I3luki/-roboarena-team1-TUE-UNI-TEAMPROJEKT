@@ -139,7 +139,10 @@ def create_game(selected_map):
     arena.camera.x = robot.x
     arena.camera.y = robot.y
 
-    orb_list = [Orb(arena, 0, 0), Orb(arena, 0, 0)]
+    '''orb_list = [
+        Orb(arena, 0, 0, Textures.ORB_ICON),
+        Orb(arena, 0, 0, Textures.ORB_ICON)
+    ]''' #finde starting orbs bissle random brauchen wir die überhaupt?
 
     for orb in orb_list:
         orb.randomize_position()

@@ -8,7 +8,7 @@ from Textures import Textures
 class Wolf(Enemy):
 
     def __init__(self, arena, x, y, wave, is_boss=False):
-        health = 200 + wave * 20
+        health = 100 + wave * 20
         damage = 1 + wave * 3
         self.is_boss=is_boss
         if self.is_boss:
@@ -17,7 +17,7 @@ class Wolf(Enemy):
 
         super().__init__(arena, x, y, health, damage)
 
-        self.speed = 2.5
+        self.speed = 3
         self.damage_radius = 50
 
         # Walk Animation
@@ -44,7 +44,7 @@ class Wolf(Enemy):
         self.height = self.frame_height
         if self.is_boss:
             boss_size_multiplier = 2
-    
+
             self.walk_frames = self._rescale_frames(
                 self.walk_frames_original,
                 boss_size_multiplier
@@ -59,8 +59,8 @@ class Wolf(Enemy):
             self.frame_height = self.walk_frames[0].get_height()
             self.height = self.frame_height
 
-            self.speed_base *= 0.5
-            self.speed_current *= 0.5
+            self.speed_base *= 0.8
+            self.speed_current *= 0.8
             self.damage_radius = int(self.damage_radius * 2)
 
         # === DASH ALS SPEED-BUFF ===

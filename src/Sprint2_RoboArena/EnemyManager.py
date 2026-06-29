@@ -4,6 +4,7 @@ from Goblin import Goblin
 from Slime import Slime
 from Bee import Bee
 from Wolf import Wolf
+from Textures import Textures
 
 
 # Updated Liste von Gegnern, die am Leben sind
@@ -12,7 +13,24 @@ class EnemyManager:
         self.arena = arena
         self.enemies = []
 
+        self.orb_drops = {
+            Goblin: Textures.ORB_ICON,
+            Slime: Textures.ORB_BLUE,
+            Wolf: Textures.ORB_PURPLE,
+            Bee: Textures.ORB_YELLOW
+        }
 
+    def drop_orbs(self, enemy, orb_list, arena):
+        orb_texture = self.orb_drops[type(enemy)]
+
+        orb_count = 1
+
+        if hasattr(enemy, "is_boss") and enemy.is_boss:
+            orb_count = 5 #erstmal 5x so viele Orbs gerne auch anpassen
+
+        for i in range(orb_count):
+            new_orb = Orb(arena, enemy.x, enemy.y, orb_texture)
+            orb_list.append(new_orb)
     # Fügt Gegner zu Gegnerliste hinzu
 
 
@@ -51,13 +69,12 @@ class EnemyManager:
                         enemy.death_timer = 0.0
                     elif enemy.death_finished:
                         # Animation fertig -> Orb droppen + entfernen
-                        new_orb = Orb(arena, enemy.x, enemy.y)
-                        orb_list.append(new_orb)
+
+                        self.drop_orbs(enemy, orb_list, arena)
                         self.enemies.remove(enemy)
                 else:
                     # Keine Death Animation -> Sofort entfernen
-                    new_orb = Orb(arena, enemy.x, enemy.y)
-                    orb_list.append(new_orb) # Erstelle neuen Orb und füge ihn der Liste hinzu
+                    self.drop_orbs(enemy, orb_list, arena) # Erstelle neuen Orb und füge ihn der Liste hinzu
                     self.enemies.remove(enemy) # Entferne Gegner aus der Liste
 
         MAX_CALCS_PER_FRAME =  2 # Maximale Anzahl an A* Berechnungen pro Frame
