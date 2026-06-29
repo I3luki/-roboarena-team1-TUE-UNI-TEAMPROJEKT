@@ -1,5 +1,6 @@
 from Relics import Ice, Ricochet, Jingu_Bang, Swordmaster_Manual, Hermes_Shoe, Devil_Contract_I, Devil_Contract_II
 from Status_Effects import Poison_Debuff
+from Textures import Textures
 
 
 # Frames per second
@@ -25,6 +26,9 @@ class LevelSpeedBuff:
         robot.speed_current += self.amount
         print(f"Buff gewählt: {self.name}")
 
+    def get_icon(self):
+        return Textures.STAT_ICON_SPEED
+    
 
 class LevelDamageBuff:
 
@@ -38,6 +42,9 @@ class LevelDamageBuff:
     def apply_to(self, robot, health):
         robot.attack_damage += self.amount
         print(f"Buff gewählt: {self.name}")
+
+    def get_icon(self):
+        return Textures.STAT_ICON_ATTACK
 
 
 class LevelAttackSpeedBuff:
@@ -58,6 +65,9 @@ class LevelAttackSpeedBuff:
             robot.attack_cooldown = 200
         print(f"Buff gewählt: {self.name}")
 
+    def get_icon(self):
+        return Textures.STAT_ICON_AS
+
 
 class LevelAttackRangeBuff:
 
@@ -71,6 +81,9 @@ class LevelAttackRangeBuff:
     def apply_to(self, robot, health):
         robot.attack_radius += self.amount
         print(f"Buff gewählt: {self.name}")
+
+    def get_icon(self):
+        return Textures.STAT_ICON_RANGE
 
 
 class LevelHealthBuff:
@@ -90,6 +103,9 @@ class LevelHealthBuff:
         f"Current HP: {health.current_health} | "
         f"Max HP: {health.max_health}")
 
+    def get_icon(self):
+        return Textures.STAT_ICON_HEALTH
+
 
 
 class LevelIceRelic:
@@ -106,6 +122,9 @@ class LevelIceRelic:
         relic = Ice(robot)
         robot.relics.add(relic)
 
+    def get_icon(self):
+        return Ice(7).get_icon()
+
 
 class LevelRicochetRelic:
 
@@ -120,6 +139,9 @@ class LevelRicochetRelic:
     def apply_to(self, robot, health):
         relic = Ricochet(robot)
         robot.relics.add(relic)
+    
+    def get_icon(self):
+        return Ricochet(7).get_icon()
 
 
 class LevelJinguBangRelic:
@@ -136,6 +158,11 @@ class LevelJinguBangRelic:
         relic = Jingu_Bang(robot)
         robot.relics.add(relic)
 
+    def get_icon(self):
+        return Jingu_Bang(7).get_icon()
+
+    
+
 
 class LevelSwordmasterManualRelic:
 
@@ -151,6 +178,9 @@ class LevelSwordmasterManualRelic:
         relic = Swordmaster_Manual(robot)
         robot.relics.add(relic)
 
+    def get_icon(self):
+        return Swordmaster_Manual(7).get_icon()
+
 
 class LevelHermesShoe:
 
@@ -165,6 +195,9 @@ class LevelHermesShoe:
     def apply_to(self, robot, health):
         relic = Hermes_Shoe(robot)
         robot.relics.add(relic)
+    
+    def get_icon(self):
+        return Hermes_Shoe(7).get_icon()
 
 
 class LevelDevilContractI:
@@ -185,6 +218,9 @@ class LevelDevilContractI:
         relic = Devil_Contract_I(robot)
         robot.relics.add(relic)
 
+    def get_icon(self):
+        return Devil_Contract_I(7).get_icon()
+
 
 class LevelDevilContractII:
 
@@ -204,6 +240,9 @@ class LevelDevilContractII:
         robot.status_effects.append(poison)
         relic = Devil_Contract_II(robot)
         robot.relics.add(relic)
+
+    def get_icon(self):
+        return Devil_Contract_II(7).get_icon()
 
 
 
