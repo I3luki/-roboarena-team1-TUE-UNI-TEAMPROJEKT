@@ -30,11 +30,12 @@ class Relics:
         
     def draw_icons(self):
         # Definiere Position der Icons
-        icon_bar = pygame.Surface((ICON_WIDTH*7, ICON_HEIGHT), pygame.SRCALPHA)
-        icon_bar.fill((0,0,0,0))
         icon_bar_pos = (30, 120)
         index = 0
         space = int(ICON_WIDTH / 4)  # abstand zwischen icons
+        icon_bar_length = (ICON_WIDTH+space)*len(self.list)
+        icon_bar = pygame.Surface((icon_bar_length, ICON_HEIGHT), pygame.SRCALPHA)
+        icon_bar.fill((0,0,0,0))
 
         # Zeichne die relic Icons auf die Icon-Bar
         for relic in self.list:
