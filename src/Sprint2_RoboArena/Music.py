@@ -24,6 +24,11 @@ class Music:
         if state == "PLAYING" and self.current_music != state:
             self.load_music("Music/Ingame-1.mp3", state, 0.5)
 
+        if state == "GAME_OVER" and self.current_music != state:
+            self.load_music("Music/Death-1.mp3", state, 1.0)
+
+        
+
         # Pause
         if state == "PAUSE" and self.current_music != state:
             pygame.mixer.music.set_volume(0.2)
