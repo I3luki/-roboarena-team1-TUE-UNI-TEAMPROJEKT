@@ -4,7 +4,7 @@ from Collision import AABB
 
 class Orb:
 
-    def __init__(self, arena, x, y, texture):
+    def __init__(self, arena, x, y, texture, xp_value):
         self.arena  = arena
         self.screen = arena.screen
         self.camera = arena.camera
@@ -12,6 +12,7 @@ class Orb:
         self.y = y
         self.radius = 10
         self.texture= texture
+        self.xp_value = xp_value
         self.aabb = AABB(self.x - self.radius, 
                          self.y - self.radius, 
                          self.x + self.radius,

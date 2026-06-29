@@ -50,7 +50,7 @@ def update():
     # Checke für Kollision von Roboter und Orb
     for orb in orb_list[:]:
         if robot.aabb.check_collision(orb.aabb):
-            level.collect_orb(buff_manager, game)
+            level.collect_orb(buff_manager, game, orb.xp_value)
             orb_list.remove(orb)
 
 

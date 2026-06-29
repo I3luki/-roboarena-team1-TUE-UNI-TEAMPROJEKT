@@ -1,3 +1,4 @@
+from pygame.gfxdraw import textured_polygon
 
 from Orb import Orb
 from Goblin import Goblin
@@ -14,22 +15,36 @@ class EnemyManager:
         self.enemies = []
 
         self.orb_drops = {
-            Goblin: Textures.ORB_ICON,
-            Slime: Textures.ORB_BLUE,
-            Wolf: Textures.ORB_PURPLE,
-            Bee: Textures.ORB_YELLOW
+            Slime: {
+                "texture": Textures.ORB_BLUE,
+                "xp": 3
+            },
+            Goblin: {
+                "texture": Textures.ORB_ICON,
+                "xp": 5
+            },
+            Bee: {
+                "texture": Textures.ORB_YELLOW,
+                "xp": 7
+            },
+            Wolf: {
+                "texture": Textures.ORB_PURPLE,
+                "xp": 10
+            }
         }
 
     def drop_orbs(self, enemy, orb_list, arena):
-        orb_texture = self.orb_drops[type(enemy)]
+        drop_data = self.orb_drops[type(enemy)]
 
+        orb_texture = drop_data ["texture"]
+        orb_xp = drop_data ["xp"]
         orb_count = 1
 
         if hasattr(enemy, "is_boss") and enemy.is_boss:
             orb_count = 5 #erstmal 5x so viele Orbs gerne auch anpassen
 
         for i in range(orb_count):
-            new_orb = Orb(arena, enemy.x, enemy.y, orb_texture)
+            new_orb = Orb(arena, enemy.x, enemy.y, orb_texture, orb_xp)
             orb_list.append(new_orb)
     # Fügt Gegner zu Gegnerliste hinzu
 
