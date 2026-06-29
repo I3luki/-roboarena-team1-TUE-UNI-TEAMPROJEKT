@@ -8,7 +8,7 @@ class Music:
 
     def load_music(self, path, state, volume):
         pygame.mixer.music.load(path)
-        pygame.mixer.music.set_volume(0.5)
+        pygame.mixer.music.set_volume(volume)
         pygame.mixer.music.play(-1)  # Loop forever
         self.current_music = state
 
