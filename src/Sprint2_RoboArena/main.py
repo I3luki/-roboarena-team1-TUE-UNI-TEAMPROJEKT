@@ -98,8 +98,13 @@ def test_mode():
 
 
 # -------------------------------------------------------------------- INITIATION ------------
+pygame.mixer.pre_init(
+    frequency=44100,
+    size=-16,
+    channels=2,
+    buffer=2048
+)
 pygame.init()
-pygame.mixer.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("RoboArena")
 clock = pygame.time.Clock()
