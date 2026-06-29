@@ -33,7 +33,7 @@ class Music:
         if state == "PAUSE" and self.current_music != state:
             pygame.mixer.music.set_volume(0.2)
         
-        if state != "PAUSE":
+        if state == "PLAYING":
             pygame.mixer.music.set_volume(0.5)
 
 
