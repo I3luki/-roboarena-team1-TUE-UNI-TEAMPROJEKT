@@ -6,6 +6,14 @@ class MainMenu:
 
     def __init__(self, screen):
         self.screen = screen
+        self.background = pygame.image.load(
+            "Sprites/Mainmenu_Background.png"
+            ).convert()
+
+        self.background = pygame.transform.scale(
+            self.background,
+            self.screen.get_size()
+        )
 
         self.options = [
             "Spiel starten",
@@ -46,7 +54,10 @@ class MainMenu:
 
     def draw(self):
 
-        self.screen.fill((20, 20, 20))
+        self.screen.blit(self.background, (0, 0))
+        overlay = pygame.Surface((420, 420), pygame.SRCALPHA)
+        overlay.fill((0, 0, 0, 120))   # Schwarz mit Transparenz
+        self.screen.blit(overlay, (300, 120))
 
         title = self.title_font.render(
             "ROBO ARENA",
