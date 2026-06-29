@@ -17,6 +17,7 @@ from Screens.ShopScreen import ShopScreen
 from Textures import Textures
 from Arena1 import ArenaLabyrinth
 from Screens.MapSelectScreen import MapSelectScreen
+from Music import Music
 
 
 TEST_MODE = False    # TESTMODE: wenn true, dann ist testmodus an
@@ -39,6 +40,7 @@ def update():
 
     # Aren-Updates
     arena.update(robot, health)
+
 
     # Updated Liste an Gegner (Gegner die am Leben sind, Path von Gegner zu Spieler)
     enemy_manager.update(robot, orb_list, arena)
@@ -74,6 +76,7 @@ def draw():
 
     buff_manager.draw(screen)
 
+
 # Testmodus
 # "visualisiert ausgewählte hintergrundberechnungen und andere testbedingte werte"
 def test_mode():
@@ -96,6 +99,7 @@ def test_mode():
 
 # -------------------------------------------------------------------- INITIATION ------------
 pygame.init()
+pygame.mixer.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("RoboArena")
 clock = pygame.time.Clock()
@@ -175,9 +179,11 @@ shop_screen = ShopScreen(screen)
 #lezt ausgewählte map merken
 last_selected_map = None
 
+music = Music(game)
+
 # -------------------------------------------------------------------- GAME LOOP ------------
 while True:
-
+    music.update()
     # -------------------- EVENTS --------------------
     for event in pygame.event.get():
 
