@@ -97,21 +97,21 @@ class GameManager:
             "base_cost": 100,
             "cost_increase": 75,
             "amount": 100,
-            "max_level": 100
+            "max_level": 15
         },
         "speed": {
             "name": "Mehr Speed",
             "base_cost": 120,
             "cost_increase": 80,
             "amount": 0.20,
-            "max_level": 20
+            "max_level": 15
         },
         "attack_damage": {
             "name": "Mehr Damage",
             "base_cost": 150,
             "cost_increase": 100,
-            "amount": 20,
-            "max_level": 100
+            "amount": 25,
+            "max_level": 15
         }
     }
 
