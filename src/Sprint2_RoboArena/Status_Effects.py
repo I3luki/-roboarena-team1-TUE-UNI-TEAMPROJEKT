@@ -80,7 +80,7 @@ def make_icon_overlay(width, height, color):
 class Speed_Buff(Effect):
 
 
-    def __init__(self, ttl=7*SECOND, factor=2.5, source="tile"):
+    def __init__(self, ttl=7*SECOND, factor=1.5, source="tile"):
         self.source = source     #needed to not be able to hardstack speedbuff from hermes relic
         self.ttl_max = ttl
         self.ttl_current = self.ttl_max

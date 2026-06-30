@@ -206,41 +206,60 @@ class Robot:
             or self.collides_with_center_normal() or self.collides_with_center_dead() or self.collides_with_center_palm() or self.collides_with_center_fir()
 
 
-
+    # Neue Bewegungsmethode.
+    # Bugfixx: Durch den Speed-Buff wurde der Abstand zu Wänden größer, da der Spieler pro Frame zu große Schritte machte.
+    # Die Bewegung erfolgt nun schrittweise für eine genauere Kollisionserkennung.
     def move(self, keys):
         self.is_moving = False
 
+        dx = 0
+        dy = 0
+
         if keys[pygame.K_w] or keys[pygame.K_UP]:
-            self.y -= self.speed_current
-            self.is_moving = True
-            self.update_aabb()
-            if self.is_blocked():
-                self.y += self.speed_current
-                self.update_aabb()
-
+            dy -= self.speed_current
         if keys[pygame.K_s] or keys[pygame.K_DOWN]:
-            self.y += self.speed_current
-            self.is_moving = True
-            self.update_aabb()
-            if self.is_blocked():
-                self.y -= self.speed_current
-                self.update_aabb()
-
+            dy += self.speed_current
         if keys[pygame.K_a] or keys[pygame.K_LEFT]:
-            self.x -= self.speed_current
-            self.is_moving = True
-            self.update_aabb()
-            if self.is_blocked():
-                self.x += self.speed_current
-                self.update_aabb()
-
+            dx -= self.speed_current
         if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
-            self.x += self.speed_current
+            dx += self.speed_current
+
+        if dx != 0 or dy != 0:
             self.is_moving = True
+
+        # X-Richtung
+        remaining = abs(dx)
+        direction = 1 if dx > 0 else -1
+
+        while remaining > 0:
+            step = min(1, remaining)
+
+            self.x += direction * step
             self.update_aabb()
+
             if self.is_blocked():
-                self.x -= self.speed_current
+                self.x -= direction * step
                 self.update_aabb()
+                break
+
+            remaining -= step
+
+        # Y-Richtung
+        remaining = abs(dy)
+        direction = 1 if dy > 0 else -1
+
+        while remaining > 0:
+            step = min(1, remaining)
+
+            self.y += direction * step
+            self.update_aabb()
+
+            if self.is_blocked():
+                self.y -= direction * step
+                self.update_aabb()
+                break
+
+            remaining -= step
 
 
     # add a status effect to the robot
