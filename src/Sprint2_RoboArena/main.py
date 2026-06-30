@@ -148,10 +148,6 @@ def create_game(selected_map):
     arena.camera.x = robot.x
     arena.camera.y = robot.y
 
-    orb_list = [
-        Orb(arena, 0, 0, Textures.ORB_ICON, 1),
-        Orb(arena, 0, 0, Textures.ORB_ICON, 1)
-    ]
 
     for orb in orb_list:
         orb.randomize_position()
