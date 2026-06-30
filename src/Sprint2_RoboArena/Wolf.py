@@ -7,24 +7,31 @@ from Textures import Textures
 
 class Wolf(Enemy):
 
-    def __init__(self, arena, x, y, wave):
+    def __init__(self, arena, x, y, wave, is_boss=False):
         health = 200 + wave * 20
         damage = 1 + wave * 3
+        self.is_boss=is_boss
+        if self.is_boss:
+            health *= 5
+            damage *= 2
+
         super().__init__(arena, x, y, health, damage)
 
         self.speed = 2.5
         self.damage_radius = 50
 
         # Walk Animation
-        self.walk_frames = Textures.WOLF_WALK_ANIMATION[0]
-        self.walk_frames = [f.convert_alpha() for f in self.walk_frames]
+        self.walk_frames_original = Textures.WOLF_WALK_ANIMATION[0]
+        self.walk_frames_original = [f.convert_alpha() for f in self.walk_frames_original]
+        self.walk_frames = [f.copy() for f in self.walk_frames_original]
         self.current_frame = 0
         self.animation_timer = 0.0
         self.animation_speed = 0.15
 
         # Death Animation
-        self.death_frames = Textures.WOLF_DEATH_ANIMATION[0]
-        self.death_frames = [f.convert_alpha() for f in self.death_frames]
+        self.death_frames_original = Textures.WOLF_DEATH_ANIMATION[0]
+        self.death_frames_original = [f.convert_alpha() for f in self.death_frames_original]
+        self.death_frames = [f.copy() for f in self.death_frames_original]
         self.is_dying = False
         self.death_frame = 0
         self.death_timer = 0.0
@@ -35,6 +42,26 @@ class Wolf(Enemy):
         self.frame_width = self.walk_frames[0].get_width()
         self.frame_height = self.walk_frames[0].get_height()
         self.height = self.frame_height
+        if self.is_boss:
+            boss_size_multiplier = 2
+    
+            self.walk_frames = self._rescale_frames(
+                self.walk_frames_original,
+                boss_size_multiplier
+            )
+
+            self.death_frames = self._rescale_frames(
+                self.death_frames_original,
+                boss_size_multiplier
+            )
+
+            self.frame_width = self.walk_frames[0].get_width()
+            self.frame_height = self.walk_frames[0].get_height()
+            self.height = self.frame_height
+
+            self.speed_base *= 0.5
+            self.speed_current *= 0.5
+            self.damage_radius = int(self.damage_radius * 2)
 
         # === DASH ALS SPEED-BUFF ===
         self.dash_range = 250
@@ -48,6 +75,15 @@ class Wolf(Enemy):
         self.normal_speed = self.speed_base
         self.dash_direction_x = 0.0
         self.dash_direction_y = 0.0
+
+    def _rescale_frames(self, frames_original, scale):
+        return [
+            pygame.transform.scale(
+                frame,
+                (int(frame.get_width() * scale), int(frame.get_height() * scale))
+            )
+            for frame in frames_original
+        ]
 
     def _check_wall_collision(self, new_x, new_y):
         """Prüft, ob die neue Position mit einer Wand kollidiert."""

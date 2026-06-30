@@ -63,6 +63,10 @@ class WaveManager:
             )
 
             self.enemy_manager.enemies[-1].randomize_position()
+        # Alle 10 Waves einen Boss spawnen
+        if self.current_wave % 1 == 0:#Zum testn auf wave 1 aber bitte mit dran denken auf 10 stellen
+            #Danke(dann kommentar löschen)
+            self.spawn_boss()
 
     def update(self):
         if not self.wave_running:
@@ -80,6 +84,25 @@ class WaveManager:
         if all_dead or timer_finished:
             self.current_wave += 1
             self.start_wave()
+    def spawn_boss(self):
+        boss_types = ["goblin", "bee", "wolf"]  # slime ist ausgeschlossen
+
+        boss_type = random.choice(boss_types)
+
+        x = random.randint(100, 3000)
+        y = random.randint(100, 3000)
+
+        self.enemy_manager.add_enemy(
+            boss_type,
+            x,
+            y,
+            self.current_wave,
+            is_boss=True
+        )
+
+        self.enemy_manager.enemies[-1].randomize_position()
+
+        print(f"Boss gespawned: {boss_type}")
 
     def reset(self):
         self.current_wave = 1
