@@ -210,37 +210,54 @@ class Robot:
     def move(self, keys):
         self.is_moving = False
 
+        dx = 0
+        dy = 0
+
         if keys[pygame.K_w] or keys[pygame.K_UP]:
-            self.y -= self.speed_current
-            self.is_moving = True
-            self.update_aabb()
-            if self.is_blocked():
-                self.y += self.speed_current
-                self.update_aabb()
+            dy -= 1
 
         if keys[pygame.K_s] or keys[pygame.K_DOWN]:
-            self.y += self.speed_current
-            self.is_moving = True
-            self.update_aabb()
-            if self.is_blocked():
-                self.y -= self.speed_current
-                self.update_aabb()
+            dy += 1
 
         if keys[pygame.K_a] or keys[pygame.K_LEFT]:
-            self.x -= self.speed_current
-            self.is_moving = True
-            self.update_aabb()
-            if self.is_blocked():
-                self.x += self.speed_current
-                self.update_aabb()
+            dx -= 1
 
         if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
-            self.x += self.speed_current
-            self.is_moving = True
+            dx += 1
+
+        # Wenn keine Taste gedrückt wird, nichts machen
+        if dx == 0 and dy == 0:
+            return
+
+        self.is_moving = True
+
+        # Diagonale Bewegung normalisieren,
+        # damit diagonal nicht schneller ist als geradeaus
+        length = math.hypot(dx, dy)
+        dx = dx / length * self.speed_current
+        dy = dy / length * self.speed_current
+
+        # Erst X bewegen, dann Y bewegen
+        self.move_axis(dx, 0)
+        self.move_axis(0, dy)
+
+
+    def move_axis(self, dx, dy):
+        steps = int(max(abs(dx), abs(dy), 1))
+
+        step_x = dx / steps
+        step_y = dy / steps
+
+        for _ in range(steps):
+            self.x += step_x
+            self.y += step_y
             self.update_aabb()
+
             if self.is_blocked():
-                self.x -= self.speed_current
+                self.x -= step_x
+                self.y -= step_y
                 self.update_aabb()
+                break
 
 
     # add a status effect to the robot

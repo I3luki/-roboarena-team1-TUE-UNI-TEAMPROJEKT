@@ -54,8 +54,9 @@ class ShopScreen:
                 index+=1
                 
 
+
             #2 Map kaufen
-            elif event.key == pygame.K_3:
+        elif event.key == pygame.K_3:
 
                 if (
                         game.shop_points >= 100 and
@@ -65,7 +66,7 @@ class ShopScreen:
                     game.save_shop_points()
                     game.unlock_map("labyrinth_map")
 
-            elif event.key == pygame.K_ESCAPE:
+        elif event.key == pygame.K_ESCAPE:
                 game.state = "MENU"
 
 
