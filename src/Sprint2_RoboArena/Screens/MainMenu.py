@@ -60,7 +60,7 @@ class MainMenu:
         self.screen.blit(overlay, (300, 120))
 
         title = self.title_font.render(
-            "ROBO ARENA",
+            "Rouge Knight",
             True,
             (255, 255, 255)
         )

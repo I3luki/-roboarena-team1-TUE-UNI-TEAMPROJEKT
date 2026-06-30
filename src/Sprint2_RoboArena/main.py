@@ -13,6 +13,7 @@ from Screens.MainMenu import MainMenu
 from Screens.PauseMenu import PauseMenu
 from Screens.StatsScreen import StatsScreen
 from Screens.ShopScreen import ShopScreen
+from Screens.StartScreen import StartScreen
 from Textures import Textures
 from Arena1 import ArenaLabyrinth
 from Screens.MapSelectScreen import MapSelectScreen
@@ -168,8 +169,10 @@ game = GameManager()
 
 #Hauptmeunü
 main_menu = MainMenu(screen)
+#Startscreen
+start_screen = StartScreen(screen)
 
-game.state = "MENU"
+game.state = "START_SCREEN"
 #Pausemenü
 pause_menu = PauseMenu(screen)
 #stats
@@ -189,7 +192,10 @@ while True:
             pygame.quit()
             exit()
 
-        if game.state == "MENU":
+        if game.state == "START_SCREEN":
+            start_screen.handle_event(event, game)
+
+        elif game.state == "MENU":
             main_menu.handle_event(event, game)
 
         elif game.state == "STATS":
@@ -246,7 +252,12 @@ while True:
                 buff_manager.apply_buff(2, robot, health)
 
     #draws der Menüs
-    if game.state == "MENU":
+    if game.state == "START_SCREEN":
+
+        start_screen.update()
+        start_screen.draw()
+
+    elif game.state == "MENU":
 
         main_menu.draw()
     elif game.state == "PLAYING":
