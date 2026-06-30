@@ -90,5 +90,5 @@ class Level:
         )
     def reset(self):
         self.current_level=1
-        self.current_orbs = 0
-        self.orbs_needed = 2
+        self.current_xp = 0
+        self.xp_needed = 2
