@@ -6,6 +6,14 @@ class ShopScreen:
     def __init__(self, screen):
 
         self.screen = screen
+        self.background = pygame.image.load(
+            "Sprites/Shopmenu_Background.png"
+            ).convert()
+
+        self.background = pygame.transform.scale(
+            self.background,
+            self.screen.get_size()
+        )
         self.level_relics = LevelBuffs()
 
         self.font_title = pygame.font.SysFont(None, 72)
@@ -76,7 +84,10 @@ class ShopScreen:
         SPACE = 70              # height between choices
         CHOICE_START = 260      # starting height of choices
 
-        self.screen.fill((20, 20, 20))
+        self.screen.blit(self.background, (0, 0))
+        overlay = pygame.Surface((420, 420), pygame.SRCALPHA)
+        overlay.fill((0, 0, 0, 120))   # Schwarz mit Transparenz
+        self.screen.blit(overlay, (300, 120))
 
         # Titel
         title = self.font_title.render(

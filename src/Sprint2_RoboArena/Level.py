@@ -11,10 +11,10 @@ class Level:
         self.current_level = 1
 
         # aktuelle eingesammelte Orbs im aktuellen Level
-        self.current_orbs = 0
+        self.current_xp = 0
 
         # benötigte Orbs fürs nächste Level
-        self.orbs_needed = 2
+        self.xp_needed = 5
 
         self.font = pygame.font.SysFont(None, 36)
 
@@ -26,13 +26,13 @@ class Level:
 
 
     
-    def collect_orb(self, buff_manager, game):
+    def collect_orb(self, buff_manager, game, xp_value):
 
-        self.current_orbs += 1
+        self.current_xp += xp_value
         game.orbs += 1
 
         # wenn genug Orbs gesammelt wurden
-        if self.current_orbs >= self.orbs_needed:
+        if self.current_xp >= self.xp_needed:
          
             self.level_up(buff_manager, game)
 
@@ -43,11 +43,11 @@ class Level:
 
         self.current_level += 1
         game.score += 1
-        # nächstes Level braucht mehr Orbs
-        self.orbs_needed += 1
+        # nächstes Level braucht mehr XP
+        self.xp_needed += 5
 
         # Fortschritt zurücksetzen
-        self.current_orbs = 0
+        self.current_xp = 0
 
         #Buffmanger aufrufen
         buff_manager.generate_choices(game)
@@ -77,7 +77,7 @@ class Level:
         )
 
         # Füllstand
-        fill_width = int(bar_width * (self.current_orbs / self.orbs_needed))
+        fill_width = int(bar_width * (self.current_xp / self.xp_needed))
 
         pygame.draw.rect(
             self.screen,
@@ -94,5 +94,5 @@ class Level:
         )
     def reset(self):
         self.current_level=1
-        self.current_orbs = 0
-        self.orbs_needed = 2
+        self.current_xp = 0
+        self.xp_needed = 2
