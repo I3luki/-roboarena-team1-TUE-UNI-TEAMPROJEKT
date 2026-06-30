@@ -309,6 +309,9 @@ class Ricochet_Debuff(Effect):
 
     # draws a ricochet
     def draw(self):
+        # Sicherstellen, dass self.me bereits ein Gegner-Objekt ist und keine Liste
+        if not self.me or isinstance(self.me, list):
+            return
 
         img_ricochet = pygame.Surface((20,20))
         img_ricochet.fill((0,0,0)) #black
