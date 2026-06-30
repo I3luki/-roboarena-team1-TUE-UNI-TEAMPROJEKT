@@ -94,7 +94,7 @@ class GameManager:
     SHOP_UPGRADES = {
         "max_health": {
             "name": "Mehr Leben",
-            "base_cost": 100,
+            "base_cost": 50,
             "cost_increase": 75,
             "amount": 100,
             "max_level": 15
@@ -103,7 +103,7 @@ class GameManager:
             "name": "Mehr Speed",
             "base_cost": 120,
             "cost_increase": 80,
-            "amount": 0.20,
+            "amount": 0.15,
             "max_level": 15
         },
         "attack_damage": {
