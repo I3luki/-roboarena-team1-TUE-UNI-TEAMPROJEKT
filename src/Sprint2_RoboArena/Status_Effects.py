@@ -1,15 +1,16 @@
 import pygame
 import math
 import random
+from Textures import Textures
 
 SECOND = 60   # because 60FPS at the Moment
 
 # -------------------------------------------------------- Allgemeine Klassen und Methoden ----------------- 
 class Effect:
 
-    ICON_WIDTH = 20
-    ICON_HEIGHT = 20
-    ICON_DURATION_COLOR = (0,0,0)  # (schwarz) Farbe des icon-overlays für duration
+    ICON_WIDTH = 30
+    ICON_HEIGHT = 30
+    ICON_DURATION_COLOR = (80,80,80)  # (schwarz) Farbe des icon-overlays für duration
 
     def __init__(self):
         self.ttl_max = 0
@@ -51,19 +52,6 @@ class Tick_Effect(Effect):
         pass
 
 
-# Zeichnet ein Surface mit einem gegebenen Text
-def make_icon(width, height, color, text):
-    # Create colored surface
-    surface = pygame.Surface((width, height))
-    surface.fill(color)  
-    # Create text surface
-    font = pygame.font.Font(None, 10)  
-    text = font.render(text, True, (0, 0, 0))  # black tex
-    # Center text on button
-    text_rect = text.get_rect(center=(width/2, height/2))
-    surface.blit(text, text_rect)
-
-    return surface
 
 # Zeichnet eine halbdurchsichtiges Rechteck, Größe abhängig von TTL-fraction
 def make_icon_overlay(width, height, color):
@@ -91,7 +79,6 @@ def make_icon_overlay(width, height, color):
 # Speed_Buff: "gives speed buff based on speed_base, slows down after a certain time"
 class Speed_Buff(Effect):
 
-    SPEED_SLOWDOWN = 1 * SECOND
 
     def __init__(self, ttl=7*SECOND, factor=2.5, source="tile"):
         self.source = source     #needed to not be able to hardstack speedbuff from hermes relic
@@ -101,11 +88,12 @@ class Speed_Buff(Effect):
         self.speed_factor = factor
         self.speed_buff = 0   # initiation in apply_to()
         self.slow_rate = 0    # initiation in apply_to()
+        self.SPEED_SLOWDOWN = int(self.ttl_max/6)
 
 
     # applies the speed buff
     def apply_to(self, robot):
-
+        print("current speed: "+str(robot.speed_current) )
         # Initial Application of the Buff
         if(not self.in_use):
             # compute buff
@@ -120,25 +108,27 @@ class Speed_Buff(Effect):
             else:
                 return        
             
+        # Tick down Time-to-Live
+        self.ttl_current -= 1
+            
         # Revert Buff on TTL=0
         if(self.ttl_current <= 0 and self.in_use):
             robot.speed_current -= self.speed_buff
+            self.speed_buff = 0
 
         # start to gradually slow down
-        if(self.ttl_current < self.SPEED_SLOWDOWN and self.in_use):
+        if(self.ttl_current <= self.SPEED_SLOWDOWN and self.in_use):
+            if self.speed_buff<=0:
+                return
             self.speed_buff -= self.slow_rate
             robot.speed_current -= self.slow_rate
 
-
-        # Tick down Time-to-Live
-        self.ttl_current -= 1
 
     def renew(self):
         self.ttl_current = self.ttl_max
 
     def get_icon(self):
-        color = (255,255,0)  # gelb
-        return make_icon(self.ICON_WIDTH, self.ICON_HEIGHT, color, "speed")
+        return Textures.SPEED_ICON_STATUS
     
 
 
@@ -184,9 +174,9 @@ class Slow_Debuff(Effect):
         self.ttl_current -= 1
 
     def get_icon(self):
-        color = (173, 216, 230)  # hellblau
-        return make_icon(self.ICON_WIDTH, self.ICON_HEIGHT, color, "slow")
+        return Textures.SLOW_ICON_STATUS
     
+
     def draw(self):
         offset = 50
 
@@ -229,8 +219,7 @@ class Healthgen_Buff(Tick_Effect):
         self.ttl_current -= 1
 
     def get_icon(self):
-            color = (255, 192, 203)  # pink
-            return make_icon(self.ICON_WIDTH, self.ICON_HEIGHT, color, "heal")
+            return Textures.HEALING_ICON_STATUS
 
 
 
@@ -254,9 +243,7 @@ class Poison_Debuff(Tick_Effect):
             self.ttl_current -= 1
 
     def get_icon(self):
-        color = (128, 0, 128) # lila
-        return make_icon(self.ICON_WIDTH, self.ICON_HEIGHT, color, "poison")
-    
+        return Textures.POISON_ICON_STATUS
 
 
 # Ricochet_Debuff: "Sends a Ricochet to a random near enough enemy with damage based on robot damage"
@@ -365,8 +352,7 @@ class Slow_DebuffPlayer(Effect):
         self.ttl_current -= 1
 
     def get_icon(self):
-        color = (0, 150, 255)  # blau
-        return make_icon(self.ICON_WIDTH, self.ICON_HEIGHT, color, "slow")
+        return Textures.SLOW_ICON_STATUS
     
 
 
@@ -382,7 +368,6 @@ class Relic_RangeBuff(Effect):
 
     # applies the range
     def apply_to(self, robot):
-        print("jingu apply_to() called")
 
         # Initial Application of the Buff
         if(not self.in_use):
@@ -414,8 +399,7 @@ class Relic_RangeBuff(Effect):
 
 
     def get_icon(self):
-        color = (255, 165, 0)   # Orange
-        return make_icon(self.ICON_WIDTH, self.ICON_HEIGHT, color, "range")
+        return Textures.RANGE_ICON_STATUS
         
 
 # Swordmaster_AttackspeedBuff: "gain x relative attackspeed every xth attack for y attacks"
@@ -457,6 +441,6 @@ class Swordmaster_AttackspeedBuff(Effect):
         self.ttl_current -= 1
 
     def get_icon(self):
-        color = (245, 222, 179)   # pergament
-        return make_icon(self.ICON_WIDTH, self.ICON_HEIGHT, color, "S-Master")
+        return Textures.AS_ICON_STATUS
+    
         

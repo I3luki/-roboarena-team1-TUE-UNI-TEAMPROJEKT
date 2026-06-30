@@ -72,6 +72,27 @@ class Textures:
     RANDOM_ICON = None
     ORB_ICON = None
 
+    HEALING_ICON_STATUS = None
+    SPEED_ICON_STATUS = None
+    POISON_ICON_STATUS = None
+    SLOW_ICON_STATUS = None
+    RANGE_ICON_STATUS = None
+    AS_ICON_STATUS = None
+
+    RELIC_ICON_DEVIL_1 = None
+    RELIC_ICON_DEVIL_2 = None
+    RELIC_ICON_HERMES = None
+    RELIC_ICON_JINGUBANG = None
+    RELIC_ICON_RICOCHETS = None
+    RELIC_ICON_SKADI = None
+    RELIC_ICON_SWORDMASTER = None
+
+    STAT_ICON_SPEED = None
+    STAT_ICON_ATTACK = None
+    STAT_ICON_HEALTH = None
+    STAT_ICON_RANGE = None
+    STAT_ICON_AS = None
+
     SWORD1 = None
 
     GOBLIN_WALK_ANIMATION = None
@@ -216,8 +237,7 @@ class Textures:
 
         cls.GRASS_TILES = pygame.image.load("Sprites/grass_tiles.png").convert_alpha()
 
-        # --- Icons ---
-
+        # --- Map Icons ---
         cls.HEALING_ICON = pygame.image.load("Sprites/healing_icon.png").convert_alpha()
         cls.HEALING_ICON = pygame.transform.scale(cls.HEALING_ICON, (30, 30))
 
@@ -241,6 +261,77 @@ class Textures:
                 y = row * tile_h
                 tile = raw_grass_sheet.subsurface(pygame.Rect(x, y, tile_w, tile_h))
                 cls.GRASS_TILES.append(tile)
+
+        # --- Status Icons ---
+        ICON_STATUS_WIDTH = 30
+        ICON_STATUS_HEIGHT = 30
+
+        cls.HEALING_ICON_STATUS = pygame.image.load("Sprites/status_heal_icon.png").convert_alpha()
+        cls.HEALING_ICON_STATUS = pygame.transform.scale(cls.HEALING_ICON_STATUS, (ICON_STATUS_WIDTH, ICON_STATUS_HEIGHT))
+
+        cls.SPEED_ICON_STATUS = pygame.image.load("Sprites/status_speed_icon.png").convert_alpha()
+        cls.SPEED_ICON_STATUS = pygame.transform.scale(cls.SPEED_ICON_STATUS, (ICON_STATUS_WIDTH, ICON_STATUS_HEIGHT))
+
+        cls.POISON_ICON_STATUS = pygame.image.load("Sprites/status_poison_icon.png").convert_alpha()
+        cls.POISON_ICON_STATUS = pygame.transform.scale(cls.POISON_ICON_STATUS, (ICON_STATUS_WIDTH, ICON_STATUS_HEIGHT))
+
+        cls.SLOW_ICON_STATUS = pygame.image.load("Sprites/status_slow_icon.png").convert_alpha()
+        cls.SLOW_ICON_STATUS = pygame.transform.scale(cls.SLOW_ICON_STATUS, (ICON_STATUS_WIDTH, ICON_STATUS_HEIGHT))
+
+        cls.RANGE_ICON_STATUS = pygame.image.load("Sprites/status_range_icon.png").convert_alpha()
+        cls.RANGE_ICON_STATUS = pygame.transform.scale(cls.RANGE_ICON_STATUS, (ICON_STATUS_WIDTH, ICON_STATUS_HEIGHT))
+
+        cls.AS_ICON_STATUS = pygame.image.load("Sprites/status_as_icon.png").convert_alpha()
+        cls.AS_ICON_STATUS = pygame.transform.scale(cls.AS_ICON_STATUS, (ICON_STATUS_WIDTH, ICON_STATUS_HEIGHT))
+
+
+        # --- Relic Icons ---
+        ICON_RELIC_WIDTH = 50
+        ICON_RELIC_HEIGHT = 50
+
+        cls.RELIC_ICON_DEVIL_1 = pygame.image.load("Sprites/relic_devil_1.png").convert_alpha()
+        cls.RELIC_ICON_DEVIL_1 = pygame.transform.scale(cls.RELIC_ICON_DEVIL_1, (ICON_RELIC_WIDTH, ICON_RELIC_HEIGHT))
+
+        cls.RELIC_ICON_DEVIL_2 = pygame.image.load("Sprites/relic_devil_2.png").convert_alpha()
+        cls.RELIC_ICON_DEVIL_2 = pygame.transform.scale(cls.RELIC_ICON_DEVIL_2, (ICON_RELIC_WIDTH, ICON_RELIC_HEIGHT))
+
+        cls.RELIC_ICON_RICOCHETS = pygame.image.load("Sprites/relic_ricochets.png").convert_alpha()
+        cls.RELIC_ICON_RICOCHETS = pygame.transform.scale(cls.RELIC_ICON_RICOCHETS, (ICON_RELIC_WIDTH, ICON_RELIC_HEIGHT))
+
+        cls.RELIC_ICON_JINGUBANG = pygame.image.load("Sprites/relic_jingubang.png").convert_alpha()
+        cls.RELIC_ICON_JINGUBANG = pygame.transform.scale(cls.RELIC_ICON_JINGUBANG, (ICON_RELIC_WIDTH, ICON_RELIC_HEIGHT))
+
+        cls.RELIC_ICON_HERMES = pygame.image.load("Sprites/relic_hermes.png").convert_alpha()
+        cls.RELIC_ICON_HERMES = pygame.transform.scale(cls.RELIC_ICON_HERMES, (ICON_RELIC_WIDTH, ICON_RELIC_HEIGHT))
+
+        cls.RELIC_ICON_SKADI = pygame.image.load("Sprites/relic_skadi.png").convert_alpha()
+        cls.RELIC_ICON_SKADI = pygame.transform.scale(cls.RELIC_ICON_SKADI, (ICON_RELIC_WIDTH, ICON_RELIC_HEIGHT))
+
+        cls.RELIC_ICON_SWORDMASTER = pygame.image.load("Sprites/relic_swordmaster.png").convert_alpha()
+        cls.RELIC_ICON_SWORDMASTER = pygame.transform.scale(cls.RELIC_ICON_SWORDMASTER, (ICON_RELIC_WIDTH, ICON_RELIC_HEIGHT))
+
+
+        # --- LVL-UP STATS ICONS ---
+        ICON_STAT_WIDTH = 50
+        ICON_STAT_HEIGHT = 50
+
+        cls.STAT_ICON_ATTACK = pygame.image.load("Sprites/stat_attack.png").convert_alpha()
+        cls.STAT_ICON_ATTACK = pygame.transform.scale(cls.STAT_ICON_ATTACK, (ICON_STAT_WIDTH, ICON_STAT_HEIGHT))
+
+        cls.STAT_ICON_SPEED = pygame.image.load("Sprites/stat_speed.png").convert_alpha()
+        cls.STAT_ICON_SPEED = pygame.transform.scale(cls.STAT_ICON_SPEED, (ICON_STAT_WIDTH, ICON_STAT_HEIGHT))
+
+        cls.STAT_ICON_AS = pygame.image.load("Sprites/stat_as.png").convert_alpha()
+        cls.STAT_ICON_AS = pygame.transform.scale(cls.STAT_ICON_AS, (ICON_STAT_WIDTH, ICON_STAT_HEIGHT))
+
+        cls.STAT_ICON_HEALTH = pygame.image.load("Sprites/stat_health.png").convert_alpha()
+        cls.STAT_ICON_HEALTH = pygame.transform.scale(cls.STAT_ICON_HEALTH, (ICON_STAT_WIDTH, ICON_STAT_HEIGHT))
+
+        cls.STAT_ICON_RANGE = pygame.image.load("Sprites/stat_range.png").convert_alpha()
+        cls.STAT_ICON_RANGE = pygame.transform.scale(cls.STAT_ICON_RANGE, (ICON_STAT_WIDTH, ICON_STAT_HEIGHT))
+
+
+
 
         # --- Player Weapon ---
         cls.SWORD1 = pygame.image.load("Sprites/sword1.png").convert_alpha()

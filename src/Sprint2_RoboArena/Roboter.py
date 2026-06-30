@@ -484,25 +484,6 @@ class Robot:
         )
         self.screen.blit(current_image, rect.topleft)
 
-        # Wenn Angriff aktiv ist, zeichne Kegel-Umriss
-        if self.is_attacking:
-            cx = x_screen + self.width / 2
-            cy = y_screen + self.height / 2
-            angle_rad = math.radians(self.angle)
-            half_rad = math.radians(self.cone_half_angle)
-            num_arc_points = 10
-            points = [(cx, cy)]
-
-            for i in range(num_arc_points + 1):
-                a = angle_rad - half_rad + (2 * half_rad * i / num_arc_points)
-                points.append((
-                    cx + math.cos(a) * self.attack_radius,
-                    cy - math.sin(a) * self.attack_radius
-                ))
-
-            # FIX: Die "2" am Ende sorgt dafür, dass nur die Outline mit 2 Pixel Dicke gezeichnet wird
-            pygame.draw.polygon(self.screen, (255, 0, 0), points, 2)
-
     # "Zeichnet AAB-Kollisionbox"
     def draw_aabb(self):
         # berechne screen Koordinaten mit Kreis Offset
