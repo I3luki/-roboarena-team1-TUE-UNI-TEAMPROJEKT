@@ -11,6 +11,14 @@ class StatsScreen:
         self.screen_width = screen.get_width()
         self.screen_height = screen.get_height()
         self.screen = screen
+        self.background = pygame.image.load(
+            "Sprites/Statsmenu-Background.png"
+        ).convert()
+
+        self.background = pygame.transform.scale(
+            self.background,
+            self.screen.get_size()
+        )
         self.title_font = pygame.font.SysFont(None, 80)
         self.text_font = pygame.font.SysFont(None, 45)
         self.scroll_offset = 0
@@ -56,7 +64,10 @@ class StatsScreen:
         self.scroll_offset = 0
 
     def draw(self):
-        self.screen.fill((20, 20, 20))
+        overlay = pygame.Surface((420, 420), pygame.SRCALPHA)
+        overlay.fill((0, 0, 0, 120))   # Schwarz mit Transparenz
+        self.screen.blit(overlay, (300, 120))
+        self.screen.blit(self.background, (0, 0))
 
         title = self.title_font.render(
             "STATISTIKEN",
@@ -110,7 +121,7 @@ class StatsScreen:
         delete_text = self.text_font.render(
             "R: Alle Statistiken loeschen",
             True,
-            (255, 100, 100)
+            (0, 0, 0)
         )
 
         scroll_text = self.text_font.render(
