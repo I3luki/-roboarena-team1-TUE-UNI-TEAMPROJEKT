@@ -121,6 +121,7 @@ class BuffManager:
         texts_flavors = []
         texts_rarity = []
         colors_rarity = []
+        icons = []
         
         # Generate rendered texts
         index = 1
@@ -169,6 +170,9 @@ class BuffManager:
             texts_rarity.append(text)
             colors_rarity.append(color_rarity)
 
+            # Generate Icons
+            icons.append(choice.get_icon())
+
             #update index
             index += 1
 
@@ -183,8 +187,9 @@ class BuffManager:
         pos_description = (CARD_WIDTH/3, CARD_HEIGHT/3)
         pos_flavor = (2*(CARD_WIDTH/3), 9*(CARD_HEIGHT/10))
         pos_rarity = (CARD_WIDTH/8, CARD_HEIGHT/6)
+        pos_icon = (5*(CARD_WIDTH/32),3*(CARD_HEIGHT/7))
 
-            # blit everything on the card
+        # blit everything on the card
         for i in range(self.choices_amount):
             surf = pygame.Surface((CARD_WIDTH, CARD_HEIGHT), pygame.SRCALPHA)
             color = colors_rarity[i] + (128,)    # add transparency value
@@ -194,10 +199,10 @@ class BuffManager:
             surf.blit(texts_descriptions[i], pos_description)
             surf.blit(texts_flavors[i], pos_flavor)
             surf.blit(texts_rarity[i], pos_rarity)
+            surf.blit(icons[i], pos_icon)
 
             cards.append(surf)
         
-
 
         # Zeichne auf den screen
         space_top = CARD_HEIGHT*1.5

@@ -1,3 +1,8 @@
 ice_relic
 ricochet_relic
 labyrinth_map
+devil_II_relic
+devil_I_relic
+hermes_relic
+swordmaster_relic
+jingu_relic

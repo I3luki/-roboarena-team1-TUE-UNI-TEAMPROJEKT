@@ -22,7 +22,10 @@ class GameManager:
         self.selected_map = None
         self.labyrinth_map_unlocked = False
         self.labyrinth_map_cost = 50
-        # Einfach erweiterbar (was wollen wir kills? damage vllt? oder Health lost etc müsste man nur überelgen wie man stats enpfelgt
+                # Einfach erweiterbar (was wollen wir kills? damage vllt? oder Health lost etc müsste man nur überelgen wie man stats enpfelgt
+        # Sounds
+        self.sound_unlock = pygame.mixer.Sound("SFX/buy-1.mp3")
+        self.sound_unlock.set_volume(0.5)
 
     def check_game_over(self, health):
         if health.is_dead() and self.state != "GAME_OVER":
@@ -129,6 +132,9 @@ class GameManager:
 
     #Für Buffs freischalten
     def unlock_shop_buff(self, buff_key):
+        # play unlock sound
+        self.sound_unlock.play()
+        # unlock
         if buff_key not in self.unlocked_shop_buffs:
             self.unlocked_shop_buffs.append(buff_key)
             self.save_shop_unlocks()
@@ -139,6 +145,7 @@ class GameManager:
 
     #Map 2 freischalten mit shop_buff points
     def unlock_map(self, map_key):
+        self.sound_unlock.play()
         if map_key not in self.unlocked_shop_buffs:
             self.unlocked_shop_buffs.append(map_key)
             self.save_shop_unlocks()

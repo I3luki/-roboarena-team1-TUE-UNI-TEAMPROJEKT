@@ -2,7 +2,6 @@ import pygame
 from sys import exit
 from Arena import Arena
 from Roboter import Robot
-from Orb import Orb
 from HealthSystem_Player import HealthSystem_Player
 from StaminaSystem_Player import StaminaSystem_Player
 from EnemyManager import EnemyManager
@@ -50,8 +49,10 @@ def update():
     # Checke für Kollision von Roboter und Orb
     for orb in orb_list[:]:
         if robot.aabb.check_collision(orb.aabb):
-            level.collect_orb(buff_manager, game)
+            level.collect_orb(buff_manager, game, orb.xp_value)
             orb_list.remove(orb)
+
+
 
 
 # Zeichne alles
@@ -89,7 +90,7 @@ def test_mode():
         arena.draw_aabb()
 
         # Konsolenausgaben
-        print(robot.status_effects)
+
 
 
 
@@ -139,7 +140,10 @@ def create_game(selected_map):
     arena.camera.x = robot.x
     arena.camera.y = robot.y
 
-    orb_list = [Orb(arena, 0, 0), Orb(arena, 0, 0)]
+    '''orb_list = [
+        Orb(arena, 0, 0, Textures.ORB_ICON),
+        Orb(arena, 0, 0, Textures.ORB_ICON)
+    ]''' #finde starting orbs bissle random brauchen wir die überhaupt?
 
     for orb in orb_list:
         orb.randomize_position()

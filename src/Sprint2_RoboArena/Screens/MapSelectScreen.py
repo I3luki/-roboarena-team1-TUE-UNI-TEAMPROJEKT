@@ -5,12 +5,24 @@ class MapSelectScreen:
     def __init__(self, screen):
         self.screen = screen
 
+        self.background = pygame.image.load(
+            "Sprites/Mainmenu_Background.png"
+            ).convert()
+
+        self.background = pygame.transform.scale(
+            self.background,
+            self.screen.get_size()
+        )
+
         self.font_title = pygame.font.SysFont(None, 80)
         self.font_text = pygame.font.SysFont(None, 50)
 
     def draw(self, game):
+        self.screen.blit(self.background, (0, 0))
 
-        self.screen.fill((20, 20, 20))
+        overlay = pygame.Surface((420, 420), pygame.SRCALPHA)
+        overlay.fill((0, 0, 0, 120))   # Schwarz mit Transparenz
+        self.screen.blit(overlay, (300, 120))
 
         #Mit oder ohne freischaltung der 2 map
         if game.is_map_unlocked("labyrinth_map"):
