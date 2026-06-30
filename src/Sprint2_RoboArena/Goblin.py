@@ -6,8 +6,8 @@ from Textures import Textures
 class Goblin(Enemy):
 
     def __init__(self, arena, x, y, wave, is_boss):
-        health = 100 + wave * 20
-        damage = 2 + wave * 2
+        health = 50 + wave * 20
+        damage = 1 + wave * 2
         self.is_boss = is_boss
         if self.is_boss:
             health *=5
@@ -55,8 +55,8 @@ class Goblin(Enemy):
 
         self.damage_radius = 45
         if self.is_boss:
-            self.speed_base *= 0.5
-            self.speed_current *= 0.5
+            self.speed_base *= 0.9
+            self.speed_current *= 0.9
             self.damage_radius = int(self.damage_radius * 2)
 
         # Berserker Werte

@@ -8,8 +8,8 @@ import pygame
 class Bee(Enemy):
 
     def __init__(self, arena, x, y, wave, is_boss=False):
-        health = 50 + wave * 10
-        damage = 10 + wave * 10
+        health = 20 + wave * 10
+        damage = 5 + wave * 3
         self.is_boss =is_boss
         if self.is_boss:
             health *= 5
@@ -68,7 +68,7 @@ class Bee(Enemy):
             self.frame_height = self.walk_frames[0].get_height()
             self.height = self.frame_height
 
-            self.speed *= 0.5
+            self.speed *= 0.8
             self.damage_radius = int(self.damage_radius * 2)
 
     def _rescale_frames(self, frames_original, scale):

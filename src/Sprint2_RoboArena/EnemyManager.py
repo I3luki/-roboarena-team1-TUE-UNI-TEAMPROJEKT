@@ -4,6 +4,7 @@ from Goblin import Goblin
 from Slime import Slime
 from Bee import Bee
 from Wolf import Wolf
+from Textures import Textures
 
 
 # Updated Liste von Gegnern, die am Leben sind
@@ -12,7 +13,38 @@ class EnemyManager:
         self.arena = arena
         self.enemies = []
 
+        self.orb_drops = {
+            Slime: {
+                "texture": Textures.ORB_BLUE,
+                "xp": 3
+            },
+            Goblin: {
+                "texture": Textures.ORB_ICON,
+                "xp": 5
+            },
+            Bee: {
+                "texture": Textures.ORB_YELLOW,
+                "xp": 7
+            },
+            Wolf: {
+                "texture": Textures.ORB_PURPLE,
+                "xp": 10
+            }
+        }
 
+    def drop_orbs(self, enemy, orb_list, arena):
+        drop_data = self.orb_drops[type(enemy)]
+
+        orb_texture = drop_data ["texture"]
+        orb_xp = drop_data ["xp"]
+        orb_count = 1
+
+        if hasattr(enemy, "is_boss") and enemy.is_boss:
+            orb_count = 5 #erstmal 5x so viele Orbs gerne auch anpassen
+
+        for i in range(orb_count):
+            new_orb = Orb(arena, enemy.x, enemy.y, orb_texture, orb_xp)
+            orb_list.append(new_orb)
     # Fügt Gegner zu Gegnerliste hinzu
 
 
@@ -51,13 +83,12 @@ class EnemyManager:
                         enemy.death_timer = 0.0
                     elif enemy.death_finished:
                         # Animation fertig -> Orb droppen + entfernen
-                        new_orb = Orb(arena, enemy.x, enemy.y)
-                        orb_list.append(new_orb)
+
+                        self.drop_orbs(enemy, orb_list, arena)
                         self.enemies.remove(enemy)
                 else:
                     # Keine Death Animation -> Sofort entfernen
-                    new_orb = Orb(arena, enemy.x, enemy.y)
-                    orb_list.append(new_orb) # Erstelle neuen Orb und füge ihn der Liste hinzu
+                    self.drop_orbs(enemy, orb_list, arena) # Erstelle neuen Orb und füge ihn der Liste hinzu
                     self.enemies.remove(enemy) # Entferne Gegner aus der Liste
 
         MAX_CALCS_PER_FRAME =  2 # Maximale Anzahl an A* Berechnungen pro Frame
