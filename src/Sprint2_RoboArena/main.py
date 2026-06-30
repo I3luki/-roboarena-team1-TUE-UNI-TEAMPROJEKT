@@ -52,7 +52,7 @@ def update():
     # Checke für Kollision von Roboter und Orb
     for orb in orb_list[:]:
         if robot.aabb.check_collision(orb.aabb):
-            level.collect_orb(buff_manager, game)
+            level.collect_orb(buff_manager, game, orb.xp_value)
             orb_list.remove(orb)
 
 
@@ -148,7 +148,10 @@ def create_game(selected_map):
     arena.camera.x = robot.x
     arena.camera.y = robot.y
 
-    orb_list = [Orb(arena, 0, 0), Orb(arena, 0, 0)]
+    orb_list = [
+        Orb(arena, 0, 0, Textures.ORB_ICON, 1),
+        Orb(arena, 0, 0, Textures.ORB_ICON, 1)
+    ]
 
     for orb in orb_list:
         orb.randomize_position()
