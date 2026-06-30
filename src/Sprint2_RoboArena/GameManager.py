@@ -145,6 +145,7 @@ class GameManager:
 
     #Map 2 freischalten mit shop_buff points
     def unlock_map(self, map_key):
+        self.sound_unlock.play()
         if map_key not in self.unlocked_shop_buffs:
             self.unlocked_shop_buffs.append(map_key)
             self.save_shop_unlocks()
