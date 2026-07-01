@@ -7,7 +7,6 @@ from Relics import Relics
 from Textures import load_spritesheet, animation_scaling, Textures
 
 
-
 class Robot:
     def __init__(self, arena, health, stamina, level, x, y):
         self.arena  = arena

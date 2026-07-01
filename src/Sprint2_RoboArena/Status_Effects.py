@@ -282,7 +282,8 @@ class Ricochet_Debuff(Effect):
             print("Riccochet tick") #TODO: delete after testing
             # delete self out of the enemies list, update start
             self.start = me
-            self.enemies_copy.remove(me)
+            if me in self.enemies_copy:
+                self.enemies_copy.remove(me)
 
             # make damage
             me.health_system.current_health -= self.damage
