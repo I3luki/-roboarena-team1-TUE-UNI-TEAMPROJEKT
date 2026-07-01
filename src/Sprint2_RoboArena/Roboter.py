@@ -1,5 +1,6 @@
 import pygame
 import math
+import random
 
 from Collision import AABB
 from Relics import Relics  
@@ -85,6 +86,19 @@ class Robot:
                 "up": grid_run[3]
             }
         }
+
+        # SFX
+        sound_weapon_swing_1 = pygame.mixer.Sound("SFX/player_weapon_swing_1.mp3")
+        sound_weapon_swing_2 = pygame.mixer.Sound("SFX/player_weapon_swing_2.mp3")
+        sound_weapon_swing_3 = pygame.mixer.Sound("SFX/player_weapon_swing_3.mp3")
+        sound_weapon_swing_4 = pygame.mixer.Sound("SFX/player_weapon_swing_4.mp3")
+        sound_weapon_swing_5 = pygame.mixer.Sound("SFX/player_weapon_swing_5.mp3")
+        self.sounds_weapon_swing = [sound_weapon_swing_1,
+                                    sound_weapon_swing_2,
+                                    sound_weapon_swing_3,
+                                    sound_weapon_swing_4,
+                                    sound_weapon_swing_5]
+
 
     
 
@@ -293,7 +307,7 @@ class Robot:
 
     # resets speed and status-effect-list
     def reset(self):
-        self.speed_current = self.default_speed_base
+        self.speed_base = self.default_speed_base
         self.speed_current = self.default_speed_current
 
         self.attack_radius = self.default_attack_radius
@@ -572,7 +586,11 @@ class Robot:
 
             self.relics.on_attack(enemies)
             self.relics.update_on_attack()
-            
+
+            # play sword swing sound
+            sound = random.choice(self.sounds_weapon_swing)
+            sound.set_volume(0.2)
+            sound.play()
 
             for enemy in enemies:
                 dx = enemy.x - (self.x + self.width / 2)

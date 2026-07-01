@@ -1,16 +1,18 @@
 import random
 from Collision import AABB
-from Textures import Textures
+
 
 class Orb:
 
-    def __init__(self, arena, x, y):
+    def __init__(self, arena, x, y, texture, xp_value):
         self.arena  = arena
         self.screen = arena.screen
         self.camera = arena.camera
         self.x = x
         self.y = y
         self.radius = 10
+        self.texture= texture
+        self.xp_value = xp_value
         self.aabb = AABB(self.x - self.radius, 
                          self.y - self.radius, 
                          self.x + self.radius,
@@ -52,7 +54,7 @@ class Orb:
     # zeichnet den Orb
     def draw(self):
         screen_x, screen_y = self.camera.global_to_screen(self)
-        orb_image = Textures.ORB_ICON
+        orb_image = self.texture
 
         blit_x = screen_x - (orb_image.get_width() // 2)
         blit_y = screen_y - (orb_image.get_height() // 2)
