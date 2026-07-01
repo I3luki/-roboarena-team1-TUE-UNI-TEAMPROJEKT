@@ -21,6 +21,7 @@ class Goblin(Enemy):
         self.current_frame = 0
         self.animation_timer = 0.0
         self.animation_speed = 0.15
+        self.base_size_multiplier = 1
 
         # Death Animation (ebenfalls Original speichern)
         self.death_frames_original = Textures.GOBLIN_DEATH_ANIMATION[0]
@@ -38,6 +39,7 @@ class Goblin(Enemy):
         self.height = self.frame_height
         if self.is_boss:
             boss_size_multiplier = 2
+            self.base_size_multiplier = boss_size_multiplier
 
             self.walk_frames = self._rescale_frames(
                 self.walk_frames_original,
@@ -52,6 +54,10 @@ class Goblin(Enemy):
             self.frame_width = self.walk_frames[0].get_width()
             self.frame_height = self.walk_frames[0].get_height()
             self.height = self.frame_height
+            self.aabb.x_min = self.x - self.radius
+            self.aabb.y_min = self.y - self.radius
+            self.aabb.x_max = self.x + self.radius
+            self.aabb.y_max = self.y + self.radius
 
         self.damage_radius = 45
         if self.is_boss:
@@ -96,18 +102,24 @@ class Goblin(Enemy):
         self.speed_current = self.normal_speed_current * self.berserker_speed_multiplier
 
         # Größer (Kollisionsradius)
-        self.damage_radius = int(self.normal_damage_radius * self.berserker_size_multiplier)
+        #self.damage_radius = int(self.normal_damage_radius * self.berserker_size_multiplier)
+
+        new_size_multiplier = self.base_size_multiplier * self.berserker_size_multiplier
 
         # === ANIMATION GRÖßER MACHEN ===
         self.walk_frames = self._rescale_frames(
-            self.walk_frames_original, self.berserker_size_multiplier
+            self.walk_frames_original, new_size_multiplier
         )
         self.death_frames = self._rescale_frames(
-            self.death_frames_original, self.berserker_size_multiplier
+            self.death_frames_original, new_size_multiplier
         )
         # Frame-Größe aktualisieren
         self.frame_width = self.walk_frames[0].get_width()
         self.frame_height = self.walk_frames[0].get_height()
+        self.height =self.frame_height
+
+        # Kollisionsradius auch vergrößern
+        self.radius = int(self.radius * new_size_multiplier)
 
         # AABB wegen neuer Größe aktualisieren
         self.aabb.x_min = self.x - self.radius
@@ -115,8 +127,6 @@ class Goblin(Enemy):
         self.aabb.x_max = self.x + self.radius
         self.aabb.y_max = self.y + self.radius
 
-        # Andere Farbe im Berserker-Modus
-        self.color = (0, 100, 0)
 
     def update(self, robot, budget_available):
         # STERBE-ZUSTAND

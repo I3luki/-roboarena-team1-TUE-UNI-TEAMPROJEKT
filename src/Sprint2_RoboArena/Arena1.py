@@ -167,12 +167,12 @@ class ArenaLabyrinth:
             LightningTile(self),
         ]
 
-        all_obstacles = self.walls
+        self.all_obstacles = self.walls
 
         self.grid_matrix = Arena_Matrix().build_grid(
             self.WIDTH,
             self.HEIGHT,
-            all_obstacles
+            self.all_obstacles
         )
 
         self.pf_grid = Grid(matrix=self.grid_matrix)

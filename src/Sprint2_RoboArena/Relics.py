@@ -129,7 +129,7 @@ class Jingu_Bang:
 
     def on_hit(self, enemy, enemies):
         # gebe Spieler range Buff
-        print("jingu hit detected")
+        #print("jingu hit detected")
         if(self.count <= 0):
             self.count = self.cooldown   # prox max 1 time per attack
             # wenn der status effekt schon teil von spieler, erneuere durch repeat
@@ -145,6 +145,7 @@ class Jingu_Bang:
         if(self.count <= 0):
             self.count = self.cooldown
         self.count -= 1
+
         print("attack-range: " + str(self.robot.attack_radius))
 
 

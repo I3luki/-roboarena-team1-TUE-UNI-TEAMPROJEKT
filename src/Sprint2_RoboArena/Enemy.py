@@ -33,6 +33,8 @@ class Enemy:
 
     #Spieler bekommt schaden wenn er im gewissen radius zum Turret ist.
     def check_damage_player(self, robot, health):
+        if hasattr(self, "is_dying") and self.is_dying:
+            return
         dx = robot.x - self.x
         dy = robot.y - self.y
 
