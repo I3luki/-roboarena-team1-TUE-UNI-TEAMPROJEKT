@@ -8,25 +8,25 @@ import pygame
 class Bee(Enemy):
 
     def __init__(self, arena, x, y, wave, is_boss=False):
-        health = 20 + wave * 10
-        damage = 5 + wave * 3
+        health = 15 + wave * 5
+        damage = 3 + wave * 1.5
         self.is_boss =is_boss
         if self.is_boss:
             health *= 5
-            damage *= 3
+            damage *= 1.5
 
         super().__init__(arena, x, y, health, damage)
 
-        self.speed = 2.5
-        self.damage_radius = 30
+        self.speed = 2.8
+        self.damage_radius = 25
         self.color = (255, 255, 0)
         self.attack_cooldown_max = 3 * 60
         self.attack_cooldown = 0
-        self.poison_duration = 3 * 60
-        self.poison_damage = 5
+        self.poison_duration = 2 * 60
+        self.poison_damage = 2
         if self.is_boss:
-            self.poison_duration = 15 * 60
-            self.poison_damage = 10
+            self.poison_duration = 8 * 60
+            self.poison_damage = 6
 
         # Walk Animation
         self.walk_frames_original = Textures.BEE_WALK_ANIMATION[0]

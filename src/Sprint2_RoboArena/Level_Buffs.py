@@ -15,7 +15,7 @@ EPIC = 0.05
 
 class LevelSpeedBuff:
 
-    amount = 0.5
+    amount = 0.35
     name = "Mehr Geschwindigkeit"
     description = "+" + str(amount) + " base-speed"
     flavor_text = "Vroom Vroom Vroom!"
@@ -49,7 +49,7 @@ class LevelDamageBuff:
 
 class LevelAttackSpeedBuff:
 
-    amount = 60
+    amount = 45
 
     name = "Mehr Angriffsgeschwindigkeit"
     description = "-" + str(amount/SECOND) + "s attack-cooldown"
@@ -71,7 +71,7 @@ class LevelAttackSpeedBuff:
 
 class LevelAttackRangeBuff:
 
-    amount = 50
+    amount = 25
 
     name = "Mehr Angriffsreichweite"
     description = "+" + str(amount) + " attack range"
@@ -88,7 +88,7 @@ class LevelAttackRangeBuff:
 
 class LevelHealthBuff:
 
-    amount = 100
+    amount = 50
 
     name = "Mehr Leben"
     description = "+" + str(amount) + " max health"
@@ -97,7 +97,10 @@ class LevelHealthBuff:
 
     def apply_to(self, robot, health):
         health.max_health += self.amount
-        health.current_health += self.amount/4
+        health.current_health += self.amount
+
+        if health.current_health > health.max_health:
+            health.current_health = health.max_health
 
         print(f"Buff gewählt: {self.name} | "
         f"Current HP: {health.current_health} | "
