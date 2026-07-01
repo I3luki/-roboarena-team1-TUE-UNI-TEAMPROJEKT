@@ -40,21 +40,21 @@ class WaveManager:
             self.enemy_weights = {"goblin": 100}
         elif self.current_wave == 2:
             self.enemy_weights = {"goblin": 80, "slime": 20}
-        elif self.current_wave < 5:
+        elif self.current_wave < 3:
             self.enemy_weights = {"goblin": 60, "slime": 40}
-        elif self.current_wave < 8:
+        elif self.current_wave < 4:
             self.enemy_weights = {"goblin": 40, "slime": 30, "bee": 30}
         else:
             # Late Game: Goblins werden seltener, Wölfe und Bienen dominieren
             self.enemy_weights = {"goblin": 20, "slime": 25, "bee": 30, "wolf": 25}
 
         # Sofort-Burst zu Beginn: 20% der Welle spawnen direkt, damit sofort Action da ist
-        initial_burst = max(2, int(self.enemies_to_spawn * 0.20))
+        initial_burst = max(2, int(self.enemies_to_spawn * 0.40))
         for _ in range(initial_burst):
             self.spawn_single_enemy()
 
         # Boss-Spawn alle 5 Wellen (spawnt sofort zusätzlich)
-        if self.current_wave % 5 == 0:
+        if self.current_wave % 3 == 0:
             self.spawn_boss()
 
     def spawn_single_enemy(self):

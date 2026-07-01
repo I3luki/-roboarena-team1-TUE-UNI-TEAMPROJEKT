@@ -12,8 +12,8 @@ class Wolf(Enemy):
         damage = 6 + wave * 2
         self.is_boss=is_boss
         if self.is_boss:
-            health *= 5
-            damage *= 1.5
+            health *= 10
+            damage *= 2.5
 
         super().__init__(arena, x, y, health, damage)
 
