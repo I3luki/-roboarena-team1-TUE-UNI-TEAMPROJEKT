@@ -102,9 +102,10 @@ pygame.mixer.pre_init(
     frequency=44100,
     size=-16,
     channels=2,
-    buffer=8192
+    buffer=16384
 )
 pygame.init()
+print(pygame.mixer.get_init())
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("RoboArena")
 clock = pygame.time.Clock()
