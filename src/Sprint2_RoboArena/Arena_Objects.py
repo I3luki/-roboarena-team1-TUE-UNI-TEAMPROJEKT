@@ -93,7 +93,7 @@ class Tile:
         self.aabb = AABB(x,y,
                          x + self.width, y + self.height)
         
-        self.cooldown_max = 10 * SECOND
+        self.cooldown_max = 12 * SECOND
         self.cooldown_current = 0
         
         self.surface = pygame.Surface((self.width, self.height))
@@ -219,7 +219,7 @@ class Surprisetile(Tile):
 
     
     # Chance for good or bad effect
-    GOOD_PERCENT = 70
+    GOOD_PERCENT = 75
     BAD_PERCENT = 100 - GOOD_PERCENT
 
 
@@ -272,7 +272,7 @@ class Surprisetile(Tile):
 class Cactus:
     width = 15
     height = 15
-    DAMAGE = 0.5
+    DAMAGE = 5
 
     def __init__(self, arena, x, y):
         self.arena = arena

@@ -80,7 +80,7 @@ def make_icon_overlay(width, height, color):
 class Speed_Buff(Effect):
 
 
-    def __init__(self, ttl=7*SECOND, factor=1.5, source="tile"):
+    def __init__(self, ttl=4*SECOND, factor=0.4, source="tile"):
         self.source = source     #needed to not be able to hardstack speedbuff from hermes relic
         self.ttl_max = ttl
         self.ttl_current = self.ttl_max
@@ -88,7 +88,7 @@ class Speed_Buff(Effect):
         self.speed_factor = factor
         self.speed_buff = 0   # initiation in apply_to()
         self.slow_rate = 0    # initiation in apply_to()
-        self.SPEED_SLOWDOWN = int(self.ttl_max/6)
+        self.SPEED_SLOWDOWN = int(1.5 * SECOND)
 
 
     # applies the speed buff
@@ -135,7 +135,7 @@ class Speed_Buff(Effect):
 # Slow_Debuff:  "Slows entity based on base_speed"
 class Slow_Debuff(Effect):
 
-    SLOW_TIME = 3*SECOND
+    SLOW_TIME = 1.5 * SECOND
 
     def __init__(self, robot):
         self.camera = robot.arena.camera
@@ -143,9 +143,9 @@ class Slow_Debuff(Effect):
         self.ttl_max = self.SLOW_TIME
         self.ttl_current = self.ttl_max
         self.slow_debuff = 0  # initiated in apply_to()
-        self.slow_factor = 0.2
+        self.slow_factor = 0.5
         self.in_use = False
-        self.me = []   # current holder of the debuff
+        self.me = None   # current holder of the debuff
 
 
     # applies the slow debuff
@@ -197,8 +197,8 @@ class Healthgen_Buff(Tick_Effect):
     def __init__(self):
         self.ttl_max = 5 * SECOND
         self.ttl_current = self.ttl_max
-        self.effect_amount = 0.7                   
-        self.tick_rate = int(0.25 * SECOND)
+        self.effect_amount = 2.0
+        self.tick_rate = int(0.5 * SECOND)
         
 
     def apply_to(self, robot):
@@ -226,7 +226,7 @@ class Healthgen_Buff(Tick_Effect):
 # Poison-Debuff: "does flat tick-damage over time"
 class Poison_Debuff(Tick_Effect):
 
-    def __init__(self, duration=3*SECOND, dmg=0.5, permanent=False):
+    def __init__(self, duration=3*SECOND, dmg=1.5, permanent=False):
         self.ttl_max = duration
         self.ttl_current = duration
         self.effect_amount = dmg
@@ -253,15 +253,15 @@ class Ricochet_Debuff(Effect):
         self.robot = robot
         self.camera = robot.arena.camera
         self.screen = robot.arena.screen
-        self.damage = robot.attack_damage / 5
+        self.damage = robot.attack_damage * 0.5
 
         self.start = robot   # the start of the riccochet
         self.me = robot      # the current holder of the debuff
         self.x = robot.x     # position of the ricochet
         self.y = robot.y
-        self.jumps = 7
-        self.range = 300
-        self.tick = int(SECOND/3)  # makes smth every tick
+        self.jumps = 3
+        self.range = 250
+        self.tick = int(SECOND/4)  # makes smth every tick
         self.enemies = enemies
         random.shuffle(self.enemies)
         self.enemies_copy = enemies.copy()
@@ -328,7 +328,7 @@ class Ricochet_Debuff(Effect):
 
 class Slow_DebuffPlayer(Effect):
 
-    def __init__(self, duration=2*SECOND, factor=0.5):
+    def __init__(self, duration=0.3*SECOND, factor=0.25):
         self.ttl_max = duration
         self.ttl_current = duration
         self.factor = factor
@@ -351,6 +351,9 @@ class Slow_DebuffPlayer(Effect):
         # TTL runterzählen
         self.ttl_current -= 1
 
+    def refresh(self):
+        self.ttl_current = self.ttl_max
+
     def get_icon(self):
         return Textures.SLOW_ICON_STATUS
     
@@ -359,10 +362,10 @@ class Slow_DebuffPlayer(Effect):
 class Relic_RangeBuff(Effect):
 
     def __init__(self):
-        self.ttl_max = 3 * SECOND
+        self.ttl_max = 2 * SECOND
         self.ttl_current = self.ttl_max
         self.in_use = False        
-        self.range_flat = 10
+        self.range_flat = 25
         self.range_buff = 0
 
 
@@ -391,9 +394,11 @@ class Relic_RangeBuff(Effect):
 
 
     # repeats the range buff, resets ttl
-    def repeat(self, robot):
+    def repeat(self, robot, max_range = 200):
         print("range buff repeated")
         self.ttl_current = self.ttl_max
+        if self.range_buff >= max_range:
+            return
         robot.attack_radius += self.range_flat
         self.range_buff += self.range_flat
 
@@ -409,7 +414,7 @@ class Swordmaster_AttackspeedBuff(Effect):
         self.ttl_max = b             #attackspeed-buff for b attacks; !!! this is not a classic ttl, name because compatibility
         self.ttl_current = self.ttl_max           
         self.in_use = False        
-        self.attackspeed_factor = 3   
+        self.attackspeed_factor = 2.5
         self.attackspeed_buff = 0   #initiated in apply_to()
 
 
@@ -425,8 +430,7 @@ class Swordmaster_AttackspeedBuff(Effect):
                 self.attackspeed_buff = robot.attack_cooldown / self.attackspeed_factor
                 self.attackspeed_buff *= self.attackspeed_factor-1
                 robot.attack_cooldown -= self.attackspeed_buff
-                self.in_use = True 
-                print("as buff initially applied; new att-cd: " + str(robot.attack_cooldown))
+                self.in_use = True
                 return
             else:
                 return        
