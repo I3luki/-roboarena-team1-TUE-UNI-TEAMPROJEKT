@@ -78,7 +78,7 @@ class Enemy:
             # Suche damit Position, die nicht mit einer Wand kollidiert
             temp_aabb = AABB(x - self.radius, y - self.radius,
                              x + self.radius, y + self.radius)
-            if any(temp_aabb.check_collision(wall.aabb) for wall in self.arena.walls):
+            if any(temp_aabb.check_collision(obstacle.aabb) for obstacle in self.arena.all_obstacles):
                 continue
 
             break

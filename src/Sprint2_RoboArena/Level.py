@@ -21,6 +21,9 @@ class Level:
         self.x = screen.get_width() - 270
         self.y = 10
 
+        # sound played on lvlup
+        self.sound = pygame.mixer.Sound("SFX/lvlup-1.mp3")
+
 
     
     def collect_orb(self, buff_manager, game, xp_value):
@@ -36,6 +39,8 @@ class Level:
 
     def level_up(self, buff_manager, game):
 
+        self.sound.play()
+
         self.current_level += 1
         game.score += 1
         # nächstes Level braucht mehr XP
@@ -45,7 +50,6 @@ class Level:
         self.current_xp = 0
 
         #Buffmanger aufrufen
-
         buff_manager.generate_choices(game)
 
     # Zeichnet die Anzeige
@@ -90,5 +94,5 @@ class Level:
         )
     def reset(self):
         self.current_level=1
-        self.current_orbs = 0
-        self.orbs_needed = 2
+        self.current_xp = 0
+        self.xp_needed = 2

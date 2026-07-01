@@ -1,5 +1,6 @@
 import pygame
 import math
+import random
 
 from Collision import AABB
 from Relics import Relics  
@@ -85,6 +86,19 @@ class Robot:
                 "up": grid_run[3]
             }
         }
+
+        # SFX
+        sound_weapon_swing_1 = pygame.mixer.Sound("SFX/player_weapon_swing_1.mp3")
+        sound_weapon_swing_2 = pygame.mixer.Sound("SFX/player_weapon_swing_2.mp3")
+        sound_weapon_swing_3 = pygame.mixer.Sound("SFX/player_weapon_swing_3.mp3")
+        sound_weapon_swing_4 = pygame.mixer.Sound("SFX/player_weapon_swing_4.mp3")
+        sound_weapon_swing_5 = pygame.mixer.Sound("SFX/player_weapon_swing_5.mp3")
+        self.sounds_weapon_swing = [sound_weapon_swing_1,
+                                    sound_weapon_swing_2,
+                                    sound_weapon_swing_3,
+                                    sound_weapon_swing_4,
+                                    sound_weapon_swing_5]
+
 
     
 
@@ -206,41 +220,60 @@ class Robot:
             or self.collides_with_center_normal() or self.collides_with_center_dead() or self.collides_with_center_palm() or self.collides_with_center_fir()
 
 
-
+    # Neue Bewegungsmethode.
+    # Bugfixx: Durch den Speed-Buff wurde der Abstand zu Wänden größer, da der Spieler pro Frame zu große Schritte machte.
+    # Die Bewegung erfolgt nun schrittweise für eine genauere Kollisionserkennung.
     def move(self, keys):
         self.is_moving = False
 
+        dx = 0
+        dy = 0
+
         if keys[pygame.K_w] or keys[pygame.K_UP]:
-            self.y -= self.speed_current
-            self.is_moving = True
-            self.update_aabb()
-            if self.is_blocked():
-                self.y += self.speed_current
-                self.update_aabb()
-
+            dy -= self.speed_current
         if keys[pygame.K_s] or keys[pygame.K_DOWN]:
-            self.y += self.speed_current
-            self.is_moving = True
-            self.update_aabb()
-            if self.is_blocked():
-                self.y -= self.speed_current
-                self.update_aabb()
-
+            dy += self.speed_current
         if keys[pygame.K_a] or keys[pygame.K_LEFT]:
-            self.x -= self.speed_current
-            self.is_moving = True
-            self.update_aabb()
-            if self.is_blocked():
-                self.x += self.speed_current
-                self.update_aabb()
-
+            dx -= self.speed_current
         if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
-            self.x += self.speed_current
+            dx += self.speed_current
+
+        if dx != 0 or dy != 0:
             self.is_moving = True
+
+        # X-Richtung
+        remaining = abs(dx)
+        direction = 1 if dx > 0 else -1
+
+        while remaining > 0:
+            step = min(1, remaining)
+
+            self.x += direction * step
             self.update_aabb()
+
             if self.is_blocked():
-                self.x -= self.speed_current
+                self.x -= direction * step
                 self.update_aabb()
+                break
+
+            remaining -= step
+
+        # Y-Richtung
+        remaining = abs(dy)
+        direction = 1 if dy > 0 else -1
+
+        while remaining > 0:
+            step = min(1, remaining)
+
+            self.y += direction * step
+            self.update_aabb()
+
+            if self.is_blocked():
+                self.y -= direction * step
+                self.update_aabb()
+                break
+
+            remaining -= step
 
 
     # add a status effect to the robot
@@ -484,25 +517,6 @@ class Robot:
         )
         self.screen.blit(current_image, rect.topleft)
 
-        # Wenn Angriff aktiv ist, zeichne Kegel-Umriss
-        if self.is_attacking:
-            cx = x_screen + self.width / 2
-            cy = y_screen + self.height / 2
-            angle_rad = math.radians(self.angle)
-            half_rad = math.radians(self.cone_half_angle)
-            num_arc_points = 10
-            points = [(cx, cy)]
-
-            for i in range(num_arc_points + 1):
-                a = angle_rad - half_rad + (2 * half_rad * i / num_arc_points)
-                points.append((
-                    cx + math.cos(a) * self.attack_radius,
-                    cy - math.sin(a) * self.attack_radius
-                ))
-
-            # FIX: Die "2" am Ende sorgt dafür, dass nur die Outline mit 2 Pixel Dicke gezeichnet wird
-            pygame.draw.polygon(self.screen, (255, 0, 0), points, 2)
-
     # "Zeichnet AAB-Kollisionbox"
     def draw_aabb(self):
         # berechne screen Koordinaten mit Kreis Offset
@@ -572,7 +586,11 @@ class Robot:
 
             self.relics.on_attack(enemies)
             self.relics.update_on_attack()
-            
+
+            # play sword swing sound
+            sound = random.choice(self.sounds_weapon_swing)
+            sound.set_volume(0.2)
+            sound.play()
 
             for enemy in enemies:
                 dx = enemy.x - (self.x + self.width / 2)

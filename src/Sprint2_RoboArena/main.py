@@ -53,6 +53,8 @@ def update():
             orb_list.remove(orb)
 
 
+
+
 # Zeichne alles
 def draw():
     screen.fill((0, 0, 0))
@@ -88,7 +90,7 @@ def test_mode():
         arena.draw_aabb()
 
         # Konsolenausgaben
-        print(robot.status_effects)
+
 
 
 
