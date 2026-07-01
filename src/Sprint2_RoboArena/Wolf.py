@@ -8,17 +8,17 @@ from Textures import Textures
 class Wolf(Enemy):
 
     def __init__(self, arena, x, y, wave, is_boss=False):
-        health = 100 + wave * 20
-        damage = 1 + wave * 3
+        health = 50 + wave * 15
+        damage = 6 + wave * 2
         self.is_boss=is_boss
         if self.is_boss:
             health *= 5
-            damage *= 2
+            damage *= 1.5
 
         super().__init__(arena, x, y, health, damage)
 
-        self.speed = 3
-        self.damage_radius = 50
+        self.speed = 3.8
+        self.damage_radius = 45
 
         # Walk Animation
         self.walk_frames_original = Textures.WOLF_WALK_ANIMATION[0]
@@ -66,8 +66,8 @@ class Wolf(Enemy):
         # === DASH ALS SPEED-BUFF ===
         self.dash_range = 250
         self.dash_speed_multiplier = 4.0
-        self.dash_duration = 0.4
-        self.dash_cooldown = 5.0
+        self.dash_duration = 0.3
+        self.dash_cooldown = 6.0
 
         self.is_dashing = False
         self.dash_timer = 0.0

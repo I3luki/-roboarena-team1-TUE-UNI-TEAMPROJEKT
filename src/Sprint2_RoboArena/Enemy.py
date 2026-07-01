@@ -27,7 +27,9 @@ class Enemy:
         self.status_effects = []
         self.color= (0,128,0)
 
-    #Spieler bekommt schaden wenn er im gewissen radius zum Turret ist.
+        # --- Angriffs-Cooldown ---
+        self.last_damage_time = 0
+        self.damage_cooldown = 1000
 
     #Spieler bekommt schaden wenn er im gewissen radius zum Turret ist.
     def check_damage_player(self, robot, health):
@@ -38,8 +40,11 @@ class Enemy:
 
         distance = math.hypot(dx, dy)
 
-        if distance <self.damage_radius:
-          health.take_damage(self.damage)
+        if distance < self.damage_radius:
+            current_time = pygame.time.get_ticks()
+            if current_time - self.last_damage_time > self.damage_cooldown:
+                health.take_damage(self.damage)
+                self.last_damage_time = current_time
 
     def draw_line_enemy(self,robot):
         # konvertiere zu screen-Koordinaten
@@ -132,14 +137,12 @@ class Enemy:
 
     # update_status_effects(): "update the status_list and remove timed-out status_effects"
     def update_status_effects(self):
-
+        still_active_effects = []
         for effect in self.status_effects:
             effect.apply_to(self)
-        
-        for effect in self.status_effects:
-            effect.apply_to(self)
-            if effect.ttl_current < 0:
-                self.status_effects.remove(effect)
+            if effect.ttl_current >= 0:
+                still_active_effects.append(effect)
+        self.status_effects = still_active_effects
 
     # Update Enemy Movement zum Spieler
     def update(self, robot, budget_available):

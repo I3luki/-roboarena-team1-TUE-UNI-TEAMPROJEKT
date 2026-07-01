@@ -125,6 +125,7 @@ class Jingu_Bang:
         self.robot = robot
         self.cooldown = 1   # every attack
         self.count = self.cooldown
+        self.MAX_RANGE = 150
 
     def on_hit(self, enemy, enemies):
         # gebe Spieler range Buff
@@ -134,7 +135,7 @@ class Jingu_Bang:
             # wenn der status effekt schon teil von spieler, erneuere durch repeat
             for effect in self.robot.status_effects:
                 if isinstance(effect, Relic_RangeBuff):
-                    effect.repeat(self.robot)
+                    effect.repeat(self.robot, self.MAX_RANGE)
                     return
             # wenn status effekt noch nicht teil von spieler ist
             self.robot.status_effects.append(Relic_RangeBuff())
