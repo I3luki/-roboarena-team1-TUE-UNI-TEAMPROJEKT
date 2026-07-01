@@ -30,6 +30,8 @@ Folgende Objekte haben Texturen erhalten:
 - Speed,Healing,Question-Tiles haben darüber fliegende Icons bekommen
 - Orbs haben Texturen erhalten
 
+Texturen sind von Craftpix.net
+
 (Zufällig ausgewählte Texturen heißt: Jedes mal wenn man das Spiel neu lädt, werden aus ausgewählten Texturen zufällig welche gewählt, sodass die Map immer etwas anders aussieht.
 Die ist vor allem in der Wüste und in der Stein-Region zu sehen.  
 Die Objekte haben außerdem jeweils ihre eigenen Hitboxen angepasst bekommen, sodass diese realistisch sind.  
