@@ -17,6 +17,7 @@ from Screens.StartScreen import StartScreen
 from Textures import Textures
 from Arena1 import ArenaLabyrinth
 from Screens.MapSelectScreen import MapSelectScreen
+from Music import Music
 
 
 TEST_MODE = False    # TESTMODE: wenn true, dann ist testmodus an
@@ -40,6 +41,7 @@ def update():
     # Aren-Updates
     arena.update(robot, health)
 
+
     # Updated Liste an Gegner (Gegner die am Leben sind, Path von Gegner zu Spieler)
     enemy_manager.update(robot, orb_list, arena)
     wave_manager.update()
@@ -52,8 +54,6 @@ def update():
         if robot.aabb.check_collision(orb.aabb):
             level.collect_orb(buff_manager, game, orb.xp_value)
             orb_list.remove(orb)
-
-
 
 
 # Zeichne alles
@@ -76,6 +76,7 @@ def draw():
 
     buff_manager.draw(screen)
 
+
 # Testmodus
 # "visualisiert ausgewählte hintergrundberechnungen und andere testbedingte werte"
 def test_mode():
@@ -91,12 +92,18 @@ def test_mode():
         arena.draw_aabb()
 
         # Konsolenausgaben
-
+        print(robot.status_effects)
 
 
 
 
 # -------------------------------------------------------------------- INITIATION ------------
+pygame.mixer.pre_init(
+    frequency=44100,
+    size=-16,
+    channels=2,
+    buffer=8192
+)
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("RoboArena")
@@ -142,10 +149,6 @@ def create_game(selected_map):
     arena.camera.x = robot.x
     arena.camera.y = robot.y
 
-    '''orb_list = [
-        Orb(arena, 0, 0, Textures.ORB_ICON),
-        Orb(arena, 0, 0, Textures.ORB_ICON)
-    ]''' #finde starting orbs bissle random brauchen wir die überhaupt?
 
     for orb in orb_list:
         orb.randomize_position()
@@ -183,9 +186,11 @@ shop_screen = ShopScreen(screen)
 #lezt ausgewählte map merken
 last_selected_map = None
 
+music = Music(game)
+
 # -------------------------------------------------------------------- GAME LOOP ------------
 while True:
-
+    music.update()
     # -------------------- EVENTS --------------------
     for event in pygame.event.get():
 
