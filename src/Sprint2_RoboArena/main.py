@@ -13,6 +13,7 @@ from Screens.MainMenu import MainMenu
 from Screens.PauseMenu import PauseMenu
 from Screens.StatsScreen import StatsScreen
 from Screens.ShopScreen import ShopScreen
+from Screens.StartScreen import StartScreen
 from Textures import Textures
 from Arena1 import ArenaLabyrinth
 from Screens.MapSelectScreen import MapSelectScreen
@@ -111,7 +112,7 @@ clock = pygame.time.Clock()
 Textures.load_all()
 
 # Lebens-System:
-health = HealthSystem_Player(screen, max_health=1000, bar_x=10, bar_y=10, bar_width=400, bar_height=25)
+health = HealthSystem_Player(screen, max_health=100, bar_x=10, bar_y=10, bar_width=400, bar_height=25)
 # Stamina-System:
 stamina = StaminaSystem_Player(screen, max_stamina=100, bar_x=10, bar_y=40, bar_width=400, bar_height=25)
 # Level-system
@@ -143,6 +144,7 @@ def create_game(selected_map):
         arena.player_spawn[0],
         arena.player_spawn[1]
     )
+    game.apply_permanent_upgrades(robot, health)
 
     arena.camera.x = robot.x
     arena.camera.y = robot.y
@@ -171,8 +173,10 @@ game = GameManager()
 
 #Hauptmeunü
 main_menu = MainMenu(screen)
+#Startscreen
+start_screen = StartScreen(screen)
 
-game.state = "MENU"
+game.state = "START_SCREEN"
 #Pausemenü
 pause_menu = PauseMenu(screen)
 #stats
@@ -194,7 +198,10 @@ while True:
             pygame.quit()
             exit()
 
-        if game.state == "MENU":
+        if game.state == "START_SCREEN":
+            start_screen.handle_event(event, game)
+
+        elif game.state == "MENU":
             main_menu.handle_event(event, game)
 
         elif game.state == "STATS":
@@ -251,7 +258,12 @@ while True:
                 buff_manager.apply_buff(2, robot, health)
 
     #draws der Menüs
-    if game.state == "MENU":
+    if game.state == "START_SCREEN":
+
+        start_screen.update()
+        start_screen.draw()
+
+    elif game.state == "MENU":
 
         main_menu.draw()
     elif game.state == "PLAYING":

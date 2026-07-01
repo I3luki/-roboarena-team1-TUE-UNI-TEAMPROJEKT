@@ -64,7 +64,7 @@ class WaveManager:
 
             self.enemy_manager.enemies[-1].randomize_position()
         # Alle 5 Waves einen Boss spawnen
-        if self.current_wave % 5 == 0:
+        if self.current_wave % 10 == 0:
             self.spawn_boss()
 
     def update(self):

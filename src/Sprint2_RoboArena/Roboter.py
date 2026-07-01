@@ -307,7 +307,7 @@ class Robot:
 
     # resets speed and status-effect-list
     def reset(self):
-        self.speed_current = self.default_speed_base
+        self.speed_base = self.default_speed_base
         self.speed_current = self.default_speed_current
 
         self.attack_radius = self.default_attack_radius
