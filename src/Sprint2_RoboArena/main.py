@@ -68,7 +68,7 @@ def draw():
     enemy_manager.draw()
 
     health.draw()
-    stamina.draw()
+    #stamina.draw()
     level.draw()
 
     if game.state == "GAME_OVER":
