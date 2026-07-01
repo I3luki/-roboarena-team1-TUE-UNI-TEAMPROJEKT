@@ -44,12 +44,12 @@ Die meisten Objekte haben außerdem einen Effekt erhalten, sodass der Spieler hi
 
 
 Nach dem Hinzufügen von Gegnerarten, habe ich den Gegnern Animationen für Laufen und Sterben gegeben (Goblin, Wolf, Slime, Biene).  
-<img width="400" height="398" alt="Ohne Titel" src="https://github.com/user-attachments/assets/70955cb9-5b80-45d3-87a9-b4fab1f5f55e" />
-
 
 Der Kegelangriff des Spielers wurde dann von einem umherschwingenden Schwert ausgetauscht. Das Schwert schwingt in einem 45° Winkel periodisch nach rechts/links.  
 Das Schwingen skaliert mit der Angriffsgeschwindigkeit.  
 Die Schwergröße skaliert mit der Angriffsreichweite.  
+
+<img width="400" height="398" alt="Ohne Titel" src="https://github.com/user-attachments/assets/29cdfc0c-3041-434a-8115-50a9ea156d6d" />
 
 Ich habe einen Bug gefixed, wo Gegner in Objekten spawnen und sich dadurch nicht bewegen können.  
 
