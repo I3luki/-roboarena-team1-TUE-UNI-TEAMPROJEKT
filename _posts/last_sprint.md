@@ -34,8 +34,17 @@ Folgende Objekte haben Texturen erhalten:
 Die ist vor allem in der Wüste und in der Stein-Region zu sehen.  
 Die Objekte haben außerdem jeweils ihre eigenen Hitboxen angepasst bekommen, sodass diese realistisch sind.  
 Die meisten Objekte haben außerdem einen Effekt erhalten, sodass der Spieler hinter den Objekten verschwindet. Das soll das Spiel etwas räumlicher wirken lassen.  
+<img width="906" height="846" alt="image" src="https://github.com/user-attachments/assets/067b5f96-7085-4a4d-9349-9c86700541e4" />
+<img width="995" height="1003" alt="image" src="https://github.com/user-attachments/assets/e0176d01-8b11-4f12-862e-7c1af9a3cf07" />
+<img width="998" height="998" alt="image" src="https://github.com/user-attachments/assets/3e2fe74a-a8a1-4cf4-ad1b-9f2760f907a1" />
+<img width="995" height="999" alt="image" src="https://github.com/user-attachments/assets/6783f9f8-9039-4b86-9585-e9bd009a6170" />
+<img width="984" height="923" alt="image" src="https://github.com/user-attachments/assets/56384a6d-6f65-4301-b990-6502be804954" />
+
 
 Nach dem Hinzufügen von Gegnerarten, habe ich den Gegnern Animationen für Laufen und Sterben gegeben (Goblin, Wolf, Slime, Biene).  
+<img width="600" height="370" alt="Free-Field-Enemies-Pixel-Art-for-Tower-Defense" src="https://github.com/user-attachments/assets/ec8449d2-43ca-47b3-a0e2-cdf0a1db2b5d" />
+
+
 
 Der Kegelangriff des Spielers wurde dann von einem umherschwingenden Schwert ausgetauscht. Das Schwert schwingt in einem 45° Winkel periodisch nach rechts/links.  
 Das Schwingen skaliert mit der Angriffsgeschwindigkeit.  
