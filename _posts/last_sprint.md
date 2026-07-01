@@ -42,8 +42,7 @@ Die meisten Objekte haben außerdem einen Effekt erhalten, sodass der Spieler hi
 
 
 Nach dem Hinzufügen von Gegnerarten, habe ich den Gegnern Animationen für Laufen und Sterben gegeben (Goblin, Wolf, Slime, Biene).  
-<img width="600" height="370" alt="Free-Field-Enemies-Pixel-Art-for-Tower-Defense" src="https://github.com/user-attachments/assets/ec8449d2-43ca-47b3-a0e2-cdf0a1db2b5d" />
-
+<img width="400" height="398" alt="Ohne Titel" src="https://github.com/user-attachments/assets/70955cb9-5b80-45d3-87a9-b4fab1f5f55e" />
 
 
 Der Kegelangriff des Spielers wurde dann von einem umherschwingenden Schwert ausgetauscht. Das Schwert schwingt in einem 45° Winkel periodisch nach rechts/links.  
