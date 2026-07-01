@@ -234,29 +234,45 @@ class Arena:
         #   a tile is (x,y)
         self.tiles = [
 
-            #Tile Labyrinth
-            Healthtile(self, 200, 100),
-            Healthtile(self, 1200, 430),
+            # --- Labyrinth (oben links): 2x Heil, 2x Speed, 2x Fragezeichen ---
+            Healthtile(self, 150, 150),
+            Healthtile(self, 1200, 200),
 
             Speedtile(self, 200, 1000),
-            Speedtile(self,1000,100),
-            Speedtile(self, 900, 1200),
+            Speedtile(self, 1000, 600),
 
-            Surprisetile(self, 500,500),
-            Surprisetile(self, 800,900),
+            Surprisetile(self, 500, 500),
+            Surprisetile(self, 800, 900),
 
-            #Tiles wüste
-            Speedtile(self, 250, 1700),
-            Speedtile(self, 700, 2100),
-            Speedtile(self, 1200, 2600),
+            # --- Blitzland (oben rechts): 2x Heil, 2x Speed, 2x Fragezeichen ---
+            Healthtile(self, 1700, 200),
+            Healthtile(self, 2500, 1000),
 
-            Healthtile(self, 500, 1900),
-            Healthtile(self, 950, 2300),
+            Speedtile(self, 1700, 1000),
+            Speedtile(self, 2500, 200),
+
+            Surprisetile(self, 2000, 600),
+            Surprisetile(self, 2700, 800),
+
+            # --- Wüste (unten links): 2x Heil, 2x Speed, 2x Fragezeichen ---
+            Healthtile(self, 600, 1900),
             Healthtile(self, 300, 2750),
+
+            Speedtile(self, 250, 1900),
+            Speedtile(self, 1200, 2600),
 
             Surprisetile(self, 800, 1800),
             Surprisetile(self, 1100, 2000),
-            Surprisetile(self, 600, 2500),
+
+            # --- Rockland (unten rechts): 2x Heil, 2x Speed, 2x Fragezeichen ---
+            Healthtile(self, 1800, 1600),
+            Healthtile(self, 2800, 1600),
+
+            Speedtile(self, 1600, 2800),
+            Speedtile(self, 2800, 1800),
+
+            Surprisetile(self, 2400, 1800),
+            Surprisetile(self, 1800, 2800),
         ]
 
         #Lighting Tiles Anzahl
@@ -339,7 +355,7 @@ class Arena:
 
 
 
-    #Update Methode für Tornado 
+    #Update Methode für Tornado
     def update_tornado(self, robot, health):
         self.tornado.update(robot, health)
 
