@@ -6,12 +6,12 @@ from Textures import Textures
 class Goblin(Enemy):
 
     def __init__(self, arena, x, y, wave, is_boss):
-        health = 50 + wave * 20
-        damage = 1 + wave * 2
+        health = 35 + wave * 12
+        damage = 4 + wave * 1.5
         self.is_boss = is_boss
         if self.is_boss:
             health *=5
-            damage *=2
+            damage *=1.5
         super().__init__(arena, x, y, health, damage)
 
         # Walk Animation (Original-Frames für Neuskalierung speichern)
@@ -68,9 +68,9 @@ class Goblin(Enemy):
         self.normal_speed_current = self.speed_current
         self.normal_damage_radius = self.damage_radius
 
-        self.berserker_damage_multiplier = 1.5
-        self.berserker_speed_multiplier = 2
-        self.berserker_size_multiplier = 2
+        self.berserker_damage_multiplier = 1.3
+        self.berserker_speed_multiplier = 1.5
+        self.berserker_size_multiplier = 1.5
 
     def _rescale_frames(self, frames_original, scale):
         """Skaliert Frames mit dem gleichen Prinzip wie animation_scaling."""

@@ -33,11 +33,11 @@ class Robot:
         self.attack_visible_until = 0
         self.cone_half_angle = 45
         #Ausgangs werte
-        self.default_speed_base = 5
-        self.default_speed_current = 5
-        self.default_attack_radius = 200    # Ändert Attack Reichweite
-        self.default_attack_damage = 40
-        self.default_attack_cooldown = 1000
+        self.default_speed_base = 4.5
+        self.default_speed_current = 4.5
+        self.default_attack_radius = 180    # Ändert Attack Reichweite
+        self.default_attack_damage = 35
+        self.default_attack_cooldown = 800
         self.is_moving = False
         self.facing = "down"
         self.current_frame = 0
@@ -277,7 +277,14 @@ class Robot:
 
 
     # add a status effect to the robot
-    def add_status_effect(self, effect):        
+    def add_status_effect(self, effect):
+        for existing_effect in self.status_effects:
+            if isinstance(existing_effect, type(effect)):
+                if hasattr(existing_effect, 'refresh'):
+                    existing_effect.refresh()
+                else:
+                    existing_effect.ttl_current = existing_effect.ttl_max
+                return
         # if not already effective add to status_effects
         self.status_effects.append(effect)
 
@@ -291,18 +298,19 @@ class Robot:
     #   - checks for effect_tiles
     #   - applies effects and removes status_effects with ttl < 0
     def update_status_effects(self):
-
         # check for effect tiles and apply if colliding
-        #   does not apply_to makes sure effect doesnt get applied when tile on cooldown
         for tile in self.arena.tiles:
             if self.aabb.check_collision(tile.aabb):
                 tile.apply_to(self)
 
-        # update the status_list and remove timed-out status_effects
+        still_active_effects = []
         for status_effect in self.status_effects:
             status_effect.apply_to(self)
-            if status_effect.ttl_current < 0:
-                self.status_effects.remove(status_effect)
+            # Nur Effekte behalten, die noch nicht abgelaufen sind
+            if status_effect.ttl_current >= 0:
+                still_active_effects.append(status_effect)
+
+        self.status_effects = still_active_effects
             
 
     # resets speed and status-effect-list

@@ -5,22 +5,16 @@ import pygame
 class Level:
 
     def __init__(self, screen):
-
         self.screen = screen
-
         self.current_level = 1
-
         # aktuelle eingesammelte Orbs im aktuellen Level
         self.current_xp = 0
-
         # benötigte Orbs fürs nächste Level
-        self.xp_needed = 5
-
+        self.base_xp_needed = 10 # XP Startwert
+        self.xp_needed = self.base_xp_needed
         self.font = pygame.font.SysFont(None, 36)
-
         self.x = screen.get_width() - 270
         self.y = 10
-
         # sound played on lvlup
         self.sound = pygame.mixer.Sound("SFX/lvlup-1.mp3")
 
@@ -40,16 +34,17 @@ class Level:
     def level_up(self, buff_manager, game):
 
         self.sound.play()
-
         self.current_level += 1
         game.score += 1
-        # nächstes Level braucht mehr XP
-        self.xp_needed += 5
 
-        # Fortschritt zurücksetzen
-        self.current_xp = 0
+        # Überschüssige XP in das nächste Level mitnehmen!
+        remainder = self.current_xp - self.xp_needed
+        self.current_xp = max(0, remainder)
 
-        #Buffmanger aufrufen
+        # --- DYNAMISCHE XP-KURVE ---
+        # Level 2 braucht 15, Level 5 braucht 33, Level 10 braucht 88...
+        self.xp_needed = int(self.base_xp_needed * (self.current_level ** 1.35))
+
         buff_manager.generate_choices(game)
 
     # Zeichnet die Anzeige
@@ -95,4 +90,4 @@ class Level:
     def reset(self):
         self.current_level=1
         self.current_xp = 0
-        self.xp_needed = 2
+        self.xp_needed = self.base_xp_needed

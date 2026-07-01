@@ -104,7 +104,7 @@ clock = pygame.time.Clock()
 Textures.load_all()
 
 # Lebens-System:
-health = HealthSystem_Player(screen, max_health=1000, bar_x=10, bar_y=10, bar_width=400, bar_height=25)
+health = HealthSystem_Player(screen, max_health=100, bar_x=10, bar_y=10, bar_width=400, bar_height=25)
 # Stamina-System:
 stamina = StaminaSystem_Player(screen, max_stamina=100, bar_x=10, bar_y=40, bar_width=400, bar_height=25)
 # Level-system

@@ -8,14 +8,14 @@ import pygame
 class Slime(Enemy):
 
     def __init__(self, arena, x, y, wave):
-        health = 150 + wave * 30
+        health = 70 + wave * 20
         super().__init__(arena, x, y, health, 0)
 
         self.color = (0, 200, 255)
-        self.speed = 0.5
+        self.speed = 1
         self.slow_cooldown = 0
-        self.slow_cooldown_max = 5 * 60
-        self.damage_radius = 70 + 2 * wave
+        self.slow_cooldown_max = 0.5 * 60
+        self.damage_radius = 60
 
         # Walk Animation
         self.walk_frames = Textures.SLIME_WALK_ANIMATION[0]
@@ -75,7 +75,7 @@ class Slime(Enemy):
         distance = math.hypot(dx, dy)
 
         if distance < self.damage_radius:
-            robot.add_status_effect(Slow_DebuffPlayer(5 * 60, 0.2))
+            robot.add_status_effect(Slow_DebuffPlayer(0.5 * 60, 0.5))
             self.slow_cooldown = self.slow_cooldown_max
 
     def draw(self):
