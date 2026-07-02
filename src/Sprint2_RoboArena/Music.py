@@ -17,18 +17,18 @@ class Music:
         state = self.game.state
 
         if state == "START_SCREEN" and self.current_music != state:
-            self.load_music("Music/Mainmenu-1.mp3", state, 0.5)
+            self.load_music("Music/startscreen-1.wav", state, 0.5)
 
         # Main Menu Music
         if state == "MENU" and self.current_music != state:
-            self.load_music("Music/Mainmenu-1.mp3", state, 0.5)
+            self.load_music("Music/Mainmenu-1.wav", state, 0.5)
 
         # Ingame Music
         if state == "PLAYING" and self.current_music != state:
-            self.load_music("Music/Ingame-1.mp3", state, 0.5)
+            self.load_music("Music/Ingame-1.wav", state, 0.5)
 
         if state == "GAME_OVER" and self.current_music != state:
-            self.load_music("Music/Death-1.mp3", state, 1.0)
+            self.load_music("Music/Death-1.wav", state, 1.0)
 
         
 

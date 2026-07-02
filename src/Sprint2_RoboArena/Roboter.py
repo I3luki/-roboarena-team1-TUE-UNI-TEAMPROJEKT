@@ -87,11 +87,11 @@ class Robot:
         }
 
         # SFX
-        sound_weapon_swing_1 = pygame.mixer.Sound("SFX/player_weapon_swing_1.mp3")
-        sound_weapon_swing_2 = pygame.mixer.Sound("SFX/player_weapon_swing_2.mp3")
-        sound_weapon_swing_3 = pygame.mixer.Sound("SFX/player_weapon_swing_3.mp3")
-        sound_weapon_swing_4 = pygame.mixer.Sound("SFX/player_weapon_swing_4.mp3")
-        sound_weapon_swing_5 = pygame.mixer.Sound("SFX/player_weapon_swing_5.mp3")
+        sound_weapon_swing_1 = pygame.mixer.Sound("SFX/player_weapon_swing_1.wav")
+        sound_weapon_swing_2 = pygame.mixer.Sound("SFX/player_weapon_swing_2.wav")
+        sound_weapon_swing_3 = pygame.mixer.Sound("SFX/player_weapon_swing_3.wav")
+        sound_weapon_swing_4 = pygame.mixer.Sound("SFX/player_weapon_swing_4.wav")
+        sound_weapon_swing_5 = pygame.mixer.Sound("SFX/player_weapon_swing_5.wav")
         self.sounds_weapon_swing = [sound_weapon_swing_1,
                                     sound_weapon_swing_2,
                                     sound_weapon_swing_3,

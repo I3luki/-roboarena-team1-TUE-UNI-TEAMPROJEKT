@@ -102,7 +102,7 @@ pygame.mixer.pre_init(
     frequency=44100,
     size=-16,
     channels=2,
-    buffer=16384
+    buffer=256
 )
 pygame.init()
 print(pygame.mixer.get_init())
