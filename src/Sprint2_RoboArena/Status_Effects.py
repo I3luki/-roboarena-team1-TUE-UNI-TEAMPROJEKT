@@ -415,34 +415,34 @@ class Swordmaster_AttackspeedBuff(Effect):
         self.ttl_max = b             #attackspeed-buff for b attacks; !!! this is not a classic ttl, name because compatibility
         self.ttl_current = self.ttl_max           
         self.in_use = False        
-        self.attackspeed_factor = 2.5
+        self.attackspeed_factor = 2
         self.attackspeed_buff = 0   #initiated in apply_to()
 
 
-
-    # applies the range
+    # applies the buff
     def apply_to(self, robot):
 
         # Initial Application of the Buff
         if(not self.in_use):
-
+            print("swordmaster initial apply_to with ttl:  " + str(self.ttl_current))#TODO: delete after testing
             # apply buff on Initiation
             if(self.ttl_current > 0):
                 self.attackspeed_buff = robot.attack_cooldown / self.attackspeed_factor
-                self.attackspeed_buff *= self.attackspeed_factor-1
+                self.attackspeed_buff = robot.attack_cooldown - self.attackspeed_buff
                 robot.attack_cooldown -= self.attackspeed_buff
                 self.in_use = True
+                print("Swordmaster Buff Applied Attack-CD:  " + str(robot.attack_cooldown))#TODO: delete after testing
                 return
             else:
                 return        
             
         # Revert Buff on TTL=0
-        if(self.ttl_current == 0 and self.in_use):
+        if(self.ttl_current <= 0 and self.in_use):
             robot.attack_cooldown += self.attackspeed_buff
             self.ttl_current -= 1
             print("as-buff reverted, new att-cd: "+str(robot.attack_cooldown))
 
-    def decrease(self):
+    def decrease_on_attack(self):
         self.ttl_current -= 1
 
     def get_icon(self):

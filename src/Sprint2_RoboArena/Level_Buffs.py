@@ -1,5 +1,5 @@
 from Relics import Ice, Ricochet, Jingu_Bang, Swordmaster_Manual, Hermes_Shoe, Devil_Contract_I, Devil_Contract_II
-from Status_Effects import Poison_Debuff
+from Status_Effects import Poison_Debuff, Swordmaster_AttackspeedBuff
 from Textures import Textures
 
 
@@ -169,11 +169,19 @@ class LevelJinguBangRelic:
 
 class LevelSwordmasterManualRelic:
 
+    # some values to sync the description
+    dummy_relic = Swordmaster_Manual(7)
+    dummy_buff = Swordmaster_AttackspeedBuff(7)
+    charge = dummy_relic.charge
+    duration = dummy_relic.duration
+    multiplier = dummy_buff.attackspeed_factor
+
+
     key = "swordmaster_relic"
     shop_locked = True
     cost = 60
     name = "Manual of a forgotten Swordmaster"
-    description = "Every 4th attack the next 3 attacks gain x2 attack-speed."
+    description = f"Every {charge}th attack the next {duration} attacks gain x{multiplier} attack-speed."
     flavor_text = "More Hits equals More ouch!  ~Sun Tzu"
     rarity = EPIC
 
@@ -182,7 +190,7 @@ class LevelSwordmasterManualRelic:
         robot.relics.add(relic)
 
     def get_icon(self):
-        return Swordmaster_Manual(7).get_icon()
+        return self.dummy_relic.get_icon()
 
 
 class LevelHermesShoe:

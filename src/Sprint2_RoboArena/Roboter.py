@@ -5,6 +5,7 @@ import random
 from Collision import AABB
 from Relics import Relics  
 from Textures import load_spritesheet, animation_scaling, Textures
+from Relics import Swordmaster_Manual   #TODO: delete after testing
 
 
 class Robot:
@@ -98,7 +99,12 @@ class Robot:
                                     sound_weapon_swing_4,
                                     sound_weapon_swing_5]
 
-
+        self.relics.add(Swordmaster_Manual(self))
+        self.relics.add(Swordmaster_Manual(self))
+        self.relics.add(Swordmaster_Manual(self))
+        self.relics.add(Swordmaster_Manual(self))
+        self.relics.add(Swordmaster_Manual(self))
+        self.relics.add(Swordmaster_Manual(self))
     
 
     #reset status effekte
@@ -594,6 +600,11 @@ class Robot:
             self.relics.on_attack(enemies)
             self.relics.update_on_attack()
 
+            # use decrease_on_attack status-effects
+            for effect in self.status_effects:
+                if hasattr(effect, "decrease_on_attack"):
+                    effect.decrease_on_attack()
+                    
             # play sword swing sound
             sound = random.choice(self.sounds_weapon_swing)
             sound.set_volume(0.2)

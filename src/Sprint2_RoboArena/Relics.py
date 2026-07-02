@@ -158,22 +158,17 @@ class Swordmaster_Manual:
 
     def __init__(self, robot):
         self.robot = robot
-        self.a = 4      #every a-th attack get buff
-        self.b = 2      #for b-th attacks
-        self.cooldown = self.a + self.b   # every (a+b)th attack apply
-        self.count = self.a
+        self.charge = 4      #every a-th attack get buff
+        self.duration = 3      #for b-th attacks
+        self.cooldown = self.charge + self.duration   # every (a+b)th attack apply
+        self.count = self.cooldown
 
 
     def on_attack(self, enemies):
         # gebe Spieler attack-speed Buff
         if(self.count <= 0):
             # wenn der status effekt schon teil von spieler, erneuere durch repeat
-            self.robot.status_effects.append(Swordmaster_AttackspeedBuff(self.b))
-        # decrease the buff on each attack
-        if (self.count <= self.a):
-            for effect in self.robot.status_effects:
-                if isinstance(effect, Swordmaster_AttackspeedBuff):
-                    effect.decrease()
+            self.robot.status_effects.append(Swordmaster_AttackspeedBuff(self.duration))
 
     def update_on_attack(self):
         if(self.count <= 0):
