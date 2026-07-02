@@ -205,18 +205,22 @@ class LevelHermesShoe:
 
 class LevelDevilContractI:
 
+    attack_multiplier = 1.5
+    radius_multiplier = 0.7
+    maxhealth_multiplier = 0.75
+
     key = "devil_I_relic"
     shop_locked = True
     cost = 40
     name = "Devil's Contract I"
-    description = "-> 1.7xDMG\n-> 0.5xRange\n-> 0.7xMaxHealth\n-> heal full now"
+    description = f"-> {attack_multiplier}x DMG\n-> {radius_multiplier}x Range\n-> {maxhealth_multiplier}x MaxHealth\n-> heal full now"
     flavor_text = "Is it worth it?"
     rarity = RARE
 
     def apply_to(self, robot, health):
-        robot.attack_damage *= 1.5
-        robot.attack_radius *= 0.7
-        health.max_health *= 0.75
+        robot.attack_damage *= self.attack_multiplier
+        robot.attack_radius *= self.radius_multiplier
+        health.max_health *= self.maxhealth_multiplier
         health.current_health = health.max_health
         relic = Devil_Contract_I(robot)
         robot.relics.add(relic)
@@ -227,17 +231,20 @@ class LevelDevilContractI:
 
 class LevelDevilContractII:
 
+    attack_multiplier = 1.6
+    maxhealth_multiplier = 0.85
+
     key = "devil_II_relic"
     shop_locked = True
     cost = 70
     name = "Devil's Contract II"
-    description = "-> 1.7xDMG\n-> 0.8xMaxHealth\n-> get permanantly poisoned\n-> heal on hit based on missing health\n-> heal full now\n"
+    description = f"-> {attack_multiplier}x DMG\n-> {maxhealth_multiplier}x MaxHealth\n-> get permanantly poisoned\n-> heal on hit based on missing health\n-> heal full now\n"
     flavor_text = "YOLO."
     rarity = RARE
 
     def apply_to(self, robot, health):
-        robot.attack_damage *= 1.6
-        health.max_health *= 0.85
+        robot.attack_damage *= self.attack_multiplier
+        health.max_health *= self.maxhealth_multiplier
         health.current_health = health.max_health
         poison = Poison_Debuff(permanent=True)
         robot.status_effects.append(poison)
