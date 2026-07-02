@@ -17,6 +17,7 @@ class WaveManager:
         self.spawn_cooldown = 1000  # Zeit in ms zwischen den Spawns
         self.last_spawn_time = 0
         self.enemy_weights = {}
+        self.font = pygame.font.SysFont(None, 36)
 
     def start_wave(self):
         self.wave_running = True
@@ -117,6 +118,17 @@ class WaveManager:
         )
         self.enemy_manager.enemies[-1].randomize_position()
         print(f"⚠️ BOSS GESPAWNED: {boss_type.upper()} ⚠️")
+
+    def draw_wave_bar(self, screen):
+        is_boss_wave = self.current_wave % 5 == 0
+        text_color = (220, 40, 40) if is_boss_wave else (255, 255, 255)
+
+        text = f"Boss Wave {self.current_wave}" if is_boss_wave else f"Wave {self.current_wave}"
+
+        text_surface = self.font.render(text, True, text_color)
+        text_rect = text_surface.get_rect(center=(1000 // 2, 40))
+
+        screen.blit(text_surface, text_rect)
 
     def reset(self):
         self.current_wave = 1
