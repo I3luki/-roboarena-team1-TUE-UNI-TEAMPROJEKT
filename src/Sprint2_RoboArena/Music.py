@@ -17,7 +17,7 @@ class Music:
         state = self.game.state
 
         if state == "START_SCREEN" and self.current_music != state:
-            self.load_music("Music/Mainmenu-1.mp3", state, 0.5)
+            self.load_music("Music/startscreen-1.mp3", state, 0.5)
 
         # Main Menu Music
         if state == "MENU" and self.current_music != state:
