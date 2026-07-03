@@ -55,8 +55,6 @@ class GameManager:
         self.orbs =  0
 
         # Player reset
-
-        # Player reset
         robot.reset()
         self.apply_permanent_upgrades(robot, health)
         health.current_health = health.max_health
@@ -64,8 +62,7 @@ class GameManager:
         arena.camera.x = robot.x
         arena.camera.y = robot.y
         # Orbs reset
-        for orb in orb_list:
-            orb.randomize_position()
+        orb_list.clear()
 
         # Enemies reset
         wave_manager.reset()
