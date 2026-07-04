@@ -74,3 +74,24 @@ Außerdem habe ich folgende Balance-Changes durchgeführt:
 Dennis(I3luki):
 
 
+Zuerst wurde die Logik für den Surprisetile eingeführt. Diese gibt einen zufälligen Effekt von 3 Effekten (Heilung, Schnelligkeit, Gift). Es stand im Raum der Liste an zufälligen Effekten noch mehr hinzuzufügen, dies wurde bis zum jetzigen Zeitpunkt nicht gemacht.
+
+Weiterhin wurde ein Cooldown für die Tiles eingeführt, welcher auch visuell dargestellt wird. Später wurde ein ähnlicher Effekt auch für Status-Effekte des Spieler eingeführt.
+TODO: VIDEO EINFÜGEN VON COOLDOWN
+
+Um dem Spiel etwas mehr Geschmack zu geben wurden Relikte eingeführt. Diese kann man bei einer LevelUp-Belohnung bekommen. Sie können in 3 verschiedenen Seltenheiten(Common, Rare, Epic) kommen. Initial wurden 2 Relikte eingeführt. Das eine verlangsamt Gegner bei einem Treffer und das andere schickt einen Ricochet Effekt durch nahe Gegner falls es welche in der Nähe gibt.
+Später wurden dann noch Relikte mit folgenden Effekten hinzugefügt:
+- temporäre, stapelbare Reichweite bei Treffern
+- verbesserte Angriffgeschwindigkeit jede x Hiebe für y Hiebe
+- kurzer aber schneller Geschwindigkeitsschub bei Treffern
+- muplipikative Attributsanpassung (1.7x DMG, 0.7x maxHealth, 0.5x Range)
+- Lebensraub basierend auf fehlendem Leben
+
+Für diese Relikte wurden später dann auch Icons eingefügt, so wie die visuelle Seite bei Auswahl der LevelUp-Belohnung überarbeitet.
+TODO: VIDEO EINFÜGEN VON RELIKTEN
+
+Musik und Sounds wurden nach Auswahl mit dem Team eingefügt. Hier gab es Probleme mit WSL die bisher leider nicht gefixt werden konnten. 
+
+Der Rest der Zeit wurde für genaue PR-Reviews so wie viel Refactoring verwendet. Bugfixes nahmen natürlich auch gut Zeit ein. 
+
+----
