@@ -3,6 +3,7 @@ title: "Last Sprint"
 date: 2026-07-01
 ---
 
+---
 Simon:
 Nachdem die Gegnerbewegung hinzugefügt wurde, habe ich eingeführt, dass zwei Gegner jede Sekunde spawnen und max. 10 Gegner gleichzeitig exisiteren können.  
 
@@ -67,3 +68,9 @@ Außerdem habe ich folgende Balance-Changes durchgeführt:
 - Level-Up Power-Ups wurden angepasst
 - Health Tiles Heilung wurde erhöht
 - Speed Tile Geschwindigkeitsboost wurde gesenkt
+
+--- 
+
+Dennis(I3luki):
+
+
