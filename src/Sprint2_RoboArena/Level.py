@@ -10,7 +10,7 @@ class Level:
         # aktuelle eingesammelte Orbs im aktuellen Level
         self.current_xp = 0
         # benötigte Orbs fürs nächste Level
-        self.base_xp_needed = 10 # XP Startwert
+        self.base_xp_needed = 5 # XP Startwert
         self.xp_needed = self.base_xp_needed
         self.font = pygame.font.SysFont(None, 36)
         self.x = screen.get_width() - 270
@@ -43,7 +43,7 @@ class Level:
 
         # --- DYNAMISCHE XP-KURVE ---
         # Level 2 braucht 15, Level 5 braucht 33, Level 10 braucht 88...
-        self.xp_needed = int(self.base_xp_needed * (self.current_level ** 1.35))
+        self.xp_needed = int(self.base_xp_needed * (self.current_level ** 1.15))
 
         buff_manager.generate_choices(game)
 

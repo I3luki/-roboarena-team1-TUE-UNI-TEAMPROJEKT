@@ -16,19 +16,19 @@ class EnemyManager:
         self.orb_drops = {
             Slime: {
                 "texture": Textures.ORB_BLUE,
-                "xp": 3
+                "xp": 6
             },
             Goblin: {
                 "texture": Textures.ORB_ICON,
-                "xp": 5
+                "xp": 10
             },
             Bee: {
                 "texture": Textures.ORB_YELLOW,
-                "xp": 7
+                "xp": 12
             },
             Wolf: {
                 "texture": Textures.ORB_PURPLE,
-                "xp": 10
+                "xp": 15
             }
         }
 
@@ -40,7 +40,7 @@ class EnemyManager:
         orb_count = 1
 
         if hasattr(enemy, "is_boss") and enemy.is_boss:
-            orb_count = 5 #erstmal 5x so viele Orbs gerne auch anpassen
+            orb_count = 10 #erstmal 5x so viele Orbs gerne auch anpassen
 
         for i in range(orb_count):
             new_orb = Orb(arena, enemy.x, enemy.y, orb_texture, orb_xp)
