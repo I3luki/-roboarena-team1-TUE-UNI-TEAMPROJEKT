@@ -26,7 +26,7 @@ class GameManager:
         self.labyrinth_map_cost = 50
                 # Einfach erweiterbar (was wollen wir kills? damage vllt? oder Health lost etc müsste man nur überelgen wie man stats enpfelgt
         # Sounds
-        self.sound_unlock = pygame.mixer.Sound("SFX/buy-1.mp3")
+        self.sound_unlock = pygame.mixer.Sound("SFX/buy-1.wav")
         self.sound_unlock.set_volume(0.5)
 
     def check_game_over(self, health):

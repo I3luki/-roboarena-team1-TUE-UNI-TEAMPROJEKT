@@ -16,7 +16,7 @@ class Level:
         self.x = screen.get_width() - 270
         self.y = 10
         # sound played on lvlup
-        self.sound = pygame.mixer.Sound("SFX/lvlup-1.mp3")
+        self.sound = pygame.mixer.Sound("SFX/lvlup-1.wav")
 
 
     
