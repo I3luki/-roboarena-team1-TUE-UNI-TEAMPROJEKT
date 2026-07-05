@@ -98,6 +98,10 @@ class BuffManager:
         self.active = False
         self.current_choices = []
 
+    def reset(self):
+        self.active = False
+        self.current_choices.clear()
+
 
     def draw(self, screen):
 
