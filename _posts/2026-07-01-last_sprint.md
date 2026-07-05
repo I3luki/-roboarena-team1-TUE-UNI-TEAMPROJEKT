@@ -95,3 +95,28 @@ Musik und Sounds wurden nach Auswahl mit dem Team eingefügt. Hier gab es Proble
 Der Rest der Zeit wurde für genaue PR-Reviews so wie viel Refactoring verwendet. Bugfixes nahmen natürlich auch gut Zeit ein. 
 
 ----
+---
+
+Joshua (Oshy44)
+
+Zuerst habe ich neue Gegnerarten eingeführt. Insgesamt wurden vier verschiedene Gegner hinzugefügt, die jeweils eigene Fähigkeiten besitzen und dadurch unterschiedliche Herausforderungen für den Spieler darstellen.
+
+Folgende Gegner wurden ergänzt:
+
+* **Goblin:** Der Goblin erhält ab 30% Leben einen Rage-Modus, wodurch er gefährlicher wird.
+* **Biene:** Die Biene verursacht Giftschaden, der den Spieler zusätzlich belastet.
+* **Wolf:** Der Wolf besitzt eine Dash-Fähigkeit und kann sich dadurch schnell auf den Spieler zubewegen.
+* **Slime:** Der Slime verursacht keinen direkten Schaden, verlangsamt den Spieler jedoch, sobald dieser mit ihm in Kontakt kommt.
+
+Anschließend habe ich den **WaveManager** erstellt. Dieser kontrolliert, welche Gegner in den einzelnen Wellen spawnen können. Es werden die Gegner innerhalb der Waves noch zufällig ausgewählt was zu unterschiedlichen Run erlebnissen führt. In anfänglichen Wellen spawnen erstmal Goblins und erst in höheren können auch stärkere Gegner spawnen. Mit jeder neuen Welle erhöht sich jedoch die Schwierigkeit, da mehr Gegner erscheinen und diese zusätzlich stärker werden. Dabei skalieren sowohl der Schaden als auch die Lebenspunkte der Gegner mit fortschreitenden Waves.
+
+Zusätzlich wurden für die verschiedenen Gegner eigene **XP-Orbs** eingeführt. Diese geben je nach Gegner unterschiedlich viele Erfahrungspunkte. Darauf aufbauend wurde auch das Level-System überarbeitet, sodass die benötigte Erfahrung besser zu den erhaltenen XP-Orbs passt und die Progression im Spiel ausgeglichener wirkt.
+
+Außerdem wurden **Boss-Monster** hinzugefügt. Diese sind größer und deutlich stärker als normale Gegner und erscheinen alle fünf Waves. Damit der Spieler jederzeit sehen kann, wie weit er bereits gekommen ist, wurde zusätzlich ein **Wavecounter** eingebaut, der die aktuelle Welle im Spiel anzeigt.
+
+Zum Schluss habe ich eine neue Seite im Shop eingefügt. Dort kann der Spieler sein gesammeltes Gold verwenden, um eigene Stats zu verbessern und sich dadurch langfristig stärker zu machen.
+
+<img width="900" height="550" alt="image" src="https://github.com/user-attachments/assets/98837528-b018-48e9-84ab-0463d811350f" />
+<img width="675" height="594" alt="image" src="https://github.com/user-attachments/assets/35a6a8fd-4f3c-4292-9c9b-9f90e6b20d35" />
+
+
