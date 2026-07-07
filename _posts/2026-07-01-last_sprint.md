@@ -71,6 +71,133 @@ Außerdem habe ich folgende Balance-Changes durchgeführt:
 
 --- 
 
+Noah:
+
+Menüs und Benutzeroberfläche
+Hauptmenü
+
+Es wurde ein Hauptmenü hinzugefügt. Von dort aus kann der Spieler:
+
+-ein neues Spiel starten,
+-die Statistiken ansehen,
+-das Spiel beenden.
+
+Screenshot: Hauptmenü
+
+Pausemenü
+
+Es wurde ein Pausemenü implementiert. Dieses ermöglicht:
+
+-Spiel fortsetzen,
+-zum Hauptmenü zurückkehren,
+-Spiel beenden.
+
+Screenshot: Pausemenü
+
+Statistiksystem
+
+Ein Statistiksystem wurde eingeführt.
+
+Jeder Spieldurchlauf wird dauerhaft gespeichert.
+Vergangene Runs können eingesehen werden.
+-Mit den WASD kann durch die Einträge gescrollt werden.
+-Mit R können alle Statistiken gelöscht werden.
+
+Screenshot: Statistikbildschirm
+
+Startbildschirm
+
+Ein neuer Startbildschirm mit animierten Wolken.
+
+Screenshot: Startbildschirm
+
+Hintergründe
+
+Für die verschiedenen Menüs wurden passende Hintergründe erstellt, wodurch das Spiel deutlich hochwertiger wirkt (wurden ki erstellt).
+
+Screenshot: Vergleich der Menüs
+
+
+
+
+
+Neue Inhalte
+Map-Auswahl
+
+Vor Spielbeginn kann der Spieler nun zwischen den verfügbaren Arenen wählen.
+
+Screenshot: Map-Auswahl
+
+Zweite Arena
+
+Die zweite Arena wurde vollständig fertiggestellt und kann nach der Freischaltung gespielt werden.
+
+Screenshot: Labyrinth-Map
+
+Tornado
+
+Der Tornado wurde überarbeitet. Seine Anziehungskraft hängt nun vom Abstand des Spielers ab. Je näher sich der Spieler befindet, desto stärker wird er angezogen.
+
+Screenshot: Tornado
+
+
+
+
+
+Shop und Fortschrittssystem
+Shop
+
+Das Shop-System wurde vollständig integriert.
+
+Die Buffs Ice Relic und Ricochet Relic können mit Coins gekauft werden. Erst anschließend erscheinen sie bei einem Level-Up als auswählbare Buffs.
+
+Screenshot: Shop
+
+Zweite Map freischalten
+
+Die neue Labyrinth-Map muss für coins im Shop freigeschaltet werden.
+
+Für das Speichern und Laden der Freischaltung wurde das Shop-System verwendet. Dadurch musste kein zusätzliches Speichersystem entwickelt werden.
+
+Screenshot: Kauf der Map
+
+
+
+Audio
+
+Für den Startbildschirm wurde passende Hintergrundmusik eingefügt.
+
+Außerdem wurde versucht, das Musikstottern durch einen größeren Audiobuffer zu beheben. Aufgrund eines Problems mit der WSL-Verbindung brachte dies jedoch keine Verbesserung, weshalb der ursprüngliche Buffer wiederhergestellt wurde. Auch nach trouble shots mit Kis wurde keine lösung gefunden für WSL version 2. 
+
+Bugfixes
+
+Folgende Fehler wurden behoben:
+
+-Absturz des Pausemenüs beseitigt.
+-Bewegungstiles funktionieren wieder korrekt.
+-Attributfehler beim Laden der Labyrinth-Map behoben.
+-Gegner verursachen während ihrer Todesanimation keinen Schaden mehr.
+-Level-Up-Buffs bleiben nach dem Verlassen eines Runs nicht mehr erhalten.
+-Der BuffManager wird beim Wechsel ins Hauptmenü vollständig zurückgesetzt.
+
+
+
+
+
+Sonstiges
+Reset-System
+
+Das Reset-System wurdeüberarbeitet. Beim Neustart werden nun Spieler, Gegner, Orbs, Level, Health, Stamina und sämtliche Level-Buffs korrekt zurückgesetzt.
+
+Vorstellungsvideo
+
+Für das Projekt wurde ein Vorstellungsvideo erstellt. Nach mehreren Bearbeitungsversuchen und viel verlorener Zeit (Sprites erstellen lassen und alle möglichen versuche zu schneiden mit mehreren Schnittsoftwares) wurde dieses jedoch verworfen, da die verwendete Videoschnittsoftware ohne Premium-Version keine zufriedenstellende Qualität ermöglichte (keine viedos > 1min, begrenzte auswahl an Feautres wie Übergänge, text einfügungen usw und Musik nich bearbeitbar).
+
+
+
+---
+---
+
 Dennis(I3luki):
 
 
