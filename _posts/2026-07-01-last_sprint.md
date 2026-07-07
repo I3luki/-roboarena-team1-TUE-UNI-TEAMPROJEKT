@@ -82,8 +82,8 @@ Es wurde ein Hauptmenü hinzugefügt. Von dort aus kann der Spieler:
 - die Statistiken ansehen,
 - das Spiel beenden.
 
-<img width="300" height="290<img width="867" height="632" alt="Screenshot 2026-07-07 192913" src="https://github.com/user-attachments/assets/a55f26bd-be0e-410e-b75a-5ec7443301e0" />
-" alt="Screenshot 2026-07-07 192814" src="https://github.com/user-attachments/assets/2465897f-2416-447d-a8f0-d70694b778b5" />
+<img width="300" height="290" alt="Screenshot 2026-07-07 192814" src="https://github.com/user-attachments/assets/8faa5bb3-d3bb-420d-a17f-c36743d97a4e" />
+
 
 
 
@@ -95,7 +95,9 @@ Es wurde ein Pausemenü implementiert. Dieses ermöglicht:
 - zum Hauptmenü zurückkehren,
 - Spiel beenden.
 
-![Uploading Screenshot 2026-07-07 192913.png…]()
+
+<img width="300" height="200" alt="Screenshot 2026-07-07 192913" src="https://github.com/user-attachments/assets/5bcf8b3f-54db-4135-9bd1-0d2e56865150" />
+
 
 
 Statistiksystem
@@ -108,26 +110,56 @@ Vergangene Runs können eingesehen werden.
 - <img width="997" height="791" alt="Screenshot 2026-07-07 192814" src="https://github.com/user-attachments/assets/704d20e1-c1e2-46ca-8d30-9cc376ce46c1" />
 Mit R können alle Statistiken gelöscht werden.
 
-Screenshot: Statistikbildschirm
+
+
+<img width="300" height="300" alt="Screenshot 2026-07-07 192939" src="https://github.com/user-attachments/assets/24653666-b5a0-4939-a4cb-3288b38256e5" />
+
+
+
 
 Startbildschirm
 
 Ein neuer Startbildschirm mit animierten Wolken.
 
-Screenshot: Startbildschirm
+
+
+
+https://github.com/user-attachments/assets/e0e6f295-1255-4e98-b58a-e2758ecce699
+
+
+
+
 
 Hintergründe
 
 Für die verschiedenen Menüs wurden passende Hintergründe erstellt, wodurch das Spiel deutlich hochwertiger wirkt (wurden ki erstellt).
 
-Screenshot: Vergleich der Menüs
+
+
+
+<img width="300" height="300" alt="Screenshot 2026-07-07 193352" src="https://github.com/user-attachments/assets/85af3bad-a518-4fb9-8da8-0e4749d6f44d" />
+
+
+
+
+<img width="300" height="300" alt="Screenshot 2026-07-07 193411" src="https://github.com/user-attachments/assets/9666fc1d-193c-47d1-8934-9d251c3eefcd" />
+
+
+
+<img width="300" height="300" alt="Screenshot 2026-07-07 193425" src="https://github.com/user-attachments/assets/6e81a900-6f80-46ee-9e93-28dd6de9b702" />
+
+
+
+
 
 
 Map-Auswahl
 
 Vor Spielbeginn kann der Spieler nun zwischen den verfügbaren Arenen wählen.
 
-Screenshot: Map-Auswahl
+
+<img width="300" height="300" alt="Screenshot 2026-07-07 193503" src="https://github.com/user-attachments/assets/9f282af1-2afd-4c3d-a539-148f73c0494a" />
+
 
 
 
@@ -146,13 +178,25 @@ Zweite Arena
 
 Die zweite Arena wurde vollständig fertiggestellt und kann nach der Freischaltung gespielt werden.
 
-Screenshot: Labyrinth-Map
+
+
+https://github.com/user-attachments/assets/64971b83-200a-47e7-8238-d00ec505268d
+
+
+
+
+
 
 Tornado
 
 Der Tornado wurde überarbeitet. Seine Anziehungskraft hängt nun vom Abstand des Spielers ab. Je näher sich der Spieler befindet, desto stärker wird er angezogen.
 
-Screenshot: Tornado
+
+
+
+
+https://github.com/user-attachments/assets/2ee07d60-99c0-4944-8345-baa81c66182b
+
 
 
 
@@ -165,15 +209,18 @@ Das Shop-System wurde vollständig integriert.
 
 Die Buffs Ice Relic und Ricochet Relic können mit Coins gekauft werden. Erst anschließend erscheinen sie bei einem Level-Up als auswählbare Buffs.
 
-Screenshot: Shop
+
+
+<img width="300" height="170" alt="Screenshot 2026-07-07 195059" src="https://github.com/user-attachments/assets/64cd68d9-0bf3-45c5-a73b-4b36a44bfa87" />
+
+
+
 
 Zweite Map freischalten
 
 Die neue Labyrinth-Map muss für coins im Shop freigeschaltet werden.
 
 Für das Speichern und Laden der Freischaltung wurde das Shop-System verwendet. Dadurch musste kein zusätzliches Speichersystem entwickelt werden.
-
-Screenshot: Kauf der Map
 
 
 
