@@ -22,7 +22,8 @@ class PauseMenu:
                      enemy_manager,
                      orb_list,
                      level,
-                     wave_mananger):
+                     wave_mananger,
+                     buff_manager):
 
         if event.type == pygame.KEYDOWN:
 
@@ -53,6 +54,7 @@ class PauseMenu:
 
                     )
 
+                    buff_manager.reset()
                     game.go_to_menu()
 
                 elif self.selected == 2:

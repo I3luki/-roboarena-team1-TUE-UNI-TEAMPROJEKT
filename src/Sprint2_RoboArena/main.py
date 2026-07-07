@@ -227,7 +227,8 @@ while True:
                 enemy_manager,
                 orb_list,
                 level,
-                wave_manager
+                wave_manager,
+                buff_manager
             )
 
         else:
@@ -249,7 +250,11 @@ while True:
                 game.state = "PAUSE"
 
         # Buff-Auswahl
-        if buff_manager.active and event.type == pygame.KEYDOWN:
+        if (
+                game.state == "PLAYING"
+                and buff_manager.active
+                and event.type == pygame.KEYDOWN
+            ):
 
             if event.key == pygame.K_1:
                 buff_manager.apply_buff(0, robot, health)
