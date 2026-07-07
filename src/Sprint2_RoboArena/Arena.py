@@ -245,34 +245,34 @@ class Arena:
             Surprisetile(self, 800, 900),
 
             # --- Blitzland (oben rechts): 2x Heil, 2x Speed, 2x Fragezeichen ---
-            Healthtile(self, 1700, 200),
-            Healthtile(self, 2500, 1000),
+            Healthtile(self, 2500, 200),
+            Healthtile(self, 2750, 1000),
 
-            Speedtile(self, 1700, 1000),
-            Speedtile(self, 2500, 200),
+            Speedtile(self, 2400, 800),
+            Speedtile(self, 1800, 200),
 
-            Surprisetile(self, 2000, 600),
-            Surprisetile(self, 2700, 800),
+            Surprisetile(self, 2100, 600),
+            Surprisetile(self, 1700, 900),
 
             # --- Wüste (unten links): 2x Heil, 2x Speed, 2x Fragezeichen ---
-            Healthtile(self, 600, 1900),
+            Healthtile(self, 600, 2300),
             Healthtile(self, 300, 2750),
 
             Speedtile(self, 250, 1900),
-            Speedtile(self, 1200, 2600),
+            Speedtile(self, 1000, 2050),
 
             Surprisetile(self, 800, 1800),
-            Surprisetile(self, 1100, 2000),
+            Surprisetile(self, 1200, 2600),
 
             # --- Rockland (unten rechts): 2x Heil, 2x Speed, 2x Fragezeichen ---
-            Healthtile(self, 1800, 1600),
-            Healthtile(self, 2800, 1600),
+            Healthtile(self, 2000, 2250),
+            Healthtile(self, 2800, 2200),
 
-            Speedtile(self, 1600, 2800),
+            Speedtile(self, 1850, 2850),
             Speedtile(self, 2800, 1800),
 
-            Surprisetile(self, 2400, 1800),
-            Surprisetile(self, 1800, 2800),
+            Surprisetile(self, 2400, 1875),
+            Surprisetile(self, 2600, 2800),
         ]
 
         #Lighting Tiles Anzahl
