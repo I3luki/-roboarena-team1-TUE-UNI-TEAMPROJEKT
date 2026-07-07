@@ -126,6 +126,7 @@ Screenshot: Map-Auswahl
 
 Inhalte zusätlich
 
+
 Lbyrinth erste Arena
 
 Das labyrinth der ersten map wurde so überarbeitet, dass player und enemys sich optimert bewegen können und durch jeden Durchgang passen.
