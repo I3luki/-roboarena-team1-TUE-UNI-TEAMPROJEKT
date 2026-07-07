@@ -74,9 +74,7 @@ Um das zu verbessern, müssen wir eventuell noch einmal die Map überarbeiten.
             Neue tiles Kaktus, schädel und Knochen wurden eingügt
 
 
-         Enemy spwan auserhablb der Kamera dafür wurde erst der kamera spwan neu gestallet. Von
-         von oben rechts direkt auf den player. Dann wurde mit schkleife geprüft ob der spwan in
-         der kamera des players ist.
+         Enemy spwan auserhablb der Kamera dafür wurde erst der kamera spwan neu gestallet. Früher stratete diese oben rechts also bei (0,0), jz auf dem player             selber damit die enemys nicht mehr beim start des spieles neben den gegenerspwanen kann. dannach wurde durch eine while schleife geprüft ob der enemy             im sichtradius des gegeners is tbevor dieser spwanen draf
         
   
          Code smeels wurden aufgräumt redunadetre Code wurde gelöscht(ca 200 zeilen Code). Leider
