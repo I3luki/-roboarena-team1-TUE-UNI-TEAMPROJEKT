@@ -107,8 +107,7 @@ Ein Statistiksystem wurde eingeführt.
 Jeder Spieldurchlauf wird dauerhaft gespeichert.
 Vergangene Runs können eingesehen werden.
 - Mit den WASD kann durch die Einträge gescrollt werden.
-- <img width="997" height="791" alt="Screenshot 2026-07-07 192814" src="https://github.com/user-attachments/assets/704d20e1-c1e2-46ca-8d30-9cc376ce46c1" />
-Mit R können alle Statistiken gelöscht werden.
+- Mit R können alle Statistiken gelöscht werden.
 
 
 
