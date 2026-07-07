@@ -118,15 +118,17 @@ Für die verschiedenen Menüs wurden passende Hintergründe erstellt, wodurch da
 Screenshot: Vergleich der Menüs
 
 
-
-
-
-Neue Inhalte
 Map-Auswahl
 
 Vor Spielbeginn kann der Spieler nun zwischen den verfügbaren Arenen wählen.
 
 Screenshot: Map-Auswahl
+
+Inhalte zusätlich
+
+Lbyrinth erste Arena
+
+Das labyrinth der ersten map wurde so überarbeitet, dass player und enemys sich optimert bewegen können und durch jeden Durchgang passen.
 
 Zweite Arena
 
