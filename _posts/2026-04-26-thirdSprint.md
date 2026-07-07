@@ -32,11 +32,12 @@ Um das zu verbessern, müssen wir eventuell noch einmal die Map überarbeiten.
 2. Noah
       1. Woche
          Level wurden hinzugefügt
+         und benötige orbanzahl erhöht sich für jedes level up
 
          <img width="439" height="112" alt="Screenshot 2026-05-25 124349" src="https://github.com/user-attachments/assets/da92ebd1-0361-410d-9864-7849950a8522" />
 
       
-      2. Woche
+      3. Woche
        
 
          Arena wurde überarbeitet:
