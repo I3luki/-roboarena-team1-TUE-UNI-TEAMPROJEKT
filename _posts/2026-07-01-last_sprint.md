@@ -78,21 +78,25 @@ Hauptmenü
 
 Es wurde ein Hauptmenü hinzugefügt. Von dort aus kann der Spieler:
 
--ein neues Spiel starten,
--die Statistiken ansehen,
--das Spiel beenden.
+- ein neues Spiel starten,
+- die Statistiken ansehen,
+- das Spiel beenden.
 
-Screenshot: Hauptmenü
+<img width="300" height="290<img width="867" height="632" alt="Screenshot 2026-07-07 192913" src="https://github.com/user-attachments/assets/a55f26bd-be0e-410e-b75a-5ec7443301e0" />
+" alt="Screenshot 2026-07-07 192814" src="https://github.com/user-attachments/assets/2465897f-2416-447d-a8f0-d70694b778b5" />
+
+
 
 Pausemenü
 
 Es wurde ein Pausemenü implementiert. Dieses ermöglicht:
 
--Spiel fortsetzen,
--zum Hauptmenü zurückkehren,
--Spiel beenden.
+- Spiel fortsetzen,
+- zum Hauptmenü zurückkehren,
+- Spiel beenden.
 
-Screenshot: Pausemenü
+![Uploading Screenshot 2026-07-07 192913.png…]()
+
 
 Statistiksystem
 
@@ -100,8 +104,9 @@ Ein Statistiksystem wurde eingeführt.
 
 Jeder Spieldurchlauf wird dauerhaft gespeichert.
 Vergangene Runs können eingesehen werden.
--Mit den WASD kann durch die Einträge gescrollt werden.
--Mit R können alle Statistiken gelöscht werden.
+- Mit den WASD kann durch die Einträge gescrollt werden.
+- <img width="997" height="791" alt="Screenshot 2026-07-07 192814" src="https://github.com/user-attachments/assets/704d20e1-c1e2-46ca-8d30-9cc376ce46c1" />
+Mit R können alle Statistiken gelöscht werden.
 
 Screenshot: Statistikbildschirm
 
@@ -124,7 +129,13 @@ Vor Spielbeginn kann der Spieler nun zwischen den verfügbaren Arenen wählen.
 
 Screenshot: Map-Auswahl
 
+
+
+
+
 Inhalte zusätlich
+
+
 
 
 Lbyrinth erste Arena
@@ -176,12 +187,12 @@ Bugfixes
 
 Folgende Fehler wurden behoben:
 
--Absturz des Pausemenüs beseitigt.
--Bewegungstiles funktionieren wieder korrekt.
--Attributfehler beim Laden der Labyrinth-Map behoben.
--Gegner verursachen während ihrer Todesanimation keinen Schaden mehr.
--Level-Up-Buffs bleiben nach dem Verlassen eines Runs nicht mehr erhalten.
--Der BuffManager wird beim Wechsel ins Hauptmenü vollständig zurückgesetzt.
+- Absturz des Pausemenüs beseitigt.
+- Bewegungstiles funktionieren wieder korrekt.
+- Attributfehler beim Laden der Labyrinth-Map behoben.
+- Gegner verursachen während ihrer Todesanimation keinen Schaden mehr.
+- Level-Up-Buffs bleiben nach dem Verlassen eines Runs nicht mehr erhalten.
+- Der BuffManager wird beim Wechsel ins Hauptmenü vollständig zurückgesetzt.
 
 
 
