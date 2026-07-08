@@ -37,12 +37,11 @@ Texturen sind von Craftpix.net
 Die ist vor allem in der Wüste und in der Stein-Region zu sehen.  
 Die Objekte haben außerdem jeweils ihre eigenen Hitboxen angepasst bekommen, sodass diese realistisch sind.  
 Die meisten Objekte haben außerdem einen Effekt erhalten, sodass der Spieler hinter den Objekten verschwindet. Das soll das Spiel etwas räumlicher wirken lassen.  
-<img width="896" height="898" alt="center_biom" src="https://github.com/user-attachments/assets/3b6e4b45-803b-4eea-8770-64af49bc36f6" />
-<img width="995" height="1003" alt="image" src="https://github.com/user-attachments/assets/e0176d01-8b11-4f12-862e-7c1af9a3cf07" />
-<img width="998" height="998" alt="image" src="https://github.com/user-attachments/assets/3e2fe74a-a8a1-4cf4-ad1b-9f2760f907a1" />
-<img width="995" height="999" alt="image" src="https://github.com/user-attachments/assets/6783f9f8-9039-4b86-9585-e9bd009a6170" />
-<img width="984" height="923" alt="image" src="https://github.com/user-attachments/assets/56384a6d-6f65-4301-b990-6502be804954" />
-
+<img width="499" height="500" alt="center_biom" src="https://github.com/user-attachments/assets/bdd28424-bf82-48cc-a624-c546e289cf49" />
+<img width="492" height="500" alt="Labyrinth_biom" src="https://github.com/user-attachments/assets/bef784ba-e317-44f9-868f-b6984e5c5ae8" />
+<img width="500" height="500" alt="desert_biom" src="https://github.com/user-attachments/assets/ab29e6f0-63b2-496d-8907-0c6cee5411ca" />
+<img width="500" height="500" alt="blitz_biom" src="https://github.com/user-attachments/assets/ac19984d-1ddf-4070-846b-64d10ca13fcb" />
+<img width="480" height="500" alt="stone_biom" src="https://github.com/user-attachments/assets/671ea180-e157-4613-be96-655b4d1bdabe" />  
 
 Nach dem Hinzufügen von Gegnerarten, habe ich den Gegnern Animationen für Laufen und Sterben gegeben (Goblin, Wolf, Slime, Biene).  
 
