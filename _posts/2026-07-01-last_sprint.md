@@ -37,7 +37,7 @@ Texturen sind von Craftpix.net
 Die ist vor allem in der Wüste und in der Stein-Region zu sehen.  
 Die Objekte haben außerdem jeweils ihre eigenen Hitboxen angepasst bekommen, sodass diese realistisch sind.  
 Die meisten Objekte haben außerdem einen Effekt erhalten, sodass der Spieler hinter den Objekten verschwindet. Das soll das Spiel etwas räumlicher wirken lassen.  
-<img width="906" height="846" alt="image" src="https://github.com/user-attachments/assets/067b5f96-7085-4a4d-9349-9c86700541e4" />
+<img width="896" height="898" alt="center_biom" src="https://github.com/user-attachments/assets/3b6e4b45-803b-4eea-8770-64af49bc36f6" />
 <img width="995" height="1003" alt="image" src="https://github.com/user-attachments/assets/e0176d01-8b11-4f12-862e-7c1af9a3cf07" />
 <img width="998" height="998" alt="image" src="https://github.com/user-attachments/assets/3e2fe74a-a8a1-4cf4-ad1b-9f2760f907a1" />
 <img width="995" height="999" alt="image" src="https://github.com/user-attachments/assets/6783f9f8-9039-4b86-9585-e9bd009a6170" />
