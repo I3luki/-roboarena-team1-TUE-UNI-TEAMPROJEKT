@@ -123,7 +123,8 @@ Ein neuer Startbildschirm mit animierten Wolken.
 
 
 
-https://github.com/user-attachments/assets/e0e6f295-1255-4e98-b58a-e2758ecce699
+<img width="400" height="398" alt="Startbild" src="https://github.com/user-attachments/assets/265b4828-24d1-4839-9d00-8f6d6c43d294" />
+
 
 
 
@@ -179,7 +180,8 @@ Die zweite Arena wurde vollständig fertiggestellt und kann nach der Freischaltu
 
 
 
-https://github.com/user-attachments/assets/64971b83-200a-47e7-8238-d00ec505268d
+<img width="400" height="402" alt="Map" src="https://github.com/user-attachments/assets/a0884c69-ea9e-411f-a07d-516d38a89f76" />
+
 
 
 
@@ -194,7 +196,8 @@ Der Tornado wurde überarbeitet. Seine Anziehungskraft hängt nun vom Abstand de
 
 
 
-https://github.com/user-attachments/assets/2ee07d60-99c0-4944-8345-baa81c66182b
+<img width="400" height="399" alt="Bildschirmaufnahme 2026-07-07 194254" src="https://github.com/user-attachments/assets/4f0f4fda-8764-4d8b-ac72-597ac44b3481" />
+
 
 
 
