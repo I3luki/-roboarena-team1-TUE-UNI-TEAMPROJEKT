@@ -23,14 +23,20 @@ jobs:
 
       - name: Windows EXE erstellen
         working-directory: src/Sprint2_RoboArena
-        run: |
-          pyinstaller --name "RoboArena" --onefile --windowed --add-data 
-"Data;Data" --add-data "Music;Music" --add-data "SFX;SFX" --add-data 
-"Screens;Screens" --add-data "Sprites;Sprites" main.py
+        run: >
+          pyinstaller
+          --name "RoboArena"
+          --onefile
+          --windowed
+          --add-data "Data;Data"
+          --add-data "Music;Music"
+          --add-data "SFX;SFX"
+          --add-data "Screens;Screens"
+          --add-data "Sprites;Sprites"
+          main.py
 
       - name: EXE als Download bereitstellen
         uses: actions/upload-artifact@v4
         with:
           name: RoboArena-Windows
           path: src/Sprint2_RoboArena/dist/RoboArena.exe
-
