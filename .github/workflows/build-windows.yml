@@ -21,13 +21,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install pygame pathfinding pyinstaller
 
-      - name: Windows EXE erstellen
+      - name: Windows-Version erstellen
         working-directory: src/Sprint2_RoboArena
         run: >
           pyinstaller
           --name "RoboArena"
-          --onefile
           --windowed
+          --contents-directory "."
           --add-data "Data;Data"
           --add-data "Music;Music"
           --add-data "SFX;SFX"
@@ -35,8 +35,8 @@ jobs:
           --add-data "Sprites;Sprites"
           main.py
 
-      - name: EXE als Download bereitstellen
+      - name: Windows-Version bereitstellen
         uses: actions/upload-artifact@v4
         with:
           name: RoboArena-Windows
-          path: src/Sprint2_RoboArena/dist/RoboArena.exe
+          path: src/Sprint2_RoboArena/dist/RoboArena/
