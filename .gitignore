@@ -2,3 +2,9 @@ __pycache__/
 *.pyc
 .venv/
 .idea/
+# Python environment and macOS build files
+.venv/
+**/build/
+**/dist/
+*.spec
+.DS_Store
